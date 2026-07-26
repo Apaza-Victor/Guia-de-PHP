@@ -1,0 +1,247 @@
+﻿      <section id="php-forms">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">9</div>
+          <div>
+            <div class="concept-title">Formularios HTML + PHP</div>
+            <div class="concept-desc">$_GET · $_POST · validación · sanitización · filter_var · subida de archivos.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="alert alert-warn"><span class="alert-icon">⚠️</span> <strong>Regla de oro:</strong> nunca confíes en datos del usuario. Valida el formato, sanitiza antes de mostrar y usa consultas preparadas antes de guardar en BD.</div>
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'form-get-post')">GET vs POST</button>
+            <button class="tab-btn" onclick="showTab(this,'form-validar')">Validación completa</button>
+            <button class="tab-btn" onclick="showTab(this,'form-filter')">filter_var</button>
+            <button class="tab-btn" onclick="showTab(this,'form-upload')">Subir archivos</button>
+          </div>
+
+          <div id="form-get-post" class="tab-content active">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>formulario.html</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="cmt">&lt;!-- POST: datos en el cuerpo — para crear/modificar datos --&gt;</span>
+<span class="tag">&lt;form</span> <span class="atr">method</span>=<span class="str">"POST"</span> <span class="atr">action</span>=<span class="str">"procesar.php"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"text"</span>     <span class="atr">name</span>=<span class="str">"nombre"</span>   <span class="atr">required</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"email"</span>    <span class="atr">name</span>=<span class="str">"email"</span>    <span class="atr">required</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"number"</span>   <span class="atr">name</span>=<span class="str">"edad"</span>     <span class="atr">min</span>=<span class="str">"1"</span> <span class="atr">max</span>=<span class="str">"120"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"password"</span> <span class="atr">name</span>=<span class="str">"password"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;select</span> <span class="atr">name</span>=<span class="str">"rol"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;option</span> <span class="atr">value</span>=<span class="str">"admin"</span><span class="tag">&gt;</span>Admin<span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;option</span> <span class="atr">value</span>=<span class="str">"editor"</span><span class="tag">&gt;</span>Editor<span class="tag">&lt;/option&gt;</span>
+  <span class="tag">&lt;/select&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"checkbox"</span> <span class="atr">name</span>=<span class="str">"terminos"</span> <span class="atr">value</span>=<span class="str">"1"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button</span> <span class="atr">type</span>=<span class="str">"submit"</span><span class="tag">&gt;</span>Enviar<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span>
+
+<span class="cmt">&lt;!-- GET: datos en la URL — para búsquedas/filtros --&gt;</span>
+<span class="tag">&lt;form</span> <span class="atr">method</span>=<span class="str">"GET"</span> <span class="atr">action</span>=<span class="str">"buscar.php"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"text"</span> <span class="atr">name</span>=<span class="str">"q"</span> <span class="atr">placeholder</span>=<span class="str">"Buscar..."</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"hidden"</span> <span class="atr">name</span>=<span class="str">"page"</span> <span class="atr">value</span>=<span class="str">"1"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/form&gt;</span>
+<span class="cmt">&lt;!-- Genera: buscar.php?q=laptop&amp;page=1 --&gt;</span></pre>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>recibir.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Detectar método</span>
+<span class="kw">if</span> (<span class="var">$_SERVER</span>[<span class="str">"REQUEST_METHOD"</span>] <span class="op">===</span> <span class="str">"POST"</span>) {
+    <span class="cmt">// Leer POST con valor por defecto si no existe</span>
+    <span class="var">$nombre</span>   <span class="op">=</span> <span class="var">$_POST</span>[<span class="str">"nombre"</span>]   <span class="op">??</span> <span class="str">""</span><span class="op">;</span>
+    <span class="var">$email</span>    <span class="op">=</span> <span class="var">$_POST</span>[<span class="str">"email"</span>]    <span class="op">??</span> <span class="str">""</span><span class="op">;</span>
+    <span class="var">$edad</span>     <span class="op">=</span> (<span class="kw">int</span>) (<span class="var">$_POST</span>[<span class="str">"edad"</span>] <span class="op">??</span> <span class="num">0</span>)<span class="op">;</span>
+    <span class="var">$rol</span>      <span class="op">=</span> <span class="var">$_POST</span>[<span class="str">"rol"</span>]      <span class="op">??</span> <span class="str">"lector"</span><span class="op">;</span>
+    <span class="var">$terminos</span> <span class="op">=</span> <span class="fn">isset</span>(<span class="var">$_POST</span>[<span class="str">"terminos"</span>])<span class="op">;</span>  <span class="cmt">// bool</span>
+}
+
+<span class="cmt">// Leer GET</span>
+<span class="var">$busqueda</span> <span class="op">=</span> <span class="var">$_GET</span>[<span class="str">"q"</span>]    <span class="op">??</span> <span class="str">""</span><span class="op">;</span>
+<span class="var">$pagina</span>   <span class="op">=</span> (<span class="kw">int</span>) (<span class="var">$_GET</span>[<span class="str">"page"</span>] <span class="op">??</span> <span class="num">1</span>)<span class="op">;</span>
+
+<span class="cmt">// $_REQUEST = $_GET + $_POST + $_COOKIE (evitar en producción)</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th></th><th>GET</th><th>POST</th></tr>
+              <tr><td>Datos en</td><td>URL (visible)</td><td>Cuerpo HTTP (oculto)</td></tr>
+              <tr><td>Límite</td><td>~2000 caracteres</td><td>Configurable (php.ini)</td></tr>
+              <tr><td>Seguridad</td><td>Nunca para datos sensibles</td><td>Más seguro (pero usar HTTPS)</td></tr>
+              <tr><td>Uso típico</td><td>Búsquedas, filtros, paginación</td><td>Login, registro, crear/editar</td></tr>
+              <tr><td>Se puede marcar</td><td>✅ Sí (en favoritos)</td><td>❌ No</td></tr>
+            </table>
+          </div>
+
+          <div id="form-validar" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>validar.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="kw">function</span> <span class="fn">validarFormulario</span>(<span class="kw">array</span> <span class="var">$datos</span>): <span class="kw">array</span> {
+    <span class="var">$errores</span> <span class="op">=</span> []<span class="op">;</span>
+
+    <span class="cmt">// Nombre: requerido, 2–50 chars, solo letras y espacios</span>
+    <span class="var">$nombre</span> <span class="op">=</span> <span class="fn">trim</span>(<span class="var">$datos</span>[<span class="str">"nombre"</span>] <span class="op">??</span> <span class="str">""</span>)<span class="op">;</span>
+    <span class="kw">if</span> (<span class="fn">empty</span>(<span class="var">$nombre</span>)) {
+        <span class="var">$errores</span>[<span class="str">"nombre"</span>] <span class="op">=</span> <span class="str">"El nombre es obligatorio"</span><span class="op">;</span>
+    } <span class="kw">elseif</span> (<span class="fn">strlen</span>(<span class="var">$nombre</span>) <span class="op">&lt;</span> <span class="num">2</span> <span class="op">||</span> <span class="fn">strlen</span>(<span class="var">$nombre</span>) <span class="op">&gt;</span> <span class="num">50</span>) {
+        <span class="var">$errores</span>[<span class="str">"nombre"</span>] <span class="op">=</span> <span class="str">"Entre 2 y 50 caracteres"</span><span class="op">;</span>
+    } <span class="kw">elseif</span> (<span class="op">!</span><span class="fn">preg_match</span>(<span class="str">'/^[\p{L}\s]+$/u'</span><span class="op">,</span> <span class="var">$nombre</span>)) {
+        <span class="var">$errores</span>[<span class="str">"nombre"</span>] <span class="op">=</span> <span class="str">"Solo letras y espacios"</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Email: requerido y formato válido</span>
+    <span class="var">$email</span> <span class="op">=</span> <span class="fn">trim</span>(<span class="var">$datos</span>[<span class="str">"email"</span>] <span class="op">??</span> <span class="str">""</span>)<span class="op">;</span>
+    <span class="kw">if</span> (<span class="fn">empty</span>(<span class="var">$email</span>)) {
+        <span class="var">$errores</span>[<span class="str">"email"</span>] <span class="op">=</span> <span class="str">"El email es obligatorio"</span><span class="op">;</span>
+    } <span class="kw">elseif</span> (<span class="op">!</span><span class="fn">filter_var</span>(<span class="var">$email</span><span class="op">,</span> <span class="kw">FILTER_VALIDATE_EMAIL</span>)) {
+        <span class="var">$errores</span>[<span class="str">"email"</span>] <span class="op">=</span> <span class="str">"Formato de email inválido"</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Edad: número entero 1–120</span>
+    <span class="var">$edad</span> <span class="op">=</span> <span class="fn">filter_var</span>(<span class="var">$datos</span>[<span class="str">"edad"</span>] <span class="op">??</span> <span class="str">""</span><span class="op">,</span> <span class="kw">FILTER_VALIDATE_INT</span><span class="op">,</span>
+        [<span class="str">"options"</span> <span class="op">=&gt;</span> [<span class="str">"min_range"</span> <span class="op">=&gt;</span> <span class="num">1</span><span class="op">,</span> <span class="str">"max_range"</span> <span class="op">=&gt;</span> <span class="num">120</span>]]
+    )<span class="op">;</span>
+    <span class="kw">if</span> (<span class="var">$edad</span> <span class="op">===</span> <span class="kw">false</span>) {
+        <span class="var">$errores</span>[<span class="str">"edad"</span>] <span class="op">=</span> <span class="str">"Edad debe ser un número entre 1 y 120"</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Rol: solo valores permitidos</span>
+    <span class="var">$rolesValidos</span> <span class="op">=</span> [<span class="str">"admin"</span><span class="op">,</span> <span class="str">"editor"</span><span class="op">,</span> <span class="str">"lector"</span>]<span class="op">;</span>
+    <span class="var">$rol</span> <span class="op">=</span> <span class="var">$datos</span>[<span class="str">"rol"</span>] <span class="op">??</span> <span class="str">""</span><span class="op">;</span>
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">in_array</span>(<span class="var">$rol</span><span class="op">,</span> <span class="var">$rolesValidos</span><span class="op">,</span> <span class="kw">true</span>)) {
+        <span class="var">$errores</span>[<span class="str">"rol"</span>] <span class="op">=</span> <span class="str">"Rol no válido"</span><span class="op">;</span>
+    }
+
+    <span class="kw">return</span> <span class="var">$errores</span><span class="op">;</span>
+}
+
+<span class="kw">if</span> (<span class="var">$_SERVER</span>[<span class="str">"REQUEST_METHOD"</span>] <span class="op">===</span> <span class="str">"POST"</span>) {
+    <span class="var">$errores</span> <span class="op">=</span> <span class="fn">validarFormulario</span>(<span class="var">$_POST</span>)<span class="op">;</span>
+    <span class="kw">if</span> (<span class="fn">empty</span>(<span class="var">$errores</span>)) {
+        <span class="fn">echo</span> <span class="str">"✅ Formulario válido, procesando..."</span><span class="op">;</span>
+    } <span class="kw">else</span> {
+        <span class="kw">foreach</span> (<span class="var">$errores</span> <span class="kw">as</span> <span class="var">$campo</span> <span class="op">=&gt;</span> <span class="var">$error</span>) {
+            <span class="fn">echo</span> <span class="str">"❌ <span class="var">$campo</span>: <span class="var">$error</span>&lt;br&gt;"</span><span class="op">;</span>
+        }
+    }
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida si hay errores</div>
+              <div class="output-err">❌ nombre: Solo letras y espacios</div>
+              <div class="output-err">❌ email: Formato de email inválido</div>
+              <div class="output-success">✅ Formulario válido, procesando...</div>
+            </div>
+          </div>
+
+          <div id="form-filter" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>filter_var.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// VALIDAR — devuelve el valor si es válido, false si no</span>
+<span class="fn">filter_var</span>(<span class="str">"ana@mail.com"</span><span class="op">,</span> <span class="kw">FILTER_VALIDATE_EMAIL</span>)<span class="op">;</span>   <span class="cmt">// "ana@mail.com"</span>
+<span class="fn">filter_var</span>(<span class="str">"no-es-email"</span><span class="op">,</span>   <span class="kw">FILTER_VALIDATE_EMAIL</span>)<span class="op">;</span>   <span class="cmt">// false</span>
+<span class="fn">filter_var</span>(<span class="str">"https://php.net"</span><span class="op">,</span> <span class="kw">FILTER_VALIDATE_URL</span>)<span class="op">;</span>     <span class="cmt">// "https://php.net"</span>
+<span class="fn">filter_var</span>(<span class="str">"192.168.1.1"</span><span class="op">,</span>    <span class="kw">FILTER_VALIDATE_IP</span>)<span class="op">;</span>      <span class="cmt">// "192.168.1.1"</span>
+<span class="fn">filter_var</span>(<span class="str">"42"</span><span class="op">,</span>             <span class="kw">FILTER_VALIDATE_INT</span>)<span class="op">;</span>     <span class="cmt">// 42</span>
+<span class="fn">filter_var</span>(<span class="str">"3.14"</span><span class="op">,</span>           <span class="kw">FILTER_VALIDATE_FLOAT</span>)<span class="op">;</span>   <span class="cmt">// 3.14</span>
+<span class="fn">filter_var</span>(<span class="str">"true"</span><span class="op">,</span>           <span class="kw">FILTER_VALIDATE_BOOLEAN</span>)<span class="op">;</span> <span class="cmt">// true</span>
+
+<span class="cmt">// Con opciones</span>
+<span class="fn">filter_var</span>(<span class="num">150</span><span class="op">,</span> <span class="kw">FILTER_VALIDATE_INT</span><span class="op">,</span> [
+    <span class="str">"options"</span> <span class="op">=&gt;</span> [<span class="str">"min_range"</span> <span class="op">=&gt;</span> <span class="num">1</span><span class="op">,</span> <span class="str">"max_range"</span> <span class="op">=&gt;</span> <span class="num">100</span>]
+])<span class="op">;</span>  <span class="cmt">// false — 150 > 100</span>
+
+<span class="cmt">// SANITIZAR — limpia el valor (siempre devuelve string)</span>
+<span class="fn">filter_var</span>(<span class="str">"&lt;h1&gt;Hola!&lt;/h1&gt;"</span><span class="op">,</span>   <span class="kw">FILTER_SANITIZE_SPECIAL_CHARS</span>)<span class="op">;</span>
+<span class="cmt">// "&amp;lt;h1&amp;gt;Hola!&amp;lt;/h1&amp;gt;" — escapa HTML</span>
+
+<span class="fn">filter_var</span>(<span class="str">" ana@mail.com  "</span><span class="op">,</span>  <span class="kw">FILTER_SANITIZE_EMAIL</span>)<span class="op">;</span>
+<span class="cmt">// "ana@mail.com" — elimina caracteres no permitidos en emails</span>
+
+<span class="fn">filter_var</span>(<span class="str">"hola mundo &lt;script&gt;"</span><span class="op">,</span> <span class="kw">FILTER_SANITIZE_SPECIAL_CHARS</span>)<span class="op">;</span>
+<span class="cmt">// "hola mundo &amp;lt;script&amp;gt;"</span>
+
+<span class="cmt">// filter_input — lee directamente de superglobal (más seguro)</span>
+<span class="var">$email</span> <span class="op">=</span> <span class="fn">filter_input</span>(<span class="kw">INPUT_POST</span><span class="op">,</span> <span class="str">"email"</span><span class="op">,</span> <span class="kw">FILTER_VALIDATE_EMAIL</span>)<span class="op">;</span>
+<span class="var">$pagina</span> <span class="op">=</span> <span class="fn">filter_input</span>(<span class="kw">INPUT_GET</span><span class="op">,</span>  <span class="str">"page"</span><span class="op">,</span>  <span class="kw">FILTER_VALIDATE_INT</span>)<span class="op">;</span>
+
+<span class="cmt">// Sanitizar manualmente (siempre hacer esto antes de mostrar texto de usuario)</span>
+<span class="var">$textoSeguro</span> <span class="op">=</span> <span class="fn">htmlspecialchars</span>(<span class="var">$_POST</span>[<span class="str">"comentario"</span>] <span class="op">??</span> <span class="str">""</span><span class="op">,</span> <span class="kw">ENT_QUOTES</span><span class="op">,</span> <span class="str">"UTF-8"</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Referencia rápida</div>
+              <div class="output-success">FILTER_VALIDATE_EMAIL → valor o false</div>
+              <div class="output-success">FILTER_SANITIZE_SPECIAL_CHARS → escapa &lt; &gt; &amp;</div>
+              <div class="output-info">filter_input() lee POST/GET y valida en un paso</div>
+            </div>
+          </div>
+
+          <div id="form-upload" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>upload.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// HTML del formulario (enctype es obligatorio para archivos)</span>
+<span class="cmt">// &lt;form method="POST" enctype="multipart/form-data"&gt;</span>
+<span class="cmt">//   &lt;input type="file" name="imagen" accept="image/*"&gt;</span>
+<span class="cmt">// &lt;/form&gt;</span>
+
+<span class="kw">if</span> (<span class="fn">isset</span>(<span class="var">$_FILES</span>[<span class="str">"imagen"</span>])) {
+    <span class="var">$archivo</span> <span class="op">=</span> <span class="var">$_FILES</span>[<span class="str">"imagen"</span>]<span class="op">;</span>
+
+    <span class="cmt">// Información disponible en $_FILES</span>
+    <span class="fn">echo</span> <span class="var">$archivo</span>[<span class="str">"name"</span>]<span class="op">;</span>      <span class="cmt">// nombre original del archivo</span>
+    <span class="fn">echo</span> <span class="var">$archivo</span>[<span class="str">"type"</span>]<span class="op">;</span>      <span class="cmt">// MIME type reportado (NO fiable)</span>
+    <span class="fn">echo</span> <span class="var">$archivo</span>[<span class="str">"size"</span>]<span class="op">;</span>      <span class="cmt">// tamaño en bytes</span>
+    <span class="fn">echo</span> <span class="var">$archivo</span>[<span class="str">"tmp_name"</span>]<span class="op">;</span>  <span class="cmt">// ruta temporal en servidor</span>
+    <span class="fn">echo</span> <span class="var">$archivo</span>[<span class="str">"error"</span>]<span class="op">;</span>     <span class="cmt">// 0 = sin error</span>
+
+    <span class="cmt">// Validaciones de seguridad</span>
+    <span class="var">$maxSize</span>   <span class="op">=</span> <span class="num">2</span> <span class="op">*</span> <span class="num">1024</span> <span class="op">*</span> <span class="num">1024</span><span class="op">;</span>  <span class="cmt">// 2 MB</span>
+    <span class="var">$tiposOk</span>  <span class="op">=</span> [<span class="str">"image/jpeg"</span><span class="op">,</span> <span class="str">"image/png"</span><span class="op">,</span> <span class="str">"image/webp"</span>]<span class="op">;</span>
+    <span class="var">$extOk</span>    <span class="op">=</span> [<span class="str">"jpg"</span><span class="op">,</span> <span class="str">"jpeg"</span><span class="op">,</span> <span class="str">"png"</span><span class="op">,</span> <span class="str">"webp"</span>]<span class="op">;</span>
+
+    <span class="cmt">// 1. Sin errores</span>
+    <span class="kw">if</span> (<span class="var">$archivo</span>[<span class="str">"error"</span>] <span class="op">!==</span> <span class="kw">UPLOAD_ERR_OK</span>) {
+        <span class="kw">throw new</span> <span class="fn">RuntimeException</span>(<span class="str">"Error al subir"</span>)<span class="op">;</span>
+    }
+    <span class="cmt">// 2. Tamaño</span>
+    <span class="kw">if</span> (<span class="var">$archivo</span>[<span class="str">"size"</span>] <span class="op">&gt;</span> <span class="var">$maxSize</span>) {
+        <span class="kw">throw new</span> <span class="fn">RuntimeException</span>(<span class="str">"Archivo demasiado grande"</span>)<span class="op">;</span>
+    }
+    <span class="cmt">// 3. Tipo MIME real (no el reportado por el cliente)</span>
+    <span class="var">$finfo</span>    <span class="op">=</span> <span class="kw">new</span> <span class="fn">finfo</span>(<span class="kw">FILEINFO_MIME_TYPE</span>)<span class="op">;</span>
+    <span class="var">$mimeReal</span> <span class="op">=</span> <span class="var">$finfo</span><span class="op">-&gt;</span><span class="fn">file</span>(<span class="var">$archivo</span>[<span class="str">"tmp_name"</span>])<span class="op">;</span>
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">in_array</span>(<span class="var">$mimeReal</span><span class="op">,</span> <span class="var">$tiposOk</span><span class="op">,</span> <span class="kw">true</span>)) {
+        <span class="kw">throw new</span> <span class="fn">RuntimeException</span>(<span class="str">"Tipo de archivo no permitido"</span>)<span class="op">;</span>
+    }
+    <span class="cmt">// 4. Extensión segura</span>
+    <span class="var">$ext</span> <span class="op">=</span> <span class="fn">strtolower</span>(<span class="fn">pathinfo</span>(<span class="var">$archivo</span>[<span class="str">"name"</span>]<span class="op">,</span> <span class="kw">PATHINFO_EXTENSION</span>))<span class="op">;</span>
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">in_array</span>(<span class="var">$ext</span><span class="op">,</span> <span class="var">$extOk</span><span class="op">,</span> <span class="kw">true</span>)) {
+        <span class="kw">throw new</span> <span class="fn">RuntimeException</span>(<span class="str">"Extensión no permitida"</span>)<span class="op">;</span>
+    }
+
+    <span class="cmt">// Nombre aleatorio para evitar colisiones y ataques</span>
+    <span class="var">$nuevoNombre</span> <span class="op">=</span> <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(<span class="num">16</span>)) <span class="op">.</span> <span class="str">"."</span> <span class="op">.</span> <span class="var">$ext</span><span class="op">;</span>
+    <span class="var">$destino</span>     <span class="op">=</span> <span class="fn">__DIR__</span> <span class="op">.</span> <span class="str">"/uploads/"</span> <span class="op">.</span> <span class="var">$nuevoNombre</span><span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="fn">move_uploaded_file</span>(<span class="var">$archivo</span>[<span class="str">"tmp_name"</span>]<span class="op">,</span> <span class="var">$destino</span>)) {
+        <span class="fn">echo</span> <span class="str">"✅ Imagen guardada: <span class="var">$nuevoNombre</span>"</span><span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">✅ Imagen guardada: a3f8c1d2e4b6...webp</div>
+            </div>
+            <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> Guarda los archivos <strong>fuera del DocumentRoot</strong> o en una carpeta sin ejecución PHP. Nunca uses el nombre original del archivo del usuario.</div>
+          </div>
+
+        </div>
+      </div>
+</div>
+
+      <!-- FUNDAMENTOS POO -->
+      </section>

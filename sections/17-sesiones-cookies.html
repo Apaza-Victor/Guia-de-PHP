@@ -1,0 +1,510 @@
+<section id="sesiones">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">🔑 Módulo 5</span>
+    <h2 class="section-title">Sesiones &amp; Cookies</h2>
+    <p class="section-subtitle">Mantén el estado del usuario entre páginas: login, carrito de compras y preferencias.</p>
+  </div>
+
+  <!-- SESSIONS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">1</div>
+      <div>
+        <div class="concept-title">Sesiones ($_SESSION)</div>
+        <div class="concept-desc">Las sesiones almacenan datos en el servidor vinculados a un ID único enviado al navegador como cookie.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-info"><span class="alert-icon">ℹ️</span> <code>session_start()</code> debe ser la <strong>primera línea</strong> de cada archivo PHP que use sesiones, antes de cualquier salida HTML.</div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'ses-basic')">Básico</button>
+        <button class="tab-btn" onclick="showTab(this,'ses-config')">Configuración</button>
+        <button class="tab-btn" onclick="showTab(this,'ses-flash')">Mensajes Flash</button>
+        <button class="tab-btn" onclick="showTab(this,'ses-vs')">Session vs Cookie</button>
+      </div>
+
+      <div id="ses-basic" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>sesion_basico.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="fn">session_start</span>()<span class="op">;</span>  <span class="cmt">// SIEMPRE primero — antes de cualquier echo</span>
+
+<span class="cmt">// Guardar datos en sesión</span>
+<span class="var">$_SESSION</span>[<span class="str">'usuario_id'</span>]  <span class="op">=</span> <span class="num">42</span><span class="op">;</span>
+<span class="var">$_SESSION</span>[<span class="str">'nombre'</span>]      <span class="op">=</span> <span class="str">'Ana García'</span><span class="op">;</span>
+<span class="var">$_SESSION</span>[<span class="str">'rol'</span>]         <span class="op">=</span> <span class="str">'admin'</span><span class="op">;</span>
+<span class="var">$_SESSION</span>[<span class="str">'login_en'</span>]    <span class="op">=</span> <span class="fn">time</span>()<span class="op">;</span>
+
+<span class="cmt">// Leer con isset — evitar errores si no existe</span>
+<span class="kw">if</span> (<span class="fn">isset</span>(<span class="var">$_SESSION</span>[<span class="str">'nombre'</span>])) {
+    <span class="fn">echo</span> <span class="str">"Bienvenida, "</span> <span class="op">.</span> <span class="fn">htmlspecialchars</span>(<span class="var">$_SESSION</span>[<span class="str">'nombre'</span>])<span class="op">;</span>
+}
+
+<span class="cmt">// Leer con ?? para valor por defecto</span>
+<span class="var">$rol</span> <span class="op">=</span> <span class="var">$_SESSION</span>[<span class="str">'rol'</span>] <span class="op">??</span> <span class="str">'invitado'</span><span class="op">;</span>
+
+<span class="cmt">// Ver ID de sesión (es el PHPSESSID enviado como cookie)</span>
+<span class="fn">echo</span> <span class="fn">session_id</span>()<span class="op">;</span>
+
+<span class="cmt">// Eliminar UNA variable de sesión</span>
+<span class="fn">unset</span>(<span class="var">$_SESSION</span>[<span class="str">'rol'</span>])<span class="op">;</span>
+
+<span class="cmt">// Eliminar TODAS las variables de sesión</span>
+<span class="var">$_SESSION</span> <span class="op">=</span> []<span class="op">;</span>
+
+<span class="cmt">// Destruir la sesión completamente (logout)</span>
+<span class="fn">session_destroy</span>()<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">Bienvenida, Ana García</div>
+          <div class="output-info">session_id(): a3f9b2c1d4e8f7g6h5i4j3k2l1</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:10px;padding:1rem;margin-top:1rem">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">🔄 Cómo funcionan las sesiones</div>
+          <div style="font-size:.82rem;color:var(--text2);line-height:1.8;font-family:monospace">
+            <div>1. <code>session_start()</code> → PHP crea un ID único (ej: <span style="color:#42a5f5">abc123...</span>)</div>
+            <div>2. PHP envía al navegador: <code>Set-Cookie: PHPSESSID=abc123</code></div>
+            <div>3. PHP guarda <code>$_SESSION</code> en archivo en el servidor</div>
+            <div>4. Próxima request → navegador envía <code>Cookie: PHPSESSID=abc123</code></div>
+            <div>5. PHP carga los datos de <code>$_SESSION</code> del servidor para ese ID</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="ses-config" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>sesion_config.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Configurar sesión ANTES de session_start()</span>
+<span class="fn">ini_set</span>(<span class="str">'session.cookie_httponly'</span><span class="op">,</span> <span class="str">'1'</span>)<span class="op">;</span>    <span class="cmt">// JS no puede leer la cookie</span>
+<span class="fn">ini_set</span>(<span class="str">'session.cookie_secure'</span><span class="op">,</span>   <span class="str">'1'</span>)<span class="op">;</span>    <span class="cmt">// solo HTTPS</span>
+<span class="fn">ini_set</span>(<span class="str">'session.cookie_samesite'</span><span class="op">,</span> <span class="str">'Strict'</span>)<span class="op">;</span> <span class="cmt">// anti-CSRF</span>
+<span class="fn">ini_set</span>(<span class="str">'session.gc_maxlifetime'</span><span class="op">,</span>   <span class="num">3600</span>)<span class="op">;</span>    <span class="cmt">// 1 hora de inactividad</span>
+<span class="fn">ini_set</span>(<span class="str">'session.use_strict_mode'</span><span class="op">,</span>  <span class="str">'1'</span>)<span class="op">;</span>    <span class="cmt">// rechaza IDs no generados por PHP</span>
+
+<span class="cmt">// Alternativamente con session_set_cookie_params()</span>
+<span class="fn">session_set_cookie_params</span>([
+    <span class="str">'lifetime'</span> <span class="op">=&gt;</span> <span class="num">0</span><span class="op">,</span>          <span class="cmt">// 0 = hasta cerrar el navegador</span>
+    <span class="str">'path'</span>     <span class="op">=&gt;</span> <span class="str">'/'</span><span class="op">,</span>
+    <span class="str">'secure'</span>   <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+    <span class="str">'httponly'</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+    <span class="str">'samesite'</span> <span class="op">=&gt;</span> <span class="str">'Strict'</span><span class="op">,</span>
+])<span class="op">;</span>
+<span class="fn">session_start</span>()<span class="op">;</span>
+
+<span class="cmt">// Expiración de sesión por inactividad</span>
+<span class="kw">if</span> (<span class="fn">isset</span>(<span class="var">$_SESSION</span>[<span class="str">'ultimo_acceso'</span>])) {
+    <span class="var">$inactivo</span> <span class="op">=</span> <span class="fn">time</span>() <span class="op">-</span> <span class="var">$_SESSION</span>[<span class="str">'ultimo_acceso'</span>]<span class="op">;</span>
+    <span class="kw">if</span> (<span class="var">$inactivo</span> <span class="op">&gt;</span> <span class="num">1800</span>) {                    <span class="cmt">// 30 min</span>
+        <span class="fn">session_destroy</span>()<span class="op">;</span>
+        <span class="fn">header</span>(<span class="str">"Location: login.php?msg=expirada"</span>)<span class="op">;</span>
+        <span class="fn">exit</span><span class="op">;</span>
+    }
+}
+<span class="var">$_SESSION</span>[<span class="str">'ultimo_acceso'</span>] <span class="op">=</span> <span class="fn">time</span>()<span class="op">;</span>
+
+<span class="cmt">// Regenerar ID periódicamente para prevenir session hijacking</span>
+<span class="kw">if</span> (<span class="fn">empty</span>(<span class="var">$_SESSION</span>[<span class="str">'token_generado'</span>]) <span class="op">||</span>
+    <span class="fn">time</span>() <span class="op">-</span> <span class="var">$_SESSION</span>[<span class="str">'token_generado'</span>] <span class="op">&gt;</span> <span class="num">300</span>) {    <span class="cmt">// cada 5 min</span>
+    <span class="fn">session_regenerate_id</span>(<span class="kw">true</span>)<span class="op">;</span>
+    <span class="var">$_SESSION</span>[<span class="str">'token_generado'</span>] <span class="op">=</span> <span class="fn">time</span>()<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Opciones clave</div>
+          <div class="output-success">httponly=1 → protege contra robo de sesión por XSS</div>
+          <div class="output-success">samesite=Strict → protege contra CSRF</div>
+          <div class="output-success">use_strict_mode=1 → previene session fixation</div>
+        </div>
+      </div>
+
+      <div id="ses-flash" class="tab-content">
+        <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Los mensajes flash son datos en sesión que se muestran <strong>una sola vez</strong> al usuario (éxito, error, aviso) y se eliminan inmediatamente después de leerlos.</div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>flash_messages.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="fn">session_start</span>()<span class="op">;</span>
+
+<span class="cmt">// Guardar mensaje flash (antes de redirect)</span>
+<span class="kw">function</span> <span class="fn">flash</span>(<span class="kw">string</span> <span class="var">$tipo</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span> {
+    <span class="var">$_SESSION</span>[<span class="str">'flash'</span>][] <span class="op">=</span> [<span class="str">'tipo'</span> <span class="op">=&gt;</span> <span class="var">$tipo</span><span class="op">,</span> <span class="str">'msg'</span> <span class="op">=&gt;</span> <span class="var">$msg</span>]<span class="op">;</span>
+}
+
+<span class="cmt">// Mostrar y eliminar mensajes flash</span>
+<span class="kw">function</span> <span class="fn">mostrarFlash</span>(): <span class="kw">void</span> {
+    <span class="kw">if</span> (<span class="fn">empty</span>(<span class="var">$_SESSION</span>[<span class="str">'flash'</span>])) <span class="kw">return</span><span class="op">;</span>
+    <span class="kw">foreach</span> (<span class="var">$_SESSION</span>[<span class="str">'flash'</span>] <span class="kw">as</span> <span class="var">$f</span>) {
+        <span class="var">$color</span> <span class="op">=</span> <span class="kw">match</span>(<span class="var">$f</span>[<span class="str">'tipo'</span>]) {
+            <span class="str">'success'</span> <span class="op">=&gt;</span> <span class="str">'#4CAF50'</span><span class="op">,</span>
+            <span class="str">'error'</span>   <span class="op">=&gt;</span> <span class="str">'#ef5350'</span><span class="op">,</span>
+            <span class="str">'warning'</span> <span class="op">=&gt;</span> <span class="str">'#ffa726'</span><span class="op">,</span>
+            <span class="kw">default</span>   <span class="op">=&gt;</span> <span class="str">'#42a5f5'</span><span class="op">,</span>
+        }<span class="op">;</span>
+        <span class="fn">echo</span> <span class="str">"&lt;div style='color:<span class="var">$color</span>'&gt;"</span>
+           <span class="op">.</span> <span class="fn">htmlspecialchars</span>(<span class="var">$f</span>[<span class="str">'msg'</span>]<span class="op">,</span> <span class="kw">ENT_QUOTES</span><span class="op">,</span> <span class="str">'UTF-8'</span>)
+           <span class="op">.</span> <span class="str">"&lt;/div&gt;"</span><span class="op">;</span>
+    }
+    <span class="fn">unset</span>(<span class="var">$_SESSION</span>[<span class="str">'flash'</span>])<span class="op">;</span>  <span class="cmt">// eliminar tras mostrar</span>
+}
+
+<span class="cmt">// USO en el controlador</span>
+<span class="fn">flash</span>(<span class="str">'success'</span><span class="op">,</span> <span class="str">'✅ Producto guardado correctamente'</span>)<span class="op">;</span>
+<span class="fn">flash</span>(<span class="str">'error'</span><span class="op">,</span>   <span class="str">'❌ El email ya está registrado'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'Location: /productos'</span>)<span class="op">;</span>
+<span class="fn">exit</span><span class="op">;</span>
+
+<span class="cmt">// USO en la vista (después del redirect)</span>
+<span class="cmt">// mostrarFlash();  ← llama al inicio de cada plantilla HTML</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida tras redirect</div>
+          <div class="output-success">✅ Producto guardado correctamente</div>
+          <div class="output-err">❌ El email ya está registrado</div>
+          <div style="font-size:.78rem;color:var(--text3);margin-top:.4rem">← Aparecen una vez y desaparecen al recargar</div>
+        </div>
+      </div>
+
+      <div id="ses-vs" class="tab-content">
+        <table class="data-table">
+          <tr><th>Característica</th><th>$_SESSION</th><th>$_COOKIE</th></tr>
+          <tr><td>Dónde se guardan los datos</td><td>🖥 Servidor (archivo/BD)</td><td>🌐 Navegador del usuario</td></tr>
+          <tr><td>Duración por defecto</td><td>Mientras el navegador esté abierto</td><td>Definida por el programador</td></tr>
+          <tr><td>Tamaño máximo</td><td>Sin límite práctico</td><td>~4 KB por cookie</td></tr>
+          <tr><td>Seguridad</td><td>✅ Alta — datos en servidor</td><td>⚠️ Media — visible/modificable</td></tr>
+          <tr><td>El usuario puede ver los datos</td><td>❌ No (solo el ID)</td><td>✅ Sí (desde las DevTools)</td></tr>
+          <tr><td>Uso típico</td><td>Login, carrito, datos temporales</td><td>Tema, idioma, "recuérdame"</td></tr>
+          <tr><td>Sobrevive al cerrar el navegador</td><td>❌ No (por defecto)</td><td>✅ Sí (si lifetime > 0)</td></tr>
+          <tr><td>Acceso en JS</td><td>❌ No (solo PHP)</td><td>⚠️ Solo si HttpOnly=false</td></tr>
+        </table>
+        <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> <strong>Regla práctica:</strong> usa <code>$_SESSION</code> para datos de autenticación y sensibles. Usa <code>$_COOKIE</code> solo para preferencias no sensibles del usuario.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN SYSTEM -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">2</div>
+      <div>
+        <div class="concept-title">Sistema de Login completo</div>
+        <div class="concept-desc">Autenticación con contraseñas hasheadas, roles, protección de páginas y logout seguro.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'login-form')">login.php</button>
+        <button class="tab-btn" onclick="showTab(this,'login-proc')">procesar.php</button>
+        <button class="tab-btn" onclick="showTab(this,'login-prot')">protegida.php</button>
+        <button class="tab-btn" onclick="showTab(this,'login-roles')">Roles y logout</button>
+      </div>
+
+      <div id="login-form" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>login.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="fn">session_start</span>()<span class="op">;</span>
+<span class="cmt">// Si ya está logueado, redirigir al dashboard</span>
+<span class="kw">if</span> (<span class="fn">isset</span>(<span class="var">$_SESSION</span>[<span class="str">'usuario_id'</span>])) {
+    <span class="fn">header</span>(<span class="str">'Location: dashboard.php'</span>)<span class="op">;</span>
+    <span class="fn">exit</span><span class="op">;</span>
+}
+<span class="var">$error</span> <span class="op">=</span> <span class="var">$_GET</span>[<span class="str">'error'</span>] <span class="op">??</span> <span class="str">''</span><span class="op">;</span>
+<span class="tag">?&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;&lt;body&gt;</span>
+<span class="kw">&lt;?php</span> <span class="kw">if</span> (<span class="var">$error</span>) <span class="kw">echo</span> <span class="str">"&lt;p style='color:red'&gt;Email o contraseña incorrectos&lt;/p&gt;"</span><span class="op">;</span> <span class="tag">?&gt;</span>
+<span class="tag">&lt;form</span> <span class="atr">method</span>=<span class="str">"POST"</span> <span class="atr">action</span>=<span class="str">"procesar_login.php"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"hidden"</span>   <span class="atr">name</span>=<span class="str">"_token"</span>  <span class="atr">value</span>=<span class="str">"&lt;?= htmlspecialchars($_SESSION['csrf'] ??= bin2hex(random_bytes(32))) ?&gt;"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"email"</span>    <span class="atr">name</span>=<span class="str">"email"</span>    <span class="atr">placeholder</span>=<span class="str">"Email"</span>       <span class="atr">required</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"password"</span> <span class="atr">name</span>=<span class="str">"password"</span> <span class="atr">placeholder</span>=<span class="str">"Contraseña"</span>  <span class="atr">required</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;label&gt;&lt;input</span> <span class="atr">type</span>=<span class="str">"checkbox"</span> <span class="atr">name</span>=<span class="str">"recordarme"</span><span class="tag">&gt;</span> Recuérdame<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;button</span> <span class="atr">type</span>=<span class="str">"submit"</span><span class="tag">&gt;</span>Iniciar sesión<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span>
+<span class="tag">&lt;/body&gt;&lt;/html&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="login-proc" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>procesar_login.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="fn">session_start</span>()<span class="op">;</span>
+
+<span class="cmt">// 1. Verificar CSRF</span>
+<span class="kw">if</span> (<span class="op">!</span><span class="fn">hash_equals</span>(<span class="var">$_SESSION</span>[<span class="str">'csrf'</span>] <span class="op">??</span> <span class="str">''</span><span class="op">,</span> <span class="var">$_POST</span>[<span class="str">'_token'</span>] <span class="op">??</span> <span class="str">''</span>)) {
+    <span class="fn">die</span>(<span class="str">'Petición no válida'</span>)<span class="op">;</span>
+}
+
+<span class="cmt">// 2. Validar entrada</span>
+<span class="var">$email</span>    <span class="op">=</span> <span class="fn">filter_var</span>(<span class="var">$_POST</span>[<span class="str">'email'</span>]    <span class="op">??</span> <span class="str">''</span><span class="op">,</span> <span class="kw">FILTER_VALIDATE_EMAIL</span>)<span class="op">;</span>
+<span class="var">$password</span> <span class="op">=</span> <span class="var">$_POST</span>[<span class="str">'password'</span>] <span class="op">??</span> <span class="str">''</span><span class="op">;</span>
+<span class="kw">if</span> (<span class="op">!</span><span class="var">$email</span> <span class="op">||</span> <span class="fn">strlen</span>(<span class="var">$password</span>) <span class="op">&lt;</span> <span class="num">1</span>) {
+    <span class="fn">header</span>(<span class="str">'Location: login.php?error=1'</span>)<span class="op">;</span> <span class="fn">exit</span><span class="op">;</span>
+}
+
+<span class="cmt">// 3. Buscar usuario con sentencia preparada</span>
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"SELECT id, nombre, rol, password_hash FROM usuarios WHERE email = :e AND activo = 1 LIMIT 1"</span>)<span class="op">;</span>
+<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="str">':e'</span> <span class="op">=&gt;</span> <span class="var">$email</span>])<span class="op">;</span>
+<span class="var">$usuario</span> <span class="op">=</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">fetch</span>()<span class="op">;</span>
+
+<span class="cmt">// 4. Verificar contraseña</span>
+<span class="kw">if</span> (<span class="op">!</span><span class="var">$usuario</span> <span class="op">||</span> <span class="op">!</span><span class="fn">password_verify</span>(<span class="var">$password</span><span class="op">,</span> <span class="var">$usuario</span>[<span class="str">'password_hash'</span>])) {
+    <span class="fn">header</span>(<span class="str">'Location: login.php?error=1'</span>)<span class="op">;</span> <span class="fn">exit</span><span class="op">;</span>
+}
+
+<span class="cmt">// 5. Login exitoso — regenerar ID (previene session fixation)</span>
+<span class="fn">session_regenerate_id</span>(<span class="kw">true</span>)<span class="op">;</span>
+<span class="var">$_SESSION</span>[<span class="str">'usuario_id'</span>] <span class="op">=</span> <span class="var">$usuario</span>[<span class="str">'id'</span>]<span class="op">;</span>
+<span class="var">$_SESSION</span>[<span class="str">'nombre'</span>]     <span class="op">=</span> <span class="var">$usuario</span>[<span class="str">'nombre'</span>]<span class="op">;</span>
+<span class="var">$_SESSION</span>[<span class="str">'rol'</span>]        <span class="op">=</span> <span class="var">$usuario</span>[<span class="str">'rol'</span>]<span class="op">;</span>
+<span class="var">$_SESSION</span>[<span class="str">'login_en'</span>]   <span class="op">=</span> <span class="fn">time</span>()<span class="op">;</span>
+
+<span class="cmt">// 6. Rehash si el algoritmo mejoró</span>
+<span class="kw">if</span> (<span class="fn">password_needs_rehash</span>(<span class="var">$usuario</span>[<span class="str">'password_hash'</span>]<span class="op">,</span> <span class="kw">PASSWORD_DEFAULT</span>)) {
+    <span class="var">$nuevo</span> <span class="op">=</span> <span class="fn">password_hash</span>(<span class="var">$password</span><span class="op">,</span> <span class="kw">PASSWORD_DEFAULT</span>)<span class="op">;</span>
+    <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"UPDATE usuarios SET password_hash=? WHERE id=?"</span>)<span class="op">-&gt;</span><span class="fn">execute</span>([$nuevo<span class="op">,</span><span class="var">$usuario</span>[<span class="str">'id'</span>]])<span class="op">;</span>
+}
+
+<span class="fn">header</span>(<span class="str">'Location: dashboard.php'</span>)<span class="op">;</span> <span class="fn">exit</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="alert alert-tip"><span class="alert-icon">💡</span> Para crear el hash al registrar: <code>password_hash($password, PASSWORD_DEFAULT)</code></div>
+      </div>
+
+      <div id="login-prot" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>auth.php — incluir en páginas protegidas</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="fn">session_start</span>()<span class="op">;</span>
+
+<span class="kw">function</span> <span class="fn">requiereLogin</span>(<span class="kw">string</span> <span class="var">$redirect</span> <span class="op">=</span> <span class="str">'login.php'</span>): <span class="kw">void</span> {
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">isset</span>(<span class="var">$_SESSION</span>[<span class="str">'usuario_id'</span>])) {
+        <span class="fn">header</span>(<span class="str">"Location: <span class="var">$redirect</span>"</span>)<span class="op">;</span>
+        <span class="fn">exit</span><span class="op">;</span>
+    }
+}
+
+<span class="kw">function</span> <span class="fn">requiereRol</span>(<span class="kw">string</span> <span class="op">...</span><span class="var">$roles</span>): <span class="kw">void</span> {
+    <span class="fn">requiereLogin</span>()<span class="op">;</span>
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">in_array</span>(<span class="var">$_SESSION</span>[<span class="str">'rol'</span>] <span class="op">??</span> <span class="str">''</span><span class="op">,</span> <span class="var">$roles</span><span class="op">,</span> <span class="kw">true</span>)) {
+        <span class="fn">http_response_code</span>(<span class="num">403</span>)<span class="op">;</span>
+        <span class="fn">die</span>(<span class="str">"❌ Acceso denegado"</span>)<span class="op">;</span>
+    }
+}
+
+<span class="kw">function</span> <span class="fn">usuarioActual</span>(): <span class="kw">array</span> {
+    <span class="kw">return</span> [
+        <span class="str">'id'</span>     <span class="op">=&gt;</span> <span class="var">$_SESSION</span>[<span class="str">'usuario_id'</span>] <span class="op">??</span> <span class="kw">null</span><span class="op">,</span>
+        <span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="var">$_SESSION</span>[<span class="str">'nombre'</span>]     <span class="op">??</span> <span class="str">''</span><span class="op">,</span>
+        <span class="str">'rol'</span>    <span class="op">=&gt;</span> <span class="var">$_SESSION</span>[<span class="str">'rol'</span>]        <span class="op">??</span> <span class="str">'invitado'</span><span class="op">,</span>
+    ]<span class="op">;</span>
+}
+<span class="tag">?&gt;</span>
+
+<span class="cmt">&lt;!-- dashboard.php --&gt;</span>
+<span class="tag">&lt;?php</span>
+<span class="kw">require</span> <span class="str">'auth.php'</span><span class="op">;</span>
+<span class="fn">requiereLogin</span>()<span class="op">;</span>
+<span class="var">$user</span> <span class="op">=</span> <span class="fn">usuarioActual</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Hola, "</span> <span class="op">.</span> <span class="fn">htmlspecialchars</span>(<span class="var">$user</span>[<span class="str">'nombre'</span>])<span class="op">;</span>
+<span class="tag">?&gt;</span>
+
+<span class="cmt">&lt;!-- admin.php — solo admins --&gt;</span>
+<span class="tag">&lt;?php</span>
+<span class="kw">require</span> <span class="str">'auth.php'</span><span class="op">;</span>
+<span class="fn">requiereRol</span>(<span class="str">'admin'</span><span class="op">,</span> <span class="str">'superadmin'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Panel de administración"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="login-roles" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>logout_seguro.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="fn">session_start</span>()<span class="op">;</span>
+
+<span class="cmt">// Logout seguro — 4 pasos obligatorios</span>
+<span class="kw">function</span> <span class="fn">logout</span>(): <span class="kw">void</span> {
+    <span class="cmt">// 1. Limpiar array de sesión</span>
+    <span class="var">$_SESSION</span> <span class="op">=</span> []<span class="op">;</span>
+
+    <span class="cmt">// 2. Eliminar cookie de sesión del navegador</span>
+    <span class="kw">if</span> (<span class="fn">ini_get</span>(<span class="str">'session.use_cookies'</span>)) {
+        <span class="var">$params</span> <span class="op">=</span> <span class="fn">session_get_cookie_params</span>()<span class="op">;</span>
+        <span class="fn">setcookie</span>(<span class="fn">session_name</span>()<span class="op">,</span> <span class="str">''</span><span class="op">,</span> [
+            <span class="str">'expires'</span>  <span class="op">=&gt;</span> <span class="fn">time</span>() <span class="op">-</span> <span class="num">42000</span><span class="op">,</span>
+            <span class="str">'path'</span>     <span class="op">=&gt;</span> <span class="var">$params</span>[<span class="str">'path'</span>]<span class="op">,</span>
+            <span class="str">'secure'</span>   <span class="op">=&gt;</span> <span class="var">$params</span>[<span class="str">'secure'</span>]<span class="op">,</span>
+            <span class="str">'httponly'</span> <span class="op">=&gt;</span> <span class="var">$params</span>[<span class="str">'httponly'</span>]<span class="op">,</span>
+        ])<span class="op">;</span>
+    }
+
+    <span class="cmt">// 3. Destruir la sesión en el servidor</span>
+    <span class="fn">session_destroy</span>()<span class="op">;</span>
+
+    <span class="cmt">// 4. Redirigir al login</span>
+    <span class="fn">header</span>(<span class="str">'Location: /login.php'</span>)<span class="op">;</span>
+    <span class="fn">exit</span><span class="op">;</span>
+}
+
+<span class="fn">logout</span>()<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Los 4 pasos del logout seguro</div>
+          <div class="output-success">1. $_SESSION = [] → limpiar datos en memoria</div>
+          <div class="output-success">2. setcookie(..., time()-42000) → eliminar cookie del navegador</div>
+          <div class="output-success">3. session_destroy() → eliminar archivo de sesión del servidor</div>
+          <div class="output-success">4. header('Location: /login') → redirigir</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COOKIES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">3</div>
+      <div>
+        <div class="concept-title">Cookies ($_COOKIE)</div>
+        <div class="concept-desc">Datos guardados en el navegador del usuario. Útiles para preferencias, "recordarme" y analytics.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'ck-basic')">Básico</button>
+        <button class="tab-btn" onclick="showTab(this,'ck-secure')">Seguridad</button>
+        <button class="tab-btn" onclick="showTab(this,'ck-recordar')">Recordarme</button>
+      </div>
+
+      <div id="ck-basic" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>cookies_basico.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// setcookie() DEBE llamarse antes de cualquier salida HTML</span>
+
+<span class="cmt">// Sintaxis moderna (PHP 7.3+) — array de opciones</span>
+<span class="fn">setcookie</span>(<span class="str">'tema'</span><span class="op">,</span> <span class="str">'oscuro'</span><span class="op">,</span> [
+    <span class="str">'expires'</span>  <span class="op">=&gt;</span> <span class="fn">time</span>() <span class="op">+</span> <span class="num">30</span> <span class="op">*</span> <span class="num">86400</span><span class="op">,</span>  <span class="cmt">// 30 días</span>
+    <span class="str">'path'</span>     <span class="op">=&gt;</span> <span class="str">'/'</span><span class="op">,</span>                   <span class="cmt">// toda la web</span>
+    <span class="str">'secure'</span>   <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>                  <span class="cmt">// solo HTTPS</span>
+    <span class="str">'httponly'</span> <span class="op">=&gt;</span> <span class="kw">false</span><span class="op">,</span>                 <span class="cmt">// JS puede leer (para tema)</span>
+    <span class="str">'samesite'</span> <span class="op">=&gt;</span> <span class="str">'Lax'</span><span class="op">,</span>
+])<span class="op">;</span>
+
+<span class="cmt">// Leer cookie (disponible en la SIGUIENTE request)</span>
+<span class="var">$tema</span> <span class="op">=</span> <span class="var">$_COOKIE</span>[<span class="str">'tema'</span>] <span class="op">??</span> <span class="str">'claro'</span><span class="op">;</span>  <span class="cmt">// ?? valor por defecto</span>
+<span class="fn">echo</span> <span class="str">"Tema actual: "</span> <span class="op">.</span> <span class="fn">htmlspecialchars</span>(<span class="var">$tema</span>)<span class="op">;</span>
+
+<span class="cmt">// Múltiples cookies</span>
+<span class="fn">setcookie</span>(<span class="str">'idioma'</span><span class="op">,</span> <span class="str">'es'</span><span class="op">,</span>     [<span class="str">'expires'</span> <span class="op">=&gt;</span> <span class="fn">time</span>() <span class="op">+</span> <span class="num">365</span> <span class="op">*</span> <span class="num">86400</span>])<span class="op">;</span>
+<span class="fn">setcookie</span>(<span class="str">'moneda'</span><span class="op">,</span> <span class="str">'PEN'</span><span class="op">,</span>   [<span class="str">'expires'</span> <span class="op">=&gt;</span> <span class="fn">time</span>() <span class="op">+</span> <span class="num">365</span> <span class="op">*</span> <span class="num">86400</span>])<span class="op">;</span>
+
+<span class="cmt">// Eliminar cookie (expires en el pasado)</span>
+<span class="fn">setcookie</span>(<span class="str">'tema'</span><span class="op">,</span> <span class="str">''</span><span class="op">,</span> [<span class="str">'expires'</span> <span class="op">=&gt;</span> <span class="fn">time</span>() <span class="op">-</span> <span class="num">3600</span><span class="op">,</span> <span class="str">'path'</span> <span class="op">=&gt;</span> <span class="str">'/'</span>])<span class="op">;</span>
+<span class="fn">unset</span>(<span class="var">$_COOKIE</span>[<span class="str">'tema'</span>])<span class="op">;</span>  <span class="cmt">// también de la variable local</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Ciclo de vida de una cookie</div>
+          <div class="output-info">setcookie() → HTTP: Set-Cookie: tema=oscuro; Max-Age=2592000; Path=/</div>
+          <div class="output-success">Siguiente request → HTTP: Cookie: tema=oscuro</div>
+          <div class="output-info">PHP puede leerla en $_COOKIE['tema']</div>
+        </div>
+      </div>
+
+      <div id="ck-secure" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>cookies_seguridad.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// El usuario PUEDE modificar cookies desde el navegador</span>
+<span class="cmt">// NUNCA confíes en el valor de una cookie sin validar</span>
+
+<span class="cmt">// ❌ VULNERABLE — el usuario puede cambiar su rol en la cookie</span>
+<span class="var">$rol</span> <span class="op">=</span> <span class="var">$_COOKIE</span>[<span class="str">'rol'</span>]<span class="op">;</span>  <span class="cmt">// podría ser "admin" aunque sea "lector"</span>
+
+<span class="cmt">// ✅ Almacenar tokens firmados en cookies — no datos sensibles</span>
+<span class="kw">function</span> <span class="fn">crearCookieSegura</span>(<span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$valor</span>): <span class="kw">void</span> {
+    <span class="cmt">// Firma el valor con una clave secreta</span>
+    <span class="var">$clave</span>  <span class="op">=</span> <span class="fn">getenv</span>(<span class="str">'APP_SECRET'</span>)<span class="op">;</span>
+    <span class="var">$firma</span>  <span class="op">=</span> <span class="fn">hash_hmac</span>(<span class="str">'sha256'</span><span class="op">,</span> <span class="var">$valor</span><span class="op">,</span> <span class="var">$clave</span>)<span class="op">;</span>
+    <span class="fn">setcookie</span>(<span class="var">$nombre</span><span class="op">,</span> <span class="var">$valor</span> <span class="op">.</span> <span class="str">'.'</span> <span class="op">.</span> <span class="var">$firma</span><span class="op">,</span> [
+        <span class="str">'expires'</span>  <span class="op">=&gt;</span> <span class="fn">time</span>() <span class="op">+</span> <span class="num">30</span> <span class="op">*</span> <span class="num">86400</span><span class="op">,</span>
+        <span class="str">'httponly'</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+        <span class="str">'secure'</span>   <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+        <span class="str">'samesite'</span> <span class="op">=&gt;</span> <span class="str">'Strict'</span><span class="op">,</span>
+    ])<span class="op">;</span>
+}
+
+<span class="kw">function</span> <span class="fn">leerCookieSegura</span>(<span class="kw">string</span> <span class="var">$nombre</span>): <span class="op">?</span><span class="kw">string</span> {
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">isset</span>(<span class="var">$_COOKIE</span>[<span class="var">$nombre</span>])) <span class="kw">return</span> <span class="kw">null</span><span class="op">;</span>
+    [<span class="var">$valor</span><span class="op">,</span> <span class="var">$firma</span>] <span class="op">=</span> <span class="fn">explode</span>(<span class="str">'.'</span><span class="op">,</span> <span class="var">$_COOKIE</span>[<span class="var">$nombre</span>]<span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>
+    <span class="var">$clave</span>           <span class="op">=</span> <span class="fn">getenv</span>(<span class="str">'APP_SECRET'</span>)<span class="op">;</span>
+    <span class="var">$firmaEsperada</span>   <span class="op">=</span> <span class="fn">hash_hmac</span>(<span class="str">'sha256'</span><span class="op">,</span> <span class="var">$valor</span><span class="op">,</span> <span class="var">$clave</span>)<span class="op">;</span>
+    <span class="kw">return</span> <span class="fn">hash_equals</span>(<span class="var">$firmaEsperada</span><span class="op">,</span> <span class="var">$firma</span>) <span class="op">?</span> <span class="var">$valor</span> <span class="op">:</span> <span class="kw">null</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <table class="data-table" style="margin-top:1rem">
+          <tr><th>Opción</th><th>Valor recomendado</th><th>Efecto</th></tr>
+          <tr><td><code>secure</code></td><td><code>true</code></td><td>Solo se envía por HTTPS</td></tr>
+          <tr><td><code>httponly</code></td><td><code>true</code></td><td>JavaScript no puede acceder</td></tr>
+          <tr><td><code>samesite</code></td><td><code>'Strict'</code></td><td>No se envía en peticiones cross-site (anti-CSRF)</td></tr>
+          <tr><td><code>path</code></td><td><code>'/'</code></td><td>Disponible en toda la web</td></tr>
+        </table>
+      </div>
+
+      <div id="ck-recordar" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>recordarme.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// "Recuérdame" — mantener sesión entre visitas</span>
+<span class="cmt">// NUNCA guardar el ID de usuario directamente en la cookie</span>
+<span class="cmt">// Usar un token aleatorio en BD</span>
+
+<span class="cmt">// AL HACER LOGIN con "recuérdame"</span>
+<span class="kw">if</span> (<span class="fn">isset</span>(<span class="var">$_POST</span>[<span class="str">'recordarme'</span>]) <span class="op">&amp;&amp;</span> <span class="var">$loginExitoso</span>) {
+    <span class="var">$token</span>    <span class="op">=</span> <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(<span class="num">32</span>))<span class="op">;</span>   <span class="cmt">// token único y aleatorio</span>
+    <span class="var">$selector</span> <span class="op">=</span> <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(<span class="num">6</span>))<span class="op">;</span>    <span class="cmt">// para buscar en BD</span>
+    <span class="var">$expira</span>   <span class="op">=</span> <span class="fn">time</span>() <span class="op">+</span> <span class="num">30</span> <span class="op">*</span> <span class="num">86400</span><span class="op">;</span>         <span class="cmt">// 30 días</span>
+
+    <span class="cmt">// Guardar hash del token en BD (no el token en claro)</span>
+    <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"INSERT INTO remember_tokens (selector, token_hash, usuario_id, expira) VALUES (?,?,?,?)"</span>)
+       <span class="op">-&gt;</span><span class="fn">execute</span>([$selector<span class="op">,</span> <span class="fn">hash</span>(<span class="str">'sha256'</span><span class="op">,</span><span class="var">$token</span>)<span class="op">,</span> <span class="var">$usuarioId</span><span class="op">,</span> <span class="fn">date</span>(<span class="str">'Y-m-d H:i:s'</span><span class="op">,</span><span class="var">$expira</span>)])<span class="op">;</span>
+
+    <span class="cmt">// Guardar selector:token en cookie</span>
+    <span class="fn">setcookie</span>(<span class="str">'remember'</span><span class="op">,</span> <span class="str">"<span class="var">$selector</span>:<span class="var">$token</span>"</span><span class="op">,</span> [
+        <span class="str">'expires'</span> <span class="op">=&gt;</span> <span class="var">$expira</span><span class="op">,</span> <span class="str">'httponly'</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+        <span class="str">'secure'</span>  <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>  <span class="str">'samesite'</span> <span class="op">=&gt;</span> <span class="str">'Strict'</span><span class="op">,</span>
+    ])<span class="op">;</span>
+}
+
+<span class="cmt">// AL VISITAR LA WEB (sin sesión activa)</span>
+<span class="kw">if</span> (<span class="op">!</span><span class="fn">isset</span>(<span class="var">$_SESSION</span>[<span class="str">'usuario_id'</span>]) <span class="op">&amp;&amp;</span> <span class="fn">isset</span>(<span class="var">$_COOKIE</span>[<span class="str">'remember'</span>])) {
+    [<span class="var">$selector</span><span class="op">,</span> <span class="var">$token</span>] <span class="op">=</span> <span class="fn">explode</span>(<span class="str">':'</span><span class="op">,</span> <span class="var">$_COOKIE</span>[<span class="str">'remember'</span>]<span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>
+
+    <span class="var">$row</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"SELECT * FROM remember_tokens WHERE selector=? AND expira > NOW()"</span>)<span class="op">;</span>
+    <span class="var">$row</span><span class="op">-&gt;</span><span class="fn">execute</span>([$selector])<span class="op">;</span>
+    <span class="var">$registro</span> <span class="op">=</span> <span class="var">$row</span><span class="op">-&gt;</span><span class="fn">fetch</span>()<span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="var">$registro</span> <span class="op">&amp;&amp;</span> <span class="fn">hash_equals</span>(<span class="var">$registro</span>[<span class="str">'token_hash'</span>]<span class="op">,</span> <span class="fn">hash</span>(<span class="str">'sha256'</span><span class="op">,</span><span class="var">$token</span>))) {
+        <span class="fn">session_regenerate_id</span>(<span class="kw">true</span>)<span class="op">;</span>
+        <span class="var">$_SESSION</span>[<span class="str">'usuario_id'</span>] <span class="op">=</span> <span class="var">$registro</span>[<span class="str">'usuario_id'</span>]<span class="op">;</span>
+        <span class="cmt">// cargar resto de datos del usuario desde BD</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> Esta implementación es segura porque: el token está hasheado en BD, se usa <code>hash_equals</code> para comparación segura, y un selector separado permite búsquedas rápidas sin exponer el token real.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>

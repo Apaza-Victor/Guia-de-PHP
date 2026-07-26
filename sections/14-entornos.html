@@ -1,0 +1,127 @@
+<section id="entornos">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">🛠 Módulo 2</span>
+    <h2 class="section-title">Entornos de Desarrollo</h2>
+    <p class="section-subtitle">Configura tu servidor local para desarrollar en PHP. Elige entre XAMPP o Laragon.</p>
+  </div>
+
+  <div class="tabs" style="justify-content:center;margin-bottom:2rem;">
+    <button class="tab-btn active" onclick="showTab(this,'tab-xampp')">🛠 XAMPP</button>
+    <button class="tab-btn" onclick="showTab(this,'tab-laragon')">⚡ Laragon</button>
+  </div>
+
+  <!-- TAB XAMPP -->
+  <div class="tab-content active" id="tab-xampp">
+
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-num" style="background:linear-gradient(135deg,#ff6b35,#f7c59f)">X</div>
+        <div>
+          <div class="concept-title">¿Qué es XAMPP?</div>
+          <div class="concept-desc">Paquete all-in-one: Apache + MySQL/MariaDB + PHP + Perl</div>
+        </div>
+      </div>
+      <div class="concept-body">
+        <div class="alert alert-info"><span class="alert-icon">ℹ️</span> XAMPP es gratuito y multiplataforma (Windows, Linux, Mac). Es el estándar para aprender PHP de forma local.</div>
+        <table class="data-table">
+          <tr><th>Componente</th><th>Para qué sirve</th><th>Puerto</th></tr>
+          <tr><td>Apache</td><td>Servidor web — procesa archivos PHP</td><td>80 / 443</td></tr>
+          <tr><td>MySQL/MariaDB</td><td>Base de datos relacional</td><td>3306</td></tr>
+          <tr><td>phpMyAdmin</td><td>Interfaz web para gestionar la BD</td><td>80/phpmyadmin</td></tr>
+          <tr><td>PHP</td><td>Motor de procesamiento de scripts</td><td>—</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-num" style="background:linear-gradient(135deg,#ff6b35,#f7c59f)">2</div>
+        <div>
+          <div class="concept-title">Instalación paso a paso</div>
+          <div class="concept-desc">Guía para Windows (proceso similar en Mac y Linux)</div>
+        </div>
+      </div>
+      <div class="concept-body">
+        <ol class="steps">
+          <li>Descarga XAMPP desde <strong style="color:var(--accent2)">apachefriends.org</strong> y selecciona la versión de PHP que necesitas (recomendado PHP 8.x).</li>
+          <li>Ejecuta el instalador como administrador. Selecciona al menos: Apache, MySQL, PHP y phpMyAdmin.</li>
+          <li>Instala en <code>C:\xampp\</code> (evita rutas con espacios o caracteres especiales).</li>
+          <li>Abre el <strong>XAMPP Control Panel</strong> y pulsa <strong>Start</strong> en Apache y MySQL.</li>
+          <li>Abre tu navegador y ve a <code>http://localhost</code> — verás la pantalla de bienvenida de XAMPP.</li>
+          <li>Tu carpeta de proyectos es <code>C:\xampp\htdocs\</code>. Crea una subcarpeta para cada proyecto.</li>
+          <li>Accede a tu proyecto en <code>http://localhost/mi-proyecto/</code></li>
+        </ol>
+        <div class="alert alert-tip"><span class="alert-icon">💡</span> Si el puerto 80 está ocupado (por Skype o IIS), cambia el puerto de Apache en su configuración a 8080 y accede via <code>http://localhost:8080</code>.</div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>test.php — probar instalación</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt">&lt;!-- Guarda en C:\xampp\htdocs\test\test.php --&gt;</span>
+<span class="tag">&lt;?php</span>
+<span class="fn">phpinfo</span>()<span class="op">;</span>  <span class="cmt">// Muestra toda la configuración de PHP</span>
+<span class="tag">?&gt;</span>
+
+<span class="cmt">&lt;!-- Visita: http://localhost/test/test.php --&gt;</span></pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB LARAGON -->
+  <div class="tab-content" id="tab-laragon">
+
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">L</div>
+        <div>
+          <div class="concept-title">¿Por qué Laragon?</div>
+          <div class="concept-desc">Rápido, portable, con dominios automáticos .test y soporte multi-PHP</div>
+        </div>
+      </div>
+      <div class="concept-body">
+        <table class="data-table">
+          <tr><th>Característica</th><th>XAMPP</th><th>Laragon</th></tr>
+          <tr><td>Velocidad inicio</td><td>Lenta</td><td>⚡ Muy rápida</td></tr>
+          <tr><td>Dominios automáticos</td><td>❌</td><td>✅ .test automático</td></tr>
+          <tr><td>Cambiar versión PHP</td><td>Manual y complejo</td><td>✅ Con un clic</td></tr>
+          <tr><td>SSL local</td><td>Manual</td><td>✅ Automático</td></tr>
+          <tr><td>Portable</td><td>Parcial</td><td>✅ Totalmente</td></tr>
+          <tr><td>Laravel CLI</td><td>Instalar manualmente</td><td>✅ Integrado</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="concept-card">
+      <div class="concept-header">
+        <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">2</div>
+        <div>
+          <div class="concept-title">Instalación y primer proyecto</div>
+        </div>
+      </div>
+      <div class="concept-body">
+        <ol class="steps">
+          <li>Descarga Laragon desde <strong style="color:var(--accent2)">laragon.org</strong> (versión Full recomendada).</li>
+          <li>Instala en <code>C:\laragon\</code> — es muy rápido, no tiene muchas opciones.</li>
+          <li>Abre Laragon y pulsa <strong>Iniciar todo</strong>.</li>
+          <li>Tus proyectos van en <code>C:\laragon\www\</code></li>
+          <li>Laragon crea automáticamente el dominio <code>http://mi-proyecto.test</code> por cada carpeta en www.</li>
+        </ol>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>Terminal en Laragon</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Crear proyecto Laravel desde el terminal de Laragon</span>
+composer create-project laravel/laravel mi-app
+
+<span class="cmt"># Accede automáticamente en:</span>
+<span class="cmt"># http://mi-app.test</span>
+
+<span class="cmt"># Cambiar versión de PHP: clic derecho en icono Laragon</span>
+<span class="cmt"># → PHP → Seleccionar versión</span></pre>
+        </div>
+        <div class="alert alert-tip"><span class="alert-icon">💡</span> Laragon incluye Composer, Node.js, NPM, Git y muchas herramientas preinstaladas. Es la opción ideal para proyectos Laravel y modernos.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</section>

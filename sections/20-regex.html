@@ -1,0 +1,186 @@
+﻿<section id="regex">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">🔍 Módulo 8</span>
+    <h2 class="section-title">Expresiones Regulares</h2>
+    <p class="section-subtitle">Valida y extrae patrones de texto con las funciones preg_* de PHP.</p>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">1</div>
+      <div>
+        <div class="concept-title">Expresiones Regulares en PHP</div>
+        <div class="concept-desc">Sintaxis · metacaracteres · funciones preg_* · grupos de captura · validaciones comunes.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'rx-sintaxis')">Sintaxis</button>
+        <button class="tab-btn" onclick="showTab(this,'rx-meta')">Metacaracteres</button>
+        <button class="tab-btn" onclick="showTab(this,'rx-funciones')">Funciones preg_*</button>
+        <button class="tab-btn" onclick="showTab(this,'rx-validar')">Validaciones</button>
+      </div>
+
+      <div id="rx-sintaxis" class="tab-content active">
+        <div class="alert alert-info"><span class="alert-icon">ℹ️</span> En PHP las regex van entre delimitadores. El más común es <code>/patron/flags</code>. Los <strong>flags</strong> más usados: <code>i</code> (case-insensitive), <code>m</code> (multilinea), <code>u</code> (UTF-8), <code>s</code> (el . incluye saltos de línea).</div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>regex_sintaxis.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Estructura: /patrón/flags</span>
+<span class="cmt">// ^  → inicio de string</span>
+<span class="cmt">// $  → fin de string</span>
+<span class="cmt">// .  → cualquier carácter (excepto salto de línea)</span>
+<span class="cmt">// *  → 0 o más veces el carácter anterior</span>
+<span class="cmt">// +  → 1 o más veces</span>
+<span class="cmt">// ?  → 0 o 1 vez (opcional)</span>
+<span class="cmt">// {n}   → exactamente n veces</span>
+<span class="cmt">// {n,m} → entre n y m veces</span>
+<span class="cmt">// [abc] → un carácter del conjunto</span>
+<span class="cmt">// [^abc]→ cualquier carácter EXCEPTO los del conjunto</span>
+<span class="cmt">// (abc) → grupo de captura</span>
+<span class="cmt">// a|b   → a O b</span>
+
+<span class="cmt">// Ejemplos de patrones</span>
+<span class="fn">preg_match</span>(<span class="str">'/^hola/'</span><span class="op">,</span> <span class="str">"hola mundo"</span>)<span class="op">;</span>      <span class="cmt">// ✅ empieza con "hola"</span>
+<span class="fn">preg_match</span>(<span class="str">'/mundo$/'</span><span class="op">,</span> <span class="str">"hola mundo"</span>)<span class="op">;</span>      <span class="cmt">// ✅ termina con "mundo"</span>
+<span class="fn">preg_match</span>(<span class="str">'/^\d+$/'</span><span class="op">,</span> <span class="str">"12345"</span>)<span class="op">;</span>           <span class="cmt">// ✅ solo dígitos</span>
+<span class="fn">preg_match</span>(<span class="str">'/^[A-Z]/i'</span><span class="op">,</span> <span class="str">"Ana"</span>)<span class="op">;</span>           <span class="cmt">// ✅ empieza con letra (case insensitive)</span>
+<span class="fn">preg_match</span>(<span class="str">'/\d{4}-\d{2}-\d{2}/'</span><span class="op">,</span> <span class="str">"2024-01-15"</span>)<span class="op">;</span> <span class="cmt">// ✅ formato fecha YYYY-MM-DD</span>
+<span class="fn">preg_match</span>(<span class="str">'/PHP|Python|JS/'</span><span class="op">,</span> <span class="str">"Aprendo PHP"</span>)<span class="op">;</span>   <span class="cmt">// ✅ contiene uno de los tres</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Retorno de preg_match</div>
+          <div class="output-success">1 → encontró coincidencia</div>
+          <div class="output-err">0 → no encontró coincidencia</div>
+          <div class="output-warn">false → error en el patrón</div>
+        </div>
+      </div>
+
+      <div id="rx-meta" class="tab-content">
+        <table class="data-table">
+          <tr><th>Metacarácter</th><th>Significado</th><th>Ejemplo</th><th>Coincide con</th></tr>
+          <tr><td><code>\d</code></td><td>Dígito [0-9]</td><td><code>/\d+/</code></td><td>"42", "1000"</td></tr>
+          <tr><td><code>\D</code></td><td>NO dígito</td><td><code>/\D+/</code></td><td>"abc", "!@#"</td></tr>
+          <tr><td><code>\w</code></td><td>Letra, dígito o _</td><td><code>/\w+/</code></td><td>"hola_123"</td></tr>
+          <tr><td><code>\W</code></td><td>NO \w</td><td><code>/\W/</code></td><td>" ", "!", "@"</td></tr>
+          <tr><td><code>\s</code></td><td>Espacio en blanco</td><td><code>/\s+/</code></td><td>" ", "\t", "\n"</td></tr>
+          <tr><td><code>\S</code></td><td>NO espacio</td><td><code>/\S+/</code></td><td>"hola", "123"</td></tr>
+          <tr><td><code>\b</code></td><td>Límite de palabra</td><td><code>/\bphp\b/i</code></td><td>"PHP" pero no "PHPUnit"</td></tr>
+          <tr><td><code>.</code></td><td>Cualquier carácter</td><td><code>/h.la/</code></td><td>"hola", "hala", "h1la"</td></tr>
+          <tr><td><code>^</code></td><td>Inicio</td><td><code>/^Hola/</code></td><td>"Hola mundo"</td></tr>
+          <tr><td><code>$</code></td><td>Fin</td><td><code>/mundo$/</code></td><td>"hola mundo"</td></tr>
+          <tr><td><code>*</code></td><td>0 o más</td><td><code>/ab*/</code></td><td>"a", "ab", "abbb"</td></tr>
+          <tr><td><code>+</code></td><td>1 o más</td><td><code>/ab+/</code></td><td>"ab", "abbb" (no "a")</td></tr>
+          <tr><td><code>?</code></td><td>0 o 1 (opcional)</td><td><code>/colou?r/</code></td><td>"color", "colour"</td></tr>
+          <tr><td><code>{n,m}</code></td><td>Entre n y m veces</td><td><code>/\d{2,4}/</code></td><td>"12", "123", "1234"</td></tr>
+          <tr><td><code>(abc)</code></td><td>Grupo de captura</td><td><code>/(\d{4})/</code></td><td>Captura los 4 dígitos</td></tr>
+          <tr><td><code>(?:abc)</code></td><td>Grupo sin captura</td><td><code>/(?:ab)+/</code></td><td>"ab", "abab"</td></tr>
+          <tr><td><code>(?=abc)</code></td><td>Lookahead positivo</td><td><code>/\d+(?= euros)/</code></td><td>"100" en "100 euros"</td></tr>
+        </table>
+      </div>
+
+      <div id="rx-funciones" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>preg_funciones.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="var">$texto</span> <span class="op">=</span> <span class="str">"Visita https://php.net y también https://laravel.com para aprender"</span><span class="op">;</span>
+
+<span class="cmt">// 1. preg_match — primera coincidencia + grupos</span>
+<span class="kw">if</span> (<span class="fn">preg_match</span>(<span class="str">'/(\d{4})-(\d{2})-(\d{2})/'</span><span class="op">,</span> <span class="str">"Hoy es 2024-03-15"</span><span class="op">,</span> <span class="var">$m</span>)) {
+    <span class="fn">echo</span> <span class="str">"Año: <span class="var">$m[1]</span>, Mes: <span class="var">$m[2]</span>, Día: <span class="var">$m[3]</span>"</span><span class="op">;</span>
+    <span class="cmt">// $m[0] = "2024-03-15" (match completo)</span>
+    <span class="cmt">// $m[1] = "2024", $m[2] = "03", $m[3] = "15"</span>
+}
+
+<span class="cmt">// Grupos nombrados (?P&lt;nombre&gt;...)</span>
+<span class="fn">preg_match</span>(<span class="str">'/(?P&lt;anio&gt;\d{4})-(?P&lt;mes&gt;\d{2})-(?P&lt;dia&gt;\d{2})/'</span><span class="op">,</span>
+    <span class="str">"2024-03-15"</span><span class="op">,</span> <span class="var">$m</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$m</span>[<span class="str">'anio'</span>]<span class="op">;</span>  <span class="cmt">// 2024 — acceso por nombre</span>
+
+<span class="cmt">// 2. preg_match_all — todas las coincidencias</span>
+<span class="fn">preg_match_all</span>(<span class="str">'/https?:\/\/[\w.\-]+/'</span><span class="op">,</span> <span class="var">$texto</span><span class="op">,</span> <span class="var">$urls</span>)<span class="op">;</span>
+<span class="fn">print_r</span>(<span class="var">$urls</span>[<span class="num">0</span>])<span class="op">;</span>
+<span class="cmt">// ['https://php.net', 'https://laravel.com']</span>
+
+<span class="cmt">// 3. preg_replace — reemplazar</span>
+<span class="var">$sinHtml</span>    <span class="op">=</span> <span class="fn">preg_replace</span>(<span class="str">'/<[^>]+>/'</span><span class="op">,</span> <span class="str">''</span><span class="op">,</span> <span class="str">'&lt;b&gt;Hola&lt;/b&gt; &lt;i&gt;Mundo&lt;/i&gt;'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$sinHtml</span><span class="op">;</span>  <span class="cmt">// "Hola Mundo"</span>
+
+<span class="cmt">// Referencia a grupos en el reemplazo ($1, $2...)</span>
+<span class="var">$fechaES</span> <span class="op">=</span> <span class="fn">preg_replace</span>(<span class="str">'/(\d{4})-(\d{2})-(\d{2})/'</span><span class="op">,</span> <span class="str">'$3/$2/$1'</span><span class="op">,</span> <span class="str">"2024-03-15"</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$fechaES</span><span class="op">;</span>  <span class="cmt">// "15/03/2024"</span>
+
+<span class="cmt">// preg_replace_callback — reemplazo con función</span>
+<span class="var">$resultado</span> <span class="op">=</span> <span class="fn">preg_replace_callback</span>(<span class="str">'/\b\w+\b/'</span><span class="op">,</span>
+    <span class="kw">fn</span>(<span class="var">$m</span>) <span class="op">=&gt;</span> <span class="fn">strtoupper</span>(<span class="var">$m</span>[<span class="num">0</span>])<span class="op">,</span>
+    <span class="str">"hola mundo php"</span>
+)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$resultado</span><span class="op">;</span>  <span class="cmt">// "HOLA MUNDO PHP"</span>
+
+<span class="cmt">// 4. preg_split — dividir por patrón</span>
+<span class="var">$partes</span> <span class="op">=</span> <span class="fn">preg_split</span>(<span class="str">'/[\s,;]+/'</span><span class="op">,</span> <span class="str">"uno, dos;tres  cuatro"</span>)<span class="op">;</span>
+<span class="fn">print_r</span>(<span class="var">$partes</span>)<span class="op">;</span>  <span class="cmt">// ['uno', 'dos', 'tres', 'cuatro']</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-info">Año: 2024, Mes: 03, Día: 15</div>
+          <div class="output-success">URLs: [https://php.net, https://laravel.com]</div>
+          <div class="output-success">15/03/2024 ← fecha reformateada con grupos</div>
+          <div class="output-success">HOLA MUNDO PHP ← preg_replace_callback</div>
+        </div>
+      </div>
+
+      <div id="rx-validar" class="tab-content">
+        <table class="data-table" style="margin-bottom:1rem">
+          <tr><th>Qué valida</th><th>Patrón Regex</th><th>Ejemplo válido</th></tr>
+          <tr><td>Email</td><td><code>/^[\w.+-]+@[\w-]+\.[a-z]{2,}$/i</code></td><td>user@mail.com</td></tr>
+          <tr><td>URL</td><td><code>/^https?:\/\/[\w\-]+(\.[\w\-]+)+/</code></td><td>https://ejemplo.com</td></tr>
+          <tr><td>Teléfono PE</td><td><code>/^9\d{8}$/</code></td><td>987654321</td></tr>
+          <tr><td>Teléfono ES</td><td><code>/^(\+34)?[6789]\d{8}$/</code></td><td>+34612345678</td></tr>
+          <tr><td>Solo letras</td><td><code>/^[\p{L}\s]+$/u</code></td><td>María González</td></tr>
+          <tr><td>Solo números</td><td><code>/^\d+$/</code></td><td>12345</td></tr>
+          <tr><td>Decimal</td><td><code>/^\d+(\.\d{1,2})?$/</code></td><td>99.99</td></tr>
+          <tr><td>Contraseña fuerte</td><td><code>/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/</code></td><td>Segura123</td></tr>
+          <tr><td>Fecha YYYY-MM-DD</td><td><code>/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/</code></td><td>2024-03-15</td></tr>
+          <tr><td>IP v4</td><td><code>/^(\d{1,3}\.){3}\d{1,3}$/</code></td><td>192.168.1.1</td></tr>
+          <tr><td>Slug URL</td><td><code>/^[a-z0-9]+(?:-[a-z0-9]+)*$/</code></td><td>mi-articulo-web</td></tr>
+          <tr><td>Código postal PE</td><td><code>/^\d{5}$/</code></td><td>15001</td></tr>
+          <tr><td>DNI PE</td><td><code>/^\d{8}$/</code></td><td>12345678</td></tr>
+          <tr><td>RUC PE</td><td><code>/^(10|20)\d{9}$/</code></td><td>20123456789</td></tr>
+        </table>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>validar_con_regex.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">function</span> <span class="fn">validar</span>(<span class="kw">string</span> <span class="var">$valor</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$patron</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$campo</span>): <span class="kw">void</span> {
+    <span class="var">$ok</span> <span class="op">=</span> <span class="fn">preg_match</span>(<span class="var">$patron</span><span class="op">,</span> <span class="var">$valor</span>) <span class="op">===</span> <span class="num">1</span><span class="op">;</span>
+    <span class="fn">echo</span> (<span class="var">$ok</span> <span class="op">?</span> <span class="str">"✅"</span> <span class="op">:</span> <span class="str">"❌"</span>) <span class="op">.</span> <span class="str">" <span class="var">$campo</span>: '<span class="var">$valor</span>'&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="fn">validar</span>(<span class="str">"ana@mail.com"</span><span class="op">,</span>   <span class="str">'/^[\w.+-]+@[\w-]+\.[a-z]{2,}$/i'</span><span class="op">,</span> <span class="str">"Email"</span>)<span class="op">;</span>
+<span class="fn">validar</span>(<span class="str">"invalido@"</span><span class="op">,</span>     <span class="str">'/^[\w.+-]+@[\w-]+\.[a-z]{2,}$/i'</span><span class="op">,</span> <span class="str">"Email"</span>)<span class="op">;</span>
+<span class="fn">validar</span>(<span class="str">"987654321"</span><span class="op">,</span>     <span class="str">'/^9\d{8}$/'</span><span class="op">,</span>                      <span class="str">"Teléfono PE"</span>)<span class="op">;</span>
+<span class="fn">validar</span>(<span class="str">"20123456789"</span><span class="op">,</span>   <span class="str">'/^(10|20)\d{9}$/'</span><span class="op">,</span>                 <span class="str">"RUC"</span>)<span class="op">;</span>
+<span class="fn">validar</span>(<span class="str">"Segura123"</span><span class="op">,</span>     <span class="str">'/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/'</span><span class="op">,</span> <span class="str">"Contraseña"</span>)<span class="op">;</span>
+<span class="fn">validar</span>(<span class="str">"2024-03-15"</span><span class="op">,</span>   <span class="str">'/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/'</span><span class="op">,</span> <span class="str">"Fecha"</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">✅ Email: 'ana@mail.com'</div>
+          <div class="output-err">❌ Email: 'invalido@'</div>
+          <div class="output-success">✅ Teléfono PE: '987654321'</div>
+          <div class="output-success">✅ RUC: '20123456789'</div>
+          <div class="output-success">✅ Contraseña: 'Segura123'</div>
+          <div class="output-success">✅ Fecha: '2024-03-15'</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- MANEJO DE ERRORES -->

@@ -1,0 +1,19 @@
+/* QUIZ CARD */
+.quiz-card{
+  background:var(--bg3);border-radius:10px;
+  border:1px solid var(--border);padding:1.2rem;
+  margin:.8rem 0;
+}
+.quiz-q{font-size:.88rem;font-weight:700;margin-bottom:.8rem;}
+.quiz-opts button{
+  display:block;width:100%;text-align:left;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:7px;padding:.5rem .9rem;
+  margin:.3rem 0;font-size:.82rem;font-family:'Syne',sans-serif;
+  color:var(--text2);cursor:pointer;transition:all .2s;
+}
+.quiz-opts button:hover:not(:disabled){border-color:var(--accent);color:var(--text);}
+.quiz-opts button.correct{background:rgba(6,214,160,.15);border-color:#06d6a0;color:#06d6a0;}
+.quiz-opts button.wrong{background:rgba(255,107,107,.12);border-color:#ff6b6b;color:#ff6b6b;}
+.quiz-opts button:disabled{cursor:default;}
+.quiz-result{font-size:.82rem;margin-top:.6rem;padding:.5rem .8rem;border-radius:7px;display:none;}

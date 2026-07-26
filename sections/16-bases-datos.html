@@ -1,0 +1,274 @@
+<section id="bases-datos">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">🗄 Módulo 4</span>
+    <h2 class="section-title">Bases de Datos con PHP</h2>
+    <p class="section-subtitle">MySQL, PDO, consultas SQL y operaciones CRUD completas.</p>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">1</div>
+      <div>
+        <div class="concept-title">SQL Fundamental</div>
+        <div class="concept-desc">Los comandos SQL que todo desarrollador PHP debe conocer.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>esquema.sql</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt">-- Crear base de datos</span>
+<span class="kw">CREATE DATABASE</span> tienda <span class="kw">CHARACTER SET</span> utf8mb4 <span class="kw">COLLATE</span> utf8mb4_unicode_ci<span class="op">;</span>
+<span class="kw">USE</span> tienda<span class="op">;</span>
+
+<span class="cmt">-- Crear tabla</span>
+<span class="kw">CREATE TABLE</span> productos (
+    id          <span class="kw">INT AUTO_INCREMENT PRIMARY KEY</span><span class="op">,</span>
+    nombre      <span class="kw">VARCHAR</span>(150) <span class="kw">NOT NULL</span><span class="op">,</span>
+    precio      <span class="kw">DECIMAL</span>(10<span class="op">,</span>2) <span class="kw">NOT NULL</span><span class="op">,</span>
+    stock       <span class="kw">INT DEFAULT</span> <span class="num">0</span><span class="op">,</span>
+    categoria   <span class="kw">VARCHAR</span>(80)<span class="op">,</span>
+    creado_en   <span class="kw">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+)<span class="op">;</span>
+
+<span class="cmt">-- Insertar datos</span>
+<span class="kw">INSERT INTO</span> productos (nombre<span class="op">,</span> precio<span class="op">,</span> stock<span class="op">,</span> categoria)
+<span class="kw">VALUES</span> (<span class="str">'Laptop Pro'</span><span class="op">,</span> <span class="num">1299.99</span><span class="op">,</span> <span class="num">15</span><span class="op">,</span> <span class="str">'Electrónica'</span>)<span class="op">,</span>
+       (<span class="str">'Teclado Mec.'</span><span class="op">,</span> <span class="num">89.00</span><span class="op">,</span> <span class="num">42</span><span class="op">,</span> <span class="str">'Accesorios'</span>)<span class="op">;</span>
+
+<span class="cmt">-- Consultas</span>
+<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> productos<span class="op">;</span>
+<span class="kw">SELECT</span> nombre<span class="op">,</span> precio <span class="kw">FROM</span> productos <span class="kw">WHERE</span> precio <span class="op">&gt;</span> <span class="num">100</span><span class="op">;</span>
+<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> productos <span class="kw">ORDER BY</span> precio <span class="kw">DESC LIMIT</span> <span class="num">10</span><span class="op">;</span>
+
+<span class="cmt">-- Actualizar</span>
+<span class="kw">UPDATE</span> productos <span class="kw">SET</span> precio <span class="op">=</span> <span class="num">1199.99</span> <span class="kw">WHERE</span> id <span class="op">=</span> <span class="num">1</span><span class="op">;</span>
+
+<span class="cmt">-- Eliminar</span>
+<span class="kw">DELETE FROM</span> productos <span class="kw">WHERE</span> id <span class="op">=</span> <span class="num">2</span><span class="op">;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">2</div>
+      <div>
+        <div class="concept-title">PDO — Conexión segura a MySQL</div>
+        <div class="concept-desc">PDO (PHP Data Objects) es el método recomendado para conectar PHP con bases de datos. Previene SQL Injection con sentencias preparadas.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-warn"><span class="alert-icon">🔐</span> <strong>Nunca</strong> uses <code>mysql_*</code> (obsoleto y eliminado). Usa siempre PDO o MySQLi con sentencias preparadas para prevenir SQL Injection.</div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>conexion.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Configuración de conexión</span>
+<span class="var">$host</span>   <span class="op">=</span> <span class="str">'localhost'</span><span class="op">;</span>
+<span class="var">$dbname</span> <span class="op">=</span> <span class="str">'tienda'</span><span class="op">;</span>
+<span class="var">$user</span>   <span class="op">=</span> <span class="str">'root'</span><span class="op">;</span>
+<span class="var">$pass</span>   <span class="op">=</span> <span class="str">''</span><span class="op">;</span>  <span class="cmt">// vacía en XAMPP por defecto</span>
+
+<span class="kw">try</span> {
+    <span class="var">$pdo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PDO</span>(
+        <span class="str">"mysql:host=<span class="var">$host</span>;dbname=<span class="var">$dbname</span>;charset=utf8mb4"</span><span class="op">,</span>
+        <span class="var">$user</span><span class="op">,</span> <span class="var">$pass</span>
+    )<span class="op">;</span>
+    <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">setAttribute</span>(<span class="kw">PDO</span>::<span class="kw">ATTR_ERRMODE</span><span class="op">,</span> <span class="kw">PDO</span>::<span class="kw">ERRMODE_EXCEPTION</span>)<span class="op">;</span>
+    <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">setAttribute</span>(<span class="kw">PDO</span>::<span class="kw">ATTR_DEFAULT_FETCH_MODE</span><span class="op">,</span> <span class="kw">PDO</span>::<span class="kw">FETCH_ASSOC</span>)<span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"✅ Conexión exitosa"</span><span class="op">;</span>
+} <span class="kw">catch</span> (<span class="fn">PDOException</span> <span class="var">$e</span>) {
+    <span class="fn">die</span>(<span class="str">"❌ Error: "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>())<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Resultado</div>
+        <div class="output-success">✅ Conexión exitosa</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">3</div>
+      <div>
+        <div class="concept-title">CRUD Completo con PDO</div>
+        <div class="concept-desc">Create, Read, Update, Delete — las 4 operaciones fundamentales.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'crud-c')">➕ Create</button>
+        <button class="tab-btn" onclick="showTab(this,'crud-r')">📋 Read</button>
+        <button class="tab-btn" onclick="showTab(this,'crud-u')">✏️ Update</button>
+        <button class="tab-btn" onclick="showTab(this,'crud-d')">🗑 Delete</button>
+      </div>
+
+      <div id="crud-c" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>create.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// INSERT con sentencia preparada (previene SQL Injection)</span>
+<span class="var">$sql</span> <span class="op">=</span> <span class="str">"INSERT INTO productos (nombre, precio, stock, categoria)
+        VALUES (:nombre, :precio, :stock, :categoria)"</span><span class="op">;</span>
+
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="var">$sql</span>)<span class="op">;</span>
+<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([
+    <span class="str">':nombre'</span>    <span class="op">=&gt;</span> <span class="str">'Monitor 4K'</span><span class="op">,</span>
+    <span class="str">':precio'</span>    <span class="op">=&gt;</span> <span class="num">349.99</span><span class="op">,</span>
+    <span class="str">':stock'</span>     <span class="op">=&gt;</span> <span class="num">8</span><span class="op">,</span>
+    <span class="str">':categoria'</span> <span class="op">=&gt;</span> <span class="str">'Electrónica'</span>
+])<span class="op">;</span>
+
+<span class="var">$nuevoId</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">lastInsertId</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Producto creado con ID: <span class="var">$nuevoId</span>"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-success">Producto creado con ID: 3</div></div>
+      </div>
+
+      <div id="crud-r" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>read.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// SELECT — todos los productos</span>
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">query</span>(<span class="str">"SELECT * FROM productos ORDER BY id DESC"</span>)<span class="op">;</span>
+<span class="var">$productos</span> <span class="op">=</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">fetchAll</span>()<span class="op">;</span>
+
+<span class="kw">foreach</span> (<span class="var">$productos</span> <span class="kw">as</span> <span class="var">$p</span>) {
+    <span class="fn">echo</span> <span class="str">"<span class="var">{$p['nombre']}</span> — S/ <span class="var">{$p['precio']}</span>&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// SELECT con filtro — un producto por ID</span>
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"SELECT * FROM productos WHERE id = :id"</span>)<span class="op">;</span>
+<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="str">':id'</span> <span class="op">=&gt;</span> <span class="num">1</span>])<span class="op">;</span>
+<span class="var">$producto</span> <span class="op">=</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">fetch</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$producto</span>[<span class="str">'nombre'</span>]<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div>Monitor 4K — S/ 349.99</div>
+          <div>Laptop Pro — S/ 1299.99</div>
+          <div class="output-info">Teclado Mec. — S/ 89.00</div>
+        </div>
+      </div>
+
+      <div id="crud-u" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>update.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(
+    <span class="str">"UPDATE productos SET precio = :precio, stock = :stock WHERE id = :id"</span>
+)<span class="op">;</span>
+
+<span class="var">$actualizado</span> <span class="op">=</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([
+    <span class="str">':precio'</span> <span class="op">=&gt;</span> <span class="num">299.99</span><span class="op">,</span>
+    <span class="str">':stock'</span>  <span class="op">=&gt;</span> <span class="num">12</span><span class="op">,</span>
+    <span class="str">':id'</span>     <span class="op">=&gt;</span> <span class="num">3</span>
+])<span class="op">;</span>
+
+<span class="kw">if</span> (<span class="var">$actualizado</span>) {
+    <span class="fn">echo</span> <span class="str">"✅ Producto actualizado. Filas afectadas: "</span> <span class="op">.</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">rowCount</span>()<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-success">✅ Producto actualizado. Filas afectadas: 1</div></div>
+      </div>
+
+      <div id="crud-d" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>delete.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="var">$id</span> <span class="op">=</span> <span class="num">3</span><span class="op">;</span>  <span class="cmt">// ID del producto a eliminar</span>
+
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"DELETE FROM productos WHERE id = :id"</span>)<span class="op">;</span>
+<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="str">':id'</span> <span class="op">=&gt;</span> <span class="var">$id</span>])<span class="op">;</span>
+
+<span class="kw">if</span> (<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">rowCount</span>() <span class="op">></span> <span class="num">0</span>) {
+    <span class="fn">echo</span> <span class="str">"🗑 Producto ID <span class="var">$id</span> eliminado correctamente"</span><span class="op">;</span>
+} <span class="kw">else</span> {
+    <span class="fn">echo</span> <span class="str">"⚠️ No se encontró el producto"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-err">🗑 Producto ID 3 eliminado correctamente</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">4</div>
+      <div>
+        <div class="concept-title">Relaciones entre tablas y JOINs</div>
+        <div class="concept-desc">Relaciona tablas para consultas más potentes.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>relaciones.sql</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt">-- Tabla usuarios</span>
+<span class="kw">CREATE TABLE</span> usuarios (
+    id     <span class="kw">INT AUTO_INCREMENT PRIMARY KEY</span><span class="op">,</span>
+    nombre <span class="kw">VARCHAR</span>(100)<span class="op">,</span>
+    email  <span class="kw">VARCHAR</span>(150) <span class="kw">UNIQUE</span>
+)<span class="op">;</span>
+
+<span class="cmt">-- Tabla pedidos con clave foránea</span>
+<span class="kw">CREATE TABLE</span> pedidos (
+    id           <span class="kw">INT AUTO_INCREMENT PRIMARY KEY</span><span class="op">,</span>
+    usuario_id   <span class="kw">INT</span><span class="op">,</span>
+    producto_id  <span class="kw">INT</span><span class="op">,</span>
+    cantidad     <span class="kw">INT DEFAULT</span> <span class="num">1</span><span class="op">,</span>
+    fecha        <span class="kw">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span><span class="op">,</span>
+    <span class="kw">FOREIGN KEY</span> (usuario_id)  <span class="kw">REFERENCES</span> usuarios(id)<span class="op">,</span>
+    <span class="kw">FOREIGN KEY</span> (producto_id) <span class="kw">REFERENCES</span> productos(id)
+)<span class="op">;</span>
+
+<span class="cmt">-- JOIN: obtener pedidos con info de usuario y producto</span>
+<span class="kw">SELECT</span>
+    u.nombre <span class="kw">AS</span> usuario<span class="op">,</span>
+    p.nombre <span class="kw">AS</span> producto<span class="op">,</span>
+    p.precio<span class="op">,</span>
+    pe.cantidad<span class="op">,</span>
+    (p.precio <span class="op">*</span> pe.cantidad) <span class="kw">AS</span> total
+<span class="kw">FROM</span> pedidos pe
+<span class="kw">INNER JOIN</span> usuarios  u <span class="kw">ON</span> pe.usuario_id  <span class="op">=</span> u.id
+<span class="kw">INNER JOIN</span> productos p <span class="kw">ON</span> pe.producto_id <span class="op">=</span> p.id
+<span class="kw">ORDER BY</span> pe.fecha <span class="kw">DESC</span><span class="op">;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Resultado del JOIN</div>
+        <div style="overflow-x:auto">
+          <table style="font-size:.8rem;border-collapse:collapse;min-width:400px;">
+            <tr style="color:var(--accent);border-bottom:1px solid var(--border)">
+              <td style="padding:.4rem .8rem">usuario</td>
+              <td style="padding:.4rem .8rem">producto</td>
+              <td style="padding:.4rem .8rem">precio</td>
+              <td style="padding:.4rem .8rem">cantidad</td>
+              <td style="padding:.4rem .8rem">total</td>
+            </tr>
+            <tr style="color:var(--text2)">
+              <td style="padding:.4rem .8rem">Ana García</td>
+              <td style="padding:.4rem .8rem">Laptop Pro</td>
+              <td style="padding:.4rem .8rem">1299.99</td>
+              <td style="padding:.4rem .8rem">1</td>
+              <td style="padding:.4rem .8rem" class="output-success">1299.99</td>
+            </tr>
+            <tr style="color:var(--text2)">
+              <td style="padding:.4rem .8rem">Luis Martínez</td>
+              <td style="padding:.4rem .8rem">Teclado Mec.</td>
+              <td style="padding:.4rem .8rem">89.00</td>
+              <td style="padding:.4rem .8rem">2</td>
+              <td style="padding:.4rem .8rem" class="output-success">178.00</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>

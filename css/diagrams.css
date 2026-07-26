@@ -1,0 +1,69 @@
+/* DIAGRAM CARDS */
+.diagram-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1rem 0;
+}
+.diagram-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.2rem;
+}
+.diagram-title{
+  font-size:.75rem;font-weight:700;
+  color:var(--accent);text-align:center;
+  margin-bottom:.8rem;letter-spacing:.5px;
+  text-transform:uppercase;
+}
+.diagram-svg{display:block;margin:0 auto;}
+
+/* LIFECYCLE DIAGRAM */
+.lifecycle-row{
+  display:flex;align-items:center;gap:0;
+  margin:1rem 0;overflow-x:auto;padding:.5rem 0;
+}
+.lc-step{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:.6rem 1rem;
+  font-size:.78rem;font-weight:700;
+  white-space:nowrap;text-align:center;
+  flex-shrink:0;
+}
+.lc-arrow{color:var(--accent2);font-size:1.2rem;padding:0 .4rem;flex-shrink:0;}
+
+/* COMPARISON TABLE improvements */
+.compare-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;
+}
+.compare-col{background:var(--bg3);border-radius:10px;padding:1rem;}
+.compare-col h4{font-size:.82rem;font-weight:700;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);}
+.compare-col ul{list-style:none;padding:0;}
+.compare-col ul li{font-size:.8rem;color:var(--text2);padding:.3rem 0;display:flex;gap:.5rem;}
+.compare-col ul li::before{content:'→';color:var(--accent);flex-shrink:0;}
+
+/* MEMORY MAP */
+.mem-map{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:.5rem;margin:1rem 0;
+}
+.mem-block{
+  border-radius:8px;padding:.8rem;text-align:center;
+  font-size:.78rem;font-weight:700;
+}
+
+/* PATTERN DIAGRAM */
+.pattern-flow{
+  display:flex;flex-direction:column;gap:.5rem;
+  margin:1rem 0;
+}
+.pattern-step{
+  display:flex;align-items:center;gap:.8rem;
+  background:var(--bg3);border-radius:8px;padding:.7rem 1rem;
+  font-size:.82rem;
+}
+.pattern-badge{
+  width:28px;height:28px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;color:#fff;flex-shrink:0;
+}

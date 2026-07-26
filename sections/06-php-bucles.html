@@ -1,0 +1,595 @@
+      <section id="php-loops">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">5</div>
+          <div>
+            <div class="concept-title">Bucles</div>
+            <div class="concept-desc">for / while / do-while / foreach · break · continue · destructuring en bucles.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+
+          <!-- GUÍA RÁPIDA: cuándo usar cada bucle -->
+          <div style="margin-bottom:1.4rem">
+            <div style="font-weight:700;color:var(--text1);margin-bottom:.8rem;font-size:.95rem">🧭 ¿Qué bucle usar en cada situación?</div>
+
+            <!-- Cards de decisión -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin-bottom:1rem">
+
+              <div style="background:linear-gradient(135deg,#1e3a5f,#1e4976);border-radius:10px;padding:1rem;border-left:4px solid #42a5f5">
+                <div style="font-size:1.4rem;margin-bottom:.3rem">🔢 <code style="color:#42a5f5">for</code></div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.5">Cuando sabes <strong style="color:var(--text1)">cuántas veces</strong> se va a repetir antes de empezar.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#90caf9">
+                  ✅ Contar del 1 al 100<br>
+                  ✅ Recorrer array por índice<br>
+                  ✅ Tabla de multiplicar<br>
+                  ✅ Paginar resultados
+                </div>
+              </div>
+
+              <div style="background:linear-gradient(135deg,#1a3a2a,#1a4a30);border-radius:10px;padding:1rem;border-left:4px solid #66bb6a">
+                <div style="font-size:1.4rem;margin-bottom:.3rem">🔄 <code style="color:#66bb6a">while</code></div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.5">Cuando <strong style="color:var(--text1)">no sabes cuántas veces</strong> se repetirá. Puede que no se ejecute nunca.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#a5d6a7">
+                  ✅ Leer filas de base de datos<br>
+                  ✅ Procesar hasta fin de archivo<br>
+                  ✅ Esperar condición externa<br>
+                  ✅ Juego: jugar mientras haya vidas
+                </div>
+              </div>
+
+              <div style="background:linear-gradient(135deg,#3a2a1a,#4a3010);border-radius:10px;padding:1rem;border-left:4px solid #ffa726">
+                <div style="font-size:1.4rem;margin-bottom:.3rem">🔁 <code style="color:#ffa726">do-while</code></div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.5">Cuando el bloque debe ejecutarse <strong style="color:var(--text1)">al menos una vez</strong> sí o sí.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#ffcc80">
+                  ✅ Mostrar menú y esperar opción<br>
+                  ✅ Pedir contraseña hasta acertar<br>
+                  ✅ Validar entrada de usuario<br>
+                  ✅ Primer intento siempre necesario
+                </div>
+              </div>
+
+              <div style="background:linear-gradient(135deg,#3a1a2a,#4a1030);border-radius:10px;padding:1rem;border-left:4px solid #f06292">
+                <div style="font-size:1.4rem;margin-bottom:.3rem">📋 <code style="color:#f06292">foreach</code></div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.5">Cuando tienes un <strong style="color:var(--text1)">array u objeto iterable</strong> y quieres recorrer cada elemento.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#f48fb1">
+                  ✅ Listar productos del carrito<br>
+                  ✅ Mostrar usuarios de BD<br>
+                  ✅ Procesar formulario con campos<br>
+                  ✅ Cualquier colección de datos
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Tabla comparativa completa -->
+            <table class="data-table">
+              <tr>
+                <th>Bucle</th>
+                <th>¿Cuándo usarlo?</th>
+                <th>¿Ejecuta 0 veces?</th>
+                <th>Ideal para</th>
+                <th>Evitar si…</th>
+              </tr>
+              <tr>
+                <td><code>for</code></td>
+                <td>Conoces el número exacto de iteraciones</td>
+                <td>✅ Sí (si condición es false desde el inicio)</td>
+                <td>Índices, contadores, rangos numéricos</td>
+                <td>Iterar arrays asociativos o colecciones</td>
+              </tr>
+              <tr>
+                <td><code>while</code></td>
+                <td>Condición dinámica, número desconocido</td>
+                <td>✅ Sí (si condición ya es false)</td>
+                <td>Lectura de archivos, BD, esperar eventos</td>
+                <td>Sabes cuántas veces vas a repetir</td>
+              </tr>
+              <tr>
+                <td><code>do-while</code></td>
+                <td>Necesitas al menos una ejecución garantizada</td>
+                <td>❌ No — siempre ejecuta al menos 1 vez</td>
+                <td>Menús, validar entrada, primer intento</td>
+                <td>El bloque podría no tener que ejecutarse</td>
+              </tr>
+              <tr>
+                <td><code>foreach</code></td>
+                <td>Tienes un array o iterable y recorres cada elemento</td>
+                <td>✅ Sí (si el array está vacío)</td>
+                <td>Arrays indexados y asociativos, objetos</td>
+                <td>Necesitas controlar el índice manualmente</td>
+              </tr>
+            </table>
+
+            <!-- Árbol de decisión -->
+            <div style="background:var(--bg3);border-radius:10px;padding:1.2rem;margin-top:1rem">
+              <div style="font-weight:700;color:var(--accent);margin-bottom:.8rem;font-size:.88rem">🌳 Árbol de decisión — ¿qué bucle elijo?</div>
+              <div style="font-family:monospace;font-size:.8rem;line-height:2;color:var(--text2)">
+                ¿Tienes un <span style="color:#f06292">array o colección</span>?<br>
+                <span style="color:var(--text3)">├─ Sí → </span><code style="color:#f06292">foreach</code><br>
+                <span style="color:var(--text3)">└─ No → ¿Sabes cuántas veces se repite?</span><br>
+                <span style="color:var(--text3)">&nbsp;&nbsp;&nbsp;&nbsp;├─ Sí → </span><code style="color:#42a5f5">for</code><br>
+                <span style="color:var(--text3)">&nbsp;&nbsp;&nbsp;&nbsp;└─ No → ¿Debe ejecutarse al menos una vez?</span><br>
+                <span style="color:var(--text3)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Sí → </span><code style="color:#ffa726">do-while</code><span style="color:var(--text3)"> (menú, validación)</span><br>
+                <span style="color:var(--text3)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ No → </span><code style="color:#66bb6a">while</code><span style="color:var(--text3)"> (condición externa)</span>
+              </div>
+            </div>
+
+            <!-- Ejemplos mínimos lado a lado -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1rem">
+              <div class="code-wrap" style="margin:0">
+                <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>caso_for.php — sabes cuántas veces</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+                <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Mostrar los 5 primeros números</span>
+<span class="cmt">// → Sabemos exactamente que son 5</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="num">5</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+    <span class="fn">echo</span> <span class="var">$i</span> <span class="op">.</span> <span class="str">" "</span><span class="op">;</span>
+}
+<span class="cmt">// Salida: 1 2 3 4 5</span>
+<span class="tag">?&gt;</span></pre>
+              </div>
+              <div class="code-wrap" style="margin:0">
+                <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>caso_foreach.php — tienes array</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+                <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Listar frutas del array</span>
+<span class="cmt">// → Tienes colección, usa foreach</span>
+<span class="var">$frutas</span> <span class="op">=</span> [<span class="str">"Manzana"</span><span class="op">,</span> <span class="str">"Pera"</span><span class="op">,</span> <span class="str">"Uva"</span>]<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$frutas</span> <span class="kw">as</span> <span class="var">$fruta</span>) {
+    <span class="fn">echo</span> <span class="var">$fruta</span> <span class="op">.</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+              </div>
+              <div class="code-wrap" style="margin:0">
+                <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>caso_while.php — condición externa</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+                <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Leer BD: no sabemos cuántas filas hay</span>
+<span class="cmt">// → Cantidad desconocida → while</span>
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">query</span>(<span class="str">"SELECT nombre FROM usuarios"</span>)<span class="op">;</span>
+<span class="kw">while</span> (<span class="var">$fila</span> <span class="op">=</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">fetch</span>()) {
+    <span class="fn">echo</span> <span class="var">$fila</span>[<span class="str">"nombre"</span>] <span class="op">.</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+              </div>
+              <div class="code-wrap" style="margin:0">
+                <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>caso_dowhile.php — al menos 1 vez</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+                <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Menú: siempre se muestra al menos una vez</span>
+<span class="cmt">// → Al menos 1 ejecución → do-while</span>
+<span class="kw">do</span> {
+    <span class="fn">echo</span> <span class="str">"1. Ver productos\n2. Salir\n"</span><span class="op">;</span>
+    <span class="var">$opcion</span> <span class="op">=</span> <span class="fn">readline</span>(<span class="str">"Elige: "</span>)<span class="op">;</span>
+} <span class="kw">while</span> (<span class="var">$opcion</span> <span class="op">!==</span> <span class="str">"2"</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"¡Hasta luego!"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+              </div>
+            </div>
+          </div>
+          <!-- FIN GUÍA RÁPIDA -->
+
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'loop-for')">for</button>
+            <button class="tab-btn" onclick="showTab(this,'loop-while')">while / do-while</button>
+            <button class="tab-btn" onclick="showTab(this,'loop-foreach')">foreach avanzado</button>
+            <button class="tab-btn" onclick="showTab(this,'loop-control')">break / continue</button>
+          </div>
+
+          <div id="loop-for" class="tab-content active">
+            <!-- Diagrama for -->
+            <div style="background:var(--bg3);border-radius:10px;padding:1rem;margin-bottom:1.2rem">
+              <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">Diagrama de flujo: for</div>
+              <svg viewBox="0 0 240 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;display:block;margin:0 auto">
+                <defs><marker id="afor" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                <!-- Inicio -->
+                <rect x="80" y="8" width="80" height="28" rx="14" fill="#4CAF50"/>
+                <text x="120" y="27" text-anchor="middle" fill="white" font-size="12" font-family="sans-serif">Inicio</text>
+                <line x1="120" y1="36" x2="120" y2="56" stroke="#aaa" stroke-width="1.5" marker-end="url(#afor)"/>
+                <!-- Init -->
+                <rect x="60" y="56" width="120" height="28" rx="5" fill="#1e88e5"/>
+                <text x="120" y="74" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">$i = 1 (init)</text>
+                <line x1="120" y1="84" x2="120" y2="104" stroke="#aaa" stroke-width="1.5" marker-end="url(#afor)"/>
+                <!-- Condición rombo -->
+                <polygon points="120,106 188,135 120,164 52,135" fill="#CE93D8"/>
+                <text x="120" y="131" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">$i &lt;= 5?</text>
+                <!-- No → derecha → Fin -->
+                <line x1="188" y1="135" x2="215" y2="135" stroke="#e53935" stroke-width="1.5"/>
+                <line x1="215" y1="135" x2="215" y2="295" stroke="#e53935" stroke-width="1.5" marker-end="url(#afor)"/>
+                <text x="192" y="129" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                <!-- Sí → cuerpo -->
+                <line x1="120" y1="164" x2="120" y2="184" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#afor)"/>
+                <text x="128" y="178" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                <!-- Cuerpo -->
+                <rect x="50" y="184" width="140" height="34" rx="6" fill="#26a69a"/>
+                <text x="120" y="200" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Ejecutar bloque</text>
+                <text x="120" y="212" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">echo $i</text>
+                <line x1="120" y1="218" x2="120" y2="238" stroke="#aaa" stroke-width="1.5" marker-end="url(#afor)"/>
+                <!-- Incremento -->
+                <rect x="60" y="238" width="120" height="28" rx="5" fill="#ff8f00"/>
+                <text x="120" y="256" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">$i++ (paso)</text>
+                <!-- Flecha de regreso -->
+                <line x1="60" y1="252" x2="20" y2="252" stroke="#aaa" stroke-width="1.5"/>
+                <line x1="20" y1="252" x2="20" y2="120" stroke="#aaa" stroke-width="1.5"/>
+                <line x1="20" y1="120" x2="52" y2="120" stroke="#aaa" stroke-width="1.5" marker-end="url(#afor)"/>
+                <!-- Fin -->
+                <line x1="215" y1="295" x2="170" y2="295" stroke="#aaa" stroke-width="1.5" marker-end="url(#afor)"/>
+                <rect x="80" y="282" width="90" height="28" rx="14" fill="#90CAF9"/>
+                <text x="125" y="300" text-anchor="middle" fill="#333" font-size="12" font-family="sans-serif">Fin</text>
+              </svg>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>for.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// for clásico: init ; condición ; incremento</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="num">5</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+    <span class="fn">echo</span> <span class="str">"Vuelta <span class="var">$i</span> "</span><span class="op">;</span>
+}
+<span class="cmt">// Vuelta 1 Vuelta 2 Vuelta 3 Vuelta 4 Vuelta 5</span>
+
+<span class="cmt">// for hacia atrás</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">5</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&gt;=</span> <span class="num">1</span><span class="op">;</span> <span class="var">$i</span><span class="op">--</span>) {
+    <span class="fn">echo</span> <span class="var">$i</span> <span class="op">.</span> <span class="str">" "</span><span class="op">;</span>
+}
+<span class="cmt">// 5 4 3 2 1</span>
+
+<span class="cmt">// for con saltos de 2 en 2</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="num">10</span><span class="op">;</span> <span class="var">$i</span> <span class="op">+=</span> <span class="num">2</span>) {
+    <span class="fn">echo</span> <span class="var">$i</span> <span class="op">.</span> <span class="str">" "</span><span class="op">;</span>
+}
+<span class="cmt">// 0 2 4 6 8 10</span>
+
+<span class="cmt">// for recorriendo un array por índice</span>
+<span class="var">$frutas</span> <span class="op">=</span> [<span class="str">"Manzana"</span><span class="op">,</span> <span class="str">"Pera"</span><span class="op">,</span> <span class="str">"Uva"</span>]<span class="op">;</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;</span> <span class="fn">count</span>(<span class="var">$frutas</span>)<span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+    <span class="fn">echo</span> <span class="str">"[<span class="var">$i</span>] <span class="var">{$frutas[$i]}</span>&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Bucles anidados — tabla de multiplicar</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="num">3</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+    <span class="kw">for</span> (<span class="var">$j</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">$j</span> <span class="op">&lt;=</span> <span class="num">3</span><span class="op">;</span> <span class="var">$j</span><span class="op">++</span>) {
+        <span class="fn">echo</span> <span class="str">"<span class="var">$i</span>x<span class="var">$j</span>=" . ($i*$j) . " "</span><span class="op">;</span>
+    }
+    <span class="fn">echo</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div>Vuelta 1 Vuelta 2 Vuelta 3 Vuelta 4 Vuelta 5</div>
+              <div>5 4 3 2 1</div>
+              <div>0 2 4 6 8 10</div>
+              <div class="output-info">1x1=1 1x2=2 1x3=3</div>
+              <div class="output-info">2x1=2 2x2=4 2x3=6</div>
+              <div class="output-info">3x1=3 3x2=6 3x3=9</div>
+            </div>
+          </div>
+
+          <div id="loop-while" class="tab-content">
+            <!-- Diagramas while y do-while -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
+              <!-- while -->
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+                <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">while — condición ANTES</div>
+                <svg viewBox="0 0 180 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto">
+                  <defs><marker id="awh" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                  <rect x="50" y="8" width="80" height="26" rx="13" fill="#4CAF50"/>
+                  <text x="90" y="25" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Inicio</text>
+                  <line x1="90" y1="34" x2="90" y2="54" stroke="#aaa" stroke-width="1.5" marker-end="url(#awh)"/>
+                  <!-- Condición primero -->
+                  <polygon points="90,56 150,84 90,112 30,84" fill="#CE93D8"/>
+                  <text x="90" y="81" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">¿Condición?</text>
+                  <text x="90" y="94" text-anchor="middle" fill="white" font-size="8" font-family="sans-serif">$i &lt;= 5</text>
+                  <!-- Sí → cuerpo -->
+                  <line x1="90" y1="112" x2="90" y2="132" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#awh)"/>
+                  <text x="98" y="126" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                  <rect x="30" y="132" width="120" height="32" rx="5" fill="#26a69a"/>
+                  <text x="90" y="147" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">echo $i</text>
+                  <text x="90" y="159" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">$i++</text>
+                  <!-- Vuelta -->
+                  <line x1="30" y1="148" x2="8" y2="148" stroke="#aaa" stroke-width="1.5"/>
+                  <line x1="8" y1="148" x2="8" y2="70" stroke="#aaa" stroke-width="1.5"/>
+                  <line x1="8" y1="70" x2="30" y2="70" stroke="#aaa" stroke-width="1.5" marker-end="url(#awh)"/>
+                  <!-- No → Fin -->
+                  <line x1="150" y1="84" x2="170" y2="84" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="170" y1="84" x2="170" y2="245" stroke="#e53935" stroke-width="1.5" marker-end="url(#awh)"/>
+                  <text x="153" y="79" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                  <line x1="170" y1="258" x2="130" y2="258" stroke="#aaa" stroke-width="1.5" marker-end="url(#awh)"/>
+                  <rect x="50" y="245" width="80" height="26" rx="13" fill="#90CAF9"/>
+                  <text x="90" y="263" text-anchor="middle" fill="#333" font-size="11" font-family="sans-serif">Fin</text>
+                </svg>
+              </div>
+              <!-- do-while -->
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+                <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">do-while — condición DESPUÉS</div>
+                <svg viewBox="0 0 180 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto">
+                  <defs><marker id="adw" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                  <rect x="50" y="8" width="80" height="26" rx="13" fill="#4CAF50"/>
+                  <text x="90" y="25" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Inicio</text>
+                  <line x1="90" y1="34" x2="90" y2="54" stroke="#aaa" stroke-width="1.5" marker-end="url(#adw)"/>
+                  <!-- Cuerpo PRIMERO -->
+                  <rect x="25" y="54" width="130" height="36" rx="5" fill="#26a69a"/>
+                  <text x="90" y="69" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">echo $i</text>
+                  <text x="90" y="83" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">$i++ (siempre 1 vez)</text>
+                  <line x1="90" y1="90" x2="90" y2="112" stroke="#aaa" stroke-width="1.5" marker-end="url(#adw)"/>
+                  <!-- Condición después -->
+                  <polygon points="90,114 150,142 90,170 30,142" fill="#CE93D8"/>
+                  <text x="90" y="139" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">¿Condición?</text>
+                  <text x="90" y="152" text-anchor="middle" fill="white" font-size="8" font-family="sans-serif">$i &lt;= 5</text>
+                  <!-- Sí → vuelve arriba -->
+                  <line x1="30" y1="142" x2="8" y2="142" stroke="#4CAF50" stroke-width="1.5"/>
+                  <line x1="8" y1="142" x2="8" y2="72" stroke="#4CAF50" stroke-width="1.5"/>
+                  <line x1="8" y1="72" x2="25" y2="72" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#adw)"/>
+                  <text x="12" y="110" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                  <!-- No → Fin -->
+                  <line x1="150" y1="142" x2="170" y2="142" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="170" y1="142" x2="170" y2="245" stroke="#e53935" stroke-width="1.5" marker-end="url(#adw)"/>
+                  <text x="153" y="137" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                  <line x1="170" y1="258" x2="130" y2="258" stroke="#aaa" stroke-width="1.5" marker-end="url(#adw)"/>
+                  <rect x="50" y="245" width="80" height="26" rx="13" fill="#90CAF9"/>
+                  <text x="90" y="263" text-anchor="middle" fill="#333" font-size="11" font-family="sans-serif">Fin</text>
+                </svg>
+              </div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>while_dowhile.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// while — evalúa la condición ANTES de entrar</span>
+<span class="var">$contador</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span>
+<span class="kw">while</span> (<span class="var">$contador</span> <span class="op">&lt;=</span> <span class="num">5</span>) {
+    <span class="fn">echo</span> <span class="str">"Valor: <span class="var">$contador</span>&lt;br&gt;"</span><span class="op">;</span>
+    <span class="var">$contador</span><span class="op">++</span><span class="op">;</span>
+}
+
+<span class="cmt">// while leyendo resultados de base de datos (patrón común)</span>
+<span class="cmt">// $stmt = $pdo->query("SELECT * FROM usuarios");</span>
+<span class="cmt">// while ($fila = $stmt->fetch()) {</span>
+<span class="cmt">//     echo $fila['nombre'] . "&lt;br&gt;";</span>
+<span class="cmt">// }</span>
+
+<span class="cmt">// do-while — ejecuta el bloque AL MENOS UNA VEZ</span>
+<span class="cmt">// (evalúa la condición DESPUÉS de la primera ejecución)</span>
+<span class="var">$intentos</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+<span class="kw">do</span> {
+    <span class="fn">echo</span> <span class="str">"Intento <span class="var">$intentos</span>&lt;br&gt;"</span><span class="op">;</span>
+    <span class="var">$intentos</span><span class="op">++</span><span class="op">;</span>
+} <span class="kw">while</span> (<span class="var">$intentos</span> <span class="op">&lt;</span> <span class="num">3</span>)<span class="op">;</span>
+<span class="cmt">// Imprime: Intento 0, Intento 1, Intento 2</span>
+
+<span class="cmt">// Diferencia clave: si la condición es false desde el principio</span>
+<span class="var">$n</span> <span class="op">=</span> <span class="num">10</span><span class="op">;</span>
+
+<span class="kw">while</span> (<span class="var">$n</span> <span class="op">&lt;</span> <span class="num">5</span>) { <span class="fn">echo</span> <span class="str">"while"</span><span class="op">;</span> }  <span class="cmt">// No imprime nada</span>
+<span class="kw">do</span> { <span class="fn">echo</span> <span class="str">"do-while"</span><span class="op">;</span> } <span class="kw">while</span>(<span class="var">$n</span> <span class="op">&lt;</span> <span class="num">5</span>)<span class="op">;</span> <span class="cmt">// Imprime "do-while" UNA vez</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">Valor: 1 | Valor: 2 | Valor: 3 | Valor: 4 | Valor: 5</div>
+              <div class="output-success">Intento 0 | Intento 1 | Intento 2</div>
+              <div class="output-warn">do-while (ejecutado 1 vez aunque condición era false)</div>
+            </div>
+          </div>
+
+          <div id="loop-foreach" class="tab-content">
+            <!-- Diagrama foreach -->
+            <div style="background:var(--bg3);border-radius:10px;padding:1rem;margin-bottom:1.2rem">
+              <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">Diagrama de flujo: foreach</div>
+              <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;display:block;margin:0 auto">
+                <defs><marker id="afe" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                <rect x="80" y="8" width="80" height="28" rx="14" fill="#4CAF50"/>
+                <text x="120" y="27" text-anchor="middle" fill="white" font-size="12" font-family="sans-serif">Inicio</text>
+                <line x1="120" y1="36" x2="120" y2="56" stroke="#aaa" stroke-width="1.5" marker-end="url(#afe)"/>
+                <!-- Array -->
+                <rect x="55" y="56" width="130" height="28" rx="5" fill="#1e88e5"/>
+                <text x="120" y="74" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">$frutas = [...]</text>
+                <line x1="120" y1="84" x2="120" y2="104" stroke="#aaa" stroke-width="1.5" marker-end="url(#afe)"/>
+                <!-- Condición: hay más elementos -->
+                <polygon points="120,106 195,136 120,166 45,136" fill="#CE93D8"/>
+                <text x="120" y="132" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">¿Hay más</text>
+                <text x="120" y="145" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">elementos?</text>
+                <!-- Sí → tomar elemento -->
+                <line x1="120" y1="166" x2="120" y2="186" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#afe)"/>
+                <text x="128" y="180" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                <rect x="45" y="186" width="150" height="28" rx="5" fill="#ff8f00"/>
+                <text x="120" y="204" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">$fruta = siguiente</text>
+                <line x1="120" y1="214" x2="120" y2="234" stroke="#aaa" stroke-width="1.5" marker-end="url(#afe)"/>
+                <!-- Cuerpo -->
+                <rect x="45" y="234" width="150" height="28" rx="5" fill="#26a69a"/>
+                <text x="120" y="252" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">echo $fruta</text>
+                <!-- Vuelta -->
+                <line x1="45" y1="248" x2="15" y2="248" stroke="#aaa" stroke-width="1.5"/>
+                <line x1="15" y1="248" x2="15" y2="121" stroke="#aaa" stroke-width="1.5"/>
+                <line x1="15" y1="121" x2="45" y2="121" stroke="#aaa" stroke-width="1.5" marker-end="url(#afe)"/>
+                <!-- No → Fin -->
+                <line x1="195" y1="136" x2="220" y2="136" stroke="#e53935" stroke-width="1.5"/>
+                <line x1="220" y1="136" x2="220" y2="285" stroke="#e53935" stroke-width="1.5" marker-end="url(#afe)"/>
+                <text x="198" y="130" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                <line x1="220" y1="297" x2="180" y2="297" stroke="#aaa" stroke-width="1.5" marker-end="url(#afe)"/>
+                <rect x="80" y="284" width="100" height="28" rx="14" fill="#90CAF9"/>
+                <text x="130" y="302" text-anchor="middle" fill="#333" font-size="12" font-family="sans-serif">Fin</text>
+              </svg>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>foreach_avanzado.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// foreach básico — array indexado</span>
+<span class="var">$colores</span> <span class="op">=</span> [<span class="str">"rojo"</span><span class="op">,</span> <span class="str">"verde"</span><span class="op">,</span> <span class="str">"azul"</span>]<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$colores</span> <span class="kw">as</span> <span class="var">$color</span>) {
+    <span class="fn">echo</span> <span class="var">$color</span> <span class="op">.</span> <span class="str">" "</span><span class="op">;</span>  <span class="cmt">// rojo verde azul</span>
+}
+
+<span class="cmt">// foreach con clave => valor</span>
+<span class="var">$precios</span> <span class="op">=</span> [<span class="str">"Laptop"</span> <span class="op">=&gt;</span> <span class="num">999</span><span class="op">,</span> <span class="str">"Mouse"</span> <span class="op">=&gt;</span> <span class="num">25</span><span class="op">,</span> <span class="str">"Teclado"</span> <span class="op">=&gt;</span> <span class="num">75</span>]<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$precios</span> <span class="kw">as</span> <span class="var">$producto</span> <span class="op">=&gt;</span> <span class="var">$precio</span>) {
+    <span class="fn">echo</span> <span class="str">"<span class="var">$producto</span>: S/ <span class="var">$precio</span>&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Modificar elementos por referencia con &</span>
+<span class="var">$numeros</span> <span class="op">=</span> [<span class="num">1</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">3</span><span class="op">,</span> <span class="num">4</span>]<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$numeros</span> <span class="kw">as</span> <span class="op">&amp;</span><span class="var">$num</span>) {   <span class="cmt">// & para modificar original</span>
+    <span class="var">$num</span> <span class="op">*=</span> <span class="num">2</span><span class="op">;</span>
+}
+<span class="fn">unset</span>(<span class="var">$num</span>)<span class="op">;</span>  <span class="cmt">// importante: romper la referencia al terminar</span>
+<span class="fn">print_r</span>(<span class="var">$numeros</span>)<span class="op">;</span>  <span class="cmt">// [2, 4, 6, 8]</span>
+
+<span class="cmt">// Destructuring en foreach (list() / []) — arrays multidimensionales</span>
+<span class="var">$personas</span> <span class="op">=</span> [
+    [<span class="str">"Ana"</span><span class="op">,</span> <span class="num">28</span><span class="op">,</span> <span class="str">"Lima"</span>]<span class="op">,</span>
+    [<span class="str">"Luis"</span><span class="op">,</span> <span class="num">35</span><span class="op">,</span> <span class="str">"Bogotá"</span>]<span class="op">,</span>
+]<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$personas</span> <span class="kw">as</span> [<span class="var">$nombre</span><span class="op">,</span> <span class="var">$edad</span><span class="op">,</span> <span class="var">$ciudad</span>]) {
+    <span class="fn">echo</span> <span class="str">"<span class="var">$nombre</span> (<span class="var">$edad</span>) vive en <span class="var">$ciudad</span>&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Destructuring de arrays asociativos</span>
+<span class="var">$usuarios</span> <span class="op">=</span> [
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"María"</span><span class="op">,</span> <span class="str">"rol"</span> <span class="op">=&gt;</span> <span class="str">"admin"</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Pedro"</span><span class="op">,</span> <span class="str">"rol"</span> <span class="op">=&gt;</span> <span class="str">"editor"</span>]<span class="op">,</span>
+]<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$usuarios</span> <span class="kw">as</span> [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="var">$nombre</span><span class="op">,</span> <span class="str">"rol"</span> <span class="op">=&gt;</span> <span class="var">$rol</span>]) {
+    <span class="fn">echo</span> <span class="str">"<span class="var">$nombre</span> es <span class="var">$rol</span>&lt;br&gt;"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div>rojo verde azul</div>
+              <div class="output-info">Laptop: S/ 999 | Mouse: S/ 25 | Teclado: S/ 75</div>
+              <div class="output-success">Array: [2, 4, 6, 8]</div>
+              <div class="output-info">Ana (28) vive en Lima</div>
+              <div class="output-info">Luis (35) vive en Bogotá</div>
+            </div>
+          </div>
+
+          <div id="loop-control" class="tab-content">
+            <!-- Diagramas break y continue -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
+              <!-- break -->
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+                <div style="text-align:center;font-weight:700;color:#ef5350;margin-bottom:.6rem;font-size:.85rem">break — detiene el bucle</div>
+                <svg viewBox="0 0 180 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto">
+                  <defs><marker id="abr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                  <rect x="50" y="8" width="80" height="26" rx="13" fill="#4CAF50"/>
+                  <text x="90" y="25" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Inicio</text>
+                  <line x1="90" y1="34" x2="90" y2="54" stroke="#aaa" stroke-width="1.5" marker-end="url(#abr)"/>
+                  <!-- Loop -->
+                  <polygon points="90,56 148,82 90,108 32,82" fill="#CE93D8"/>
+                  <text x="90" y="87" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">$i &lt;= 10?</text>
+                  <!-- No → Fin directo -->
+                  <line x1="148" y1="82" x2="168" y2="82" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="168" y1="82" x2="168" y2="270" stroke="#e53935" stroke-width="1.5" marker-end="url(#abr)"/>
+                  <text x="151" y="77" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                  <!-- Sí cuerpo -->
+                  <line x1="90" y1="108" x2="90" y2="128" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#abr)"/>
+                  <text x="98" y="122" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                  <!-- Condición break -->
+                  <polygon points="90,130 148,155 90,180 32,155" fill="#ff8f00"/>
+                  <text x="90" y="152" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">$i === 5?</text>
+                  <!-- Sí break → Fin -->
+                  <line x1="148" y1="155" x2="168" y2="155" stroke="#ef5350" stroke-width="2"/>
+                  <text x="151" y="150" fill="#ef5350" font-size="9" font-family="sans-serif" font-weight="bold">break</text>
+                  <!-- No → echo $i -->
+                  <line x1="90" y1="180" x2="90" y2="200" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#abr)"/>
+                  <text x="98" y="194" fill="#4CAF50" font-size="9" font-family="sans-serif">No</text>
+                  <rect x="30" y="200" width="120" height="26" rx="5" fill="#26a69a"/>
+                  <text x="90" y="217" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">echo $i · $i++</text>
+                  <!-- Vuelta -->
+                  <line x1="30" y1="213" x2="10" y2="213" stroke="#aaa" stroke-width="1.5"/>
+                  <line x1="10" y1="213" x2="10" y2="69" stroke="#aaa" stroke-width="1.5"/>
+                  <line x1="10" y1="69" x2="32" y2="69" stroke="#aaa" stroke-width="1.5" marker-end="url(#abr)"/>
+                  <!-- Fin -->
+                  <line x1="168" y1="270" x2="130" y2="270" stroke="#aaa" stroke-width="1.5" marker-end="url(#abr)"/>
+                  <rect x="50" y="258" width="80" height="26" rx="13" fill="#90CAF9"/>
+                  <text x="90" y="275" text-anchor="middle" fill="#333" font-size="11" font-family="sans-serif">Fin</text>
+                </svg>
+              </div>
+              <!-- continue -->
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+                <div style="text-align:center;font-weight:700;color:#26a69a;margin-bottom:.6rem;font-size:.85rem">continue — salta iteración</div>
+                <svg viewBox="0 0 180 310" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block;margin:0 auto">
+                  <defs><marker id="aco" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                  <rect x="50" y="8" width="80" height="26" rx="13" fill="#4CAF50"/>
+                  <text x="90" y="25" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Inicio</text>
+                  <line x1="90" y1="34" x2="90" y2="54" stroke="#aaa" stroke-width="1.5" marker-end="url(#aco)"/>
+                  <!-- Loop -->
+                  <polygon points="90,56 148,82 90,108 32,82" fill="#CE93D8"/>
+                  <text x="90" y="87" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">$i &lt;= 10?</text>
+                  <line x1="148" y1="82" x2="168" y2="82" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="168" y1="82" x2="168" y2="270" stroke="#e53935" stroke-width="1.5" marker-end="url(#aco)"/>
+                  <text x="151" y="77" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                  <line x1="90" y1="108" x2="90" y2="128" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#aco)"/>
+                  <text x="98" y="122" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                  <!-- $i++ antes de condición -->
+                  <rect x="30" y="128" width="120" height="22" rx="5" fill="#ff8f00"/>
+                  <text x="90" y="143" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">$i++</text>
+                  <line x1="90" y1="150" x2="90" y2="168" stroke="#aaa" stroke-width="1.5" marker-end="url(#aco)"/>
+                  <!-- Condición continue -->
+                  <polygon points="90,170 148,195 90,220 32,195" fill="#ff8f00"/>
+                  <text x="90" y="192" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">¿$i % 2 == 0?</text>
+                  <!-- Sí continue → salta al inicio -->
+                  <line x1="32" y1="195" x2="10" y2="195" stroke="#26a69a" stroke-width="2"/>
+                  <line x1="10" y1="195" x2="10" y2="69" stroke="#26a69a" stroke-width="2"/>
+                  <line x1="10" y1="69" x2="32" y2="69" stroke="#26a69a" stroke-width="2" marker-end="url(#aco)"/>
+                  <text x="13" y="135" fill="#26a69a" font-size="8" font-family="sans-serif" font-weight="bold">continue</text>
+                  <!-- No → echo -->
+                  <line x1="90" y1="220" x2="90" y2="240" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#aco)"/>
+                  <text x="98" y="234" fill="#4CAF50" font-size="9" font-family="sans-serif">No</text>
+                  <rect x="30" y="240" width="120" height="24" rx="5" fill="#26a69a"/>
+                  <text x="90" y="256" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">echo $i (impar)</text>
+                  <line x1="148" y1="252" x2="165" y2="252" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+                  <line x1="165" y1="252" x2="165" y2="195" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+                  <!-- Fin -->
+                  <line x1="168" y1="270" x2="130" y2="270" stroke="#aaa" stroke-width="1.5" marker-end="url(#aco)"/>
+                  <rect x="50" y="258" width="80" height="26" rx="13" fill="#90CAF9"/>
+                  <text x="90" y="275" text-anchor="middle" fill="#333" font-size="11" font-family="sans-serif">Fin</text>
+                </svg>
+              </div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>break_continue.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// break — detiene el bucle completamente</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="num">10</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+    <span class="kw">if</span> (<span class="var">$i</span> <span class="op">===</span> <span class="num">5</span>) <span class="kw">break</span><span class="op">;</span>   <span class="cmt">// sale cuando i llega a 5</span>
+    <span class="fn">echo</span> <span class="var">$i</span> <span class="op">.</span> <span class="str">" "</span><span class="op">;</span>
+}
+<span class="cmt">// Salida: 1 2 3 4</span>
+
+<span class="cmt">// continue — salta a la siguiente iteración</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="num">10</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+    <span class="kw">if</span> (<span class="var">$i</span> <span class="op">%</span> <span class="num">2</span> <span class="op">===</span> <span class="num">0</span>) <span class="kw">continue</span><span class="op">;</span>  <span class="cmt">// salta los pares</span>
+    <span class="fn">echo</span> <span class="var">$i</span> <span class="op">.</span> <span class="str">" "</span><span class="op">;</span>
+}
+<span class="cmt">// Salida: 1 3 5 7 9 (solo impares)</span>
+
+<span class="cmt">// break con nivel numérico — rompe N niveles de bucle</span>
+<span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;</span> <span class="num">3</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+    <span class="kw">for</span> (<span class="var">$j</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">$j</span> <span class="op">&lt;</span> <span class="num">3</span><span class="op">;</span> <span class="var">$j</span><span class="op">++</span>) {
+        <span class="kw">if</span> (<span class="var">$i</span> <span class="op">===</span> <span class="num">1</span> <span class="op">&amp;&amp;</span> <span class="var">$j</span> <span class="op">===</span> <span class="num">1</span>) <span class="kw">break</span> <span class="num">2</span><span class="op">;</span>  <span class="cmt">// rompe los 2 bucles</span>
+        <span class="fn">echo</span> <span class="str">"(<span class="var">$i</span>,<span class="var">$j</span>) "</span><span class="op">;</span>
+    }
+}
+<span class="cmt">// Salida: (0,0) (0,1) (0,2) (1,0)</span>
+
+<span class="cmt">// Caso práctico: buscar en un array y salir al encontrar</span>
+<span class="var">$productos</span> <span class="op">=</span> [<span class="str">"Laptop"</span><span class="op">,</span> <span class="str">"Mouse"</span><span class="op">,</span> <span class="str">"Teclado"</span><span class="op">,</span> <span class="str">"Monitor"</span>]<span class="op">;</span>
+<span class="var">$buscar</span> <span class="op">=</span> <span class="str">"Teclado"</span><span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$productos</span> <span class="kw">as</span> <span class="var">$i</span> <span class="op">=&gt;</span> <span class="var">$p</span>) {
+    <span class="kw">if</span> (<span class="var">$p</span> <span class="op">===</span> <span class="var">$buscar</span>) {
+        <span class="fn">echo</span> <span class="str">"✅ Encontrado en índice <span class="var">$i</span>"</span><span class="op">;</span>
+        <span class="kw">break</span><span class="op">;</span>  <span class="cmt">// no seguir buscando</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div>1 2 3 4</div>
+              <div>1 3 5 7 9</div>
+              <div class="output-info">(0,0) (0,1) (0,2) (1,0)</div>
+              <div class="output-success">✅ Encontrado en índice 2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+      </section>

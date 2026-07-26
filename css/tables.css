@@ -1,0 +1,9 @@
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:.8rem 0;}
+.data-table th{
+  background:var(--surface2);color:var(--accent);
+  padding:.7rem 1rem;text-align:left;font-size:.78rem;letter-spacing:.5px;
+  border:1px solid var(--border);
+}
+.data-table td{padding:.65rem 1rem;border:1px solid var(--border);color:var(--text2);vertical-align:top;}
+.data-table tr:hover td{background:var(--surface2);}

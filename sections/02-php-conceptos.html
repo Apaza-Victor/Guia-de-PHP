@@ -1,0 +1,573 @@
+      <section id="php-conceptos">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#f72585,#7209b7)">0</div>
+          <div>
+            <div class="concept-title">Conceptos Fundamentales de Programación</div>
+            <div class="concept-desc">Algoritmo · variable · función · paradigmas · tipos de datos · lógica · memoria · buenas prácticas.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'cp-bloques')">Bloques base</button>
+            <button class="tab-btn" onclick="showTab(this,'cp-logica')">Lógica y datos</button>
+            <button class="tab-btn" onclick="showTab(this,'cp-estructuras')">Estructuras de control</button>
+            <button class="tab-btn" onclick="showTab(this,'cp-paradigmas')">Paradigmas</button>
+            <button class="tab-btn" onclick="showTab(this,'cp-memoria')">Memoria y ejecución</button>
+            <button class="tab-btn" onclick="showTab(this,'cp-buenas')">Buenas prácticas</button>
+          </div>
+
+          <!-- TAB 1: Bloques base -->
+          <div id="cp-bloques" class="tab-content active">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;margin-bottom:1rem">
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #f72585">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🧠</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Algoritmo</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Secuencia de pasos <strong style="color:var(--text1)">finita, ordenada y precisa</strong> para resolver un problema. Independiente del lenguaje.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#f48fb1;background:rgba(247,37,133,.08);padding:.4rem .6rem;border-radius:6px">📌 Receta de cocina = algoritmo. PHP = idioma para escribirlo.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #7209b7">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">💻</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Programa</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Algoritmo escrito en un <strong style="color:var(--text1)">lenguaje de programación</strong> que una máquina puede ejecutar.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ce93d8;background:rgba(114,9,183,.08);padding:.4rem .6rem;border-radius:6px">📌 Algoritmo → lo piensas. Programa → lo escribes en código.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #3a0ca3">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">📦</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Variable</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Espacio en memoria con un <strong style="color:var(--text1)">nombre y un valor</strong> que puede cambiar durante la ejecución.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#90caf9;background:rgba(58,12,163,.08);padding:.4rem .6rem;border-radius:6px">📌 Caja etiquetada: <code>$edad = 25</code> — la caja se llama "edad".</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #4361ee">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔒</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Constante</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Como una variable pero su valor <strong style="color:var(--text1)">no cambia</strong> durante la ejecución. Se define una vez y no se puede modificar.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#90caf9;background:rgba(67,97,238,.08);padding:.4rem .6rem;border-radius:6px">📌 <code>define('PI', 3.14159)</code> o <code>const MAX = 100</code></div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #4cc9f0">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">⚙️</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Función</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Bloque de código <strong style="color:var(--text1)">reutilizable</strong> con nombre. Recibe parámetros, ejecuta una tarea y puede retornar un resultado.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#a5f3fc;background:rgba(76,201,240,.08);padding:.4rem .6rem;border-radius:6px">📌 Máquina: metes datos (parámetros) → sale un resultado (retorno).</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #06d6a0">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">📚</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Biblioteca / Librería</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Colección de funciones y clases <strong style="color:var(--text1)">ya escritas</strong> que puedes usar en tu programa sin tener que crearlas desde cero.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#6ee7b7;background:rgba(6,214,160,.08);padding:.4rem .6rem;border-radius:6px">📌 Composer instala librerías. PHP ya incluye muchas: math, string, array...</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ff6b6b">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🎯</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Parámetro vs Argumento</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6"><strong style="color:var(--text1)">Parámetro</strong>: variable en la definición de la función. <strong style="color:var(--text1)">Argumento</strong>: valor real que se pasa al llamarla.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ffb3b3;background:rgba(255,107,107,.08);padding:.4rem .6rem;border-radius:6px">📌 <code>function suma($a, $b)</code> → $a y $b son parámetros. <code>suma(3, 5)</code> → 3 y 5 son argumentos.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ffd166">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">↩️</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Valor de retorno</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Dato que una función <strong style="color:var(--text1)">devuelve</strong> al código que la llamó usando <code>return</code>. Sin return, devuelve <code>null</code>.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ffe0a0;background:rgba(255,209,102,.08);padding:.4rem .6rem;border-radius:6px">📌 Una función puede retornar cualquier tipo: int, string, array, objeto...</div>
+              </div>
+
+            </div>
+
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>conceptos_basicos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// VARIABLE — su valor cambia</span>
+<span class="var">$precio</span>    <span class="op">=</span> <span class="num">100</span><span class="op">;</span>
+<span class="var">$descuento</span> <span class="op">=</span> <span class="num">20</span><span class="op">;</span>
+<span class="var">$precio</span>    <span class="op">=</span> <span class="var">$precio</span> <span class="op">-</span> <span class="var">$descuento</span><span class="op">;</span>  <span class="cmt">// cambia a 80</span>
+
+<span class="cmt">// CONSTANTE — su valor NO cambia</span>
+<span class="fn">define</span>(<span class="str">'IVA'</span><span class="op">,</span> <span class="num">0.18</span>)<span class="op">;</span>
+<span class="cmt">// IVA = 0.30;  ← Error: no se puede reasignar</span>
+
+<span class="cmt">// FUNCIÓN con parámetros y retorno</span>
+<span class="kw">function</span> <span class="fn">calcularTotal</span>(<span class="kw">float</span> <span class="var">$precio</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$descuento</span> <span class="op">=</span> <span class="num">0</span>): <span class="kw">float</span> {
+    <span class="cmt">// $precio y $descuento → PARÁMETROS</span>
+    <span class="var">$subtotal</span> <span class="op">=</span> <span class="var">$precio</span> <span class="op">*</span> (<span class="num">1</span> <span class="op">-</span> <span class="var">$descuento</span>)<span class="op">;</span>
+    <span class="kw">return</span> <span class="var">$subtotal</span> <span class="op">*</span> (<span class="num">1</span> <span class="op">+</span> <span class="fn">IVA</span>)<span class="op">;</span>  <span class="cmt">// VALOR DE RETORNO</span>
+}
+
+<span class="cmt">// 100 y 0.10 → ARGUMENTOS</span>
+<span class="var">$total</span> <span class="op">=</span> <span class="fn">calcularTotal</span>(<span class="num">100</span><span class="op">,</span> <span class="num">0.10</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Total: S/ <span class="var">$total</span>"</span><span class="op">;</span>  <span class="cmt">// Total: S/ 106.2</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+          </div>
+
+          <!-- TAB 2: Lógica y datos -->
+          <div id="cp-logica" class="tab-content">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;margin-bottom:1rem">
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #42a5f5">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔢</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Tipo de dato</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Clasificación del valor que puede almacenar una variable. Determina qué operaciones se pueden realizar con ella.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#90caf9;background:rgba(66,165,245,.08);padding:.4rem .6rem;border-radius:6px">📌 Escalares: int, float, string, bool. Compuestos: array, object. Especiales: null, resource.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #66bb6a">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔄</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Tipado dinámico vs estático</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6"><strong style="color:var(--text1)">Dinámico</strong> (PHP por defecto): el tipo se asigna automáticamente según el valor. <strong style="color:var(--text1)">Estático</strong>: debes declarar el tipo explícitamente.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#a5d6a7;background:rgba(102,187,106,.08);padding:.4rem .6rem;border-radius:6px">📌 PHP 8 permite tipado estricto con <code>declare(strict_types=1)</code>.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ffa726">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🧮</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Expresión</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Cualquier combinación de valores, variables y operadores que <strong style="color:var(--text1)">produce un resultado</strong>.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ffcc80;background:rgba(255,167,38,.08);padding:.4rem .6rem;border-radius:6px">📌 <code>$a + $b</code>, <code>$x > 0</code>, <code>"hola" . $nombre</code> son expresiones.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ef5350">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">📝</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Sentencia / Instrucción</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Unidad completa de ejecución. En PHP termina con <code>;</code>. Una sentencia puede contener varias expresiones.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ef9a9a;background:rgba(239,83,80,.08);padding:.4rem .6rem;border-radius:6px">📌 <code>$total = $precio * 1.18;</code> es una sentencia completa.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ab47bc">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔁</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Operador</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Símbolo que realiza una <strong style="color:var(--text1)">operación</strong> sobre uno o más valores (operandos). Hay aritméticos, lógicos, comparación, asignación...</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ce93d8;background:rgba(171,71,188,.08);padding:.4rem .6rem;border-radius:6px">📌 <code>+ - * / % **</code> aritméticos · <code>&amp;&amp; || !</code> lógicos · <code>== === != !==</code> comparación.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #26c6da">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">⚡</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Casting / Conversión</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Convertir un valor de un tipo a otro. Puede ser <strong style="color:var(--text1)">implícita</strong> (PHP lo hace solo) o <strong style="color:var(--text1)">explícita</strong> (tú lo indicas).</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#80deea;background:rgba(38,198,218,.08);padding:.4rem .6rem;border-radius:6px">📌 Implícita: <code>"5" + 3 = 8</code>. Explícita: <code>(int)"5abc" = 5</code>.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #f06292">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">✅</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Truthy / Falsy</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Valores que se evalúan como <strong style="color:var(--text1)">true o false</strong> en un contexto booleano aunque no sean de tipo bool.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#f48fb1;background:rgba(240,98,146,.08);padding:.4rem .6rem;border-radius:6px">📌 Falsy: <code>0, "", "0", null, false, []</code>. Todo lo demás es truthy.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #69f0ae">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔍</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Comparación estricta vs laxa</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6"><strong style="color:var(--text1)">Laxa</strong> (<code>==</code>): compara solo el valor, convirtiendo tipos. <strong style="color:var(--text1)">Estricta</strong> (<code>===</code>): compara valor Y tipo.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#b9f6ca;background:rgba(105,240,174,.08);padding:.4rem .6rem;border-radius:6px">📌 <code>1 == "1"</code> es true, pero <code>1 === "1"</code> es false. Usa siempre <code>===</code>.</div>
+              </div>
+
+            </div>
+
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>logica_datos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// TIPADO DINÁMICO — PHP infiere el tipo</span>
+<span class="var">$x</span> <span class="op">=</span> <span class="num">42</span><span class="op">;</span>         <span class="cmt">// int</span>
+<span class="var">$x</span> <span class="op">=</span> <span class="str">"hola"</span><span class="op">;</span>   <span class="cmt">// ahora es string (PHP lo permite)</span>
+
+<span class="cmt">// TIPADO ESTRICTO — PHP exige el tipo declarado</span>
+<span class="kw">declare</span>(<span class="fn">strict_types</span><span class="op">=</span><span class="num">1</span>)<span class="op">;</span>
+<span class="kw">function</span> <span class="fn">doble</span>(<span class="kw">int</span> <span class="var">$n</span>): <span class="kw">int</span> { <span class="kw">return</span> <span class="var">$n</span> <span class="op">*</span> <span class="num">2</span><span class="op">;</span> }
+<span class="cmt">// doble("3");  ← TypeError con strict_types=1</span>
+
+<span class="cmt">// EXPRESIONES</span>
+<span class="var">$a</span> <span class="op">=</span> <span class="num">5</span><span class="op">;</span> <span class="var">$b</span> <span class="op">=</span> <span class="num">3</span><span class="op">;</span>
+<span class="var">$suma</span>      <span class="op">=</span> <span class="var">$a</span> <span class="op">+</span> <span class="var">$b</span><span class="op">;</span>         <span class="cmt">// expresión aritmética → 8</span>
+<span class="var">$esMayor</span>   <span class="op">=</span> <span class="var">$a</span> <span class="op">&gt;</span> <span class="var">$b</span><span class="op">;</span>         <span class="cmt">// expresión lógica → true</span>
+<span class="var">$texto</span>     <span class="op">=</span> <span class="str">"Hola "</span> <span class="op">.</span> <span class="str">"PHP"</span><span class="op">;</span>  <span class="cmt">// expresión de concatenación → "Hola PHP"</span>
+
+<span class="cmt">// TRUTHY / FALSY en contexto booleano</span>
+<span class="var">$valores</span> <span class="op">=</span> [<span class="num">0</span><span class="op">,</span> <span class="str">""</span><span class="op">,</span> <span class="str">"0"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="kw">false</span><span class="op">,</span> []<span class="op">,</span>  <span class="num">1</span><span class="op">,</span> <span class="str">"hola"</span><span class="op">,</span> [<span class="num">0</span>]<span class="op">,</span> <span class="str">"false"</span>]<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$valores</span> <span class="kw">as</span> <span class="var">$v</span>) {
+    <span class="fn">echo</span> <span class="fn">var_export</span>(<span class="var">$v</span><span class="op">,</span> <span class="kw">true</span>) <span class="op">.</span> <span class="str">" → "</span> <span class="op">.</span> (<span class="var">$v</span> <span class="op">?</span> <span class="str">"TRUTHY"</span> <span class="op">:</span> <span class="str">"FALSY"</span>) <span class="op">.</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Truthy / Falsy</div>
+              <div class="output-err">0, "", "0", null, false, [] → FALSY</div>
+              <div class="output-success">1, "hola", [0], "false" → TRUTHY ← ¡"false" como string es truthy!</div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Estructuras de control -->
+          <div id="cp-estructuras" class="tab-content">
+            <p style="color:var(--text2);font-size:.85rem;line-height:1.7;margin-bottom:1rem">Una <strong style="color:var(--text1)">estructura de control</strong> es una instrucción que decide qué código se ejecuta y en qué orden. Sin ellas, el programa ejecutaría todas las líneas siempre de arriba a abajo.</p>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem;margin-bottom:1.2rem">
+              <div style="background:var(--bg2);border-radius:8px;padding:.8rem;text-align:center">
+                <svg viewBox="0 0 80 160" style="width:60px;display:block;margin:0 auto .5rem">
+                  <defs><marker id="cs1b" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L0,5 L5,2.5 z" fill="#66bb6a"/></marker></defs>
+                  <rect x="15" y="5" width="50" height="22" rx="4" fill="#1b5e20"/>
+                  <text x="40" y="20" text-anchor="middle" fill="#a5d6a7" font-size="9" font-family="sans-serif">Paso 1</text>
+                  <line x1="40" y1="27" x2="40" y2="43" stroke="#66bb6a" stroke-width="1.5" marker-end="url(#cs1b)"/>
+                  <rect x="15" y="43" width="50" height="22" rx="4" fill="#1b5e20"/>
+                  <text x="40" y="58" text-anchor="middle" fill="#a5d6a7" font-size="9" font-family="sans-serif">Paso 2</text>
+                  <line x1="40" y1="65" x2="40" y2="81" stroke="#66bb6a" stroke-width="1.5" marker-end="url(#cs1b)"/>
+                  <rect x="15" y="81" width="50" height="22" rx="4" fill="#1b5e20"/>
+                  <text x="40" y="96" text-anchor="middle" fill="#a5d6a7" font-size="9" font-family="sans-serif">Paso 3</text>
+                  <line x1="40" y1="103" x2="40" y2="119" stroke="#66bb6a" stroke-width="1.5" marker-end="url(#cs1b)"/>
+                  <rect x="15" y="119" width="50" height="22" rx="4" fill="#388e3c"/>
+                  <text x="40" y="134" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Fin</text>
+                </svg>
+                <div style="font-weight:700;color:#66bb6a;font-size:.85rem;margin-bottom:.3rem">1. Secuencia</div>
+                <div style="font-size:.75rem;color:var(--text2);line-height:1.5">Instrucciones ejecutadas una tras otra en orden.</div>
+                <div style="margin-top:.4rem;font-size:.72rem;color:#66bb6a">Ej: declarar, calcular, mostrar</div>
+              </div>
+
+              <div style="background:var(--bg2);border-radius:8px;padding:.8rem;text-align:center">
+                <svg viewBox="0 0 100 160" style="width:80px;display:block;margin:0 auto .5rem">
+                  <defs><marker id="cs2b" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L0,5 L5,2.5 z" fill="#42a5f5"/></marker></defs>
+                  <rect x="25" y="5" width="50" height="20" rx="10" fill="#0d47a1"/>
+                  <text x="50" y="19" text-anchor="middle" fill="#90caf9" font-size="8" font-family="sans-serif">Inicio</text>
+                  <line x1="50" y1="25" x2="50" y2="40" stroke="#42a5f5" stroke-width="1.5" marker-end="url(#cs2b)"/>
+                  <polygon points="50,42 80,58 50,74 20,58" fill="#1565c0"/>
+                  <text x="50" y="61" text-anchor="middle" fill="white" font-size="8" font-family="sans-serif">¿Cond?</text>
+                  <line x1="20" y1="58" x2="5" y2="58" stroke="#4CAF50" stroke-width="1.5"/>
+                  <line x1="5" y1="58" x2="5" y2="100" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#cs2b)"/>
+                  <rect x="0" y="100" width="32" height="18" rx="3" fill="#1b5e20"/>
+                  <text x="16" y="112" text-anchor="middle" fill="#a5d6a7" font-size="7" font-family="sans-serif">Bloque Sí</text>
+                  <line x1="80" y1="58" x2="95" y2="58" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="95" y1="58" x2="95" y2="100" stroke="#e53935" stroke-width="1.5" marker-end="url(#cs2b)"/>
+                  <rect x="68" y="100" width="32" height="18" rx="3" fill="#b71c1c"/>
+                  <text x="84" y="112" text-anchor="middle" fill="#ffcdd2" font-size="7" font-family="sans-serif">Bloque No</text>
+                  <line x1="16" y1="118" x2="16" y2="140" stroke="#42a5f5" stroke-width="1"/>
+                  <line x1="84" y1="118" x2="84" y2="140" stroke="#42a5f5" stroke-width="1"/>
+                  <line x1="16" y1="140" x2="50" y2="140" stroke="#42a5f5" stroke-width="1" marker-end="url(#cs2b)"/>
+                  <line x1="84" y1="140" x2="50" y2="140" stroke="#42a5f5" stroke-width="1"/>
+                  <rect x="25" y="140" width="50" height="18" rx="9" fill="#1565c0"/>
+                  <text x="50" y="153" text-anchor="middle" fill="#90caf9" font-size="8" font-family="sans-serif">Fin</text>
+                </svg>
+                <div style="font-weight:700;color:#42a5f5;font-size:.85rem;margin-bottom:.3rem">2. Selección</div>
+                <div style="font-size:.75rem;color:var(--text2);line-height:1.5">Decide qué bloque ejecutar según una condición.</div>
+                <div style="margin-top:.4rem;font-size:.72rem;color:#42a5f5">Ej: if, else, switch, match</div>
+              </div>
+
+              <div style="background:var(--bg2);border-radius:8px;padding:.8rem;text-align:center">
+                <svg viewBox="0 0 100 160" style="width:80px;display:block;margin:0 auto .5rem">
+                  <defs><marker id="cs3b" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L0,5 L5,2.5 z" fill="#ffa726"/></marker></defs>
+                  <rect x="25" y="5" width="50" height="20" rx="10" fill="#e65100"/>
+                  <text x="50" y="19" text-anchor="middle" fill="#ffe0b2" font-size="8" font-family="sans-serif">Inicio</text>
+                  <line x1="50" y1="25" x2="50" y2="40" stroke="#ffa726" stroke-width="1.5" marker-end="url(#cs3b)"/>
+                  <polygon points="50,42 80,58 50,74 20,58" fill="#bf360c"/>
+                  <text x="50" y="55" text-anchor="middle" fill="white" font-size="8" font-family="sans-serif">¿Sigue?</text>
+                  <line x1="50" y1="74" x2="50" y2="92" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#cs3b)"/>
+                  <rect x="20" y="92" width="60" height="22" rx="4" fill="#1b5e20"/>
+                  <text x="50" y="107" text-anchor="middle" fill="#a5d6a7" font-size="8" font-family="sans-serif">Ejecutar</text>
+                  <line x1="20" y1="103" x2="5" y2="103" stroke="#ffa726" stroke-width="1.5"/>
+                  <line x1="5" y1="103" x2="5" y2="50" stroke="#ffa726" stroke-width="1.5"/>
+                  <line x1="5" y1="50" x2="20" y2="50" stroke="#ffa726" stroke-width="1.5" marker-end="url(#cs3b)"/>
+                  <line x1="80" y1="58" x2="95" y2="58" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="95" y1="58" x2="95" y2="140" stroke="#e53935" stroke-width="1.5" marker-end="url(#cs3b)"/>
+                  <rect x="25" y="138" width="50" height="20" rx="10" fill="#e65100"/>
+                  <text x="50" y="152" text-anchor="middle" fill="#ffe0b2" font-size="8" font-family="sans-serif">Fin</text>
+                </svg>
+                <div style="font-weight:700;color:#ffa726;font-size:.85rem;margin-bottom:.3rem">3. Repetición</div>
+                <div style="font-size:.75rem;color:var(--text2);line-height:1.5">Repite un bloque mientras se cumpla la condición.</div>
+                <div style="margin-top:.4rem;font-size:.72rem;color:#ffa726">Ej: for, while, do-while, foreach</div>
+              </div>
+            </div>
+
+            <table class="data-table">
+              <tr><th>Estructura</th><th>Tipo</th><th>En PHP</th><th>Cuándo usar</th></tr>
+              <tr><td>Secuencia</td><td>Básica</td><td>Líneas normales de código</td><td>Siempre — es el flujo por defecto</td></tr>
+              <tr><td>if / elseif / else</td><td>Selección</td><td><code>if ($x > 0) { ... }</code></td><td>Condiciones con rango o expresiones complejas</td></tr>
+              <tr><td>switch</td><td>Selección</td><td><code>switch ($dia) { case 1: ... }</code></td><td>Un valor contra múltiples casos exactos</td></tr>
+              <tr><td>match</td><td>Selección</td><td><code>match($x) { 1 => "uno" }</code></td><td>Como switch pero estricto y como expresión (PHP 8)</td></tr>
+              <tr><td>for</td><td>Repetición</td><td><code>for ($i=0; $i&lt;10; $i++)</code></td><td>Número de iteraciones conocido</td></tr>
+              <tr><td>while</td><td>Repetición</td><td><code>while ($cond) { ... }</code></td><td>Iteraciones desconocidas, puede ser 0</td></tr>
+              <tr><td>do-while</td><td>Repetición</td><td><code>do { ... } while ($cond)</code></td><td>Al menos 1 ejecución garantizada</td></tr>
+              <tr><td>foreach</td><td>Repetición</td><td><code>foreach ($arr as $v)</code></td><td>Recorrer arrays y objetos iterables</td></tr>
+            </table>
+          </div>
+
+          <!-- TAB 4: Paradigmas -->
+          <div id="cp-paradigmas" class="tab-content">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin-bottom:1.2rem">
+
+              <div style="background:var(--bg3);border-radius:12px;padding:1.1rem;border-top:4px solid #66bb6a">
+                <div style="font-size:1.4rem;margin-bottom:.4rem">📜</div>
+                <div style="font-weight:700;color:#66bb6a;margin-bottom:.5rem">Imperativo</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Le dices al programa <strong style="color:var(--text1)">CÓMO</strong> hacer las cosas, paso a paso. Es el paradigma más básico y natural.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#a5d6a7">PHP, C, Python básico. El código describe cada instrucción en orden.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:12px;padding:1.1rem;border-top:4px solid #42a5f5">
+                <div style="font-size:1.4rem;margin-bottom:.4rem">🔧</div>
+                <div style="font-weight:700;color:#42a5f5;margin-bottom:.5rem">Procedural</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Imperativo organizado en <strong style="color:var(--text1)">funciones/procedimientos</strong> reutilizables. El código se divide en bloques con nombre.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#90caf9">PHP, C. <code>function calcular() { ... }</code></div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:12px;padding:1.1rem;border-top:4px solid #ab47bc">
+                <div style="font-size:1.4rem;margin-bottom:.4rem">🏗</div>
+                <div style="font-weight:700;color:#ab47bc;margin-bottom:.5rem">Orientado a Objetos (OOP)</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Organiza el código en <strong style="color:var(--text1)">objetos</strong> que combinan datos (atributos) y comportamiento (métodos). Basado en el mundo real.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#ce93d8">PHP, Java, Python. <code>class Producto { ... }</code></div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:12px;padding:1.1rem;border-top:4px solid #ffa726">
+                <div style="font-size:1.4rem;margin-bottom:.4rem">🧮</div>
+                <div style="font-weight:700;color:#ffa726;margin-bottom:.5rem">Funcional</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Trata la computación como evaluación de <strong style="color:var(--text1)">funciones matemáticas puras</strong>. Evita el estado mutable y los efectos secundarios.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#ffcc80">PHP (parcial), Haskell, Elixir. <code>array_map(fn($x) => $x*2, $arr)</code></div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:12px;padding:1.1rem;border-top:4px solid #26c6da">
+                <div style="font-size:1.4rem;margin-bottom:.4rem">📋</div>
+                <div style="font-weight:700;color:#26c6da;margin-bottom:.5rem">Declarativo</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Le dices al programa <strong style="color:var(--text1)">QUÉ</strong> quieres obtener, no cómo conseguirlo. El sistema decide la implementación.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#80deea">SQL: <code>SELECT * FROM usuarios WHERE activo=1</code></div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:12px;padding:1.1rem;border-top:4px solid #ef5350">
+                <div style="font-size:1.4rem;margin-bottom:.4rem">⚡</div>
+                <div style="font-weight:700;color:#ef5350;margin-bottom:.5rem">Reactivo</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">El programa <strong style="color:var(--text1)">reacciona a eventos</strong> y flujos de datos asíncronos. Ideal para apps en tiempo real.</div>
+                <div style="margin-top:.6rem;font-size:.75rem;color:#ef9a9a">JavaScript (RxJS), PHP con ReactPHP. Eventos, streams, websockets.</div>
+              </div>
+
+            </div>
+
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>paradigmas_comparados.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// MISMO PROBLEMA: sumar los números pares de un array</span>
+<span class="var">$nums</span> <span class="op">=</span> [<span class="num">1</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">3</span><span class="op">,</span> <span class="num">4</span><span class="op">,</span> <span class="num">5</span><span class="op">,</span> <span class="num">6</span><span class="op">,</span> <span class="num">7</span><span class="op">,</span> <span class="num">8</span>]<span class="op">;</span>
+
+<span class="cmt">// ── IMPERATIVO / PROCEDURAL ──────────────────────</span>
+<span class="cmt">// Describes CÓMO hacerlo paso a paso</span>
+<span class="var">$suma</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$nums</span> <span class="kw">as</span> <span class="var">$n</span>) {
+    <span class="kw">if</span> (<span class="var">$n</span> <span class="op">%</span> <span class="num">2</span> <span class="op">===</span> <span class="num">0</span>) <span class="var">$suma</span> <span class="op">+=</span> <span class="var">$n</span><span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="var">$suma</span><span class="op">;</span>  <span class="cmt">// 20</span>
+
+<span class="cmt">// ── FUNCIONAL ────────────────────────────────────</span>
+<span class="cmt">// Describes QUÉ quieres (filtrar + reducir)</span>
+<span class="var">$suma</span> <span class="op">=</span> <span class="fn">array_sum</span>(
+    <span class="fn">array_filter</span>(<span class="var">$nums</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$n</span>) <span class="op">=&gt;</span> <span class="var">$n</span> <span class="op">%</span> <span class="num">2</span> <span class="op">===</span> <span class="num">0</span>)
+)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$suma</span><span class="op">;</span>  <span class="cmt">// 20 — mismo resultado, diferente enfoque</span>
+
+<span class="cmt">// ── OOP ──────────────────────────────────────────</span>
+<span class="cmt">// Encapsulas la lógica en un objeto</span>
+<span class="kw">class</span> <span class="fn">Calculadora</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="kw">array</span> <span class="var">$nums</span>) {}
+    <span class="kw">public function</span> <span class="fn">sumaPares</span>(): <span class="kw">int</span> {
+        <span class="kw">return</span> <span class="fn">array_sum</span>(<span class="fn">array_filter</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">nums</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$n</span>) <span class="op">=&gt;</span> <span class="var">$n</span> <span class="op">%</span> <span class="num">2</span> <span class="op">===</span> <span class="num">0</span>))<span class="op">;</span>
+    }
+}
+<span class="fn">echo</span> (<span class="kw">new</span> <span class="fn">Calculadora</span>(<span class="var">$nums</span>))<span class="op">-&gt;</span><span class="fn">sumaPares</span>()<span class="op">;</span>  <span class="cmt">// 20</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+          </div>
+
+          <!-- TAB 5: Memoria y ejecución -->
+          <div id="cp-memoria" class="tab-content">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;margin-bottom:1rem">
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #42a5f5">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🗄️</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Memoria RAM</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Almacenamiento <strong style="color:var(--text1)">temporal y rápido</strong> donde viven las variables mientras el programa se ejecuta. Se libera al terminar.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#90caf9;background:rgba(66,165,245,.08);padding:.4rem .6rem;border-radius:6px">📌 En PHP, cada request tiene su propia memoria que se limpia al finalizar.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #66bb6a">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">📍</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Pila de llamadas (Call Stack)</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Estructura que registra qué funciones están en ejecución. Cuando llamas a una función, se apila; cuando retorna, se desapila.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#a5d6a7;background:rgba(102,187,106,.08);padding:.4rem .6rem;border-radius:6px">📌 Stack overflow = demasiadas llamadas recursivas sin caso base.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ffa726">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔭</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Ámbito (Scope)</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Parte del código donde una variable es <strong style="color:var(--text1)">accesible</strong>. PHP tiene ámbito de función, clase y global.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ffcc80;background:rgba(255,167,38,.08);padding:.4rem .6rem;border-radius:6px">📌 Las funciones NO ven variables globales a menos que uses <code>global $var</code>.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ab47bc">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔗</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Valor vs Referencia</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6"><strong style="color:var(--text1)">Por valor</strong>: se copia el dato (cambios no afectan al original). <strong style="color:var(--text1)">Por referencia</strong>: se comparte la dirección de memoria.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ce93d8;background:rgba(171,71,188,.08);padding:.4rem .6rem;border-radius:6px">📌 <code>function f(&$x)</code> — el <code>&</code> indica paso por referencia.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #26c6da">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🌐</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Cliente / Servidor</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">PHP es <strong style="color:var(--text1)">lenguaje del servidor</strong>. El código se ejecuta en el servidor y devuelve HTML al navegador (cliente).</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#80deea;background:rgba(38,198,218,.08);padding:.4rem .6rem;border-radius:6px">📌 El usuario nunca ve el código PHP, solo el resultado HTML.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ef5350">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">♻️</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Garbage Collection</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Mecanismo automático que <strong style="color:var(--text1)">libera memoria</strong> de variables que ya no se usan. PHP lo hace por conteo de referencias.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ef9a9a;background:rgba(239,83,80,.08);padding:.4rem .6rem;border-radius:6px">📌 <code>unset($var)</code> libera una variable manualmente.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #f06292">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">⚙️</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Compilado vs Interpretado</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6"><strong style="color:var(--text1)">Compilado</strong>: el código se traduce a máquina antes de ejecutar (C, Java). <strong style="color:var(--text1)">Interpretado</strong>: se traduce línea a línea en tiempo real (PHP, Python).</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#f48fb1;background:rgba(240,98,146,.08);padding:.4rem .6rem;border-radius:6px">📌 PHP usa OPcache para compilar a bytecode y ejecutar más rápido.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ffd166">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔄</div>
+                <div style="font-weight:700;color:var(--text1);margin-bottom:.4rem">Síncrono vs Asíncrono</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6"><strong style="color:var(--text1)">Síncrono</strong>: espera a que cada operación termine antes de continuar. <strong style="color:var(--text1)">Asíncrono</strong>: continúa mientras espera.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ffe0a0;background:rgba(255,209,102,.08);padding:.4rem .6rem;border-radius:6px">📌 PHP tradicional es síncrono. ReactPHP permite asincronía.</div>
+              </div>
+
+            </div>
+
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>scope_referencias.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ÁMBITO (SCOPE)</span>
+<span class="var">$global</span> <span class="op">=</span> <span class="str">"Soy global"</span><span class="op">;</span>
+
+<span class="kw">function</span> <span class="fn">sinScope</span>(): <span class="kw">void</span> {
+    <span class="cmt">// ❌ No puede ver $global — ámbito de función</span>
+    <span class="fn">echo</span> <span class="var">$global</span><span class="op">;</span>  <span class="cmt">// Notice: undefined</span>
+}
+
+<span class="kw">function</span> <span class="fn">conScope</span>(): <span class="kw">void</span> {
+    <span class="kw">global</span> <span class="var">$global</span><span class="op">;</span>  <span class="cmt">// importar variable global</span>
+    <span class="fn">echo</span> <span class="var">$global</span><span class="op">;</span>     <span class="cmt">// ✅ Soy global</span>
+}
+
+<span class="cmt">// VALOR vs REFERENCIA</span>
+<span class="var">$a</span> <span class="op">=</span> <span class="num">10</span><span class="op">;</span>
+<span class="var">$b</span> <span class="op">=</span> <span class="var">$a</span><span class="op">;</span>    <span class="cmt">// copia del VALOR</span>
+<span class="var">$b</span> <span class="op">=</span> <span class="num">99</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$a</span><span class="op">;</span>    <span class="cmt">// 10 — no cambió</span>
+
+<span class="var">$c</span> <span class="op">=</span> <span class="op">&amp;</span><span class="var">$a</span><span class="op">;</span>   <span class="cmt">// REFERENCIA a la misma dirección</span>
+<span class="var">$c</span> <span class="op">=</span> <span class="num">99</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$a</span><span class="op">;</span>    <span class="cmt">// 99 — ¡cambió! comparten memoria</span>
+
+<span class="cmt">// PILA DE LLAMADAS — traza de recursión</span>
+<span class="kw">function</span> <span class="fn">factorial</span>(<span class="kw">int</span> <span class="var">$n</span>): <span class="kw">int</span> {
+    <span class="kw">if</span> (<span class="var">$n</span> <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span><span class="op">;</span>              <span class="cmt">// caso base — detiene la pila</span>
+    <span class="kw">return</span> <span class="var">$n</span> <span class="op">*</span> <span class="fn">factorial</span>(<span class="var">$n</span> <span class="op">-</span> <span class="num">1</span>)<span class="op">;</span>     <span class="cmt">// apila factorial(3), (2), (1)</span>
+}
+<span class="cmt">// Pila: factorial(4) → factorial(3) → factorial(2) → factorial(1)</span>
+<span class="cmt">//       24          ←      6       ←      2        ←      1</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+          </div>
+
+          <!-- TAB 6: Buenas prácticas -->
+          <div id="cp-buenas" class="tab-content">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;margin-bottom:1.2rem">
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #66bb6a">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">📝</div>
+                <div style="font-weight:700;color:#66bb6a;margin-bottom:.4rem">Nombres descriptivos</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Variables, funciones y clases con nombres que explican su propósito. El código debe leerse como texto.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#a5d6a7">❌ <code>$x, $tmp, $data</code><br>✅ <code>$precioTotal, $usuarioActivo</code></div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #42a5f5">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🎯</div>
+                <div style="font-weight:700;color:#42a5f5;margin-bottom:.4rem">DRY — Don't Repeat Yourself</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">No duplicar lógica. Si copias y pegas código, probablemente necesitas una función o clase.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#90caf9">Si hay que corregir un bug, deberías tocarlo en UN solo lugar.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ffa726">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔬</div>
+                <div style="font-weight:700;color:#ffa726;margin-bottom:.4rem">KISS — Keep It Simple</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">La solución más simple que funcione es la mejor. No compliques innecesariamente.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ffcc80">Funciones pequeñas, una sola responsabilidad, sin magia.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ab47bc">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🏗</div>
+                <div style="font-weight:700;color:#ab47bc;margin-bottom:.4rem">SRP — Una responsabilidad</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Cada función o clase debe tener <strong style="color:var(--text1)">una sola razón para cambiar</strong>. No mezclar lógica de negocio con presentación.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ce93d8">Si la función hace A Y B, sepárala en dos funciones.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ef5350">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">💬</div>
+                <div style="font-weight:700;color:#ef5350;margin-bottom:.4rem">Comentarios útiles</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Comenta el <strong style="color:var(--text1)">POR QUÉ</strong>, no el qué. El código debe ser tan claro que no necesite explicar lo que hace.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ef9a9a">❌ <code>// suma 1 a $i</code><br>✅ <code>// compensamos el índice base-0</code></div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #26c6da">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🔒</div>
+                <div style="font-weight:700;color:#26c6da;margin-bottom:.4rem">Principio de mínimo privilegio</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Dar a cada parte del sistema solo el acceso que necesita. En OOP: usar <code>private</code> por defecto.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#80deea">Empieza con <code>private</code>, cambia a <code>protected</code> o <code>public</code> solo si es necesario.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #f06292">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🚫</div>
+                <div style="font-weight:700;color:#f06292;margin-bottom:.4rem">YAGNI — No lo necesitarás</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">No implementes funcionalidad que "quizás necesites en el futuro". Escribe solo lo que necesitas ahora.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#f48fb1">El código que no existe no tiene bugs ni que mantener.</div>
+              </div>
+
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem;border-top:3px solid #ffd166">
+                <div style="font-size:1.5rem;margin-bottom:.3rem">🧪</div>
+                <div style="font-weight:700;color:#ffd166;margin-bottom:.4rem">Testing</div>
+                <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Escribir pruebas automáticas que verifican que el código funciona correctamente. Detectan regresiones al cambiar código.</div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:#ffe0a0">PHP: PHPUnit. TDD: escribir el test antes que el código.</div>
+              </div>
+
+            </div>
+
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>buenas_practicas.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ❌ MAL — viola DRY, nombres malos, sin tipos</span>
+<span class="kw">function</span> <span class="fn">f</span>(<span class="var">$x</span><span class="op">,</span> <span class="var">$y</span>) {
+    <span class="kw">return</span> <span class="var">$x</span> <span class="op">*</span> (<span class="num">1</span> <span class="op">-</span> <span class="var">$y</span>) <span class="op">*</span> <span class="num">1.18</span><span class="op">;</span>
+}
+<span class="var">$r1</span> <span class="op">=</span> <span class="fn">f</span>(<span class="num">100</span><span class="op">,</span> <span class="num">0.1</span>)<span class="op">;</span>
+<span class="var">$r2</span> <span class="op">=</span> <span class="fn">f</span>(<span class="num">200</span><span class="op">,</span> <span class="num">0.1</span>)<span class="op">;</span>  <span class="cmt">// código repetido</span>
+
+<span class="cmt">// ✅ BIEN — DRY, nombres claros, tipos, SRP</span>
+<span class="kw">const</span> <span class="fn">TASA_IGV</span> <span class="op">=</span> <span class="num">0.18</span><span class="op">;</span>
+
+<span class="kw">function</span> <span class="fn">aplicarDescuento</span>(<span class="kw">float</span> <span class="var">$precio</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$descuento</span>): <span class="kw">float</span> {
+    <span class="kw">return</span> <span class="var">$precio</span> <span class="op">*</span> (<span class="num">1</span> <span class="op">-</span> <span class="var">$descuento</span>)<span class="op">;</span>
+}
+
+<span class="kw">function</span> <span class="fn">aplicarIGV</span>(<span class="kw">float</span> <span class="var">$precio</span>): <span class="kw">float</span> {
+    <span class="kw">return</span> <span class="var">$precio</span> <span class="op">*</span> (<span class="num">1</span> <span class="op">+</span> <span class="fn">TASA_IGV</span>)<span class="op">;</span>
+}
+
+<span class="kw">function</span> <span class="fn">calcularTotal</span>(<span class="kw">float</span> <span class="var">$precio</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$descuento</span> <span class="op">=</span> <span class="num">0</span>): <span class="kw">float</span> {
+    <span class="cmt">// Reutiliza las funciones anteriores — no repite lógica</span>
+    <span class="kw">return</span> <span class="fn">aplicarIGV</span>(<span class="fn">aplicarDescuento</span>(<span class="var">$precio</span><span class="op">,</span> <span class="var">$descuento</span>))<span class="op">;</span>
+}
+
+<span class="var">$total1</span> <span class="op">=</span> <span class="fn">calcularTotal</span>(<span class="num">100</span><span class="op">,</span> <span class="num">0.10</span>)<span class="op">;</span>  <span class="cmt">// S/ 106.20</span>
+<span class="var">$total2</span> <span class="op">=</span> <span class="fn">calcularTotal</span>(<span class="num">200</span><span class="op">,</span> <span class="num">0.10</span>)<span class="op">;</span>  <span class="cmt">// S/ 212.40</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+</div>
+      </section>

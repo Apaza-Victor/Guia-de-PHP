@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHPMaster — Guía Completa de PHP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/header.css">
+<link rel="stylesheet" href="css/hero.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/cards.css">
+<link rel="stylesheet" href="css/code.css">
+<link rel="stylesheet" href="css/tables.css">
+<link rel="stylesheet" href="css/alerts.css">
+<link rel="stylesheet" href="css/tabs.css">
+<link rel="stylesheet" href="css/diagrams.css">
+<link rel="stylesheet" href="css/quiz.css">
+<link rel="stylesheet" href="css/progress.css">
+<link rel="stylesheet" href="css/footer.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar" style="transform:scaleX(0)"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">⌥ PHPMaster</div>
+  <nav>
+    <a href="#home" class="active" onclick="setActive(this)">Inicio</a>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown-btn" onclick="toggleDropdown(this)">
+        PHP <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-dropdown-menu">
+        <a href="#php" onclick="closeDropdown(this);setActive(this)">Intro</a>
+        <a href="#php-conceptos" onclick="closeDropdown(this);setActive(this)">Conceptos</a>
+        <a href="#php-vars" onclick="closeDropdown(this);setActive(this)">Variables</a>
+        <a href="#php-ops" onclick="closeDropdown(this);setActive(this)">Operadores</a>
+        <a href="#php-condicionales" onclick="closeDropdown(this);setActive(this)">Condicionales</a>
+        <a href="#php-loops" onclick="closeDropdown(this);setActive(this)">Bucles</a>
+        <a href="#php-anidados" onclick="closeDropdown(this);setActive(this)">Anidados</a>
+        <a href="#php-funciones" onclick="closeDropdown(this);setActive(this)">Funciones</a>
+        <a href="#php-arrays" onclick="closeDropdown(this);setActive(this)">Arrays</a>
+        <a href="#php-strings" onclick="closeDropdown(this);setActive(this)">Strings</a>
+        <a href="#php-forms" onclick="closeDropdown(this);setActive(this)">Formularios</a>
+        <a href="#php-poo-fundamentos" onclick="closeDropdown(this);setActive(this)">POO Básico</a>
+        <a href="#php-poo" onclick="closeDropdown(this);setActive(this)">POO Avanzado</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown-btn" onclick="toggleDropdown(this)">
+        Entornos <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-dropdown-menu">
+        <a href="#entornos-xampp" onclick="closeDropdown(this);setActive(this)">🛠 XAMPP</a>
+        <a href="#entornos-laragon" onclick="closeDropdown(this);setActive(this)">⚡ Laragon</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown-btn" onclick="toggleDropdown(this)">
+        Servidor <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-dropdown-menu">
+        <a href="#bases-datos" onclick="closeDropdown(this);setActive(this)">🗄 Bases de Datos</a>
+        <a href="#sesiones" onclick="closeDropdown(this);setActive(this)">🔑 Sesiones</a>
+        <a href="#archivos" onclick="closeDropdown(this);setActive(this)">📁 Archivos</a>
+        <a href="#seguridad" onclick="closeDropdown(this);setActive(this)">🛡 Seguridad</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown-btn" onclick="toggleDropdown(this)">
+        Avanzado <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-dropdown-menu">
+        <a href="#regex" onclick="closeDropdown(this);setActive(this)">🔍 Regex</a>
+        <a href="#errores" onclick="closeDropdown(this);setActive(this)">⚠️ Errores</a>
+        <a href="#poo-avanzada" onclick="closeDropdown(this);setActive(this)">🏗 POO+</a>
+        <a href="#apis-json" onclick="closeDropdown(this);setActive(this)">🌐 APIs</a>
+        <a href="#composer" onclick="closeDropdown(this);setActive(this)">📦 Composer</a>
+      </div>
+    </div>
+  </nav>
+  <button class="theme-btn" id="themeBtn" aria-label="Cambiar tema"></button>
+  <button class="menu-btn" id="menuBtn">☰</button>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#home" onclick="closeMobile()">🏠 Inicio</a>
+  <div class="mobile-dropdown">
+    <button class="mobile-dropdown-btn" onclick="toggleMobileDropdown(this)">🐘 PHP <span class="mobile-dropdown-arrow">▾</span></button>
+    <div class="mobile-dropdown-menu">
+      <a href="#php" onclick="closeMobile()">Intro</a>
+      <a href="#php-conceptos" onclick="closeMobile()">Conceptos</a>
+      <a href="#php-vars" onclick="closeMobile()">Variables</a>
+      <a href="#php-ops" onclick="closeMobile()">Operadores</a>
+      <a href="#php-condicionales" onclick="closeMobile()">Condicionales</a>
+      <a href="#php-loops" onclick="closeMobile()">Bucles</a>
+      <a href="#php-anidados" onclick="closeMobile()">Anidados</a>
+      <a href="#php-funciones" onclick="closeMobile()">Funciones</a>
+      <a href="#php-arrays" onclick="closeMobile()">Arrays</a>
+      <a href="#php-strings" onclick="closeMobile()">Strings</a>
+      <a href="#php-forms" onclick="closeMobile()">Formularios</a>
+      <a href="#php-poo-fundamentos" onclick="closeMobile()">POO Básico</a>
+      <a href="#php-poo" onclick="closeMobile()">POO Avanzado</a>
+    </div>
+  </div>
+  <div class="mobile-dropdown">
+    <button class="mobile-dropdown-btn" onclick="toggleMobileDropdown(this)">🛠 Entornos <span class="mobile-dropdown-arrow">▾</span></button>
+    <div class="mobile-dropdown-menu">
+      <a href="#entornos-xampp" onclick="closeMobile()">XAMPP</a>
+      <a href="#entornos-laragon" onclick="closeMobile()">Laragon</a>
+    </div>
+  </div>
+  <div class="mobile-dropdown">
+    <button class="mobile-dropdown-btn" onclick="toggleMobileDropdown(this)">🗄 Servidor <span class="mobile-dropdown-arrow">▾</span></button>
+    <div class="mobile-dropdown-menu">
+      <a href="#bases-datos" onclick="closeMobile()">Bases de Datos</a>
+      <a href="#sesiones" onclick="closeMobile()">Sesiones</a>
+      <a href="#archivos" onclick="closeMobile()">Archivos</a>
+      <a href="#seguridad" onclick="closeMobile()">Seguridad</a>
+    </div>
+  </div>
+  <div class="mobile-dropdown">
+    <button class="mobile-dropdown-btn" onclick="toggleMobileDropdown(this)">⚙️ Avanzado <span class="mobile-dropdown-arrow">▾</span></button>
+    <div class="mobile-dropdown-menu">
+      <a href="#regex" onclick="closeMobile()">Regex</a>
+      <a href="#errores" onclick="closeMobile()">Errores</a>
+      <a href="#poo-avanzada" onclick="closeMobile()">POO Avanzada</a>
+      <a href="#apis-json" onclick="closeMobile()">APIs y JSON</a>
+      <a href="#composer" onclick="closeMobile()">Composer</a>
+    </div>
+  </div>
+</div>
+
+<!-- APP: Secciones cargadas dinámicamente aquí -->
+<div id="app"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="font-size:1.5rem;margin-bottom:.8rem">⌥</div>
+  <strong style="color:var(--text)">PHPMaster</strong> — Guía Completa de PHP
+  <p style="margin-top:.5rem">Hecho con ❤️ para la comunidad hispanohablante · PHP 8+ · MySQL · PDO · XAMPP · Laragon</p>
+  <p style="margin-top:.5rem">Módulos: <span>PHP</span> · <span>XAMPP</span> · <span>Laragon</span> · <span>Bases de Datos</span> · <span>CRUD</span> · <span>POO</span> · <span>POO Avanzada</span> · <span>APIs y JSON</span> · <span>Composer</span> · <span>Diagramas</span> · <span>Patrones</span></p>
+</footer>
+
+<button class="back-top" id="backTop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script src="js/app.js"></script>
+<script src="js/tabs.js"></script>
+<script src="js/code-copy.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/loader.js"></script>
+</body>
+</html>

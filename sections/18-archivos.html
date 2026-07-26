@@ -1,0 +1,268 @@
+<section id="archivos">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">📁 Módulo 6</span>
+    <h2 class="section-title">Manejo de Archivos</h2>
+    <p class="section-subtitle">Lee, escribe y sube archivos de forma segura con PHP.</p>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">1</div>
+      <div>
+        <div class="concept-title">Leer y escribir archivos</div>
+        <div class="concept-desc">file_get/put_contents · fopen/fread/fwrite · directorios · CSV · JSON en disco.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'arch-basico')">Básico</button>
+        <button class="tab-btn" onclick="showTab(this,'arch-fopen')">fopen avanzado</button>
+        <button class="tab-btn" onclick="showTab(this,'arch-dirs')">Directorios</button>
+        <button class="tab-btn" onclick="showTab(this,'arch-csv')">CSV y JSON</button>
+      </div>
+
+      <div id="arch-basico" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>archivos_basico.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="var">$ruta</span> <span class="op">=</span> <span class="str">'datos/log.txt'</span><span class="op">;</span>
+
+<span class="cmt">// Escribir — crea o sobrescribe</span>
+<span class="fn">file_put_contents</span>(<span class="var">$ruta</span><span class="op">,</span> <span class="str">"Primera línea\n"</span>)<span class="op">;</span>
+
+<span class="cmt">// Añadir al final sin borrar</span>
+<span class="fn">file_put_contents</span>(<span class="var">$ruta</span><span class="op">,</span> <span class="str">"Segunda línea\n"</span><span class="op">,</span> <span class="kw">FILE_APPEND</span> <span class="op">|</span> <span class="kw">LOCK_EX</span>)<span class="op">;</span>
+
+<span class="cmt">// Leer todo el archivo como string</span>
+<span class="var">$contenido</span> <span class="op">=</span> <span class="fn">file_get_contents</span>(<span class="var">$ruta</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$contenido</span><span class="op">;</span>
+
+<span class="cmt">// Leer como array de líneas</span>
+<span class="var">$lineas</span> <span class="op">=</span> <span class="fn">file</span>(<span class="var">$ruta</span><span class="op">,</span> <span class="kw">FILE_IGNORE_NEW_LINES</span> <span class="op">|</span> <span class="kw">FILE_SKIP_EMPTY_LINES</span>)<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$lineas</span> <span class="kw">as</span> <span class="var">$i</span> <span class="op">=&gt;</span> <span class="var">$linea</span>) {
+    <span class="fn">echo</span> <span class="str">"[<span class="var">$i</span>] <span class="var">$linea</span>&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Información del archivo</span>
+<span class="kw">if</span> (<span class="fn">file_exists</span>(<span class="var">$ruta</span>)) {
+    <span class="fn">echo</span> <span class="str">"Tamaño: "</span>      <span class="op">.</span> <span class="fn">filesize</span>(<span class="var">$ruta</span>) <span class="op">.</span> <span class="str">" bytes\n"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Modificado: "</span> <span class="op">.</span> <span class="fn">date</span>(<span class="str">"Y-m-d H:i"</span><span class="op">,</span> <span class="fn">filemtime</span>(<span class="var">$ruta</span>)) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"¿Escribible?: "</span> <span class="op">.</span> (<span class="fn">is_writable</span>(<span class="var">$ruta</span>) <span class="op">?</span> <span class="str">"Sí"</span> <span class="op">:</span> <span class="str">"No"</span>) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Copiar, mover y eliminar</span>
+<span class="fn">copy</span>(<span class="var">$ruta</span><span class="op">,</span> <span class="str">'datos/log_backup.txt'</span>)<span class="op">;</span>
+<span class="fn">rename</span>(<span class="str">'datos/log_backup.txt'</span><span class="op">,</span> <span class="str">'datos/log_old.txt'</span>)<span class="op">;</span>
+<span class="fn">unlink</span>(<span class="str">'datos/log_old.txt'</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-info">[0] Primera línea &nbsp;|&nbsp; [1] Segunda línea</div>
+          <div class="output-success">Tamaño: 30 bytes &nbsp;|&nbsp; Modificado: 2024-01-15 10:30</div>
+        </div>
+        <table class="data-table" style="margin-top:1rem">
+          <tr><th>Función</th><th>Qué hace</th></tr>
+          <tr><td><code>file_get_contents()</code></td><td>Lee todo el archivo como string</td></tr>
+          <tr><td><code>file_put_contents()</code></td><td>Escribe string en archivo (crea o sobrescribe)</td></tr>
+          <tr><td><code>file()</code></td><td>Lee archivo como array de líneas</td></tr>
+          <tr><td><code>file_exists()</code></td><td>Comprueba si existe el archivo o directorio</td></tr>
+          <tr><td><code>filesize()</code></td><td>Tamaño en bytes</td></tr>
+          <tr><td><code>copy() / rename() / unlink()</code></td><td>Copiar / mover / eliminar</td></tr>
+        </table>
+      </div>
+
+      <div id="arch-fopen" class="tab-content">
+        <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Usa <code>fopen()</code> cuando necesites control preciso: leer línea a línea sin cargar todo en memoria, posicionarte en un punto del archivo, o leer y escribir al mismo tiempo.</div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>fopen_avanzado.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Modos de apertura</span>
+<span class="cmt">// "r"  → solo lectura, puntero al inicio</span>
+<span class="cmt">// "w"  → escritura, borra contenido, crea si no existe</span>
+<span class="cmt">// "a"  → escritura al final (append), crea si no existe</span>
+<span class="cmt">// "r+" → lectura y escritura, puntero al inicio</span>
+<span class="cmt">// "x"  → crea nuevo archivo, error si ya existe</span>
+
+<span class="cmt">// 1. Escribir línea a línea</span>
+<span class="var">$f</span> <span class="op">=</span> <span class="fn">fopen</span>(<span class="str">'log.txt'</span><span class="op">,</span> <span class="str">'a'</span>)<span class="op">;</span>
+<span class="fn">fwrite</span>(<span class="var">$f</span><span class="op">,</span> <span class="fn">date</span>(<span class="str">'Y-m-d H:i:s'</span>) <span class="op">.</span> <span class="str">" — Evento registrado\n"</span>)<span class="op">;</span>
+<span class="fn">fclose</span>(<span class="var">$f</span>)<span class="op">;</span>  <span class="cmt">// siempre cerrar</span>
+
+<span class="cmt">// 2. Leer línea a línea (ideal para archivos grandes)</span>
+<span class="var">$f</span> <span class="op">=</span> <span class="fn">fopen</span>(<span class="str">'log.txt'</span><span class="op">,</span> <span class="str">'r'</span>)<span class="op">;</span>
+<span class="kw">while</span> (<span class="op">!</span><span class="fn">feof</span>(<span class="var">$f</span>)) {           <span class="cmt">// feof = fin de archivo</span>
+    <span class="var">$linea</span> <span class="op">=</span> <span class="fn">fgets</span>(<span class="var">$f</span>)<span class="op">;</span>       <span class="cmt">// lee una línea</span>
+    <span class="kw">if</span> (<span class="var">$linea</span> <span class="op">!==</span> <span class="kw">false</span>) {
+        <span class="fn">echo</span> <span class="fn">htmlspecialchars</span>(<span class="var">$linea</span>) <span class="op">.</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+    }
+}
+<span class="fn">fclose</span>(<span class="var">$f</span>)<span class="op">;</span>
+
+<span class="cmt">// 3. Bloqueo para escritura concurrente (LOCK_EX)</span>
+<span class="var">$f</span> <span class="op">=</span> <span class="fn">fopen</span>(<span class="str">'datos.txt'</span><span class="op">,</span> <span class="str">'a'</span>)<span class="op">;</span>
+<span class="kw">if</span> (<span class="fn">flock</span>(<span class="var">$f</span><span class="op">,</span> <span class="kw">LOCK_EX</span>)) {       <span class="cmt">// bloqueo exclusivo</span>
+    <span class="fn">fwrite</span>(<span class="var">$f</span><span class="op">,</span> <span class="str">"Datos seguros\n"</span>)<span class="op">;</span>
+    <span class="fn">flock</span>(<span class="var">$f</span><span class="op">,</span> <span class="kw">LOCK_UN</span>)<span class="op">;</span>          <span class="cmt">// liberar bloqueo</span>
+}
+<span class="fn">fclose</span>(<span class="var">$f</span>)<span class="op">;</span>
+
+<span class="cmt">// 4. Posicionar el puntero</span>
+<span class="var">$f</span> <span class="op">=</span> <span class="fn">fopen</span>(<span class="str">'datos.txt'</span><span class="op">,</span> <span class="str">'r'</span>)<span class="op">;</span>
+<span class="fn">fseek</span>(<span class="var">$f</span><span class="op">,</span> <span class="num">10</span>)<span class="op">;</span>                   <span class="cmt">// ir al byte 10</span>
+<span class="fn">echo</span> <span class="fn">ftell</span>(<span class="var">$f</span>)<span class="op">;</span>                   <span class="cmt">// posición actual: 10</span>
+<span class="fn">echo</span> <span class="fn">fread</span>(<span class="var">$f</span><span class="op">,</span> <span class="num">5</span>)<span class="op">;</span>                <span class="cmt">// leer 5 bytes desde pos 10</span>
+<span class="fn">rewind</span>(<span class="var">$f</span>)<span class="op">;</span>                       <span class="cmt">// volver al inicio</span>
+<span class="fn">fclose</span>(<span class="var">$f</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Flujo fopen</div>
+          <div class="output-info">fopen() → fwrite()/fgets()/fread() → fclose()</div>
+          <div class="output-warn">⚠️ Siempre cerrar con fclose() para liberar el recurso</div>
+        </div>
+      </div>
+
+      <div id="arch-dirs" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>directorios.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Crear directorio (0755 = rwxr-xr-x, true = recursivo)</span>
+<span class="fn">mkdir</span>(<span class="str">'uploads/imagenes/2024'</span><span class="op">,</span> <span class="num">0755</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>
+
+<span class="cmt">// Listar contenido de un directorio</span>
+<span class="var">$archivos</span> <span class="op">=</span> <span class="fn">scandir</span>(<span class="str">'uploads'</span>)<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$archivos</span> <span class="kw">as</span> <span class="var">$archivo</span>) {
+    <span class="kw">if</span> (<span class="var">$archivo</span> <span class="op">===</span> <span class="str">'.'</span> <span class="op">||</span> <span class="var">$archivo</span> <span class="op">===</span> <span class="str">'..'</span>) <span class="kw">continue</span><span class="op">;</span>
+    <span class="var">$ruta</span> <span class="op">=</span> <span class="str">"uploads/<span class="var">$archivo</span>"</span><span class="op">;</span>
+    <span class="var">$tipo</span> <span class="op">=</span> <span class="fn">is_dir</span>(<span class="var">$ruta</span>) <span class="op">?</span> <span class="str">"📁"</span> <span class="op">:</span> <span class="str">"📄"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"<span class="var">$tipo</span> <span class="var">$archivo</span>&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Glob — buscar archivos por patrón</span>
+<span class="var">$imagenes</span> <span class="op">=</span> <span class="fn">glob</span>(<span class="str">'uploads/*.{jpg,png,webp}'</span><span class="op">,</span> <span class="kw">GLOB_BRACE</span>)<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$imagenes</span> <span class="kw">as</span> <span class="var">$img</span>) {
+    <span class="fn">echo</span> <span class="fn">basename</span>(<span class="var">$img</span>) <span class="op">.</span> <span class="str">" — "</span> <span class="op">.</span> <span class="fn">filesize</span>(<span class="var">$img</span>) <span class="op">.</span> <span class="str">" bytes&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// pathinfo — descomponer una ruta</span>
+<span class="var">$info</span> <span class="op">=</span> <span class="fn">pathinfo</span>(<span class="str">'/var/www/uploads/foto.jpg'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$info</span>[<span class="str">'dirname'</span>]<span class="op">;</span>    <span class="cmt">// /var/www/uploads</span>
+<span class="fn">echo</span> <span class="var">$info</span>[<span class="str">'basename'</span>]<span class="op">;</span>   <span class="cmt">// foto.jpg</span>
+<span class="fn">echo</span> <span class="var">$info</span>[<span class="str">'filename'</span>]<span class="op">;</span>   <span class="cmt">// foto</span>
+<span class="fn">echo</span> <span class="var">$info</span>[<span class="str">'extension'</span>]<span class="op">;</span>  <span class="cmt">// jpg</span>
+
+<span class="cmt">// Eliminar directorio (debe estar vacío)</span>
+<span class="fn">rmdir</span>(<span class="str">'uploads/temp'</span>)<span class="op">;</span>
+
+<span class="cmt">// Eliminar directorio con contenido (función recursiva)</span>
+<span class="kw">function</span> <span class="fn">borrarDirectorio</span>(<span class="kw">string</span> <span class="var">$dir</span>): <span class="kw">void</span> {
+    <span class="kw">foreach</span> (<span class="fn">glob</span>(<span class="str">"<span class="var">$dir</span>/*"</span>) <span class="kw">as</span> <span class="var">$item</span>) {
+        <span class="fn">is_dir</span>(<span class="var">$item</span>) <span class="op">?</span> <span class="fn">borrarDirectorio</span>(<span class="var">$item</span>) <span class="op">:</span> <span class="fn">unlink</span>(<span class="var">$item</span>)<span class="op">;</span>
+    }
+    <span class="fn">rmdir</span>(<span class="var">$dir</span>)<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida scandir</div>
+          <div class="output-info">📁 imagenes</div>
+          <div class="output-info">📄 logo.png — 14320 bytes</div>
+          <div class="output-info">📄 banner.jpg — 89432 bytes</div>
+        </div>
+      </div>
+
+      <div id="arch-csv" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>csv_json_archivos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ─── CSV ───────────────────────────────────────</span>
+
+<span class="cmt">// Escribir CSV</span>
+<span class="var">$f</span> <span class="op">=</span> <span class="fn">fopen</span>(<span class="str">'productos.csv'</span><span class="op">,</span> <span class="str">'w'</span>)<span class="op">;</span>
+<span class="fn">fputcsv</span>(<span class="var">$f</span><span class="op">,</span> [<span class="str">'id'</span><span class="op">,</span> <span class="str">'nombre'</span><span class="op">,</span> <span class="str">'precio'</span>])<span class="op">;</span>  <span class="cmt">// cabecera</span>
+<span class="kw">foreach</span> ([
+    [<span class="num">1</span><span class="op">,</span> <span class="str">'Laptop'</span><span class="op">,</span> <span class="num">999.99</span>]<span class="op">,</span>
+    [<span class="num">2</span><span class="op">,</span> <span class="str">'Mouse'</span><span class="op">,</span>  <span class="num">25.00</span>]<span class="op">,</span>
+] <span class="kw">as</span> <span class="var">$fila</span>) {
+    <span class="fn">fputcsv</span>(<span class="var">$f</span><span class="op">,</span> <span class="var">$fila</span>)<span class="op">;</span>
+}
+<span class="fn">fclose</span>(<span class="var">$f</span>)<span class="op">;</span>
+
+<span class="cmt">// Leer CSV</span>
+<span class="var">$f</span> <span class="op">=</span> <span class="fn">fopen</span>(<span class="str">'productos.csv'</span><span class="op">,</span> <span class="str">'r'</span>)<span class="op">;</span>
+<span class="var">$cabecera</span> <span class="op">=</span> <span class="fn">fgetcsv</span>(<span class="var">$f</span>)<span class="op">;</span>  <span class="cmt">// primera fila = cabecera</span>
+<span class="kw">while</span> ((<span class="var">$fila</span> <span class="op">=</span> <span class="fn">fgetcsv</span>(<span class="var">$f</span>)) <span class="op">!==</span> <span class="kw">false</span>) {
+    <span class="var">$item</span> <span class="op">=</span> <span class="fn">array_combine</span>(<span class="var">$cabecera</span><span class="op">,</span> <span class="var">$fila</span>)<span class="op">;</span>  <span class="cmt">// asociar cabecera</span>
+    <span class="fn">echo</span> <span class="str">"{$item['nombre']}: S/{$item['precio']}&lt;br&gt;"</span><span class="op">;</span>
+}
+<span class="fn">fclose</span>(<span class="var">$f</span>)<span class="op">;</span>
+
+<span class="cmt">// ─── JSON en disco ─────────────────────────────</span>
+
+<span class="cmt">// Guardar array como JSON</span>
+<span class="var">$config</span> <span class="op">=</span> [<span class="str">'version'</span> <span class="op">=&gt;</span> <span class="str">'1.0'</span><span class="op">,</span> <span class="str">'debug'</span> <span class="op">=&gt;</span> <span class="kw">false</span><span class="op">,</span> <span class="str">'db_host'</span> <span class="op">=&gt;</span> <span class="str">'localhost'</span>]<span class="op">;</span>
+<span class="fn">file_put_contents</span>(<span class="str">'config.json'</span><span class="op">,</span> <span class="fn">json_encode</span>(<span class="var">$config</span><span class="op">,</span> <span class="kw">JSON_PRETTY_PRINT</span>))<span class="op">;</span>
+
+<span class="cmt">// Leer JSON desde disco</span>
+<span class="var">$cargado</span> <span class="op">=</span> <span class="fn">json_decode</span>(<span class="fn">file_get_contents</span>(<span class="str">'config.json'</span>)<span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$cargado</span>[<span class="str">'version'</span>]<span class="op">;</span>   <span class="cmt">// 1.0</span>
+<span class="fn">echo</span> <span class="var">$cargado</span>[<span class="str">'db_host'</span>]<span class="op">;</span>  <span class="cmt">// localhost</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida CSV leído</div>
+          <div class="output-success">Laptop: S/999.99</div>
+          <div class="output-success">Mouse: S/25</div>
+          <div class="output-info">config.json → version: 1.0 | db_host: localhost</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">2</div>
+      <div>
+        <div class="concept-title">Subida de Archivos (Upload)</div>
+        <div class="concept-desc">Manejo seguro de $_FILES con validación de tipo MIME real, tamaño y nombre.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-warn"><span class="alert-icon">⚠️</span> Siempre valida el tipo MIME real del archivo con <code>finfo</code>, no solo la extensión. Nunca uses el nombre original del usuario en producción.</div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>subir.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">if</span> (<span class="fn">isset</span>(<span class="var">$_FILES</span>[<span class="str">'imagen'</span>]) <span class="op">&amp;&amp;</span> <span class="var">$_FILES</span>[<span class="str">'imagen'</span>][<span class="str">'error'</span>] <span class="op">===</span> <span class="kw">UPLOAD_ERR_OK</span>) {
+    <span class="var">$archivo</span>   <span class="op">=</span> <span class="var">$_FILES</span>[<span class="str">'imagen'</span>]<span class="op">;</span>
+    <span class="var">$maxBytes</span>  <span class="op">=</span> <span class="num">2</span> <span class="op">*</span> <span class="num">1024</span> <span class="op">*</span> <span class="num">1024</span><span class="op">;</span>           <span class="cmt">// 2 MB</span>
+    <span class="var">$tiposOk</span>  <span class="op">=</span> [<span class="str">'image/jpeg'</span><span class="op">,</span> <span class="str">'image/png'</span><span class="op">,</span> <span class="str">'image/webp'</span>]<span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="var">$archivo</span>[<span class="str">'size'</span>] <span class="op">&gt;</span> <span class="var">$maxBytes</span>) <span class="fn">die</span>(<span class="str">"❌ Supera 2 MB"</span>)<span class="op">;</span>
+
+    <span class="cmt">// Tipo MIME real (no el que dice el navegador)</span>
+    <span class="var">$finfo</span>   <span class="op">=</span> <span class="kw">new</span> <span class="fn">finfo</span>(<span class="kw">FILEINFO_MIME_TYPE</span>)<span class="op">;</span>
+    <span class="var">$mimeReal</span> <span class="op">=</span> <span class="var">$finfo</span><span class="op">-&gt;</span><span class="fn">file</span>(<span class="var">$archivo</span>[<span class="str">'tmp_name'</span>])<span class="op">;</span>
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">in_array</span>(<span class="var">$mimeReal</span><span class="op">,</span> <span class="var">$tiposOk</span><span class="op">,</span> <span class="kw">true</span>)) <span class="fn">die</span>(<span class="str">"❌ Tipo no permitido"</span>)<span class="op">;</span>
+
+    <span class="cmt">// Nombre seguro aleatorio</span>
+    <span class="var">$ext</span>  <span class="op">=</span> <span class="fn">strtolower</span>(<span class="fn">pathinfo</span>(<span class="var">$archivo</span>[<span class="str">'name'</span>]<span class="op">,</span> <span class="kw">PATHINFO_EXTENSION</span>))<span class="op">;</span>
+    <span class="var">$nombre</span> <span class="op">=</span> <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(<span class="num">16</span>)) <span class="op">.</span> <span class="str">'.'</span> <span class="op">.</span> <span class="var">$ext</span><span class="op">;</span>
+    <span class="var">$destino</span> <span class="op">=</span> <span class="fn">__DIR__</span> <span class="op">.</span> <span class="str">'/uploads/'</span> <span class="op">.</span> <span class="var">$nombre</span><span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="fn">move_uploaded_file</span>(<span class="var">$archivo</span>[<span class="str">'tmp_name'</span>]<span class="op">,</span> <span class="var">$destino</span>)) {
+        <span class="fn">echo</span> <span class="str">"✅ Guardado como: <span class="var">$nombre</span>"</span><span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-success">✅ Guardado como: a3f8c1d2e4b60f9a1c2d3e4f5a6b7c8d.jpg</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>

@@ -1,0 +1,355 @@
+<section id="poo-avanzada">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">🏗 Módulo 10</span>
+    <h2 class="section-title">POO Avanzada</h2>
+    <p class="section-subtitle">Interfaces, Traits, métodos estáticos, enums y las novedades de PHP 8.x para código profesional.</p>
+  </div>
+
+  <!-- INTERFACES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">1</div>
+      <div>
+        <div class="concept-title">Interfaces y Contratos</div>
+        <div class="concept-desc">Una interfaz define qué métodos debe implementar una clase, sin definir cómo.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Las interfaces son <strong>contratos</strong>: garantizan que una clase tendrá ciertos métodos. Una clase puede implementar múltiples interfaces.</div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>interfaces.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Definir interfaz</span>
+<span class="kw">interface</span> <span class="fn">Pagable</span> {
+    <span class="kw">public function</span> <span class="fn">pagar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span><span class="op">;</span>
+    <span class="kw">public function</span> <span class="fn">obtenerSaldo</span>(): <span class="kw">float</span><span class="op">;</span>
+}
+
+<span class="kw">interface</span> <span class="fn">Reembolsable</span> {
+    <span class="kw">public function</span> <span class="fn">reembolsar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span><span class="op">;</span>
+}
+
+<span class="cmt">// Implementar múltiples interfaces</span>
+<span class="kw">class</span> <span class="fn">TarjetaCredito</span> <span class="kw">implements</span> <span class="fn">Pagable</span><span class="op">,</span> <span class="fn">Reembolsable</span> {
+    <span class="kw">private</span> <span class="kw">float</span> <span class="var">$saldo</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">float</span> <span class="var">$saldoInicial</span>) {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span> <span class="op">=</span> <span class="var">$saldoInicial</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">pagar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span> {
+        <span class="kw">if</span> (<span class="var">$monto</span> <span class="op">&gt;</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span>) <span class="kw">return false</span><span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span> <span class="op">-=</span> <span class="var">$monto</span><span class="op">;</span>
+        <span class="kw">return true</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">obtenerSaldo</span>(): <span class="kw">float</span> { <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span><span class="op">;</span> }
+
+    <span class="kw">public function</span> <span class="fn">reembolsar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span> <span class="op">+=</span> <span class="var">$monto</span><span class="op">;</span>
+        <span class="kw">return true</span><span class="op">;</span>
+    }
+}
+
+<span class="var">$tarjeta</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">TarjetaCredito</span>(<span class="num">500.00</span>)<span class="op">;</span>
+<span class="var">$tarjeta</span><span class="op">-&gt;</span><span class="fn">pagar</span>(<span class="num">120.50</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Saldo: S/ "</span> <span class="op">.</span> <span class="var">$tarjeta</span><span class="op">-&gt;</span><span class="fn">obtenerSaldo</span>()<span class="op">;</span>  <span class="cmt">// 379.50</span>
+
+<span class="cmt">// Type hint con interfaz — acepta cualquier clase que la implemente</span>
+<span class="kw">function</span> <span class="fn">procesarPago</span>(<span class="fn">Pagable</span> <span class="var">$metodo</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">void</span> {
+    <span class="kw">if</span> (<span class="var">$metodo</span><span class="op">-&gt;</span><span class="fn">pagar</span>(<span class="var">$monto</span>)) {
+        <span class="fn">echo</span> <span class="str">"✅ Pago de S/ <span class="var">$monto</span> realizado"</span><span class="op">;</span>
+    } <span class="kw">else</span> {
+        <span class="fn">echo</span> <span class="str">"❌ Saldo insuficiente"</span><span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-info">Saldo: S/ 379.5</div>
+        <div class="output-success">✅ Pago de S/ 50 realizado</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAITS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">2</div>
+      <div>
+        <div class="concept-title">Traits — Reutilización de código</div>
+        <div class="concept-desc">Los Traits permiten compartir métodos entre clases sin herencia. Como "mixins".</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>traits.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Trait reutilizable</span>
+<span class="kw">trait</span> <span class="fn">Timestamps</span> {
+    <span class="kw">private</span> <span class="kw">string</span> <span class="var">$creadoEn</span><span class="op">;</span>
+    <span class="kw">private</span> <span class="kw">string</span> <span class="var">$actualizadoEn</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">setCreado</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">creadoEn</span> <span class="op">=</span> <span class="fn">date</span>(<span class="str">'Y-m-d H:i:s'</span>)<span class="op">;</span>
+    }
+    <span class="kw">public function</span> <span class="fn">getCreado</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">creadoEn</span><span class="op">;</span> }
+}
+
+<span class="kw">trait</span> <span class="fn">Auditable</span> {
+    <span class="kw">public function</span> <span class="fn">log</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span> {
+        <span class="fn">error_log</span>(<span class="str">"[AUDIT] <span class="var">$msg</span>"</span>)<span class="op">;</span>
+    }
+}
+
+<span class="cmt">// Usar múltiples traits en una clase</span>
+<span class="kw">class</span> <span class="fn">Producto</span> {
+    <span class="kw">use</span> <span class="fn">Timestamps</span><span class="op">,</span> <span class="fn">Auditable</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">public</span> <span class="kw">string</span> <span class="var">$nombre</span>) {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">setCreado</span>()<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">log</span>(<span class="str">"Producto '<span class="var">$nombre</span>' creado"</span>)<span class="op">;</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Usuario</span> {
+    <span class="kw">use</span> <span class="fn">Timestamps</span><span class="op">;</span>  <span class="cmt">// También puede usar el mismo trait</span>
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">public</span> <span class="kw">string</span> <span class="var">$email</span>) {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">setCreado</span>()<span class="op">;</span>
+    }
+}
+
+<span class="var">$prod</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Producto</span>(<span class="str">"Laptop"</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$prod</span><span class="op">-&gt;</span><span class="fn">getCreado</span>()<span class="op">;</span>  <span class="cmt">// 2024-01-15 10:30:00</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-info">2024-01-15 10:30:00</div>
+        <div style="font-size:.78rem;color:var(--text3);margin-top:.4rem">← error_log registra en archivo de log del servidor</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHP 8 NOVEDADES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">3</div>
+      <div>
+        <div class="concept-title">PHP 8 — Novedades en POO</div>
+        <div class="concept-desc">Constructor promotion, readonly, enums y otras características modernas.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'tab-promo')">Constructor Promotion</button>
+        <button class="tab-btn" onclick="showTab(this,'tab-readonly')">Readonly</button>
+        <button class="tab-btn" onclick="showTab(this,'tab-enum')">Enums</button>
+        <button class="tab-btn" onclick="showTab(this,'tab-static')">Estáticos</button>
+      </div>
+
+      <div id="tab-promo" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>constructor_promotion.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ❌ Antes de PHP 8 — repetitivo</span>
+<span class="kw">class</span> <span class="fn">UsuarioViejo</span> {
+    <span class="kw">public</span> <span class="kw">string</span> <span class="var">$nombre</span><span class="op">;</span>
+    <span class="kw">public</span> <span class="kw">string</span> <span class="var">$email</span><span class="op">;</span>
+    <span class="kw">public</span> <span class="kw">int</span> <span class="var">$edad</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$email</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$edad</span>) {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">nombre</span> <span class="op">=</span> <span class="var">$nombre</span><span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">email</span>  <span class="op">=</span> <span class="var">$email</span><span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">edad</span>   <span class="op">=</span> <span class="var">$edad</span><span class="op">;</span>
+    }
+}
+
+<span class="cmt">// ✅ PHP 8 — Constructor Property Promotion</span>
+<span class="kw">class</span> <span class="fn">Usuario</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">public</span> <span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span>
+        <span class="kw">public</span> <span class="kw">string</span> <span class="var">$email</span><span class="op">,</span>
+        <span class="kw">public</span> <span class="kw">int</span>    <span class="var">$edad</span> <span class="op">=</span> <span class="num">18</span>   <span class="cmt">// valor por defecto</span>
+    ) {}  <span class="cmt">// ¡No hace falta nada más!</span>
+}
+
+<span class="var">$u</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Usuario</span>(<span class="str">"Ana"</span><span class="op">,</span> <span class="str">"ana@email.com"</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$u</span><span class="op">-&gt;</span><span class="var">nombre</span><span class="op">;</span>  <span class="cmt">// Ana</span>
+<span class="fn">echo</span> <span class="var">$u</span><span class="op">-&gt;</span><span class="var">edad</span><span class="op">;</span>    <span class="cmt">// 18</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-success">Ana &nbsp;|&nbsp; 18</div></div>
+      </div>
+
+      <div id="tab-readonly" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>readonly.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// readonly — solo se asigna una vez (PHP 8.1)</span>
+<span class="kw">class</span> <span class="fn">Pedido</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">public readonly</span> <span class="kw">int</span>    <span class="var">$id</span><span class="op">,</span>
+        <span class="kw">public readonly</span> <span class="kw">string</span> <span class="var">$total</span><span class="op">,</span>
+        <span class="kw">public readonly</span> <span class="kw">string</span> <span class="var">$fecha</span>
+    ) {}
+}
+
+<span class="var">$pedido</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Pedido</span>(<span class="num">1</span><span class="op">,</span> <span class="str">"S/299.90"</span><span class="op">,</span> <span class="fn">date</span>(<span class="str">'Y-m-d'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$pedido</span><span class="op">-&gt;</span><span class="var">id</span><span class="op">;</span>  <span class="cmt">// 1</span>
+
+<span class="cmt">// ❌ Esto lanzará un error — los readonly no se pueden modificar</span>
+<span class="cmt">// $pedido->id = 2;  // Error: Cannot modify readonly property</span>
+
+<span class="cmt">// readonly class (PHP 8.2) — todas las propiedades son readonly</span>
+<span class="kw">readonly class</span> <span class="fn">Punto</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">public</span> <span class="kw">float</span> <span class="var">$x</span><span class="op">,</span>
+        <span class="kw">public</span> <span class="kw">float</span> <span class="var">$y</span>
+    ) {}
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-info">1</div></div>
+      </div>
+
+      <div id="tab-enum" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>enums.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Enum básico (PHP 8.1)</span>
+<span class="kw">enum</span> <span class="fn">Estado</span> {
+    <span class="kw">case</span> <span class="fn">Pendiente</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Aprobado</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Rechazado</span><span class="op">;</span>
+}
+
+<span class="cmt">// Backed Enum — con valor asociado</span>
+<span class="kw">enum</span> <span class="fn">Rol</span>: <span class="kw">string</span> {
+    <span class="kw">case</span> <span class="fn">Admin</span>   <span class="op">=</span> <span class="str">'admin'</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Editor</span>  <span class="op">=</span> <span class="str">'editor'</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Lector</span>  <span class="op">=</span> <span class="str">'lector'</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">etiqueta</span>(): <span class="kw">string</span> {
+        <span class="kw">return match</span>(<span class="var">$this</span>) {
+            <span class="fn">Rol</span>::<span class="fn">Admin</span>  <span class="op">=&gt;</span> <span class="str">'👑 Administrador'</span><span class="op">,</span>
+            <span class="fn">Rol</span>::<span class="fn">Editor</span> <span class="op">=&gt;</span> <span class="str">'✏️ Editor'</span><span class="op">,</span>
+            <span class="fn">Rol</span>::<span class="fn">Lector</span> <span class="op">=&gt;</span> <span class="str">'👁 Lector'</span><span class="op">,</span>
+        }<span class="op">;</span>
+    }
+}
+
+<span class="var">$rol</span> <span class="op">=</span> <span class="fn">Rol</span>::<span class="fn">Admin</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$rol</span><span class="op">-&gt;</span><span class="var">value</span><span class="op">;</span>      <span class="cmt">// admin</span>
+<span class="fn">echo</span> <span class="var">$rol</span><span class="op">-&gt;</span><span class="fn">etiqueta</span>()<span class="op">;</span> <span class="cmt">// 👑 Administrador</span>
+
+<span class="cmt">// Crear desde valor</span>
+<span class="var">$rol2</span> <span class="op">=</span> <span class="fn">Rol</span>::<span class="fn">from</span>(<span class="str">'editor'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$rol2</span><span class="op">-&gt;</span><span class="fn">etiqueta</span>()<span class="op">;</span> <span class="cmt">// ✏️ Editor</span>
+
+<span class="cmt">// Uso como type hint</span>
+<span class="kw">function</span> <span class="fn">asignarRol</span>(<span class="fn">Rol</span> <span class="var">$rol</span>): <span class="kw">string</span> {
+    <span class="kw">return</span> <span class="str">"Rol asignado: "</span> <span class="op">.</span> <span class="var">$rol</span><span class="op">-&gt;</span><span class="fn">etiqueta</span>()<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-info">admin</div>
+          <div class="output-success">👑 Administrador</div>
+          <div class="output-success">✏️ Editor</div>
+        </div>
+      </div>
+
+      <div id="tab-static" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>estaticos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">Contador</span> {
+    <span class="cmt">// Propiedad estática — compartida por TODAS las instancias</span>
+    <span class="kw">private static</span> <span class="kw">int</span> <span class="var">$total</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">__construct</span>() {
+        <span class="kw">self</span>::<span class="var">$total</span><span class="op">++</span><span class="op">;</span>  <span class="cmt">// self:: para acceder a miembros de la clase</span>
+    }
+
+    <span class="cmt">// Método estático — se llama sin instanciar la clase</span>
+    <span class="kw">public static function</span> <span class="fn">getTotal</span>(): <span class="kw">int</span> {
+        <span class="kw">return</span> <span class="kw">self</span>::<span class="var">$total</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Patrón Singleton con estático</span>
+    <span class="kw">private static</span> <span class="op">?</span><span class="fn">Contador</span> <span class="var">$instancia</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+    <span class="kw">public static function</span> <span class="fn">getInstance</span>(): <span class="kw">static</span> {
+        <span class="kw">if</span> (<span class="kw">self</span>::<span class="var">$instancia</span> <span class="op">===</span> <span class="kw">null</span>) {
+            <span class="kw">self</span>::<span class="var">$instancia</span> <span class="op">=</span> <span class="kw">new static</span>()<span class="op">;</span>
+        }
+        <span class="kw">return</span> <span class="kw">self</span>::<span class="var">$instancia</span><span class="op">;</span>
+    }
+}
+
+<span class="kw">new</span> <span class="fn">Contador</span>()<span class="op">;</span>
+<span class="kw">new</span> <span class="fn">Contador</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">Contador</span>::<span class="fn">getTotal</span>()<span class="op">;</span>  <span class="cmt">// 2 — sin instanciar</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-success">2</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLASES ABSTRACTAS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">4</div>
+      <div>
+        <div class="concept-title">Clases Abstractas</div>
+        <div class="concept-desc">Entre interfaz y clase concreta: define estructura obligatoria con implementación parcial.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-tip"><span class="alert-icon">💡</span> Usa <strong>clases abstractas</strong> cuando quieras compartir código base y obligar a implementar ciertos métodos. Usa <strong>interfaces</strong> cuando solo quieras definir un contrato.</div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>abstractas.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">abstract class</span> <span class="fn">Notificacion</span> {
+    <span class="cmt">// Método concreto — ya implementado</span>
+    <span class="kw">public function</span> <span class="fn">formatearMensaje</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="str">"[" . </span><span class="fn">date</span>(<span class="str">'H:i'</span>) <span class="op">.</span> <span class="str">"] " . $msg</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Método abstracto — cada subclase DEBE implementarlo</span>
+    <span class="kw">abstract public function</span> <span class="fn">enviar</span>(<span class="kw">string</span> <span class="var">$destino</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$mensaje</span>): <span class="kw">bool</span><span class="op">;</span>
+}
+
+<span class="kw">class</span> <span class="fn">NotificacionEmail</span> <span class="kw">extends</span> <span class="fn">Notificacion</span> {
+    <span class="kw">public function</span> <span class="fn">enviar</span>(<span class="kw">string</span> <span class="var">$destino</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$mensaje</span>): <span class="kw">bool</span> {
+        <span class="var">$msg</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">formatearMensaje</span>(<span class="var">$mensaje</span>)<span class="op">;</span>
+        <span class="fn">echo</span> <span class="str">"📧 Email a <span class="var">$destino</span>: <span class="var">$msg</span>"</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="kw">true</span><span class="op">;</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">NotificacionSMS</span> <span class="kw">extends</span> <span class="fn">Notificacion</span> {
+    <span class="kw">public function</span> <span class="fn">enviar</span>(<span class="kw">string</span> <span class="var">$destino</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$mensaje</span>): <span class="kw">bool</span> {
+        <span class="var">$msg</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">formatearMensaje</span>(<span class="var">$mensaje</span>)<span class="op">;</span>
+        <span class="fn">echo</span> <span class="str">"📱 SMS a <span class="var">$destino</span>: <span class="var">$msg</span>"</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="kw">true</span><span class="op">;</span>
+    }
+}
+
+<span class="var">$notif</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">NotificacionEmail</span>()<span class="op">;</span>
+<span class="var">$notif</span><span class="op">-&gt;</span><span class="fn">enviar</span>(<span class="str">"user@ejemplo.com"</span><span class="op">,</span> <span class="str">"Tu pedido fue enviado"</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-info">📧 Email a user@ejemplo.com: [10:30] Tu pedido fue enviado</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>

@@ -1,0 +1,220 @@
+﻿      <section id="php-arrays">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">7</div>
+          <div>
+            <div class="concept-title">Arrays</div>
+            <div class="concept-desc">Indexados · asociativos · multidimensionales · funciones de transformación y búsqueda.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'arr-tipos')">Tipos de array</button>
+            <button class="tab-btn" onclick="showTab(this,'arr-fn')">Funciones esenciales</button>
+            <button class="tab-btn" onclick="showTab(this,'arr-transform')">Transformación</button>
+            <button class="tab-btn" onclick="showTab(this,'arr-spread')">Spread y unión</button>
+          </div>
+
+          <div id="arr-tipos" class="tab-content active">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>arrays_tipos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// 1. Array indexado (clave numérica automática)</span>
+<span class="var">$frutas</span> <span class="op">=</span> [<span class="str">"Manzana"</span><span class="op">,</span> <span class="str">"Pera"</span><span class="op">,</span> <span class="str">"Uva"</span>]<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$frutas</span>[<span class="num">0</span>]<span class="op">;</span>         <span class="cmt">// Manzana</span>
+<span class="fn">echo</span> <span class="fn">count</span>(<span class="var">$frutas</span>)<span class="op">;</span>    <span class="cmt">// 3</span>
+<span class="var">$frutas</span>[] <span class="op">=</span> <span class="str">"Mango"</span><span class="op">;</span>    <span class="cmt">// añade al final (índice 3)</span>
+
+<span class="cmt">// 2. Array asociativo (clave string => valor)</span>
+<span class="var">$producto</span> <span class="op">=</span> [
+    <span class="str">"nombre"</span>  <span class="op">=&gt;</span> <span class="str">"Laptop"</span><span class="op">,</span>
+    <span class="str">"precio"</span>  <span class="op">=&gt;</span> <span class="num">999.99</span><span class="op">,</span>
+    <span class="str">"stock"</span>   <span class="op">=&gt;</span> <span class="num">15</span><span class="op">,</span>
+    <span class="str">"activo"</span>  <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+]<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$producto</span>[<span class="str">"nombre"</span>]<span class="op">;</span>   <span class="cmt">// Laptop</span>
+<span class="var">$producto</span>[<span class="str">"precio"</span>] <span class="op">=</span> <span class="num">899</span><span class="op">;</span> <span class="cmt">// modificar</span>
+<span class="fn">unset</span>(<span class="var">$producto</span>[<span class="str">"stock"</span>])<span class="op">;</span>  <span class="cmt">// eliminar clave</span>
+
+<span class="cmt">// Verificar si existe una clave</span>
+<span class="fn">echo</span> <span class="fn">isset</span>(<span class="var">$producto</span>[<span class="str">"nombre"</span>])<span class="op">;</span>         <span class="cmt">// true</span>
+<span class="fn">echo</span> <span class="fn">array_key_exists</span>(<span class="str">"stock"</span><span class="op">,</span> <span class="var">$producto</span>)<span class="op">;</span> <span class="cmt">// false (lo borramos)</span>
+
+<span class="cmt">// 3. Array multidimensional</span>
+<span class="var">$carrito</span> <span class="op">=</span> [
+    [<span class="str">"producto"</span> <span class="op">=&gt;</span> <span class="str">"Laptop"</span><span class="op">,</span>  <span class="str">"qty"</span> <span class="op">=&gt;</span> <span class="num">1</span><span class="op">,</span> <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">999</span>]<span class="op">,</span>
+    [<span class="str">"producto"</span> <span class="op">=&gt;</span> <span class="str">"Mouse"</span><span class="op">,</span>   <span class="str">"qty"</span> <span class="op">=&gt;</span> <span class="num">2</span><span class="op">,</span> <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">25</span>]<span class="op">,</span>
+    [<span class="str">"producto"</span> <span class="op">=&gt;</span> <span class="str">"Teclado"</span><span class="op">,</span> <span class="str">"qty"</span> <span class="op">=&gt;</span> <span class="num">1</span><span class="op">,</span> <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">75</span>]<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="cmt">// Acceder a elemento anidado</span>
+<span class="fn">echo</span> <span class="var">$carrito</span>[<span class="num">1</span>][<span class="str">"producto"</span>]<span class="op">;</span>  <span class="cmt">// Mouse</span>
+
+<span class="cmt">// Recorrer y calcular total</span>
+<span class="var">$total</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$carrito</span> <span class="kw">as</span> <span class="var">$item</span>) {
+    <span class="var">$total</span> <span class="op">+=</span> <span class="var">$item</span>[<span class="str">"qty"</span>] <span class="op">*</span> <span class="var">$item</span>[<span class="str">"precio"</span>]<span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"{$item['producto']}: S/{$item['precio']}&lt;br&gt;"</span><span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="str">"Total: S/<span class="var">$total</span>"</span><span class="op">;</span>  <span class="cmt">// Total: S/1124</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">Laptop: S/999 | Mouse: S/25 | Teclado: S/75</div>
+              <div class="output-success">Total: S/1124</div>
+            </div>
+          </div>
+
+          <div id="arr-fn" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>arrays_funciones.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$nums</span> <span class="op">=</span> [<span class="num">5</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">8</span><span class="op">,</span> <span class="num">1</span><span class="op">,</span> <span class="num">9</span><span class="op">,</span> <span class="num">3</span>]<span class="op">;</span>
+
+<span class="cmt">// Ordenar</span>
+<span class="fn">sort</span>(<span class="var">$nums</span>)<span class="op">;</span>          <span class="cmt">// [1,2,3,5,8,9] — ascendente, rehace índices</span>
+<span class="fn">rsort</span>(<span class="var">$nums</span>)<span class="op">;</span>         <span class="cmt">// [9,8,5,3,2,1] — descendente</span>
+
+<span class="var">$asoc</span> <span class="op">=</span> [<span class="str">"c"</span><span class="op">=&gt;</span><span class="num">3</span><span class="op">,</span> <span class="str">"a"</span><span class="op">=&gt;</span><span class="num">1</span><span class="op">,</span> <span class="str">"b"</span><span class="op">=&gt;</span><span class="num">2</span>]<span class="op">;</span>
+<span class="fn">asort</span>(<span class="var">$asoc</span>)<span class="op">;</span>         <span class="cmt">// ordena por valor, preserva claves</span>
+<span class="fn">ksort</span>(<span class="var">$asoc</span>)<span class="op">;</span>         <span class="cmt">// ordena por clave</span>
+
+<span class="cmt">// Buscar</span>
+<span class="fn">echo</span> <span class="fn">in_array</span>(<span class="num">8</span><span class="op">,</span> <span class="var">$nums</span>)<span class="op">;</span>           <span class="cmt">// true — ¿existe el valor?</span>
+<span class="fn">echo</span> <span class="fn">in_array</span>(<span class="str">"8"</span><span class="op">,</span> <span class="var">$nums</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>  <span class="cmt">// false — strict: string vs int</span>
+<span class="fn">echo</span> <span class="fn">array_search</span>(<span class="num">8</span><span class="op">,</span> <span class="var">$nums</span>)<span class="op">;</span>      <span class="cmt">// índice/clave del valor</span>
+
+<span class="cmt">// Añadir y quitar</span>
+<span class="fn">array_push</span>(<span class="var">$nums</span><span class="op">,</span> <span class="num">10</span><span class="op">,</span> <span class="num">11</span>)<span class="op">;</span>  <span class="cmt">// añade al final (múltiples)</span>
+<span class="fn">array_unshift</span>(<span class="var">$nums</span><span class="op">,</span> <span class="num">0</span>)<span class="op">;</span>   <span class="cmt">// añade al principio</span>
+<span class="var">$ultimo</span>  <span class="op">=</span> <span class="fn">array_pop</span>(<span class="var">$nums</span>)<span class="op">;</span>     <span class="cmt">// quita y devuelve el último</span>
+<span class="var">$primero</span> <span class="op">=</span> <span class="fn">array_shift</span>(<span class="var">$nums</span>)<span class="op">;</span>   <span class="cmt">// quita y devuelve el primero</span>
+
+<span class="cmt">// Porciones</span>
+<span class="var">$porcion</span> <span class="op">=</span> <span class="fn">array_slice</span>(<span class="var">$nums</span><span class="op">,</span> <span class="num">1</span><span class="op">,</span> <span class="num">3</span>)<span class="op">;</span>    <span class="cmt">// desde índice 1, longitud 3</span>
+<span class="fn">array_splice</span>(<span class="var">$nums</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">1</span><span class="op">,</span> [<span class="num">99</span><span class="op">,</span> <span class="num">100</span>])<span class="op">;</span>  <span class="cmt">// elimina 1 en pos 2 e inserta</span>
+
+<span class="cmt">// Estadísticas</span>
+<span class="fn">echo</span> <span class="fn">array_sum</span>(<span class="var">$nums</span>)<span class="op">;</span>    <span class="cmt">// suma todos</span>
+<span class="fn">echo</span> <span class="fn">array_product</span>(<span class="var">$nums</span>)<span class="op">;</span> <span class="cmt">// multiplica todos</span>
+<span class="fn">echo</span> <span class="fn">min</span>(<span class="var">$nums</span>)<span class="op">;</span>           <span class="cmt">// mínimo</span>
+<span class="fn">echo</span> <span class="fn">max</span>(<span class="var">$nums</span>)<span class="op">;</span>           <span class="cmt">// máximo</span>
+
+<span class="cmt">// Claves y valores</span>
+<span class="var">$claves</span>  <span class="op">=</span> <span class="fn">array_keys</span>(<span class="var">$asoc</span>)<span class="op">;</span>    <span class="cmt">// ["a","b","c"]</span>
+<span class="var">$valores</span> <span class="op">=</span> <span class="fn">array_values</span>(<span class="var">$asoc</span>)<span class="op">;</span>  <span class="cmt">// [1,2,3] — reindexado</span>
+<span class="var">$unico</span>   <span class="op">=</span> <span class="fn">array_unique</span>([<span class="num">1</span><span class="op">,</span><span class="num">2</span><span class="op">,</span><span class="num">2</span><span class="op">,</span><span class="num">3</span>])<span class="op">;</span> <span class="cmt">// [1,2,3] — sin duplicados</span>
+<span class="var">$inv</span>     <span class="op">=</span> <span class="fn">array_flip</span>(<span class="var">$asoc</span>)<span class="op">;</span>     <span class="cmt">// intercambia claves y valores</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Referencia rápida</div>
+              <div class="output-info">in_array(8, $nums) → true</div>
+              <div class="output-info">array_search(8, $nums) → índice</div>
+              <div class="output-success">array_unique([1,2,2,3]) → [1,2,3]</div>
+            </div>
+          </div>
+
+          <div id="arr-transform" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>arrays_transform.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$productos</span> <span class="op">=</span> [
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Laptop"</span><span class="op">,</span>  <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">999</span><span class="op">,</span> <span class="str">"cat"</span> <span class="op">=&gt;</span> <span class="str">"tech"</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Camiseta"</span><span class="op">,</span> <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">29</span><span class="op">,</span>  <span class="str">"cat"</span> <span class="op">=&gt;</span> <span class="str">"ropa"</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Mouse"</span><span class="op">,</span>   <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">25</span><span class="op">,</span>  <span class="str">"cat"</span> <span class="op">=&gt;</span> <span class="str">"tech"</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Zapatos"</span><span class="op">,</span>  <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">89</span><span class="op">,</span>  <span class="str">"cat"</span> <span class="op">=&gt;</span> <span class="str">"ropa"</span>]<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="cmt">// array_map — transforma cada elemento</span>
+<span class="var">$conIGV</span> <span class="op">=</span> <span class="fn">array_map</span>(<span class="kw">fn</span>(<span class="var">$p</span>) <span class="op">=&gt;</span> [
+    <span class="op">...</span><span class="var">$p</span><span class="op">,</span>  <span class="cmt">// spread: copia todas las claves</span>
+    <span class="str">"precio_igv"</span> <span class="op">=&gt;</span> <span class="fn">round</span>(<span class="var">$p</span>[<span class="str">"precio"</span>] <span class="op">*</span> <span class="num">1.18</span><span class="op">,</span> <span class="num">2</span>)<span class="op">,</span>
+]<span class="op">,</span> <span class="var">$productos</span>)<span class="op">;</span>
+
+<span class="cmt">// array_filter — filtra elementos (preserva claves originales)</span>
+<span class="var">$tech</span> <span class="op">=</span> <span class="fn">array_filter</span>(<span class="var">$productos</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$p</span>) <span class="op">=&gt;</span> <span class="var">$p</span>[<span class="str">"cat"</span>] <span class="op">===</span> <span class="str">"tech"</span>)<span class="op">;</span>
+<span class="var">$tech</span> <span class="op">=</span> <span class="fn">array_values</span>(<span class="var">$tech</span>)<span class="op">;</span>  <span class="cmt">// reindexar tras filtrar</span>
+
+<span class="cmt">// array_reduce — reduce a un único valor</span>
+<span class="var">$total</span> <span class="op">=</span> <span class="fn">array_reduce</span>(<span class="var">$productos</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$acum</span><span class="op">,</span> <span class="var">$p</span>) <span class="op">=&gt;</span> <span class="var">$acum</span> <span class="op">+</span> <span class="var">$p</span>[<span class="str">"precio"</span>]<span class="op">,</span> <span class="num">0</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Total: S/<span class="var">$total</span>"</span><span class="op">;</span>  <span class="cmt">// Total: S/1142</span>
+
+<span class="cmt">// usort — ordenar por criterio propio</span>
+<span class="fn">usort</span>(<span class="var">$productos</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$a</span><span class="op">,</span> <span class="var">$b</span>) <span class="op">=&gt;</span> <span class="var">$a</span>[<span class="str">"precio"</span>] <span class="op">&lt;=&gt;</span> <span class="var">$b</span>[<span class="str">"precio"</span>])<span class="op">;</span>
+<span class="cmt">// Ahora: Mouse(25), Camiseta(29), Zapatos(89), Laptop(999)</span>
+
+<span class="cmt">// array_column — extraer una columna</span>
+<span class="var">$nombres</span>  <span class="op">=</span> <span class="fn">array_column</span>(<span class="var">$productos</span><span class="op">,</span> <span class="str">"nombre"</span>)<span class="op">;</span>
+<span class="cmt">// ["Mouse", "Camiseta", "Zapatos", "Laptop"]</span>
+
+<span class="cmt">// Indexar array por una columna — muy útil para búsquedas O(1)</span>
+<span class="var">$porNombre</span> <span class="op">=</span> <span class="fn">array_column</span>(<span class="var">$productos</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="str">"nombre"</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$porNombre</span>[<span class="str">"Mouse"</span>][<span class="str">"precio"</span>]<span class="op">;</span>  <span class="cmt">// 25</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">Total: S/1142</div>
+              <div class="output-info">Ordenado por precio: Mouse(25) → Camiseta(29) → Zapatos(89) → Laptop(999)</div>
+              <div class="output-info">$porNombre["Mouse"]["precio"] = 25</div>
+            </div>
+          </div>
+
+          <div id="arr-spread" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>arrays_spread.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Unir arrays</span>
+<span class="var">$a</span> <span class="op">=</span> [<span class="num">1</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">3</span>]<span class="op">;</span>
+<span class="var">$b</span> <span class="op">=</span> [<span class="num">4</span><span class="op">,</span> <span class="num">5</span><span class="op">,</span> <span class="num">6</span>]<span class="op">;</span>
+<span class="var">$unido</span>   <span class="op">=</span> <span class="fn">array_merge</span>(<span class="var">$a</span><span class="op">,</span> <span class="var">$b</span>)<span class="op">;</span>   <span class="cmt">// [1,2,3,4,5,6] — reindexado</span>
+<span class="var">$spread</span>  <span class="op">=</span> [<span class="op">...</span><span class="var">$a</span><span class="op">,</span> <span class="op">...</span><span class="var">$b</span>]<span class="op">;</span>          <span class="cmt">// [1,2,3,4,5,6] — equivalente</span>
+
+<span class="cmt">// Diferencia entre array_merge y + para asociativos</span>
+<span class="var">$defaults</span> <span class="op">=</span> [<span class="str">"color"</span> <span class="op">=&gt;</span> <span class="str">"azul"</span><span class="op">,</span> <span class="str">"size"</span> <span class="op">=&gt;</span> <span class="str">"M"</span><span class="op">,</span> <span class="str">"stock"</span> <span class="op">=&gt;</span> <span class="num">10</span>]<span class="op">;</span>
+<span class="var">$custom</span>   <span class="op">=</span> [<span class="str">"color"</span> <span class="op">=&gt;</span> <span class="str">"rojo"</span><span class="op">,</span> <span class="str">"size"</span> <span class="op">=&gt;</span> <span class="str">"XL"</span>]<span class="op">;</span>
+
+<span class="cmt">// array_merge: $custom sobreescribe a $defaults</span>
+<span class="var">$merge</span> <span class="op">=</span> <span class="fn">array_merge</span>(<span class="var">$defaults</span><span class="op">,</span> <span class="var">$custom</span>)<span class="op">;</span>
+<span class="cmt">// ["color"=>"rojo","size"=>"XL","stock"=>10]</span>
+
+<span class="cmt">// + operador: $defaults NO sobreescribe si ya existe en $custom</span>
+<span class="var">$plus</span> <span class="op">=</span> <span class="var">$custom</span> <span class="op">+</span> <span class="var">$defaults</span><span class="op">;</span>
+<span class="cmt">// ["color"=>"rojo","size"=>"XL","stock"=>10] — mismo resultado aquí</span>
+<span class="cmt">// Diferencia: con array_merge, el último gana; con +, el primero gana</span>
+
+<span class="cmt">// Spread en función</span>
+<span class="kw">function</span> <span class="fn">suma3</span>(<span class="kw">int</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$b</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$c</span>): <span class="kw">int</span> { <span class="kw">return</span> <span class="var">$a</span><span class="op">+</span><span class="var">$b</span><span class="op">+</span><span class="var">$c</span><span class="op">;</span> }
+<span class="var">$nums</span> <span class="op">=</span> [<span class="num">10</span><span class="op">,</span> <span class="num">20</span><span class="op">,</span> <span class="num">30</span>]<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">suma3</span>(<span class="op">...</span><span class="var">$nums</span>)<span class="op">;</span>  <span class="cmt">// 60 — equivale a suma3(10,20,30)</span>
+
+<span class="cmt">// array_combine — une dos arrays como claves+valores</span>
+<span class="var">$claves</span>  <span class="op">=</span> [<span class="str">"nombre"</span><span class="op">,</span> <span class="str">"edad"</span><span class="op">,</span> <span class="str">"ciudad"</span>]<span class="op">;</span>
+<span class="var">$valores</span> <span class="op">=</span> [<span class="str">"Ana"</span><span class="op">,</span> <span class="num">28</span><span class="op">,</span> <span class="str">"Lima"</span>]<span class="op">;</span>
+<span class="var">$persona</span> <span class="op">=</span> <span class="fn">array_combine</span>(<span class="var">$claves</span><span class="op">,</span> <span class="var">$valores</span>)<span class="op">;</span>
+<span class="cmt">// ["nombre"=>"Ana","edad"=>28,"ciudad"=>"Lima"]</span>
+<span class="fn">echo</span> <span class="var">$persona</span>[<span class="str">"nombre"</span>]<span class="op">;</span>  <span class="cmt">// Ana</span>
+
+<span class="cmt">// array_chunk — dividir en trozos</span>
+<span class="var">$pagina</span> <span class="op">=</span> <span class="fn">array_chunk</span>([<span class="num">1</span><span class="op">,</span><span class="num">2</span><span class="op">,</span><span class="num">3</span><span class="op">,</span><span class="num">4</span><span class="op">,</span><span class="num">5</span><span class="op">,</span><span class="num">6</span>]<span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>
+<span class="cmt">// [[1,2],[3,4],[5,6]] — útil para paginación</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">array_merge: último gana &nbsp;|&nbsp; +: primero gana</div>
+              <div class="output-success">suma3(...$nums) = 60</div>
+              <div class="output-info">array_combine → ["nombre"=>"Ana","edad"=>28,"ciudad"=>"Lima"]</div>
+              <div class="output-info">array_chunk([1..6],2) → [[1,2],[3,4],[5,6]]</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+</div>
+
+      <!-- STRINGS -->
+      </section>

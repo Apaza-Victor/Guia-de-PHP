@@ -1,0 +1,44 @@
+<section id="php" style="background:var(--bg2);">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">🐘 Módulo 1</span>
+    <h2 class="section-title">PHP — Fundamentos y Sintaxis</h2>
+    <p class="section-subtitle">Todo lo que necesitas saber sobre PHP, con ejemplos de código reales y su salida visual.</p>
+  </div>
+
+      <!-- INTRO -->
+      <div class="concept-card" id="php-intro">
+        <div class="concept-header">
+          <div class="concept-num">1</div>
+          <div>
+            <div class="concept-title">¿Qué es PHP?</div>
+            <div class="concept-desc">Lenguaje de scripting del lado del servidor para crear páginas web dinámicas.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <p style="color:var(--text2);font-size:.88rem;line-height:1.7;margin-bottom:1rem;">
+            PHP (Hypertext Preprocessor) es un lenguaje interpretado que se ejecuta en el servidor. El cliente solo recibe HTML, CSS y JS como resultado. Es el lenguaje detrás de WordPress, Laravel, Facebook (inicialmente) y millones de sitios web.
+          </p>
+          <div class="code-wrap">
+            <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span> <span>mi_primer_script.php</span> <button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+            <pre><span class="cmt">&lt;!-- El código PHP va dentro de las etiquetas ?&gt; --&gt;</span>
+<span class="tag">&lt;?php</span>
+  <span class="cmt">// Esto es un comentario de una línea</span>
+  <span class="cmt">/* Esto es un comentario
+     de múltiples líneas */</span>
+
+  <span class="fn">echo</span> <span class="str">"¡Hola, Mundo!"</span><span class="op">;</span>
+  <span class="fn">echo</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+  <span class="fn">echo</span> <span class="str">"PHP versión: "</span> <span class="op">.</span> <span class="fn">phpversion</span>()<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+          </div>
+          <div class="visual-box">
+            <div class="visual-label">▶ Salida en navegador</div>
+            <div>¡Hola, Mundo!</div>
+            <div class="output-info">PHP versión: 8.2.0</div>
+          </div>
+        </div>
+      </div>
+
+</div>
+</section>

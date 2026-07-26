@@ -1,0 +1,22 @@
+/* PROGRESS BAR */
+.progress-bar{
+  position:fixed;top:var(--header-h);left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transform-origin:left;z-index:999;
+  transition:transform .1s linear;
+}
+
+/* BACK TO TOP */
+.back-top{
+  position:fixed;bottom:1.5rem;right:1.5rem;
+  width:40px;height:40px;border-radius:10px;
+  background:var(--accent);color:#fff;
+  border:none;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(124,92,252,.4);
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.back-top.show{opacity:1;pointer-events:auto;}
+@media(max-width:480px){
+  .back-top{width:36px;height:36px;font-size:.9rem;bottom:1rem;right:1rem;}
+}

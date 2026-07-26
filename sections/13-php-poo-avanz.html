@@ -1,0 +1,337 @@
+      <section id="php-poo">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">10</div>
+          <div>
+            <div class="concept-title">Programación Orientada a Objetos</div>
+            <div class="concept-desc">Clases · visibilidad · herencia · polimorfismo · métodos mágicos · encadenamiento.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'poo-clase')">Clases y objetos</button>
+            <button class="tab-btn" onclick="showTab(this,'poo-herencia')">Herencia</button>
+            <button class="tab-btn" onclick="showTab(this,'poo-magicos')">Métodos mágicos</button>
+            <button class="tab-btn" onclick="showTab(this,'poo-patron')">Patrón fluido</button>
+          </div>
+
+          <!-- TAB 1: Clases -->
+          <div id="poo-clase" class="tab-content active">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>clase_producto.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">Producto</span> {
+    <span class="cmt">// Propiedades con visibilidad</span>
+    <span class="kw">private static</span> <span class="kw">int</span>   <span class="var">$contador</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>   <span class="cmt">// compartida entre instancias</span>
+    <span class="kw">public</span>  <span class="kw">readonly</span> <span class="kw">int</span> <span class="var">$id</span><span class="op">;</span>            <span class="cmt">// solo se asigna una vez (PHP 8.1)</span>
+    <span class="kw">private</span> <span class="kw">float</span> <span class="var">$precio</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">public</span> <span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span>           <span class="cmt">// constructor promotion</span>
+        <span class="kw">float</span>         <span class="var">$precio</span><span class="op">,</span>
+        <span class="kw">public</span> <span class="kw">int</span>    <span class="var">$stock</span> <span class="op">=</span> <span class="num">0</span>
+    ) {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">id</span>     <span class="op">=</span> <span class="op">++</span><span class="kw">self</span>::<span class="var">$contador</span><span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">setPrecio</span>(<span class="var">$precio</span>)<span class="op">;</span>       <span class="cmt">// validar al crear</span>
+    }
+
+    <span class="cmt">// Getter</span>
+    <span class="kw">public function</span> <span class="fn">getPrecio</span>(): <span class="kw">float</span> {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">precio</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Setter con validación</span>
+    <span class="kw">public function</span> <span class="fn">setPrecio</span>(<span class="kw">float</span> <span class="var">$p</span>): <span class="kw">void</span> {
+        <span class="kw">if</span> (<span class="var">$p</span> <span class="op">&lt;</span> <span class="num">0</span>) <span class="kw">throw new</span> <span class="fn">InvalidArgumentException</span>(<span class="str">"Precio negativo"</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">precio</span> <span class="op">=</span> <span class="var">$p</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Método de negocio</span>
+    <span class="kw">public function</span> <span class="fn">precioConIGV</span>(<span class="kw">float</span> <span class="var">$tasa</span> <span class="op">=</span> <span class="num">0.18</span>): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="fn">number_format</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">precio</span> <span class="op">*</span> (<span class="num">1</span> <span class="op">+</span> <span class="var">$tasa</span>)<span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">hayStock</span>(): <span class="kw">bool</span> {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">stock</span> <span class="op">&gt;</span> <span class="num">0</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Método estático de fábrica</span>
+    <span class="kw">public static function</span> <span class="fn">sinStock</span>(<span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$precio</span>): <span class="kw">static</span> {
+        <span class="kw">return new</span> <span class="kw">static</span>(<span class="var">$nombre</span><span class="op">,</span> <span class="var">$precio</span><span class="op">,</span> <span class="num">0</span>)<span class="op">;</span>
+    }
+
+    <span class="kw">public static function</span> <span class="fn">totalCreados</span>(): <span class="kw">int</span> {
+        <span class="kw">return</span> <span class="kw">self</span>::<span class="var">$contador</span><span class="op">;</span>
+    }
+}
+
+<span class="var">$p1</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Producto</span>(<span class="str">"Laptop"</span><span class="op">,</span> <span class="num">999.00</span><span class="op">,</span> <span class="num">5</span>)<span class="op">;</span>
+<span class="var">$p2</span> <span class="op">=</span> <span class="fn">Producto</span>::<span class="fn">sinStock</span>(<span class="str">"Teclado"</span><span class="op">,</span> <span class="num">75.00</span>)<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="str">"#{$p1->id} {$p1->nombre}: S/{$p1->precioConIGV()}"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$p1</span><span class="op">-&gt;</span><span class="fn">hayStock</span>() <span class="op">?</span> <span class="str">"✅ En stock"</span> <span class="op">:</span> <span class="str">"❌ Sin stock"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Total productos: "</span> <span class="op">.</span> <span class="fn">Producto</span>::<span class="fn">totalCreados</span>()<span class="op">;</span>  <span class="cmt">// 2</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">#1 Laptop: S/1,179.42</div>
+              <div class="output-success">✅ En stock</div>
+              <div class="output-info">Total productos: 2</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Visibilidad</th><th>Clase</th><th>Subclases</th><th>Exterior</th></tr>
+              <tr><td><code>public</code></td><td>✅</td><td>✅</td><td>✅</td></tr>
+              <tr><td><code>protected</code></td><td>✅</td><td>✅</td><td>❌</td></tr>
+              <tr><td><code>private</code></td><td>✅</td><td>❌</td><td>❌</td></tr>
+            </table>
+          </div>
+
+          <!-- TAB 2: Herencia -->
+          <div id="poo-herencia" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>herencia.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="kw">abstract class</span> <span class="fn">Vehiculo</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">protected</span> <span class="kw">string</span> <span class="var">$marca</span><span class="op">,</span>
+        <span class="kw">protected</span> <span class="kw">int</span>    <span class="var">$anio</span><span class="op">,</span>
+        <span class="kw">protected</span> <span class="kw">float</span>  <span class="var">$velocidadMax</span>
+    ) {}
+
+    <span class="cmt">// Método concreto — heredado tal cual</span>
+    <span class="kw">public function</span> <span class="fn">info</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="str">"<span class="var">{$this->marca}</span> (<span class="var">{$this->anio}</span>) — hasta <span class="var">{$this->velocidadMax}</span> km/h"</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Método abstracto — cada subclase DEBE implementarlo</span>
+    <span class="kw">abstract public function</span> <span class="fn">tipoCombustible</span>(): <span class="kw">string</span><span class="op">;</span>
+
+    <span class="cmt">// final — no se puede sobrescribir en subclases</span>
+    <span class="kw">final public function</span> <span class="fn">matricula</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="fn">strtoupper</span>(<span class="fn">substr</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">marca</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="num">3</span>)) <span class="op">.</span> <span class="str">"-"</span> <span class="op">.</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">anio</span><span class="op">;</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Coche</span> <span class="kw">extends</span> <span class="fn">Vehiculo</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">string</span> <span class="var">$marca</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$anio</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$velMax</span><span class="op">,</span>
+        <span class="kw">private</span> <span class="kw">int</span> <span class="var">$puertas</span> <span class="op">=</span> <span class="num">4</span>
+    ) {
+        <span class="kw">parent</span>::<span class="fn">__construct</span>(<span class="var">$marca</span><span class="op">,</span> <span class="var">$anio</span><span class="op">,</span> <span class="var">$velMax</span>)<span class="op">;</span>  <span class="cmt">// llamar al padre</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">tipoCombustible</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"Gasolina"</span><span class="op">;</span> }
+
+    <span class="cmt">// Sobrescribir (override) método del padre</span>
+    <span class="kw">public function</span> <span class="fn">info</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="kw">parent</span>::<span class="fn">info</span>() <span class="op">.</span> <span class="str">" | {$this->puertas} puertas"</span><span class="op">;</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">CocheElectrico</span> <span class="kw">extends</span> <span class="fn">Coche</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">string</span> <span class="var">$marca</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$anio</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$velMax</span><span class="op">,</span>
+        <span class="kw">private</span> <span class="kw">int</span> <span class="var">$autonomiaKm</span>
+    ) {
+        <span class="kw">parent</span>::<span class="fn">__construct</span>(<span class="var">$marca</span><span class="op">,</span> <span class="var">$anio</span><span class="op">,</span> <span class="var">$velMax</span>)<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">tipoCombustible</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"Eléctrico"</span><span class="op">;</span> }
+
+    <span class="kw">public function</span> <span class="fn">info</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="kw">parent</span>::<span class="fn">info</span>() <span class="op">.</span> <span class="str">" | Autonomía: {$this->autonomiaKm}km"</span><span class="op">;</span>
+    }
+}
+
+<span class="cmt">// Polimorfismo — tratar distintos tipos con la misma interfaz</span>
+<span class="var">$flota</span> <span class="op">=</span> [
+    <span class="kw">new</span> <span class="fn">Coche</span>(<span class="str">"Toyota"</span><span class="op">,</span> <span class="num">2023</span><span class="op">,</span> <span class="num">180</span>)<span class="op">,</span>
+    <span class="kw">new</span> <span class="fn">CocheElectrico</span>(<span class="str">"Tesla"</span><span class="op">,</span> <span class="num">2024</span><span class="op">,</span> <span class="num">250</span><span class="op">,</span> <span class="num">600</span>)<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="kw">foreach</span> (<span class="var">$flota</span> <span class="kw">as</span> <span class="var">$v</span>) {
+    <span class="fn">echo</span> <span class="var">$v</span><span class="op">-&gt;</span><span class="fn">info</span>() <span class="op">.</span> <span class="str">" [{$v->tipoCombustible()}]&lt;br&gt;"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Matrícula: "</span> <span class="op">.</span> <span class="var">$v</span><span class="op">-&gt;</span><span class="fn">matricula</span>() <span class="op">.</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+
+    <span class="cmt">// instanceof — comprobar tipo en runtime</span>
+    <span class="kw">if</span> (<span class="var">$v</span> <span class="kw">instanceof</span> <span class="fn">CocheElectrico</span>) {
+        <span class="fn">echo</span> <span class="str">"⚡ Vehículo eléctrico&lt;br&gt;"</span><span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">Toyota (2023) — hasta 180 km/h | 4 puertas [Gasolina]</div>
+              <div class="output-info">Matrícula: TOY-2023</div>
+              <div class="output-info">Tesla (2024) — hasta 250 km/h | 4 puertas | Autonomía: 600km [Eléctrico]</div>
+              <div class="output-success">⚡ Vehículo eléctrico</div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Métodos mágicos -->
+          <div id="poo-magicos" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>metodos_magicos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">Coleccion</span> {
+    <span class="kw">private</span> <span class="kw">array</span> <span class="var">$items</span> <span class="op">=</span> []<span class="op">;</span>
+
+    <span class="cmt">// __construct — al instanciar</span>
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">array</span> <span class="var">$items</span> <span class="op">=</span> []) {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span> <span class="op">=</span> <span class="var">$items</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// __destruct — al destruir el objeto o terminar el script</span>
+    <span class="kw">public function</span> <span class="fn">__destruct</span>() {
+        <span class="fn">echo</span> <span class="str">"Colección liberada&lt;br&gt;"</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// __toString — al convertir a string (echo $obj)</span>
+    <span class="kw">public function</span> <span class="fn">__toString</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="str">"Colección("</span> <span class="op">.</span> <span class="fn">count</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span>) <span class="op">.</span> <span class="str">" items)"</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// __get — acceder a propiedad no existente/privada</span>
+    <span class="kw">public function</span> <span class="fn">__get</span>(<span class="kw">string</span> <span class="var">$clave</span>): <span class="kw">mixed</span> {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span>[<span class="var">$clave</span>] <span class="op">??</span> <span class="kw">null</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// __set — asignar a propiedad no existente/privada</span>
+    <span class="kw">public function</span> <span class="fn">__set</span>(<span class="kw">string</span> <span class="var">$clave</span><span class="op">,</span> <span class="kw">mixed</span> <span class="var">$valor</span>): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span>[<span class="var">$clave</span>] <span class="op">=</span> <span class="var">$valor</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// __isset — isset($obj->propiedad)</span>
+    <span class="kw">public function</span> <span class="fn">__isset</span>(<span class="kw">string</span> <span class="var">$clave</span>): <span class="kw">bool</span> {
+        <span class="kw">return</span> <span class="fn">isset</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span>[<span class="var">$clave</span>])<span class="op">;</span>
+    }
+
+    <span class="cmt">// __unset — unset($obj->propiedad)</span>
+    <span class="kw">public function</span> <span class="fn">__unset</span>(<span class="kw">string</span> <span class="var">$clave</span>): <span class="kw">void</span> {
+        <span class="fn">unset</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span>[<span class="var">$clave</span>])<span class="op">;</span>
+    }
+
+    <span class="cmt">// __invoke — llamar al objeto como función</span>
+    <span class="kw">public function</span> <span class="fn">__invoke</span>(<span class="kw">string</span> <span class="var">$clave</span>): <span class="kw">mixed</span> {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span>[<span class="var">$clave</span>] <span class="op">??</span> <span class="kw">null</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// __clone — personalizar comportamiento al clonar</span>
+    <span class="kw">public function</span> <span class="fn">__clone</span>() {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span><span class="op">;</span>  <span class="cmt">// copia superficial automática</span>
+    }
+
+    <span class="cmt">// __debugInfo — personalizar var_dump()</span>
+    <span class="kw">public function</span> <span class="fn">__debugInfo</span>(): <span class="kw">array</span> {
+        <span class="kw">return</span> [<span class="str">'total'</span> <span class="op">=&gt;</span> <span class="fn">count</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span>)<span class="op">,</span> <span class="str">'items'</span> <span class="op">=&gt;</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">items</span>]<span class="op">;</span>
+    }
+}
+
+<span class="var">$c</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Coleccion</span>()<span class="op">;</span>
+<span class="var">$c</span><span class="op">-&gt;</span><span class="var">nombre</span> <span class="op">=</span> <span class="str">"PHP"</span><span class="op">;</span>       <span class="cmt">// __set</span>
+<span class="fn">echo</span> <span class="var">$c</span><span class="op">-&gt;</span><span class="var">nombre</span><span class="op">;</span>          <span class="cmt">// __get  → PHP</span>
+<span class="fn">echo</span> <span class="var">$c</span><span class="op">;</span>                  <span class="cmt">// __toString → Colección(1 items)</span>
+<span class="fn">echo</span> <span class="var">$c</span>(<span class="str">"nombre"</span>)<span class="op">;</span>        <span class="cmt">// __invoke → PHP</span>
+<span class="fn">var_dump</span>(<span class="fn">isset</span>(<span class="var">$c</span><span class="op">-&gt;</span><span class="var">nombre</span>))<span class="op">;</span> <span class="cmt">// __isset → bool(true)</span>
+<span class="var">$copia</span> <span class="op">=</span> <span class="kw">clone</span> <span class="var">$c</span><span class="op">;</span>        <span class="cmt">// __clone</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">PHP</div>
+              <div class="output-info">Colección(1 items)</div>
+              <div class="output-info">bool(true)</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Método mágico</th><th>Se ejecuta cuando…</th></tr>
+              <tr><td><code>__construct</code></td><td>Se crea un objeto con <code>new</code></td></tr>
+              <tr><td><code>__destruct</code></td><td>El objeto se destruye o termina el script</td></tr>
+              <tr><td><code>__toString</code></td><td><code>echo $obj</code> o conversión a string</td></tr>
+              <tr><td><code>__get / __set</code></td><td>Acceder/asignar propiedad inaccesible</td></tr>
+              <tr><td><code>__isset / __unset</code></td><td><code>isset($obj->p)</code> / <code>unset($obj->p)</code></td></tr>
+              <tr><td><code>__invoke</code></td><td><code>$obj(args)</code> — llamar como función</td></tr>
+              <tr><td><code>__clone</code></td><td><code>clone $obj</code></td></tr>
+            </table>
+          </div>
+
+          <!-- TAB 4: Patrón fluido / Builder -->
+          <div id="poo-patron" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>fluent_builder.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Patrón Builder con interfaz fluida (method chaining)</span>
+<span class="cmt">// Cada método devuelve $this para encadenar llamadas</span>
+<span class="kw">class</span> <span class="fn">ConsultaSQL</span> {
+    <span class="kw">private</span> <span class="kw">string</span>  <span class="var">$tabla</span>     <span class="op">=</span> <span class="str">""</span><span class="op">;</span>
+    <span class="kw">private</span> <span class="kw">array</span>   <span class="var">$campos</span>    <span class="op">=</span> [<span class="str">"*"</span>]<span class="op">;</span>
+    <span class="kw">private</span> <span class="kw">array</span>   <span class="var">$condiciones</span> <span class="op">=</span> []<span class="op">;</span>
+    <span class="kw">private</span> <span class="op">?</span><span class="kw">int</span>   <span class="var">$limite</span>    <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+    <span class="kw">private</span> <span class="op">?</span><span class="kw">string</span> <span class="var">$orden</span>    <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">tabla</span>(<span class="kw">string</span> <span class="var">$t</span>): <span class="kw">static</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">tabla</span> <span class="op">=</span> <span class="var">$t</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">;</span>       <span class="cmt">// ← clave del encadenamiento</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">seleccionar</span>(<span class="kw">string</span> <span class="op">...</span><span class="var">$campos</span>): <span class="kw">static</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">campos</span> <span class="op">=</span> <span class="var">$campos</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">donde</span>(<span class="kw">string</span> <span class="var">$cond</span>): <span class="kw">static</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">condiciones</span>[] <span class="op">=</span> <span class="var">$cond</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">ordenarPor</span>(<span class="kw">string</span> <span class="var">$col</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$dir</span> <span class="op">=</span> <span class="str">"ASC"</span>): <span class="kw">static</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">orden</span> <span class="op">=</span> <span class="str">"<span class="var">$col</span> <span class="var">$dir</span>"</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">limite</span>(<span class="kw">int</span> <span class="var">$n</span>): <span class="kw">static</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">limite</span> <span class="op">=</span> <span class="var">$n</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">construir</span>(): <span class="kw">string</span> {
+        <span class="var">$sql</span> <span class="op">=</span> <span class="str">"SELECT "</span> <span class="op">.</span> <span class="fn">implode</span>(<span class="str">", "</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">campos</span>)<span class="op">;</span>
+        <span class="var">$sql</span> <span class="op">.=</span> <span class="str">" FROM {$this->tabla}"</span><span class="op">;</span>
+        <span class="kw">if</span> (<span class="var">$this</span><span class="op">-&gt;</span><span class="var">condiciones</span>) {
+            <span class="var">$sql</span> <span class="op">.=</span> <span class="str">" WHERE "</span> <span class="op">.</span> <span class="fn">implode</span>(<span class="str">" AND "</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">condiciones</span>)<span class="op">;</span>
+        }
+        <span class="kw">if</span> (<span class="var">$this</span><span class="op">-&gt;</span><span class="var">orden</span>)  <span class="var">$sql</span> <span class="op">.=</span> <span class="str">" ORDER BY {$this->orden}"</span><span class="op">;</span>
+        <span class="kw">if</span> (<span class="var">$this</span><span class="op">-&gt;</span><span class="var">limite</span>) <span class="var">$sql</span> <span class="op">.=</span> <span class="str">" LIMIT {$this->limite}"</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$sql</span><span class="op">;</span>
+    }
+}
+
+<span class="cmt">// Uso fluido — cada método devuelve el objeto para encadenar</span>
+<span class="var">$sql</span> <span class="op">=</span> (<span class="kw">new</span> <span class="fn">ConsultaSQL</span>())
+    <span class="op">-&gt;</span><span class="fn">tabla</span>(<span class="str">"usuarios"</span>)
+    <span class="op">-&gt;</span><span class="fn">seleccionar</span>(<span class="str">"id"</span><span class="op">,</span> <span class="str">"nombre"</span><span class="op">,</span> <span class="str">"email"</span>)
+    <span class="op">-&gt;</span><span class="fn">donde</span>(<span class="str">"activo = 1"</span>)
+    <span class="op">-&gt;</span><span class="fn">donde</span>(<span class="str">"edad >= 18"</span>)
+    <span class="op">-&gt;</span><span class="fn">ordenarPor</span>(<span class="str">"nombre"</span>)
+    <span class="op">-&gt;</span><span class="fn">limite</span>(<span class="num">10</span>)
+    <span class="op">-&gt;</span><span class="fn">construir</span>()<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="var">$sql</span><span class="op">;</span>
+<span class="cmt">// SELECT id, nombre, email FROM usuarios</span>
+<span class="cmt">// WHERE activo = 1 AND edad >= 18</span>
+<span class="cmt">// ORDER BY nombre ASC LIMIT 10</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ SQL generado</div>
+              <div class="output-success">SELECT id, nombre, email FROM usuarios WHERE activo = 1 AND edad &gt;= 18 ORDER BY nombre ASC LIMIT 10</div>
+            </div>
+            <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> Este patrón (Fluent Interface / Builder) se usa en frameworks como Laravel (<code>DB::table()->where()->orderBy()->get()</code>), Eloquent y muchos ORM modernos.</div>
+          </div>
+
+        </div>
+      </div>
+</div>
+      </section>

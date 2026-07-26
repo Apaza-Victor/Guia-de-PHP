@@ -1,0 +1,195 @@
+      <section id="php-vars">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">2</div>
+          <div>
+            <div class="concept-title">Variables y Tipos de Datos</div>
+            <div class="concept-desc">Tipos escalares, compuestos, especiales, casting y constantes.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'vars-basic')">Tipos básicos</button>
+            <button class="tab-btn" onclick="showTab(this,'vars-cast')">Casting y conversión</button>
+            <button class="tab-btn" onclick="showTab(this,'vars-const')">Constantes</button>
+            <button class="tab-btn" onclick="showTab(this,'vars-scope')">Ámbito de variables</button>
+          </div>
+
+          <div id="vars-basic" class="tab-content active">
+            <table class="data-table">
+              <tr><th>Tipo</th><th>Ejemplo</th><th>Descripción</th><th>gettype()</th></tr>
+              <tr><td><code>string</code></td><td><code>"Hola"</code></td><td>Texto</td><td>string</td></tr>
+              <tr><td><code>int</code></td><td><code>42</code></td><td>Número entero</td><td>integer</td></tr>
+              <tr><td><code>float</code></td><td><code>3.14</code></td><td>Número decimal</td><td>double</td></tr>
+              <tr><td><code>bool</code></td><td><code>true / false</code></td><td>Verdadero o falso</td><td>boolean</td></tr>
+              <tr><td><code>null</code></td><td><code>null</code></td><td>Sin valor / vacío</td><td>NULL</td></tr>
+              <tr><td><code>array</code></td><td><code>[1, "a", true]</code></td><td>Colección de valores</td><td>array</td></tr>
+              <tr><td><code>object</code></td><td><code>new Clase()</code></td><td>Instancia de clase</td><td>object</td></tr>
+            </table>
+            <div class="code-wrap" style="margin-top:1rem">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>variables.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$nombre</span>    <span class="op">=</span> <span class="str">"Ana García"</span><span class="op">;</span>   <span class="cmt">// string</span>
+<span class="var">$edad</span>      <span class="op">=</span> <span class="num">25</span><span class="op">;</span>             <span class="cmt">// int</span>
+<span class="var">$altura</span>    <span class="op">=</span> <span class="num">1.68</span><span class="op">;</span>           <span class="cmt">// float</span>
+<span class="var">$activo</span>    <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>           <span class="cmt">// bool</span>
+<span class="var">$direccion</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>           <span class="cmt">// null</span>
+<span class="var">$colores</span>   <span class="op">=</span> [<span class="str">"rojo"</span><span class="op">,</span> <span class="str">"azul"</span>]<span class="op">;</span> <span class="cmt">// array</span>
+
+<span class="cmt">// Ver tipo de una variable</span>
+<span class="fn">echo</span> <span class="fn">gettype</span>(<span class="var">$nombre</span>)<span class="op">;</span>    <span class="cmt">// string</span>
+<span class="fn">echo</span> <span class="fn">gettype</span>(<span class="var">$edad</span>)<span class="op">;</span>      <span class="cmt">// integer</span>
+
+<span class="cmt">// var_dump — tipo + valor + longitud</span>
+<span class="fn">var_dump</span>(<span class="var">$activo</span>)<span class="op">;</span>        <span class="cmt">// bool(true)</span>
+<span class="fn">var_dump</span>(<span class="var">$nombre</span>)<span class="op">;</span>        <span class="cmt">// string(10) "Ana García"</span>
+
+<span class="cmt">// Interpolación dentro de comillas dobles</span>
+<span class="fn">echo</span> <span class="str">"Nombre: <span class="var">$nombre</span>, Edad: <span class="var">$edad</span>"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Altura: {<span class="var">$altura</span>}m"</span><span class="op">;</span>  <span class="cmt">// {} para expresiones complejas</span>
+
+<span class="cmt">// isset(), empty(), is_null()</span>
+<span class="fn">var_dump</span>(<span class="fn">isset</span>(<span class="var">$nombre</span>))<span class="op">;</span>    <span class="cmt">// true — existe y no es null</span>
+<span class="fn">var_dump</span>(<span class="fn">empty</span>(<span class="var">$direccion</span>))<span class="op">;</span> <span class="cmt">// true — null es "vacío"</span>
+<span class="fn">var_dump</span>(<span class="fn">is_string</span>(<span class="var">$nombre</span>))<span class="op">;</span> <span class="cmt">// true</span>
+<span class="fn">var_dump</span>(<span class="fn">is_int</span>(<span class="var">$edad</span>))<span class="op">;</span>      <span class="cmt">// true</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div>string &nbsp;|&nbsp; integer</div>
+              <div class="output-info">bool(true) &nbsp;|&nbsp; string(10) "Ana García"</div>
+              <div class="output-success">Nombre: Ana García, Edad: 25</div>
+            </div>
+          </div>
+
+          <div id="vars-cast" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>casting.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Casting explícito — forzar un tipo</span>
+<span class="var">$precio</span> <span class="op">=</span> <span class="str">"49.99abc"</span><span class="op">;</span>
+
+<span class="fn">echo</span> (<span class="kw">int</span>)   <span class="var">$precio</span><span class="op">;</span>     <span class="cmt">// 49     — toma la parte entera</span>
+<span class="fn">echo</span> (<span class="kw">float</span>) <span class="var">$precio</span><span class="op">;</span>     <span class="cmt">// 49.99  — toma la parte decimal</span>
+<span class="fn">echo</span> (<span class="kw">bool</span>)  <span class="var">$precio</span><span class="op">;</span>     <span class="cmt">// true   — string no vacío es true</span>
+<span class="fn">echo</span> (<span class="kw">string</span>) <span class="num">3.14</span><span class="op">;</span>       <span class="cmt">// "3.14"</span>
+<span class="fn">echo</span> (<span class="kw">int</span>) <span class="kw">true</span><span class="op">;</span>          <span class="cmt">// 1</span>
+<span class="fn">echo</span> (<span class="kw">int</span>) <span class="kw">false</span><span class="op">;</span>         <span class="cmt">// 0</span>
+<span class="fn">echo</span> (<span class="kw">float</span>) <span class="str">"3,14"</span><span class="op">;</span>      <span class="cmt">// 3.0 — coma no es separador decimal</span>
+
+<span class="cmt">// Funciones de conversión</span>
+<span class="fn">echo</span> <span class="fn">intval</span>(<span class="str">"0xFF"</span><span class="op">,</span> <span class="num">16</span>)<span class="op">;</span>  <span class="cmt">// 255 — hex a decimal</span>
+<span class="fn">echo</span> <span class="fn">intval</span>(<span class="str">"0b1010"</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span> <span class="cmt">// 10  — binario a decimal</span>
+<span class="fn">echo</span> <span class="fn">floatval</span>(<span class="str">"3.14xyz"</span>)<span class="op">;</span> <span class="cmt">// 3.14</span>
+<span class="fn">echo</span> <span class="fn">strval</span>(<span class="num">42</span>)<span class="op">;</span>          <span class="cmt">// "42"</span>
+<span class="fn">echo</span> <span class="fn">settype</span>(<span class="var">$precio</span><span class="op">,</span> <span class="str">"float"</span>)<span class="op">;</span> <span class="cmt">// convierte $precio in-place</span>
+
+<span class="cmt">// Valores "falsy" en PHP — se evalúan como false</span>
+<span class="var">$falsys</span> <span class="op">=</span> [<span class="num">0</span><span class="op">,</span> <span class="num">0.0</span><span class="op">,</span> <span class="str">""</span><span class="op">,</span> <span class="str">"0"</span><span class="op">,</span> <span class="kw">null</span><span class="op">,</span> <span class="kw">false</span><span class="op">,</span> []]<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$falsys</span> <span class="kw">as</span> <span class="var">$v</span>) {
+    <span class="fn">var_dump</span>((<span class="kw">bool</span>) <span class="var">$v</span>)<span class="op">;</span>  <span class="cmt">// todos son bool(false)</span>
+}
+
+<span class="cmt">// Cualquier otro valor es "truthy"</span>
+<span class="fn">var_dump</span>((<span class="kw">bool</span>) <span class="str">"false"</span>)<span class="op">;</span>  <span class="cmt">// bool(true) — string no vacío!</span>
+<span class="fn">var_dump</span>((<span class="kw">bool</span>) [<span class="num">0</span>])<span class="op">;</span>      <span class="cmt">// bool(true) — array con un elemento</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida destacada</div>
+              <div class="output-warn">("false") → bool(true) ← string no vacío siempre es truthy</div>
+              <div class="output-warn">([0])    → bool(true) ← array con elementos es truthy</div>
+              <div class="output-err">("0")    → bool(false) ← excepción: "0" es falsy</div>
+            </div>
+          </div>
+
+          <div id="vars-const" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>constantes.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Constante global con define()</span>
+<span class="fn">define</span>(<span class="str">'VERSION'</span><span class="op">,</span> <span class="str">'1.5.0'</span>)<span class="op">;</span>
+<span class="fn">define</span>(<span class="str">'IVA'</span><span class="op">,</span> <span class="num">0.21</span>)<span class="op">;</span>
+<span class="fn">define</span>(<span class="str">'COLORES_VALIDOS'</span><span class="op">,</span> [<span class="str">'rojo'</span><span class="op">,</span> <span class="str">'verde'</span><span class="op">,</span> <span class="str">'azul'</span>])<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="fn">VERSION</span><span class="op">;</span>  <span class="cmt">// 1.5.0  (sin $ y sin paréntesis)</span>
+<span class="fn">echo</span> <span class="fn">IVA</span><span class="op">;</span>      <span class="cmt">// 0.21</span>
+
+<span class="cmt">// Constante de clase con const</span>
+<span class="kw">class</span> <span class="fn">Conexion</span> {
+    <span class="kw">public const</span> <span class="fn">TIMEOUT</span>   <span class="op">=</span> <span class="num">30</span><span class="op">;</span>
+    <span class="kw">public const</span> <span class="fn">MAX_RETRY</span> <span class="op">=</span> <span class="num">3</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">conectar</span>(): <span class="kw">void</span> {
+        <span class="fn">echo</span> <span class="str">"Timeout: "</span> <span class="op">.</span> <span class="kw">self</span>::<span class="fn">TIMEOUT</span><span class="op">;</span>
+    }
+}
+<span class="fn">echo</span> <span class="fn">Conexion</span>::<span class="fn">TIMEOUT</span><span class="op">;</span>   <span class="cmt">// 30 — acceso sin instanciar</span>
+<span class="fn">echo</span> <span class="fn">Conexion</span>::<span class="fn">MAX_RETRY</span><span class="op">;</span> <span class="cmt">// 3</span>
+
+<span class="cmt">// Constantes mágicas de PHP — cambian según contexto</span>
+<span class="fn">echo</span> <span class="fn">__FILE__</span><span class="op">;</span>      <span class="cmt">// ruta completa del archivo actual</span>
+<span class="fn">echo</span> <span class="fn">__DIR__</span><span class="op">;</span>       <span class="cmt">// directorio del archivo actual</span>
+<span class="fn">echo</span> <span class="fn">__LINE__</span><span class="op">;</span>      <span class="cmt">// número de línea actual</span>
+<span class="fn">echo</span> <span class="fn">__FUNCTION__</span><span class="op">;</span>  <span class="cmt">// nombre de la función actual</span>
+<span class="fn">echo</span> <span class="fn">__CLASS__</span><span class="op">;</span>     <span class="cmt">// nombre de la clase actual</span>
+<span class="fn">echo</span> <span class="fn">__NAMESPACE__</span><span class="op">;</span> <span class="cmt">// namespace actual</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">VERSION: 1.5.0 &nbsp;|&nbsp; IVA: 0.21</div>
+              <div class="output-success">Conexion::TIMEOUT = 30</div>
+              <div class="output-info">__FILE__: /var/www/html/index.php</div>
+            </div>
+          </div>
+
+          <div id="vars-scope" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>scope.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$global</span> <span class="op">=</span> <span class="str">"Soy global"</span><span class="op">;</span>
+
+<span class="kw">function</span> <span class="fn">sinAcceso</span>(): <span class="kw">void</span> {
+    <span class="cmt">// ❌ Las funciones NO ven variables globales por defecto</span>
+    <span class="fn">echo</span> <span class="var">$global</span><span class="op">;</span>  <span class="cmt">// Notice: undefined variable</span>
+}
+
+<span class="kw">function</span> <span class="fn">conGlobal</span>(): <span class="kw">void</span> {
+    <span class="cmt">// ✅ Importar con global</span>
+    <span class="kw">global</span> <span class="var">$global</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="var">$global</span><span class="op">;</span>  <span class="cmt">// Soy global</span>
+}
+
+<span class="cmt">// Variable estática — se inicializa una vez y persiste entre llamadas</span>
+<span class="kw">function</span> <span class="fn">contarLlamadas</span>(): <span class="kw">int</span> {
+    <span class="kw">static</span> <span class="var">$veces</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>  <span class="cmt">// se inicializa solo la primera vez</span>
+    <span class="kw">return</span> <span class="op">++</span><span class="var">$veces</span><span class="op">;</span>
+}
+
+<span class="fn">echo</span> <span class="fn">contarLlamadas</span>()<span class="op">;</span>  <span class="cmt">// 1</span>
+<span class="fn">echo</span> <span class="fn">contarLlamadas</span>()<span class="op">;</span>  <span class="cmt">// 2</span>
+<span class="fn">echo</span> <span class="fn">contarLlamadas</span>()<span class="op">;</span>  <span class="cmt">// 3</span>
+
+<span class="cmt">// Variables variables — el nombre es otra variable</span>
+<span class="var">$campo</span> <span class="op">=</span> <span class="str">"precio"</span><span class="op">;</span>
+<span class="var">$$campo</span> <span class="op">=</span> <span class="num">99.99</span><span class="op">;</span>  <span class="cmt">// crea $precio = 99.99</span>
+<span class="fn">echo</span> <span class="var">$precio</span><span class="op">;</span>      <span class="cmt">// 99.99</span>
+<span class="fn">echo</span> <span class="var">$$campo</span><span class="op">;</span>     <span class="cmt">// 99.99</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-err">sinAcceso(): Notice — variable no definida</div>
+              <div class="output-success">conGlobal(): Soy global</div>
+              <div class="output-info">contarLlamadas(): 1 → 2 → 3</div>
+              <div class="output-success">$$campo: 99.99</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+</div>
+      </section>

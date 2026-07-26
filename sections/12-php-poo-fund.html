@@ -1,0 +1,465 @@
+      <section id="php-poo-fundamentos">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#6200ea,#aa00ff)">9b</div>
+          <div>
+            <div class="concept-title">Fundamentos de POO — Conceptos Base</div>
+            <div class="concept-desc">Clase · objeto · atributo · método · encapsulamiento · herencia · polimorfismo · abstracción.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+
+          <!-- Los 4 pilares -->
+          <div style="font-weight:700;color:var(--text1);margin-bottom:.8rem;font-size:.95rem">🏛️ Los 4 pilares de la POO</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem;margin-bottom:1.4rem">
+
+            <div style="background:linear-gradient(135deg,#0d2137,#0a3d62);border-radius:12px;padding:1.1rem;border-top:4px solid #42a5f5">
+              <div style="font-size:1.5rem;margin-bottom:.3rem">🔒</div>
+              <div style="font-weight:700;color:#42a5f5;margin-bottom:.5rem">Encapsulamiento</div>
+              <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Ocultar los detalles internos de un objeto y exponer solo lo necesario. Los atributos se protegen con <code>private</code> o <code>protected</code> y se acceden mediante métodos (getters/setters).</div>
+              <div style="margin-top:.6rem;font-size:.75rem;color:#90caf9">Como una cápsula: lo que hay dentro está protegido.</div>
+            </div>
+
+            <div style="background:linear-gradient(135deg,#1a0d37,#2d0a62);border-radius:12px;padding:1.1rem;border-top:4px solid #ab47bc">
+              <div style="font-size:1.5rem;margin-bottom:.3rem">👪</div>
+              <div style="font-weight:700;color:#ab47bc;margin-bottom:.5rem">Herencia</div>
+              <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Una clase <strong style="color:var(--text1)">hija</strong> hereda atributos y métodos de una clase <strong style="color:var(--text1)">padre</strong>, pudiendo añadir o sobrescribir funcionalidad. Evita duplicar código.</div>
+              <div style="margin-top:.6rem;font-size:.75rem;color:#ce93d8">Como la herencia biológica: los hijos heredan rasgos de los padres.</div>
+            </div>
+
+            <div style="background:linear-gradient(135deg,#0d3720,#0a5e30);border-radius:12px;padding:1.1rem;border-top:4px solid #66bb6a">
+              <div style="font-size:1.5rem;margin-bottom:.3rem">🎭</div>
+              <div style="font-weight:700;color:#66bb6a;margin-bottom:.5rem">Polimorfismo</div>
+              <div style="font-size:.82rem;color:var(--text2);line-height:1.6">El mismo método puede comportarse de manera <strong style="color:var(--text1)">diferente</strong> según el objeto que lo ejecute. Permite tratar distintos objetos con la misma interfaz.</div>
+              <div style="margin-top:.6rem;font-size:.75rem;color:#a5d6a7">Como un botón de "reproducir": en música suena audio, en vídeo muestra frames.</div>
+            </div>
+
+            <div style="background:linear-gradient(135deg,#370d0d,#5e0a0a);border-radius:12px;padding:1.1rem;border-top:4px solid #ef5350">
+              <div style="font-size:1.5rem;margin-bottom:.3rem">🎨</div>
+              <div style="font-weight:700;color:#ef5350;margin-bottom:.5rem">Abstracción</div>
+              <div style="font-size:.82rem;color:var(--text2);line-height:1.6">Mostrar solo las características <strong style="color:var(--text1)">esenciales</strong> de un objeto, ocultando la complejidad interna. Se logra con clases abstractas e interfaces.</div>
+              <div style="margin-top:.6rem;font-size:.75rem;color:#ef9a9a">Como conducir un coche: usas el volante sin saber cómo funciona el motor.</div>
+            </div>
+
+          </div>
+
+          <!-- Conceptos base: clase, objeto, atributo, método -->
+          <div style="font-weight:700;color:var(--text1);margin-bottom:.8rem;font-size:.95rem">🧱 Conceptos base: Clase, Objeto, Atributo y Método</div>
+
+          <!-- Diagrama visual clase → objeto -->
+          <div style="background:var(--bg3);border-radius:12px;padding:1.2rem;margin-bottom:1.2rem">
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center">
+
+              <!-- Clase (molde) -->
+              <div style="text-align:center">
+                <div style="font-weight:700;color:#42a5f5;margin-bottom:.6rem;font-size:.9rem">📐 CLASE (molde / plantilla)</div>
+                <div style="background:#0d2137;border:2px solid #42a5f5;border-radius:10px;padding:.8rem;font-size:.8rem">
+                  <div style="background:#1565c0;color:white;border-radius:5px;padding:.3rem .6rem;margin-bottom:.6rem;font-family:monospace;font-size:.78rem">class Persona</div>
+                  <div style="border-top:1px solid #1565c0;padding-top:.5rem;margin-top:.2rem">
+                    <div style="color:#ef5350;font-size:.75rem;font-weight:700;margin-bottom:.3rem">ATRIBUTOS</div>
+                    <div style="color:#90caf9;font-family:monospace;font-size:.72rem;line-height:1.8">
+                      $nombre: string<br>
+                      $edad: int<br>
+                      $email: string
+                    </div>
+                  </div>
+                  <div style="border-top:1px solid #1565c0;padding-top:.5rem;margin-top:.5rem">
+                    <div style="color:#66bb6a;font-size:.75rem;font-weight:700;margin-bottom:.3rem">MÉTODOS</div>
+                    <div style="color:#a5d6a7;font-family:monospace;font-size:.72rem;line-height:1.8">
+                      saludar(): string<br>
+                      cumplirAnios(): void<br>
+                      getNombre(): string
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:var(--text3)">Define la estructura.<br>No ocupa memoria por sí sola.</div>
+              </div>
+
+              <!-- Flecha new -->
+              <div style="text-align:center">
+                <div style="font-size:1.4rem">→</div>
+                <div style="font-family:monospace;font-size:.7rem;color:#ffa726;background:rgba(255,167,38,.1);padding:.3rem .5rem;border-radius:5px;margin-top:.3rem">new Persona()</div>
+                <div style="font-size:.7rem;color:var(--text3);margin-top:.3rem">instanciar</div>
+              </div>
+
+              <!-- Objetos (instancias) -->
+              <div style="text-align:center">
+                <div style="font-weight:700;color:#66bb6a;margin-bottom:.6rem;font-size:.9rem">📦 OBJETOS (instancias)</div>
+                <div style="display:flex;flex-direction:column;gap:.5rem">
+                  <div style="background:#0d3720;border:2px solid #66bb6a;border-radius:8px;padding:.6rem;font-size:.75rem">
+                    <div style="color:#66bb6a;font-weight:700;margin-bottom:.3rem">$persona1</div>
+                    <div style="color:#a5d6a7;font-family:monospace;font-size:.7rem;line-height:1.6">nombre = "Ana"<br>edad = 28<br>email = "ana@mail.com"</div>
+                  </div>
+                  <div style="background:#0d3720;border:2px solid #66bb6a;border-radius:8px;padding:.6rem;font-size:.75rem">
+                    <div style="color:#66bb6a;font-weight:700;margin-bottom:.3rem">$persona2</div>
+                    <div style="color:#a5d6a7;font-family:monospace;font-size:.7rem;line-height:1.6">nombre = "Luis"<br>edad = 35<br>email = "luis@mail.com"</div>
+                  </div>
+                </div>
+                <div style="margin-top:.5rem;font-size:.75rem;color:var(--text3)">Cada objeto tiene sus<br>propios valores.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabla definiciones -->
+          <table class="data-table" style="margin-bottom:1.2rem">
+            <tr><th>Concepto</th><th>Definición</th><th>Analogía</th><th>En PHP</th></tr>
+            <tr>
+              <td><strong style="color:#42a5f5">Clase</strong></td>
+              <td>Plantilla o molde que define la estructura y comportamiento de los objetos</td>
+              <td>Plano de arquitecto de una casa</td>
+              <td><code>class Persona { ... }</code></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#66bb6a">Objeto</strong></td>
+              <td>Instancia concreta de una clase, con valores propios en memoria</td>
+              <td>La casa construida a partir del plano</td>
+              <td><code>$p = new Persona("Ana", 28)</code></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#ef5350">Atributo</strong></td>
+              <td>Variable que pertenece a una clase y describe características del objeto</td>
+              <td>Color, tamaño, precio de la casa</td>
+              <td><code>public string $nombre;</code></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#ffa726">Método</strong></td>
+              <td>Función que pertenece a una clase y define su comportamiento</td>
+              <td>Acciones que puede hacer la casa: abrir puerta, encender luz</td>
+              <td><code>public function saludar(): string</code></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#ab47bc">Constructor</strong></td>
+              <td>Método especial que se ejecuta automáticamente al crear un objeto</td>
+              <td>El proceso de construir la casa</td>
+              <td><code>public function __construct(...)</code></td>
+            </tr>
+            <tr>
+              <td><strong style="color:#26c6da">Instanciar</strong></td>
+              <td>Crear un objeto a partir de una clase</td>
+              <td>Construir la casa usando el plano</td>
+              <td><code>$p = new Persona()</code></td>
+            </tr>
+          </table>
+
+          <!-- Tabs: encapsulamiento, herencia, polimorfismo, abstracción con código -->
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'poof-enc')">🔒 Encapsulamiento</button>
+            <button class="tab-btn" onclick="showTab(this,'poof-her')">👪 Herencia</button>
+            <button class="tab-btn" onclick="showTab(this,'poof-pol')">🎭 Polimorfismo</button>
+            <button class="tab-btn" onclick="showTab(this,'poof-abs')">🎨 Abstracción</button>
+          </div>
+
+          <!-- ENCAPSULAMIENTO -->
+          <div id="poof-enc" class="tab-content active">
+            <div class="alert alert-info"><span class="alert-icon">🔒</span> <strong>Encapsulamiento:</strong> los datos internos se protegen con <code>private</code>. Solo se accede a ellos mediante métodos públicos controlados (getters y setters), lo que evita estados inválidos.</div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>encapsulamiento.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">CuentaBancaria</span> {
+    <span class="cmt">// private: solo accesible dentro de la clase</span>
+    <span class="kw">private</span> <span class="kw">float</span>  <span class="var">$saldo</span>   <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="kw">private</span> <span class="kw">string</span> <span class="var">$titular</span><span class="op">;</span>
+    <span class="kw">private</span> <span class="kw">array</span>  <span class="var">$movimientos</span> <span class="op">=</span> []<span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">string</span> <span class="var">$titular</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$saldoInicial</span> <span class="op">=</span> <span class="num">0</span>) {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">titular</span> <span class="op">=</span> <span class="var">$titular</span><span class="op">;</span>
+        <span class="kw">if</span> (<span class="var">$saldoInicial</span> <span class="op">&gt;</span> <span class="num">0</span>) <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span> <span class="op">=</span> <span class="var">$saldoInicial</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// GETTER — solo lectura del saldo</span>
+    <span class="kw">public function</span> <span class="fn">getSaldo</span>(): <span class="kw">float</span> {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Método con lógica de negocio — no setter directo</span>
+    <span class="kw">public function</span> <span class="fn">depositar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">void</span> {
+        <span class="kw">if</span> (<span class="var">$monto</span> <span class="op">&lt;=</span> <span class="num">0</span>) <span class="kw">throw new</span> <span class="fn">InvalidArgumentException</span>(<span class="str">"Monto debe ser positivo"</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span> <span class="op">+=</span> <span class="var">$monto</span><span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">movimientos</span>[] <span class="op">=</span> [<span class="str">"tipo"</span> <span class="op">=&gt;</span> <span class="str">"+"</span><span class="op">,</span> <span class="str">"monto"</span> <span class="op">=&gt;</span> <span class="var">$monto</span>]<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">retirar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span> {
+        <span class="kw">if</span> (<span class="var">$monto</span> <span class="op">&lt;=</span> <span class="num">0</span>)              <span class="kw">throw new</span> <span class="fn">InvalidArgumentException</span>(<span class="str">"Monto inválido"</span>)<span class="op">;</span>
+        <span class="kw">if</span> (<span class="var">$monto</span> <span class="op">&gt;</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span>)   <span class="kw">return false</span><span class="op">;</span>  <span class="cmt">// saldo insuficiente</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span> <span class="op">-=</span> <span class="var">$monto</span><span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">movimientos</span>[] <span class="op">=</span> [<span class="str">"tipo"</span> <span class="op">=&gt;</span> <span class="str">"-"</span><span class="op">,</span> <span class="str">"monto"</span> <span class="op">=&gt;</span> <span class="var">$monto</span>]<span class="op">;</span>
+        <span class="kw">return true</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">resumen</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="fn">sprintf</span>(<span class="str">"%s — Saldo: S/ %.2f (%d movimientos)"</span><span class="op">,</span>
+            <span class="var">$this</span><span class="op">-&gt;</span><span class="var">titular</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">saldo</span><span class="op">,</span> <span class="fn">count</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">movimientos</span>)
+        )<span class="op">;</span>
+    }
+}
+
+<span class="var">$cuenta</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">CuentaBancaria</span>(<span class="str">"Ana García"</span><span class="op">,</span> <span class="num">500</span>)<span class="op">;</span>
+<span class="var">$cuenta</span><span class="op">-&gt;</span><span class="fn">depositar</span>(<span class="num">200</span>)<span class="op">;</span>
+<span class="var">$cuenta</span><span class="op">-&gt;</span><span class="fn">retirar</span>(<span class="num">100</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$cuenta</span><span class="op">-&gt;</span><span class="fn">resumen</span>()<span class="op">;</span>  <span class="cmt">// Ana García — Saldo: S/ 600.00 (2 movimientos)</span>
+
+<span class="cmt">// ❌ Esto NO se puede — $saldo es private</span>
+<span class="cmt">// $cuenta->saldo = -9999;  // Error fatal</span>
+<span class="cmt">// $cuenta->saldo;          // Error fatal</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">Ana García — Saldo: S/ 600.00 (2 movimientos)</div>
+              <div class="output-err">❌ $cuenta->saldo = -9999 → Fatal error: Cannot access private property</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Visibilidad</th><th>¿Quién puede acceder?</th><th>Uso típico</th></tr>
+              <tr><td><code>public</code></td><td>Desde cualquier lugar</td><td>Métodos de la API pública de la clase</td></tr>
+              <tr><td><code>protected</code></td><td>La clase y sus subclases</td><td>Atributos que las subclases necesitan heredar</td></tr>
+              <tr><td><code>private</code></td><td>Solo dentro de la misma clase</td><td>Datos sensibles, lógica interna</td></tr>
+            </table>
+          </div>
+
+          <!-- HERENCIA -->
+          <div id="poof-her" class="tab-content">
+            <div class="alert alert-info"><span class="alert-icon">👪</span> <strong>Herencia:</strong> una clase hija (<code>extends</code>) recibe todos los atributos y métodos <code>public</code> y <code>protected</code> del padre. Puede añadir los suyos propios y sobrescribir los heredados.</div>
+            <!-- Diagrama herencia SVG -->
+            <div style="background:var(--bg3);border-radius:10px;padding:1rem;margin-bottom:1.2rem;text-align:center">
+              <svg viewBox="0 0 380 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;display:block;margin:0 auto">
+                <defs><marker id="herd" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L0,8 L8,4 z" fill="#ab47bc"/></marker></defs>
+                <!-- Padre -->
+                <rect x="130" y="10" width="120" height="70" rx="8" fill="#1a0d37" stroke="#ab47bc" stroke-width="2"/>
+                <text x="190" y="30" text-anchor="middle" fill="#ab47bc" font-size="12" font-weight="bold" font-family="sans-serif">Vehiculo</text>
+                <line x1="130" y1="38" x2="250" y2="38" stroke="#ab47bc" stroke-width="1" stroke-dasharray="3,2"/>
+                <text x="190" y="52" text-anchor="middle" fill="#ce93d8" font-size="10" font-family="sans-serif">$marca, $anio</text>
+                <text x="190" y="66" text-anchor="middle" fill="#ce93d8" font-size="10" font-family="sans-serif">arrancar(), info()</text>
+                <!-- Flecha padre → hijos -->
+                <line x1="190" y1="80" x2="190" y2="100" stroke="#ab47bc" stroke-width="2"/>
+                <line x1="190" y1="100" x2="80" y2="100" stroke="#ab47bc" stroke-width="2"/>
+                <line x1="190" y1="100" x2="300" y2="100" stroke="#ab47bc" stroke-width="2"/>
+                <line x1="80" y1="100" x2="80" y2="118" stroke="#ab47bc" stroke-width="2" marker-end="url(#herd)"/>
+                <line x1="190" y1="100" x2="190" y2="118" stroke="#ab47bc" stroke-width="2" marker-end="url(#herd)"/>
+                <line x1="300" y1="100" x2="300" y2="118" stroke="#ab47bc" stroke-width="2" marker-end="url(#herd)"/>
+                <text x="190" y="112" text-anchor="middle" fill="#ab47bc" font-size="9" font-family="sans-serif">extends</text>
+                <!-- Hijo 1: Coche -->
+                <rect x="20" y="118" width="120" height="70" rx="8" fill="#0d2137" stroke="#42a5f5" stroke-width="2"/>
+                <text x="80" y="136" text-anchor="middle" fill="#42a5f5" font-size="11" font-weight="bold" font-family="sans-serif">Coche</text>
+                <line x1="20" y1="143" x2="140" y2="143" stroke="#42a5f5" stroke-width="1" stroke-dasharray="3,2"/>
+                <text x="80" y="156" text-anchor="middle" fill="#90caf9" font-size="9" font-family="sans-serif">$puertas ← nuevo</text>
+                <text x="80" y="170" text-anchor="middle" fill="#90caf9" font-size="9" font-family="sans-serif">acelerar() ← nuevo</text>
+                <text x="80" y="182" text-anchor="middle" fill="#90caf9" font-size="9" font-family="sans-serif">info() ← override</text>
+                <!-- Hijo 2: Moto -->
+                <rect x="130" y="118" width="120" height="70" rx="8" fill="#0d2137" stroke="#66bb6a" stroke-width="2"/>
+                <text x="190" y="136" text-anchor="middle" fill="#66bb6a" font-size="11" font-weight="bold" font-family="sans-serif">Moto</text>
+                <line x1="130" y1="143" x2="250" y2="143" stroke="#66bb6a" stroke-width="1" stroke-dasharray="3,2"/>
+                <text x="190" y="156" text-anchor="middle" fill="#a5d6a7" font-size="9" font-family="sans-serif">$tipo ← nuevo</text>
+                <text x="190" y="170" text-anchor="middle" fill="#a5d6a7" font-size="9" font-family="sans-serif">wheelie() ← nuevo</text>
+                <text x="190" y="182" text-anchor="middle" fill="#a5d6a7" font-size="9" font-family="sans-serif">info() ← override</text>
+                <!-- Hijo 3: Camión -->
+                <rect x="240" y="118" width="120" height="70" rx="8" fill="#0d2137" stroke="#ffa726" stroke-width="2"/>
+                <text x="300" y="136" text-anchor="middle" fill="#ffa726" font-size="11" font-weight="bold" font-family="sans-serif">Camion</text>
+                <line x1="240" y1="143" x2="360" y2="143" stroke="#ffa726" stroke-width="1" stroke-dasharray="3,2"/>
+                <text x="300" y="156" text-anchor="middle" fill="#ffcc80" font-size="9" font-family="sans-serif">$toneladas ← nuevo</text>
+                <text x="300" y="170" text-anchor="middle" fill="#ffcc80" font-size="9" font-family="sans-serif">cargar() ← nuevo</text>
+                <text x="300" y="182" text-anchor="middle" fill="#ffcc80" font-size="9" font-family="sans-serif">info() ← override</text>
+                <!-- Leyenda -->
+                <text x="5" y="210" fill="#ce93d8" font-size="9" font-family="sans-serif">Hereda: $marca, $anio, arrancar()</text>
+              </svg>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>herencia.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// CLASE PADRE</span>
+<span class="kw">class</span> <span class="fn">Vehiculo</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">protected</span> <span class="kw">string</span> <span class="var">$marca</span><span class="op">,</span>
+        <span class="kw">protected</span> <span class="kw">int</span>    <span class="var">$anio</span>
+    ) {}
+
+    <span class="kw">public function</span> <span class="fn">arrancar</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="str">"🔑 <span class="var">{$this->marca}</span> arrancando..."</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">info</span>(): <span class="kw">string</span> {  <span class="cmt">// método a sobrescribir</span>
+        <span class="kw">return</span> <span class="str">"<span class="var">{$this->marca}</span> (<span class="var">{$this->anio}</span>)"</span><span class="op">;</span>
+    }
+}
+
+<span class="cmt">// CLASE HIJA — hereda todo de Vehiculo</span>
+<span class="kw">class</span> <span class="fn">Coche</span> <span class="kw">extends</span> <span class="fn">Vehiculo</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">string</span> <span class="var">$marca</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$anio</span><span class="op">,</span>
+        <span class="kw">private</span> <span class="kw">int</span> <span class="var">$puertas</span> <span class="op">=</span> <span class="num">4</span>
+    ) {
+        <span class="kw">parent</span>::<span class="fn">__construct</span>(<span class="var">$marca</span><span class="op">,</span> <span class="var">$anio</span>)<span class="op">;</span>  <span class="cmt">// llama al constructor padre</span>
+    }
+
+    <span class="cmt">// OVERRIDE — sobrescribe el método del padre</span>
+    <span class="kw">public function</span> <span class="fn">info</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="kw">parent</span>::<span class="fn">info</span>() <span class="op">.</span> <span class="str">" | {$this->puertas} puertas"</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">acelerar</span>(): <span class="kw">string</span> { <span class="cmt">// método nuevo</span>
+        <span class="kw">return</span> <span class="str">"🚗 ¡Acelerando!"</span><span class="op">;</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Moto</span> <span class="kw">extends</span> <span class="fn">Vehiculo</span> {
+    <span class="kw">public function</span> <span class="fn">info</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="kw">parent</span>::<span class="fn">info</span>() <span class="op">.</span> <span class="str">" | 🏍 Moto"</span><span class="op">;</span>
+    }
+}
+
+<span class="var">$c</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Coche</span>(<span class="str">"Toyota"</span><span class="op">,</span> <span class="num">2024</span>)<span class="op">;</span>
+<span class="var">$m</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Moto</span>(<span class="str">"Honda"</span><span class="op">,</span> <span class="num">2023</span>)<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="var">$c</span><span class="op">-&gt;</span><span class="fn">arrancar</span>()<span class="op">;</span>  <span class="cmt">// heredado del padre</span>
+<span class="fn">echo</span> <span class="var">$c</span><span class="op">-&gt;</span><span class="fn">info</span>()<span class="op">;</span>      <span class="cmt">// sobrescrito → Toyota (2024) | 4 puertas</span>
+<span class="fn">echo</span> <span class="var">$m</span><span class="op">-&gt;</span><span class="fn">info</span>()<span class="op">;</span>      <span class="cmt">// Honda (2023) | 🏍 Moto</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">🔑 Toyota arrancando...</div>
+              <div class="output-info">Toyota (2024) | 4 puertas</div>
+              <div class="output-info">Honda (2023) | 🏍 Moto</div>
+            </div>
+          </div>
+
+          <!-- POLIMORFISMO -->
+          <div id="poof-pol" class="tab-content">
+            <div class="alert alert-info"><span class="alert-icon">🎭</span> <strong>Polimorfismo:</strong> distintos objetos responden al <em>mismo mensaje</em> (llamada de método) de formas distintas. Permite escribir código genérico que funciona con múltiples tipos.</div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>polimorfismo.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// La misma interfaz (hablar) → comportamientos distintos</span>
+<span class="kw">abstract class</span> <span class="fn">Animal</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">protected</span> <span class="kw">string</span> <span class="var">$nombre</span>) {}
+    <span class="kw">abstract public function</span> <span class="fn">hablar</span>(): <span class="kw">string</span><span class="op">;</span>  <span class="cmt">// cada hijo implementa</span>
+    <span class="kw">public function</span> <span class="fn">presentarse</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="str">"Soy <span class="var">{$this->nombre}</span> y digo: "</span> <span class="op">.</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">hablar</span>()<span class="op">;</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Perro</span>  <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="kw">public function</span> <span class="fn">hablar</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"¡Guau!"</span><span class="op">;</span> }
+}
+<span class="kw">class</span> <span class="fn">Gato</span>   <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="kw">public function</span> <span class="fn">hablar</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"¡Miau!"</span><span class="op">;</span> }
+}
+<span class="kw">class</span> <span class="fn">Pato</span>   <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="kw">public function</span> <span class="fn">hablar</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"¡Cuac!"</span><span class="op">;</span> }
+}
+
+<span class="cmt">// POLIMORFISMO: mismo código, comportamiento diferente según el objeto</span>
+<span class="var">$animales</span> <span class="op">=</span> [
+    <span class="kw">new</span> <span class="fn">Perro</span>(<span class="str">"Rex"</span>)<span class="op">,</span>
+    <span class="kw">new</span> <span class="fn">Gato</span>(<span class="str">"Michi"</span>)<span class="op">,</span>
+    <span class="kw">new</span> <span class="fn">Pato</span>(<span class="str">"Donald"</span>)<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="cmt">// El mismo foreach llama al mismo método en cada objeto</span>
+<span class="cmt">// pero cada uno responde diferente → POLIMORFISMO</span>
+<span class="kw">foreach</span> (<span class="var">$animales</span> <span class="kw">as</span> <span class="var">$animal</span>) {
+    <span class="fn">echo</span> <span class="var">$animal</span><span class="op">-&gt;</span><span class="fn">presentarse</span>() <span class="op">.</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Type hint con clase padre — acepta cualquier subclase</span>
+<span class="kw">function</span> <span class="fn">hacerHablar</span>(<span class="fn">Animal</span> <span class="var">$a</span>): <span class="kw">void</span> {
+    <span class="fn">echo</span> <span class="str">"🐾 "</span> <span class="op">.</span> <span class="var">$a</span><span class="op">-&gt;</span><span class="fn">hablar</span>() <span class="op">.</span> <span class="str">"&lt;br&gt;"</span><span class="op">;</span>
+}
+
+<span class="fn">hacerHablar</span>(<span class="kw">new</span> <span class="fn">Perro</span>(<span class="str">"Lassie"</span>))<span class="op">;</span>   <span class="cmt">// 🐾 ¡Guau!</span>
+<span class="fn">hacerHablar</span>(<span class="kw">new</span> <span class="fn">Gato</span>(<span class="str">"Garfield"</span>))<span class="op">;</span>  <span class="cmt">// 🐾 ¡Miau!</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida — mismo método, distintos comportamientos</div>
+              <div class="output-success">Soy Rex y digo: ¡Guau!</div>
+              <div class="output-info">Soy Michi y digo: ¡Miau!</div>
+              <div class="output-info">Soy Donald y digo: ¡Cuac!</div>
+            </div>
+            <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> El polimorfismo permite añadir un <code>new Loro("Perico")</code> sin modificar el foreach ni la función <code>hacerHablar()</code>. Eso es código abierto a extensión, cerrado a modificación (<strong>principio Open/Closed</strong>).</div>
+          </div>
+
+          <!-- ABSTRACCIÓN -->
+          <div id="poof-abs" class="tab-content">
+            <div class="alert alert-info"><span class="alert-icon">🎨</span> <strong>Abstracción:</strong> definir <em>qué</em> debe hacer una clase sin especificar <em>cómo</em>. Con clases abstractas e interfaces definimos contratos que las subclases deben cumplir.</div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>abstraccion.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// CLASE ABSTRACTA: define qué deben hacer las subclases</span>
+<span class="cmt">// No se puede instanciar directamente</span>
+<span class="kw">abstract class</span> <span class="fn">FormaPago</span> {
+    <span class="kw">abstract public function</span> <span class="fn">pagar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span><span class="op">;</span>
+    <span class="kw">abstract public function</span> <span class="fn">nombre</span>(): <span class="kw">string</span><span class="op">;</span>
+
+    <span class="cmt">// Método concreto compartido por todas</span>
+    <span class="kw">public function</span> <span class="fn">registrarPago</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">void</span> {
+        <span class="kw">if</span> (<span class="var">$this</span><span class="op">-&gt;</span><span class="fn">pagar</span>(<span class="var">$monto</span>)) {
+            <span class="fn">echo</span> <span class="str">"✅ Pago de S/<span class="var">$monto</span> con {$this->nombre()} registrado&lt;br&gt;"</span><span class="op">;</span>
+        } <span class="kw">else</span> {
+            <span class="fn">echo</span> <span class="str">"❌ Pago fallido con {$this->nombre()}&lt;br&gt;"</span><span class="op">;</span>
+        }
+    }
+}
+
+<span class="cmt">// Cada subclase implementa el QUÉ a su manera</span>
+<span class="kw">class</span> <span class="fn">Tarjeta</span> <span class="kw">extends</span> <span class="fn">FormaPago</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="kw">string</span> <span class="var">$numero</span>) {}
+    <span class="kw">public function</span> <span class="fn">pagar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span> {
+        <span class="fn">echo</span> <span class="str">"💳 Cargando S/<span class="var">$monto</span> a tarjeta ****{$this->numero}&lt;br&gt;"</span><span class="op">;</span>
+        <span class="kw">return true</span><span class="op">;</span>
+    }
+    <span class="kw">public function</span> <span class="fn">nombre</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"Tarjeta"</span><span class="op">;</span> }
+}
+
+<span class="kw">class</span> <span class="fn">Yape</span> <span class="kw">extends</span> <span class="fn">FormaPago</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="kw">string</span> <span class="var">$telefono</span>) {}
+    <span class="kw">public function</span> <span class="fn">pagar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span> {
+        <span class="fn">echo</span> <span class="str">"📱 Yapiendo S/<span class="var">$monto</span> al {$this->telefono}&lt;br&gt;"</span><span class="op">;</span>
+        <span class="kw">return true</span><span class="op">;</span>
+    }
+    <span class="kw">public function</span> <span class="fn">nombre</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"Yape"</span><span class="op">;</span> }
+}
+
+<span class="kw">class</span> <span class="fn">Efectivo</span> <span class="kw">extends</span> <span class="fn">FormaPago</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="kw">float</span> <span class="var">$disponible</span>) {}
+    <span class="kw">public function</span> <span class="fn">pagar</span>(<span class="kw">float</span> <span class="var">$monto</span>): <span class="kw">bool</span> {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">disponible</span> <span class="op">&gt;=</span> <span class="var">$monto</span><span class="op">;</span>  <span class="cmt">// puede fallar</span>
+    }
+    <span class="kw">public function</span> <span class="fn">nombre</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"Efectivo"</span><span class="op">;</span> }
+}
+
+<span class="cmt">// ❌ Esto NO se puede — FormaPago es abstracta</span>
+<span class="cmt">// $fp = new FormaPago();  // Fatal error</span>
+
+<span class="cmt">// ✅ Uso polimórfico — el código no sabe qué tipo de pago es</span>
+<span class="kw">function</span> <span class="fn">procesarOrden</span>(<span class="fn">FormaPago</span> <span class="var">$metodo</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$total</span>): <span class="kw">void</span> {
+    <span class="fn">echo</span> <span class="str">"🛒 Procesando orden de S/<span class="var">$total</span>&lt;br&gt;"</span><span class="op">;</span>
+    <span class="var">$metodo</span><span class="op">-&gt;</span><span class="fn">registrarPago</span>(<span class="var">$total</span>)<span class="op">;</span>
+}
+
+<span class="fn">procesarOrden</span>(<span class="kw">new</span> <span class="fn">Tarjeta</span>(<span class="str">"1234"</span>)<span class="op">,</span>  <span class="num">299.90</span>)<span class="op">;</span>
+<span class="fn">procesarOrden</span>(<span class="kw">new</span> <span class="fn">Yape</span>(<span class="str">"987654321"</span>)<span class="op">,</span> <span class="num">150.00</span>)<span class="op">;</span>
+<span class="fn">procesarOrden</span>(<span class="kw">new</span> <span class="fn">Efectivo</span>(<span class="num">50</span>)<span class="op">,</span>       <span class="num">299.90</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">💳 Cargando S/299.9 a tarjeta ****1234</div>
+              <div class="output-success">✅ Pago de S/299.9 con Tarjeta registrado</div>
+              <div class="output-success">📱 Yapiendo S/150 al 987654321</div>
+              <div class="output-success">✅ Pago de S/150 con Yape registrado</div>
+              <div class="output-err">❌ Pago fallido con Efectivo (solo tenía S/50)</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th></th><th>Clase abstracta</th><th>Interfaz</th></tr>
+              <tr><td>Se instancia directamente</td><td>❌ No</td><td>❌ No</td></tr>
+              <tr><td>Puede tener métodos con código</td><td>✅ Sí</td><td>❌ No (solo firma)</td></tr>
+              <tr><td>Una clase puede heredar/implementar</td><td>Solo 1 clase abstracta</td><td>Múltiples interfaces</td></tr>
+              <tr><td>Uso ideal</td><td>Base común con comportamiento compartido</td><td>Contrato puro sin implementación</td></tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
+</div>
+      </section>

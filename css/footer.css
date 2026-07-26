@@ -1,0 +1,7 @@
+/* FOOTER */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:3rem clamp(1rem,3vw,2rem);text-align:center;
+  color:var(--text3);font-size:.82rem;
+}
+footer span{color:var(--accent);}

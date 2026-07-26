@@ -1,0 +1,719 @@
+﻿<section id="diagramas" style="background:var(--bg2);">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">📐 Módulo 10</span>
+    <h2 class="section-title">Diagramas, Patrones y Arquitectura PHP</h2>
+    <p class="section-subtitle">Diagramas de flujo avanzados, ciclo de vida HTTP, patrones de diseño, arquitectura MVC y más.</p>
+  </div>
+
+  <div class="topic-layout">
+    <div class="topic-nav">
+      <h3>Contenido</h3>
+      <a href="#diag-http">Ciclo de vida HTTP</a>
+      <a href="#diag-mvc">Patrón MVC</a>
+      <a href="#diag-poo">POO — Diagrama UML</a>
+      <a href="#diag-patrones">Patrones de Diseño</a>
+      <a href="#diag-seguridad">Flujo de Seguridad</a>
+      <a href="#diag-rest">REST API Completo</a>
+      <a href="#diag-middleware">Middleware Stack</a>
+      <a href="#diag-quiz">Mini Quiz PHP</a>
+    </div>
+
+    <div>
+
+      <!-- CICLO DE VIDA HTTP -->
+      <div class="concept-card" id="diag-http">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#00e5ff,#0070ff)">1</div>
+          <div>
+            <div class="concept-title">Ciclo de Vida de una Petición HTTP en PHP</div>
+            <div class="concept-desc">Desde que el usuario hace clic hasta que el navegador muestra la respuesta.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="lifecycle-row">
+            <div class="lc-step" style="border-color:#00e5ff;color:#00e5ff">🌐 Navegador<br><span style="font-size:.7rem;color:var(--text3);font-weight:400">GET /productos</span></div>
+            <div class="lc-arrow">→</div>
+            <div class="lc-step" style="border-color:#7c5cfc;color:#7c5cfc">🔀 Servidor Web<br><span style="font-size:.7rem;color:var(--text3);font-weight:400">Apache / Nginx</span></div>
+            <div class="lc-arrow">→</div>
+            <div class="lc-step" style="border-color:#ffd166;color:#ffd166">⚙️ PHP-FPM<br><span style="font-size:.7rem;color:var(--text3);font-weight:400">Interpreta .php</span></div>
+            <div class="lc-arrow">→</div>
+            <div class="lc-step" style="border-color:#06d6a0;color:#06d6a0">📂 index.php<br><span style="font-size:.7rem;color:var(--text3);font-weight:400">Router / Front Controller</span></div>
+            <div class="lc-arrow">→</div>
+            <div class="lc-step" style="border-color:#ff6b6b;color:#ff6b6b">🗄 Base de Datos<br><span style="font-size:.7rem;color:var(--text3);font-weight:400">MySQL / PDO</span></div>
+            <div class="lc-arrow">→</div>
+            <div class="lc-step" style="border-color:#c792ea;color:#c792ea">📄 Vista HTML<br><span style="font-size:.7rem;color:var(--text3);font-weight:400">Respuesta 200 OK</span></div>
+          </div>
+          <div class="diagram-card" style="margin:1rem 0">
+            <div class="diagram-title">Diagrama Detallado — Request/Response HTTP</div>
+            <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto">
+              <defs>
+                <marker id="dh1" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#00e5ff"/></marker>
+                <marker id="dh2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#06d6a0"/></marker>
+                <marker id="dh3" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#ffd166"/></marker>
+              </defs>
+              <text x="350" y="18" text-anchor="middle" fill="#9999bb" font-size="11" font-family="sans-serif" letter-spacing="2">── REQUEST ────────────────────────────</text>
+              <rect x="10" y="30" width="100" height="50" rx="8" fill="#0d2233" stroke="#00e5ff" stroke-width="1.5"/>
+              <text x="60" y="52" text-anchor="middle" fill="#00e5ff" font-size="11" font-family="sans-serif" font-weight="bold">Navegador</text>
+              <text x="60" y="68" text-anchor="middle" fill="#6699aa" font-size="9" font-family="sans-serif">HTTP Request</text>
+              <line x1="110" y1="55" x2="155" y2="55" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#dh1)"/>
+              <text x="133" y="48" text-anchor="middle" fill="#00e5ff" font-size="8" font-family="sans-serif">GET/POST</text>
+              <rect x="157" y="30" width="100" height="50" rx="8" fill="#1a1a0d" stroke="#ffd166" stroke-width="1.5"/>
+              <text x="207" y="52" text-anchor="middle" fill="#ffd166" font-size="11" font-family="sans-serif" font-weight="bold">Apache</text>
+              <text x="207" y="68" text-anchor="middle" fill="#aa9933" font-size="9" font-family="sans-serif">Nginx / IIS</text>
+              <line x1="257" y1="55" x2="302" y2="55" stroke="#ffd166" stroke-width="1.5" marker-end="url(#dh3)"/>
+              <text x="280" y="48" text-anchor="middle" fill="#ffd166" font-size="8" font-family="sans-serif">FastCGI</text>
+              <rect x="304" y="30" width="100" height="50" rx="8" fill="#1a0d2e" stroke="#7c5cfc" stroke-width="1.5"/>
+              <text x="354" y="52" text-anchor="middle" fill="#c792ea" font-size="11" font-family="sans-serif" font-weight="bold">PHP Engine</text>
+              <text x="354" y="68" text-anchor="middle" fill="#664477" font-size="9" font-family="sans-serif">PHP-FPM</text>
+              <line x1="404" y1="55" x2="449" y2="55" stroke="#7c5cfc" stroke-width="1.5" marker-end="url(#dh1)"/>
+              <rect x="451" y="30" width="100" height="50" rx="8" fill="#0d1f0d" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="501" y="52" text-anchor="middle" fill="#06d6a0" font-size="11" font-family="sans-serif" font-weight="bold">index.php</text>
+              <text x="501" y="68" text-anchor="middle" fill="#336655" font-size="9" font-family="sans-serif">Router / App</text>
+              <line x1="551" y1="55" x2="596" y2="55" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#dh2)"/>
+              <text x="574" y="48" text-anchor="middle" fill="#06d6a0" font-size="8" font-family="sans-serif">SQL Query</text>
+              <rect x="598" y="30" width="90" height="50" rx="8" fill="#1a0d00" stroke="#ff6b6b" stroke-width="1.5"/>
+              <text x="643" y="52" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="sans-serif" font-weight="bold">MySQL</text>
+              <text x="643" y="68" text-anchor="middle" fill="#884433" font-size="9" font-family="sans-serif">PDO</text>
+              <line x1="10" y1="120" x2="690" y2="120" stroke="#2a2a45" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="350" y="135" text-anchor="middle" fill="#9999bb" font-size="11" font-family="sans-serif" letter-spacing="2">── RESPONSE ────────────────────────────</text>
+              <line x1="643" y1="145" x2="643" y2="175" stroke="#ff6b6b" stroke-width="1.5"/>
+              <rect x="598" y="175" width="90" height="40" rx="8" fill="#1a0d00" stroke="#ff6b6b" stroke-width="1"/>
+              <text x="643" y="198" text-anchor="middle" fill="#ff9999" font-size="9" font-family="sans-serif">Datos / Rows</text>
+              <line x1="597" y1="195" x2="553" y2="195" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#dh1)"/>
+              <rect x="451" y="175" width="100" height="40" rx="8" fill="#0d1f0d" stroke="#06d6a0" stroke-width="1"/>
+              <text x="501" y="192" text-anchor="middle" fill="#06d6a0" font-size="9" font-family="sans-serif">Procesa datos</text>
+              <text x="501" y="207" text-anchor="middle" fill="#336655" font-size="8" font-family="sans-serif">Renderiza HTML</text>
+              <line x1="450" y1="195" x2="406" y2="195" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#dh2)"/>
+              <rect x="304" y="175" width="100" height="40" rx="8" fill="#1a0d2e" stroke="#7c5cfc" stroke-width="1"/>
+              <text x="354" y="192" text-anchor="middle" fill="#c792ea" font-size="9" font-family="sans-serif">HTML generado</text>
+              <text x="354" y="207" text-anchor="middle" fill="#664477" font-size="8" font-family="sans-serif">+ Headers HTTP</text>
+              <line x1="303" y1="195" x2="259" y2="195" stroke="#7c5cfc" stroke-width="1.5" marker-end="url(#dh1)"/>
+              <rect x="157" y="175" width="100" height="40" rx="8" fill="#1a1a0d" stroke="#ffd166" stroke-width="1"/>
+              <text x="207" y="192" text-anchor="middle" fill="#ffd166" font-size="9" font-family="sans-serif">200 OK</text>
+              <text x="207" y="207" text-anchor="middle" fill="#aa9933" font-size="8" font-family="sans-serif">Comprime gzip</text>
+              <line x1="156" y1="195" x2="112" y2="195" stroke="#ffd166" stroke-width="1.5" marker-end="url(#dh3)"/>
+              <rect x="10" y="175" width="100" height="40" rx="8" fill="#0d2233" stroke="#00e5ff" stroke-width="1"/>
+              <text x="60" y="192" text-anchor="middle" fill="#00e5ff" font-size="9" font-family="sans-serif">Renderiza</text>
+              <text x="60" y="207" text-anchor="middle" fill="#336688" font-size="8" font-family="sans-serif">página web</text>
+              <rect x="10" y="260" width="680" height="50" rx="8" fill="rgba(30,30,46,0.5)" stroke="#2a2a45" stroke-width="1"/>
+              <text x="30" y="278" fill="#00e5ff" font-size="10" font-family="sans-serif">■ Petición</text>
+              <text x="110" y="278" fill="#ffd166" font-size="10" font-family="sans-serif">■ Servidor Web</text>
+              <text x="220" y="278" fill="#c792ea" font-size="10" font-family="sans-serif">■ PHP Engine</text>
+              <text x="310" y="278" fill="#06d6a0" font-size="10" font-family="sans-serif">■ Aplicación</text>
+              <text x="400" y="278" fill="#ff6b6b" font-size="10" font-family="sans-serif">■ Base de datos</text>
+              <text x="30" y="298" fill="#9999bb" font-size="9" font-family="sans-serif">Tiempo típico: DNS (~20ms) + TCP (~10ms) + PHP (~50-200ms) + BD (~5-50ms) = Total &lt; 300ms ideal</text>
+            </svg>
+          </div>
+          <div class="alert alert-tip"><span class="alert-icon">⚡</span> El servidor web <strong>nunca ejecuta PHP directamente</strong>. Lo delega a PHP-FPM (FastCGI Process Manager) que mantiene procesos PHP listos para responder — mucho más eficiente que crear un proceso por cada petición.</div>
+        </div>
+      </div>
+
+      <!-- MVC -->
+      <div class="concept-card" id="diag-mvc">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#f72585,#b5179e)">2</div>
+          <div>
+            <div class="concept-title">Patrón MVC — Model View Controller</div>
+            <div class="concept-desc">La arquitectura más usada en PHP. Separa datos, lógica y presentación.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="diagram-card">
+            <div class="diagram-title">Diagrama MVC — Flujo completo de datos</div>
+            <svg viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:660px;display:block;margin:0 auto">
+              <defs>
+                <marker id="mv1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#f72585"/></marker>
+                <marker id="mv2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#4cc9f0"/></marker>
+                <marker id="mv3" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#06d6a0"/></marker>
+                <marker id="mv4" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#ffd166"/></marker>
+              </defs>
+              <ellipse cx="80" cy="170" rx="55" ry="30" fill="#1a1a28" stroke="#9999bb" stroke-width="1.5"/>
+              <text x="80" y="167" text-anchor="middle" fill="#ccc" font-size="12" font-family="sans-serif" font-weight="bold">Usuario</text>
+              <text x="80" y="181" text-anchor="middle" fill="#666" font-size="9" font-family="sans-serif">Navegador</text>
+              <line x1="135" y1="160" x2="215" y2="120" stroke="#f72585" stroke-width="1.5" marker-end="url(#mv1)" stroke-dasharray="5,3"/>
+              <text x="172" y="132" text-anchor="middle" fill="#f72585" font-size="9" font-family="sans-serif">① Request</text>
+              <rect x="218" y="90" width="140" height="60" rx="10" fill="#280d1e" stroke="#f72585" stroke-width="2"/>
+              <text x="288" y="114" text-anchor="middle" fill="#f72585" font-size="13" font-family="sans-serif" font-weight="bold">CONTROLLER</text>
+              <text x="288" y="130" text-anchor="middle" fill="#aa3366" font-size="9" font-family="sans-serif">ProductoController.php</text>
+              <text x="288" y="143" text-anchor="middle" fill="#884455" font-size="8" font-family="sans-serif">recibe y coordina</text>
+              <line x1="288" y1="150" x2="288" y2="210" stroke="#4cc9f0" stroke-width="1.5" marker-end="url(#mv2)"/>
+              <text x="300" y="185" fill="#4cc9f0" font-size="9" font-family="sans-serif">② get data</text>
+              <rect x="218" y="213" width="140" height="60" rx="10" fill="#0d1a33" stroke="#4cc9f0" stroke-width="2"/>
+              <text x="288" y="237" text-anchor="middle" fill="#4cc9f0" font-size="13" font-family="sans-serif" font-weight="bold">MODEL</text>
+              <text x="288" y="253" text-anchor="middle" fill="#336688" font-size="9" font-family="sans-serif">Producto.php</text>
+              <text x="288" y="266" text-anchor="middle" fill="#224455" font-size="8" font-family="sans-serif">lógica + datos</text>
+              <line x1="358" y1="243" x2="430" y2="243" stroke="#ffd166" stroke-width="1.5" marker-end="url(#mv4)"/>
+              <text x="394" y="236" text-anchor="middle" fill="#ffd166" font-size="9" font-family="sans-serif">③ SQL</text>
+              <ellipse cx="480" cy="243" rx="48" ry="26" fill="#1a1000" stroke="#ffd166" stroke-width="1.5"/>
+              <text x="480" y="240" text-anchor="middle" fill="#ffd166" font-size="11" font-family="sans-serif" font-weight="bold">MySQL</text>
+              <text x="480" y="256" text-anchor="middle" fill="#665500" font-size="8" font-family="sans-serif">PDO</text>
+              <line x1="432" y1="256" x2="360" y2="260" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#mv4)"/>
+              <text x="394" y="270" text-anchor="middle" fill="#aa8800" font-size="9" font-family="sans-serif">④ rows</text>
+              <line x1="250" y1="213" x2="250" y2="152" stroke="#06d6a0" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#mv3)"/>
+              <text x="222" y="185" fill="#06d6a0" font-size="9" font-family="sans-serif">⑤ $data</text>
+              <line x1="358" y1="108" x2="450" y2="108" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#mv3)"/>
+              <text x="404" y="101" text-anchor="middle" fill="#06d6a0" font-size="9" font-family="sans-serif">⑥ render(view, $data)</text>
+              <rect x="452" y="78" width="140" height="60" rx="10" fill="#0d200d" stroke="#06d6a0" stroke-width="2"/>
+              <text x="522" y="102" text-anchor="middle" fill="#06d6a0" font-size="13" font-family="sans-serif" font-weight="bold">VIEW</text>
+              <text x="522" y="118" text-anchor="middle" fill="#336633" font-size="9" font-family="sans-serif">productos.html.php</text>
+              <text x="522" y="131" text-anchor="middle" fill="#224422" font-size="8" font-family="sans-serif">solo presentación</text>
+              <line x1="452" y1="130" x2="137" y2="178" stroke="#9999bb" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#mv1)"/>
+              <text x="290" y="170" text-anchor="middle" fill="#9999bb" font-size="9" font-family="sans-serif">⑦ HTML Response</text>
+              <rect x="10" y="295" width="640" height="38" rx="8" fill="rgba(30,30,46,.5)" stroke="#2a2a45" stroke-width="1"/>
+              <text x="30" y="311" fill="#f72585" font-size="10" font-family="sans-serif">■ Controller</text>
+              <text x="120" y="311" fill="#4cc9f0" font-size="10" font-family="sans-serif">■ Model</text>
+              <text x="185" y="311" fill="#06d6a0" font-size="10" font-family="sans-serif">■ View</text>
+              <text x="245" y="311" fill="#ffd166" font-size="10" font-family="sans-serif">■ DB</text>
+              <text x="30" y="326" fill="#9999bb" font-size="9" font-family="sans-serif">Regla: Controller coordina — Model conoce los datos — View solo muestra — NUNCA mezclarlos</text>
+            </svg>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0">
+            <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+              <h4 style="color:#06d6a0;margin-bottom:.7rem;font-size:.85rem">✅ MVC correcto</h4>
+              <ul style="list-style:none;padding:0">
+                <li style="font-size:.82rem;color:var(--text2);padding:.25rem 0">→ Controller recibe HTTP y delega</li>
+                <li style="font-size:.82rem;color:var(--text2);padding:.25rem 0">→ Model hace queries, retorna objetos</li>
+                <li style="font-size:.82rem;color:var(--text2);padding:.25rem 0">→ View solo imprime variables</li>
+                <li style="font-size:.82rem;color:var(--text2);padding:.25rem 0">→ Cada capa ignora los detalles de las otras</li>
+              </ul>
+            </div>
+            <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+              <h4 style="color:#ff6b6b;margin-bottom:.7rem;font-size:.85rem">❌ MVC roto (anti-patrón)</h4>
+              <ul style="list-style:none;padding:0">
+                <li style="font-size:.82rem;color:var(--text2);padding:.25rem 0">→ SQL directamente en el HTML</li>
+                <li style="font-size:.82rem;color:var(--text2);padding:.25rem 0">→ Lógica de negocio dentro de la vista</li>
+                <li style="font-size:.82rem;color:var(--text2);padding:.25rem 0">→ Controller con 500 líneas de código</li>
+                <li style="font-size:.82rem;color:var(--text2);padding:.25rem 0">→ Model que genera HTML directamente</li>
+              </ul>
+            </div>
+          </div>
+          <div class="code-wrap">
+            <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>MVC en PHP — Ejemplo completo</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+            <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// === MODEL — src/Models/Producto.php ===</span>
+<span class="kw">class</span> <span class="fn">Producto</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="fn">PDO</span> <span class="var">$pdo</span>) {}
+    <span class="kw">public function</span> <span class="fn">findAll</span>(): <span class="kw">array</span> {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">pdo</span><span class="op">-&gt;</span><span class="fn">query</span>(<span class="str">"SELECT * FROM productos"</span>)<span class="op">-&gt;</span><span class="fn">fetchAll</span>()<span class="op">;</span>
+    }
+}
+<span class="cmt">// === CONTROLLER — src/Controllers/ProductoController.php ===</span>
+<span class="kw">class</span> <span class="fn">ProductoController</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="fn">Producto</span> <span class="var">$model</span>) {}
+    <span class="kw">public function</span> <span class="fn">index</span>(): <span class="kw">void</span> {
+        <span class="var">$productos</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">model</span><span class="op">-&gt;</span><span class="fn">findAll</span>()<span class="op">;</span>
+        <span class="fn">require</span> <span class="str">'views/productos/index.php'</span><span class="op">;</span>
+    }
+}
+<span class="cmt">// === VIEW — views/productos/index.php ===</span>
+<span class="tag">?&gt;</span>
+<span class="op">&lt;</span>ul<span class="op">&gt;</span>
+<span class="tag">&lt;?php</span> <span class="kw">foreach</span>(<span class="var">$productos</span> <span class="kw">as</span> <span class="var">$p</span>): <span class="tag">?&gt;</span>
+  <span class="op">&lt;</span>li<span class="op">&gt;</span><span class="tag">&lt;?=</span> <span class="fn">htmlspecialchars</span>(<span class="var">$p</span>[<span class="str">'nombre'</span>]) <span class="tag">?&gt;</span> — S/ <span class="tag">&lt;?=</span> <span class="var">$p</span>[<span class="str">'precio'</span>] <span class="tag">?&gt;</span><span class="op">&lt;</span>/li<span class="op">&gt;</span>
+<span class="tag">&lt;?php</span> <span class="kw">endforeach</span><span class="op">;</span> <span class="tag">?&gt;</span>
+<span class="op">&lt;</span>/ul<span class="op">&gt;</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- POO UML -->
+      <div class="concept-card" id="diag-poo">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#c792ea,#7c5cfc)">3</div>
+          <div>
+            <div class="concept-title">POO — Diagrama UML de Clases</div>
+            <div class="concept-desc">Herencia, interfaces y relaciones entre clases con ejemplos reales.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="diagram-card">
+            <div class="diagram-title">UML — Sistema de Usuarios: Herencia + Interfaces</div>
+            <svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:680px;display:block;margin:0 auto">
+              <defs>
+                <marker id="uml1" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><polygon points="0,0 0,10 10,5" fill="none" stroke="#c792ea" stroke-width="1.5"/></marker>
+                <marker id="uml2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><polygon points="0,0 0,10 10,5" fill="none" stroke="#4cc9f0" stroke-width="1.5"/></marker>
+                <marker id="uml3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><polygon points="0,0 0,8 8,4" fill="#06d6a0" stroke="none"/></marker>
+              </defs>
+              <rect x="10" y="10" width="160" height="80" rx="6" fill="#0d1a2e" stroke="#4cc9f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <rect x="10" y="10" width="160" height="24" rx="6" fill="#0d2840"/>
+              <text x="90" y="19" text-anchor="middle" fill="#4cc9f0" font-size="8" font-family="sans-serif">«interface»</text>
+              <text x="90" y="30" text-anchor="middle" fill="#4cc9f0" font-size="11" font-family="sans-serif" font-weight="bold">Autenticable</text>
+              <line x1="10" y1="34" x2="170" y2="34" stroke="#4cc9f0" stroke-width="1" opacity="0.4"/>
+              <text x="20" y="50" fill="#336688" font-size="9" font-family="sans-serif">+ login(string $pass): bool</text>
+              <text x="20" y="64" fill="#336688" font-size="9" font-family="sans-serif">+ logout(): void</text>
+              <text x="20" y="78" fill="#336688" font-size="9" font-family="sans-serif">+ getToken(): string</text>
+              <rect x="240" y="10" width="200" height="110" rx="6" fill="#1a0d2e" stroke="#c792ea" stroke-width="2"/>
+              <rect x="240" y="10" width="200" height="24" rx="6" fill="#2d0d44"/>
+              <text x="340" y="19" text-anchor="middle" fill="#c792ea" font-size="8" font-family="sans-serif">«abstract»</text>
+              <text x="340" y="30" text-anchor="middle" fill="#c792ea" font-size="13" font-family="sans-serif" font-weight="bold">Usuario</text>
+              <line x1="240" y1="34" x2="440" y2="34" stroke="#c792ea" stroke-width="1" opacity="0.4"/>
+              <text x="250" y="50" fill="#8844aa" font-size="9" font-family="sans-serif"># id: int</text>
+              <text x="250" y="63" fill="#8844aa" font-size="9" font-family="sans-serif"># nombre: string</text>
+              <text x="250" y="76" fill="#8844aa" font-size="9" font-family="sans-serif"># email: string</text>
+              <line x1="240" y1="82" x2="440" y2="82" stroke="#c792ea" stroke-width="1" opacity="0.3"/>
+              <text x="250" y="95" fill="#9966bb" font-size="9" font-family="sans-serif">+ getNombre(): string</text>
+              <text x="250" y="108" fill="#9966bb" font-size="9" font-family="sans-serif">~ getRol(): string {abstract}</text>
+              <line x1="170" y1="50" x2="238" y2="65" stroke="#4cc9f0" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#uml2)"/>
+              <text x="195" y="48" fill="#4cc9f0" font-size="8" font-family="sans-serif" font-style="italic">implements</text>
+              <rect x="100" y="190" width="180" height="100" rx="6" fill="#1a1a0d" stroke="#ffd166" stroke-width="1.5"/>
+              <rect x="100" y="190" width="180" height="22" rx="6" fill="#2a2a00"/>
+              <text x="190" y="205" text-anchor="middle" fill="#ffd166" font-size="12" font-family="sans-serif" font-weight="bold">Admin</text>
+              <line x1="100" y1="212" x2="280" y2="212" stroke="#ffd166" stroke-width="1" opacity="0.4"/>
+              <text x="110" y="228" fill="#888800" font-size="9" font-family="sans-serif">- permisos: array</text>
+              <line x1="100" y1="234" x2="280" y2="234" stroke="#ffd166" stroke-width="1" opacity="0.3"/>
+              <text x="110" y="248" fill="#998800" font-size="9" font-family="sans-serif">+ getRol(): string</text>
+              <text x="110" y="262" fill="#998800" font-size="9" font-family="sans-serif">+ ban(User $u): void</text>
+              <text x="110" y="276" fill="#998800" font-size="9" font-family="sans-serif">+ getPermisos(): array</text>
+              <rect x="380" y="190" width="180" height="100" rx="6" fill="#0d1a0d" stroke="#06d6a0" stroke-width="1.5"/>
+              <rect x="380" y="190" width="180" height="22" rx="6" fill="#003322"/>
+              <text x="470" y="205" text-anchor="middle" fill="#06d6a0" font-size="12" font-family="sans-serif" font-weight="bold">Cliente</text>
+              <line x1="380" y1="212" x2="560" y2="212" stroke="#06d6a0" stroke-width="1" opacity="0.4"/>
+              <text x="390" y="228" fill="#228855" font-size="9" font-family="sans-serif">- saldo: float</text>
+              <line x1="380" y1="234" x2="560" y2="234" stroke="#06d6a0" stroke-width="1" opacity="0.3"/>
+              <text x="390" y="248" fill="#339966" font-size="9" font-family="sans-serif">+ getRol(): string</text>
+              <text x="390" y="262" fill="#339966" font-size="9" font-family="sans-serif">+ comprar(Prod $p): bool</text>
+              <text x="390" y="276" fill="#339966" font-size="9" font-family="sans-serif">+ getSaldo(): float</text>
+              <line x1="190" y1="190" x2="310" y2="120" stroke="#c792ea" stroke-width="1.5" marker-end="url(#uml1)"/>
+              <text x="220" y="148" fill="#c792ea" font-size="8" font-family="sans-serif" font-style="italic">extends</text>
+              <line x1="470" y1="190" x2="380" y2="120" stroke="#c792ea" stroke-width="1.5" marker-end="url(#uml1)"/>
+              <text x="430" y="148" fill="#c792ea" font-size="8" font-family="sans-serif" font-style="italic">extends</text>
+              <rect x="380" y="330" width="180" height="80" rx="6" fill="#2a1500" stroke="#ff6b6b" stroke-width="1.5"/>
+              <rect x="380" y="330" width="180" height="22" rx="6" fill="#440000"/>
+              <text x="470" y="345" text-anchor="middle" fill="#ff6b6b" font-size="12" font-family="sans-serif" font-weight="bold">Pedido</text>
+              <line x1="380" y1="352" x2="560" y2="352" stroke="#ff6b6b" stroke-width="1" opacity="0.4"/>
+              <text x="390" y="368" fill="#884433" font-size="9" font-family="sans-serif">- cliente: Cliente</text>
+              <text x="390" y="382" fill="#884433" font-size="9" font-family="sans-serif">- items: array</text>
+              <text x="390" y="396" fill="#884433" font-size="9" font-family="sans-serif">+ total(): float</text>
+              <line x1="470" y1="290" x2="470" y2="328" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#uml3)"/>
+              <text x="478" y="316" fill="#ff6b6b" font-size="8" font-family="sans-serif">1</text>
+              <text x="478" y="328" fill="#ff6b6b" font-size="8" font-family="sans-serif">*</text>
+              <rect x="10" y="330" width="240" height="80" rx="8" fill="rgba(30,30,46,.7)" stroke="#2a2a45" stroke-width="1"/>
+              <text x="20" y="350" fill="#c792ea" font-size="10" font-family="sans-serif">▬▬ Herencia (extends)</text>
+              <text x="20" y="368" fill="#4cc9f0" font-size="10" font-family="sans-serif">╌╌ Implementa (interface)</text>
+              <text x="20" y="386" fill="#06d6a0" font-size="10" font-family="sans-serif">▶ Composición (tiene)</text>
+              <text x="20" y="402" fill="#9999bb" font-size="9" font-family="sans-serif">{abstract} = método obligatorio en hijos</text>
+            </svg>
+          </div>
+          <div class="code-wrap">
+            <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>poo_completo.php — Herencia + Interface + Polimorfismo</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+            <pre><span class="tag">&lt;?php</span>
+<span class="kw">interface</span> <span class="fn">Autenticable</span> {
+    <span class="kw">public function</span> <span class="fn">login</span>(<span class="kw">string</span> <span class="var">$pass</span>): <span class="kw">bool</span><span class="op">;</span>
+    <span class="kw">public function</span> <span class="fn">logout</span>(): <span class="kw">void</span><span class="op">;</span>
+}
+
+<span class="kw">abstract class</span> <span class="fn">Usuario</span> <span class="kw">implements</span> <span class="fn">Autenticable</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">protected int</span> <span class="var">$id</span><span class="op">,</span>
+        <span class="kw">protected string</span> <span class="var">$nombre</span><span class="op">,</span>
+        <span class="kw">protected string</span> <span class="var">$email</span>
+    ) {}
+    <span class="kw">abstract public function</span> <span class="fn">getRol</span>(): <span class="kw">string</span><span class="op">;</span>
+    <span class="kw">public function</span> <span class="fn">logout</span>(): <span class="kw">void</span> { <span class="fn">session_destroy</span>()<span class="op">;</span> }
+}
+
+<span class="kw">class</span> <span class="fn">Admin</span> <span class="kw">extends</span> <span class="fn">Usuario</span> {
+    <span class="kw">public function</span> <span class="fn">getRol</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">'admin'</span><span class="op">;</span> }
+    <span class="kw">public function</span> <span class="fn">ban</span>(<span class="fn">Usuario</span> <span class="var">$u</span>): <span class="kw">void</span> { <span class="cmt">/* ... */</span> }
+    <span class="kw">public function</span> <span class="fn">login</span>(<span class="kw">string</span> <span class="var">$pass</span>): <span class="kw">bool</span> { <span class="kw">return</span> <span class="fn">password_verify</span>(<span class="var">$pass</span><span class="op">,</span> <span class="str">''</span>)<span class="op">;</span> }
+}
+<span class="kw">class</span> <span class="fn">Cliente</span> <span class="kw">extends</span> <span class="fn">Usuario</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">int</span> <span class="var">$id</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$email</span><span class="op">,</span>
+        <span class="kw">private float</span> <span class="var">$saldo</span> <span class="op">=</span> <span class="num">0.0</span>
+    ) { <span class="kw">parent</span>::<span class="fn">__construct</span>(<span class="var">$id</span><span class="op">,</span> <span class="var">$nombre</span><span class="op">,</span> <span class="var">$email</span>)<span class="op">;</span> }
+    <span class="kw">public function</span> <span class="fn">getRol</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">'cliente'</span><span class="op">;</span> }
+    <span class="kw">public function</span> <span class="fn">login</span>(<span class="kw">string</span> <span class="var">$pass</span>): <span class="kw">bool</span> { <span class="kw">return</span> <span class="fn">password_verify</span>(<span class="var">$pass</span><span class="op">,</span> <span class="str">''</span>)<span class="op">;</span> }
+}
+
+<span class="cmt">// Polimorfismo — mismo método, resultados distintos</span>
+<span class="var">$usuarios</span> <span class="op">=</span> [<span class="kw">new</span> <span class="fn">Admin</span>(<span class="num">1</span><span class="op">,</span> <span class="str">"Pedro"</span><span class="op">,</span> <span class="str">"p@x.com"</span>)<span class="op">,</span> <span class="kw">new</span> <span class="fn">Cliente</span>(<span class="num">2</span><span class="op">,</span> <span class="str">"Ana"</span><span class="op">,</span> <span class="str">"a@x.com"</span>)]<span class="op">;</span>
+<span class="kw">foreach</span>(<span class="var">$usuarios</span> <span class="kw">as</span> <span class="var">$u</span>) <span class="fn">echo</span> <span class="var">$u</span><span class="op">-&gt;</span><span class="fn">getRol</span>() <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>  <span class="cmt">// "admin" / "cliente"</span>
+<span class="tag">?&gt;</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- PATRONES -->
+      <div class="concept-card" id="diag-patrones">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#ffd166,#f72585)">4</div>
+          <div>
+            <div class="concept-title">Patrones de Diseño en PHP</div>
+            <div class="concept-desc">Singleton, Factory, Repository, Observer — los 4 más usados con diagramas y código.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'pat-singleton')">Singleton</button>
+            <button class="tab-btn" onclick="showTab(this,'pat-factory')">Factory</button>
+            <button class="tab-btn" onclick="showTab(this,'pat-repository')">Repository</button>
+            <button class="tab-btn" onclick="showTab(this,'pat-observer')">Observer</button>
+          </div>
+
+          <div id="pat-singleton" class="tab-content active">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start">
+              <div class="diagram-card">
+                <div class="diagram-title">Singleton — Una sola instancia global</div>
+                <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;margin:0 auto">
+                  <defs><marker id="sg1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#ffd166"/></marker></defs>
+                  <rect x="80" y="10" width="160" height="110" rx="8" fill="#1a1400" stroke="#ffd166" stroke-width="2"/>
+                  <rect x="80" y="10" width="160" height="24" rx="8" fill="#2a2000"/>
+                  <text x="160" y="27" text-anchor="middle" fill="#ffd166" font-size="12" font-family="sans-serif" font-weight="bold">Database</text>
+                  <line x1="80" y1="34" x2="240" y2="34" stroke="#ffd166" stroke-width="1" opacity=".4"/>
+                  <text x="90" y="50" fill="#665500" font-size="9" font-family="sans-serif">- instance: Database|null</text>
+                  <text x="90" y="63" fill="#665500" font-size="9" font-family="sans-serif">- connection: PDO</text>
+                  <line x1="80" y1="70" x2="240" y2="70" stroke="#ffd166" stroke-width="1" opacity=".3"/>
+                  <text x="90" y="85" fill="#998800" font-size="9" font-family="sans-serif">- __construct() {private}</text>
+                  <text x="90" y="98" fill="#998800" font-size="9" font-family="sans-serif">+ getInstance(): static</text>
+                  <text x="90" y="111" fill="#998800" font-size="9" font-family="sans-serif">+ getConn(): PDO</text>
+                  <rect x="10" y="155" width="80" height="34" rx="6" fill="#1a1a28" stroke="#9999bb" stroke-width="1"/>
+                  <text x="50" y="176" text-anchor="middle" fill="#aaa" font-size="10" font-family="sans-serif">Clase A</text>
+                  <rect x="110" y="155" width="80" height="34" rx="6" fill="#1a1a28" stroke="#9999bb" stroke-width="1"/>
+                  <text x="150" y="176" text-anchor="middle" fill="#aaa" font-size="10" font-family="sans-serif">Clase B</text>
+                  <rect x="210" y="155" width="80" height="34" rx="6" fill="#1a1a28" stroke="#9999bb" stroke-width="1"/>
+                  <text x="250" y="176" text-anchor="middle" fill="#aaa" font-size="10" font-family="sans-serif">Clase C</text>
+                  <line x1="50" y1="155" x2="140" y2="122" stroke="#ffd166" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#sg1)"/>
+                  <line x1="150" y1="155" x2="160" y2="122" stroke="#ffd166" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#sg1)"/>
+                  <line x1="250" y1="155" x2="180" y2="122" stroke="#ffd166" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#sg1)"/>
+                  <text x="150" y="210" text-anchor="middle" fill="#665500" font-size="9" font-family="sans-serif">misma instancia siempre</text>
+                </svg>
+              </div>
+              <div>
+                <div style="background:var(--bg3);border-left:3px solid #ffd166;padding:.9rem 1.1rem;border-radius:0 8px 8px 0;margin-bottom:1rem;font-size:.85rem;color:var(--text2);line-height:1.7">
+                  <strong style="color:var(--text)">¿Cuándo usarlo?</strong> Cuando necesitas exactamente <strong>una instancia global</strong> — conexión a BD, logger, cache. Evita múltiples conexiones costosas.
+                </div>
+                <div class="code-wrap">
+                  <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>singleton.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+                  <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">Database</span> {
+    <span class="kw">private static</span> <span class="op">?</span><span class="fn">Database</span> <span class="var">$instance</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+    <span class="kw">private</span> <span class="fn">PDO</span> <span class="var">$conn</span><span class="op">;</span>
+
+    <span class="kw">private function</span> <span class="fn">__construct</span>() {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">conn</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PDO</span>(<span class="str">"mysql:host=localhost"</span><span class="op">,</span> <span class="str">"root"</span><span class="op">,</span> <span class="str">""</span>)<span class="op">;</span>
+    }
+    <span class="kw">public static function</span> <span class="fn">getInstance</span>(): <span class="kw">static</span> {
+        <span class="kw">if</span> (<span class="kw">static</span>::<span class="var">$instance</span> <span class="op">===</span> <span class="kw">null</span>)
+            <span class="kw">static</span>::<span class="var">$instance</span> <span class="op">=</span> <span class="kw">new static</span>()<span class="op">;</span>
+        <span class="kw">return static</span>::<span class="var">$instance</span><span class="op">;</span>
+    }
+    <span class="kw">public function</span> <span class="fn">getConn</span>(): <span class="fn">PDO</span> { <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">conn</span><span class="op">;</span> }
+}
+
+<span class="var">$db1</span> <span class="op">=</span> <span class="fn">Database</span>::<span class="fn">getInstance</span>()<span class="op">;</span>
+<span class="var">$db2</span> <span class="op">=</span> <span class="fn">Database</span>::<span class="fn">getInstance</span>()<span class="op">;</span>
+<span class="fn">var_dump</span>(<span class="var">$db1</span> <span class="op">===</span> <span class="var">$db2</span>)<span class="op">;</span>  <span class="cmt">// bool(true)</span>
+<span class="tag">?&gt;</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="pat-factory" class="tab-content">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start">
+              <div class="diagram-card">
+                <div class="diagram-title">Factory — Fábrica de objetos</div>
+                <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;margin:0 auto">
+                  <defs><marker id="fc1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#06d6a0"/></marker></defs>
+                  <rect x="75" y="10" width="150" height="60" rx="8" fill="#0d2000" stroke="#06d6a0" stroke-width="2"/>
+                  <text x="150" y="32" text-anchor="middle" fill="#06d6a0" font-size="12" font-family="sans-serif" font-weight="bold">NotifFactory</text>
+                  <text x="85" y="48" fill="#336633" font-size="9" font-family="sans-serif">+ create(string $tipo)</text>
+                  <text x="85" y="61" fill="#336633" font-size="9" font-family="sans-serif">  : Notificacion</text>
+                  <line x1="100" y1="70" x2="50" y2="140" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#fc1)"/>
+                  <line x1="150" y1="70" x2="150" y2="140" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#fc1)"/>
+                  <line x1="200" y1="70" x2="250" y2="140" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#fc1)"/>
+                  <rect x="5" y="140" width="90" height="46" rx="6" fill="#0d1400" stroke="#4cc9f0" stroke-width="1"/>
+                  <text x="50" y="160" text-anchor="middle" fill="#4cc9f0" font-size="10" font-family="sans-serif" font-weight="bold">Email</text>
+                  <text x="50" y="176" text-anchor="middle" fill="#336688" font-size="8" font-family="sans-serif">send(): void</text>
+                  <rect x="105" y="140" width="90" height="46" rx="6" fill="#0d1400" stroke="#4cc9f0" stroke-width="1"/>
+                  <text x="150" y="160" text-anchor="middle" fill="#4cc9f0" font-size="10" font-family="sans-serif" font-weight="bold">SMS</text>
+                  <text x="150" y="176" text-anchor="middle" fill="#336688" font-size="8" font-family="sans-serif">send(): void</text>
+                  <rect x="205" y="140" width="90" height="46" rx="6" fill="#0d1400" stroke="#4cc9f0" stroke-width="1"/>
+                  <text x="250" y="160" text-anchor="middle" fill="#4cc9f0" font-size="10" font-family="sans-serif" font-weight="bold">Push</text>
+                  <text x="250" y="176" text-anchor="middle" fill="#336688" font-size="8" font-family="sans-serif">send(): void</text>
+                  <text x="150" y="220" text-anchor="middle" fill="#9999bb" font-size="9" font-family="sans-serif">NotifFactory::create('sms')-&gt;send()</text>
+                </svg>
+              </div>
+              <div>
+                <div style="background:var(--bg3);border-left:3px solid #06d6a0;padding:.9rem 1.1rem;border-radius:0 8px 8px 0;margin-bottom:1rem;font-size:.85rem;color:var(--text2);line-height:1.7">
+                  <strong style="color:var(--text)">¿Cuándo usarlo?</strong> Cuando creas objetos sin especificar la clase exacta. Ideal para notificaciones, pagos (Visa/PayPal/Yape) o reportes (PDF/Excel/CSV).
+                </div>
+                <div class="code-wrap">
+                  <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>factory.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+                  <pre><span class="tag">&lt;?php</span>
+<span class="kw">interface</span> <span class="fn">Notificacion</span> {
+    <span class="kw">public function</span> <span class="fn">send</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span><span class="op">;</span>
+}
+<span class="kw">class</span> <span class="fn">Email</span> <span class="kw">implements</span> <span class="fn">Notificacion</span> {
+    <span class="kw">public function</span> <span class="fn">send</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span>
+    { <span class="fn">mail</span>(<span class="str">"user@x.com"</span><span class="op">,</span><span class="str">"Notif"</span><span class="op">,</span><span class="var">$msg</span>)<span class="op">;</span> }
+}
+<span class="kw">class</span> <span class="fn">SMS</span> <span class="kw">implements</span> <span class="fn">Notificacion</span> {
+    <span class="kw">public function</span> <span class="fn">send</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span>
+    { <span class="cmt">/* API SMS */</span> }
+}
+<span class="kw">class</span> <span class="fn">NotifFactory</span> {
+    <span class="kw">public static function</span> <span class="fn">create</span>(<span class="kw">string</span> <span class="var">$tipo</span>): <span class="fn">Notificacion</span> {
+        <span class="kw">return match</span>(<span class="var">$tipo</span>) {
+            <span class="str">'email'</span> <span class="op">=&gt;</span> <span class="kw">new</span> <span class="fn">Email</span>()<span class="op">,</span>
+            <span class="str">'sms'</span>   <span class="op">=&gt;</span> <span class="kw">new</span> <span class="fn">SMS</span>()<span class="op">,</span>
+            <span class="kw">default</span> <span class="op">=&gt;</span> <span class="kw">throw new</span> <span class="fn">InvalidArgumentException</span>(<span class="str">"Tipo inválido"</span>)
+        }<span class="op">;</span>
+    }
+}
+<span class="cmt">// El cliente no sabe qué clase se instancia</span>
+<span class="fn">NotifFactory</span>::<span class="fn">create</span>(<span class="var">$_POST</span>[<span class="str">'canal'</span>])<span class="op">-&gt;</span><span class="fn">send</span>(<span class="str">"Pedido listo"</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="pat-repository" class="tab-content">
+            <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem">
+              <div style="display:flex;align-items:center;gap:.8rem;background:var(--bg3);border-radius:8px;padding:.7rem 1rem;font-size:.82rem">
+                <div style="width:28px;height:28px;border-radius:7px;background:#7c5cfc;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff;flex-shrink:0">C</div>
+                <div><strong style="color:var(--text)">Controller</strong> <span style="color:var(--text2)">llama a <code>$repo->findAll()</code> sin saber nada de SQL</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:.8rem;background:var(--bg3);border-radius:8px;padding:.7rem 1rem;font-size:.82rem">
+                <div style="width:28px;height:28px;border-radius:7px;background:#ffd166;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#000;flex-shrink:0">R</div>
+                <div><strong style="color:var(--text)">Repository</strong> <span style="color:var(--text2)">ejecuta el SQL con PDO y devuelve objetos del dominio</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:.8rem;background:var(--bg3);border-radius:8px;padding:.7rem 1rem;font-size:.82rem">
+                <div style="width:28px;height:28px;border-radius:7px;background:#06d6a0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#000;flex-shrink:0">M</div>
+                <div><strong style="color:var(--text)">Model</strong> <span style="color:var(--text2)">solo contiene propiedades — sin lógica de acceso a datos</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:.8rem;background:var(--bg3);border-radius:8px;padding:.7rem 1rem;font-size:.82rem">
+                <div style="width:28px;height:28px;border-radius:7px;background:#ff6b6b;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff;flex-shrink:0">DB</div>
+                <div><strong style="color:var(--text)">MySQL</strong> <span style="color:var(--text2)">nunca lo toca el Controller. Si cambias a PostgreSQL, solo cambias el Repository</span></div>
+              </div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>repository_pattern.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="kw">interface</span> <span class="fn">ProductoRepository</span> {
+    <span class="kw">public function</span> <span class="fn">findAll</span>(): <span class="kw">array</span><span class="op">;</span>
+    <span class="kw">public function</span> <span class="fn">findById</span>(<span class="kw">int</span> <span class="var">$id</span>): <span class="op">?</span><span class="fn">Producto</span><span class="op">;</span>
+    <span class="kw">public function</span> <span class="fn">save</span>(<span class="fn">Producto</span> <span class="var">$p</span>): <span class="kw">void</span><span class="op">;</span>
+    <span class="kw">public function</span> <span class="fn">delete</span>(<span class="kw">int</span> <span class="var">$id</span>): <span class="kw">void</span><span class="op">;</span>
+}
+<span class="kw">class</span> <span class="fn">MysqlProductoRepository</span> <span class="kw">implements</span> <span class="fn">ProductoRepository</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="fn">PDO</span> <span class="var">$pdo</span>) {}
+    <span class="kw">public function</span> <span class="fn">findAll</span>(): <span class="kw">array</span> {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">pdo</span><span class="op">-&gt;</span><span class="fn">query</span>(<span class="str">"SELECT * FROM productos"</span>)<span class="op">-&gt;</span><span class="fn">fetchAll</span>()<span class="op">;</span>
+    }
+    <span class="kw">public function</span> <span class="fn">findById</span>(<span class="kw">int</span> <span class="var">$id</span>): <span class="op">?</span><span class="fn">Producto</span> {
+        <span class="var">$s</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"SELECT * FROM productos WHERE id=?"</span>)<span class="op">;</span>
+        <span class="var">$s</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="var">$id</span>])<span class="op">;</span>
+        <span class="var">$row</span> <span class="op">=</span> <span class="var">$s</span><span class="op">-&gt;</span><span class="fn">fetch</span>()<span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$row</span> <span class="op">?</span> <span class="kw">new</span> <span class="fn">Producto</span>(<span class="var">$row</span>[<span class="str">'id'</span>]<span class="op">,</span> <span class="var">$row</span>[<span class="str">'nombre'</span>]<span class="op">,</span> <span class="var">$row</span>[<span class="str">'precio'</span>]) <span class="op">:</span> <span class="kw">null</span><span class="op">;</span>
+    }
+    <span class="kw">public function</span> <span class="fn">save</span>(<span class="fn">Producto</span> <span class="var">$p</span>): <span class="kw">void</span> { <span class="cmt">/* INSERT / UPDATE */</span> }
+    <span class="kw">public function</span> <span class="fn">delete</span>(<span class="kw">int</span> <span class="var">$id</span>): <span class="kw">void</span> { <span class="cmt">/* DELETE */</span> }
+}
+<span class="cmt">// Controller desacoplado de SQL</span>
+<span class="kw">class</span> <span class="fn">ProductoController</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="fn">ProductoRepository</span> <span class="var">$repo</span>) {}
+    <span class="kw">public function</span> <span class="fn">index</span>() { <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">findAll</span>()<span class="op">;</span> }
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+          </div>
+
+          <div id="pat-observer" class="tab-content">
+            <div class="diagram-card" style="margin-bottom:1rem">
+              <div class="diagram-title">Observer — Notificaciones en cadena (Eventos)</div>
+              <svg viewBox="0 0 580 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;margin:0 auto">
+                <defs><marker id="ob1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#ff6b6b"/></marker></defs>
+                <rect x="210" y="10" width="160" height="60" rx="8" fill="#2a0000" stroke="#ff6b6b" stroke-width="2"/>
+                <text x="290" y="32" text-anchor="middle" fill="#ff6b6b" font-size="12" font-family="sans-serif" font-weight="bold">Pedido (Subject)</text>
+                <text x="290" y="48" text-anchor="middle" fill="#884433" font-size="9" font-family="sans-serif">emit('pedido.nuevo', $data)</text>
+                <text x="290" y="62" text-anchor="middle" fill="#664422" font-size="8" font-family="sans-serif">+ subscribe(Observer)</text>
+                <line x1="230" y1="70" x2="80" y2="130" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#ob1)"/>
+                <line x1="290" y1="70" x2="290" y2="130" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#ob1)"/>
+                <line x1="350" y1="70" x2="500" y2="130" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#ob1)"/>
+                <rect x="20" y="130" width="120" height="50" rx="6" fill="#0d1a2e" stroke="#4cc9f0" stroke-width="1.5"/>
+                <text x="80" y="151" text-anchor="middle" fill="#4cc9f0" font-size="10" font-family="sans-serif" font-weight="bold">EnviarEmail</text>
+                <text x="80" y="165" text-anchor="middle" fill="#336688" font-size="8" font-family="sans-serif">handle($data)</text>
+                <text x="80" y="176" text-anchor="middle" fill="#224455" font-size="8" font-family="sans-serif">→ mail confirmación</text>
+                <rect x="230" y="130" width="120" height="50" rx="6" fill="#0d1a2e" stroke="#06d6a0" stroke-width="1.5"/>
+                <text x="290" y="151" text-anchor="middle" fill="#06d6a0" font-size="10" font-family="sans-serif" font-weight="bold">ActualizarStock</text>
+                <text x="290" y="165" text-anchor="middle" fill="#336655" font-size="8" font-family="sans-serif">handle($data)</text>
+                <text x="290" y="176" text-anchor="middle" fill="#224433" font-size="8" font-family="sans-serif">→ resta inventario</text>
+                <rect x="440" y="130" width="120" height="50" rx="6" fill="#0d1a2e" stroke="#ffd166" stroke-width="1.5"/>
+                <text x="500" y="151" text-anchor="middle" fill="#ffd166" font-size="10" font-family="sans-serif" font-weight="bold">NotificarAdmin</text>
+                <text x="500" y="165" text-anchor="middle" fill="#666600" font-size="8" font-family="sans-serif">handle($data)</text>
+                <text x="500" y="176" text-anchor="middle" fill="#444400" font-size="8" font-family="sans-serif">→ alerta Slack</text>
+              </svg>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>observer.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="kw">interface</span> <span class="fn">Observer</span> {
+    <span class="kw">public function</span> <span class="fn">handle</span>(<span class="kw">array</span> <span class="var">$data</span>): <span class="kw">void</span><span class="op">;</span>
+}
+<span class="kw">class</span> <span class="fn">EventEmitter</span> {
+    <span class="kw">private array</span> <span class="var">$listeners</span> <span class="op">=</span> []<span class="op">;</span>
+    <span class="kw">public function</span> <span class="fn">on</span>(<span class="kw">string</span> <span class="var">$event</span><span class="op">,</span> <span class="fn">Observer</span> <span class="var">$obs</span>): <span class="kw">void</span>
+    { <span class="var">$this</span><span class="op">-&gt;</span><span class="var">listeners</span>[<span class="var">$event</span>][] <span class="op">=</span> <span class="var">$obs</span><span class="op">;</span> }
+    <span class="kw">public function</span> <span class="fn">emit</span>(<span class="kw">string</span> <span class="var">$event</span><span class="op">,</span> <span class="kw">array</span> <span class="var">$data</span>): <span class="kw">void</span> {
+        <span class="kw">foreach</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">listeners</span>[<span class="var">$event</span>] <span class="op">??</span> [] <span class="kw">as</span> <span class="var">$obs</span>)
+            <span class="var">$obs</span><span class="op">-&gt;</span><span class="fn">handle</span>(<span class="var">$data</span>)<span class="op">;</span>
+    }
+}
+<span class="kw">class</span> <span class="fn">EnviarEmail</span> <span class="kw">implements</span> <span class="fn">Observer</span> {
+    <span class="kw">public function</span> <span class="fn">handle</span>(<span class="kw">array</span> <span class="var">$data</span>): <span class="kw">void</span>
+    { <span class="fn">echo</span> <span class="str">"Email enviado para pedido #{$data['id']}\n"</span><span class="op">;</span> }
+}
+<span class="kw">class</span> <span class="fn">ActualizarStock</span> <span class="kw">implements</span> <span class="fn">Observer</span> {
+    <span class="kw">public function</span> <span class="fn">handle</span>(<span class="kw">array</span> <span class="var">$data</span>): <span class="kw">void</span>
+    { <span class="fn">echo</span> <span class="str">"Stock actualizado\n"</span><span class="op">;</span> }
+}
+<span class="var">$emitter</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">EventEmitter</span>()<span class="op">;</span>
+<span class="var">$emitter</span><span class="op">-&gt;</span><span class="fn">on</span>(<span class="str">'pedido.nuevo'</span><span class="op">,</span> <span class="kw">new</span> <span class="fn">EnviarEmail</span>())<span class="op">;</span>
+<span class="var">$emitter</span><span class="op">-&gt;</span><span class="fn">on</span>(<span class="str">'pedido.nuevo'</span><span class="op">,</span> <span class="kw">new</span> <span class="fn">ActualizarStock</span>())<span class="op">;</span>
+<span class="var">$emitter</span><span class="op">-&gt;</span><span class="fn">emit</span>(<span class="str">'pedido.nuevo'</span><span class="op">,</span> [<span class="str">'id'</span> <span class="op">=&gt;</span> <span class="num">42</span>])<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEGURIDAD -->
+      <div class="concept-card" id="diag-seguridad">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#c0392b)">5</div>
+          <div>
+            <div class="concept-title">Flujo de Seguridad — Capas de Defensa</div>
+            <div class="concept-desc">Modelo de defensa en profundidad contra XSS, CSRF e Injection.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="diagram-card">
+            <div class="diagram-title">Defense in Depth — 4 capas de protección</div>
+            <svg viewBox="0 0 640 270" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;margin:0 auto">
+              <defs>
+                <marker id="sec1" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#ff6b6b"/></marker>
+                <marker id="sec2" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L0,7 L7,3.5 z" fill="#06d6a0"/></marker>
+              </defs>
+              <rect x="10" y="100" width="80" height="50" rx="8" fill="#2a0000" stroke="#ff6b6b" stroke-width="1.5"/>
+              <text x="50" y="120" text-anchor="middle" fill="#ff6b6b" font-size="10" font-family="sans-serif" font-weight="bold">Input</text>
+              <text x="50" y="135" text-anchor="middle" fill="#884433" font-size="8" font-family="sans-serif">Form/API</text>
+              <line x1="90" y1="125" x2="118" y2="125" stroke="#ff6b6b" stroke-width="1.5" marker-end="url(#sec1)"/>
+              <rect x="120" y="70" width="88" height="110" rx="8" fill="#1a0d0d" stroke="#ff6b6b" stroke-width="1.5"/>
+              <text x="164" y="91" text-anchor="middle" fill="#ff9999" font-size="9" font-family="sans-serif" font-weight="bold">① Validar</text>
+              <line x1="125" y1="98" x2="202" y2="98" stroke="#333" stroke-width="1" opacity=".4"/>
+              <text x="164" y="112" text-anchor="middle" fill="#884433" font-size="8" font-family="sans-serif">filter_var()</text>
+              <text x="164" y="125" text-anchor="middle" fill="#884433" font-size="8" font-family="sans-serif">Regex check</text>
+              <text x="164" y="138" text-anchor="middle" fill="#884433" font-size="8" font-family="sans-serif">Tipo + longitud</text>
+              <text x="164" y="155" text-anchor="middle" fill="#ff6b6b" font-size="8" font-family="sans-serif">✗ Inv → 400</text>
+              <line x1="208" y1="125" x2="236" y2="125" stroke="#ffd166" stroke-width="1.5" marker-end="url(#sec1)"/>
+              <rect x="238" y="70" width="88" height="110" rx="8" fill="#1a1400" stroke="#ffd166" stroke-width="1.5"/>
+              <text x="282" y="91" text-anchor="middle" fill="#ffd166" font-size="9" font-family="sans-serif" font-weight="bold">② Sanitizar</text>
+              <line x1="243" y1="98" x2="320" y2="98" stroke="#333" stroke-width="1" opacity=".4"/>
+              <text x="282" y="112" text-anchor="middle" fill="#886600" font-size="8" font-family="sans-serif">htmlspecialchars</text>
+              <text x="282" y="125" text-anchor="middle" fill="#886600" font-size="8" font-family="sans-serif">strip_tags</text>
+              <text x="282" y="138" text-anchor="middle" fill="#886600" font-size="8" font-family="sans-serif">Escapar salida</text>
+              <text x="282" y="155" text-anchor="middle" fill="#ffd166" font-size="8" font-family="sans-serif">→ Anti-XSS</text>
+              <line x1="326" y1="125" x2="354" y2="125" stroke="#7c5cfc" stroke-width="1.5" marker-end="url(#sec1)"/>
+              <rect x="356" y="70" width="88" height="110" rx="8" fill="#1a0d2e" stroke="#7c5cfc" stroke-width="1.5"/>
+              <text x="400" y="91" text-anchor="middle" fill="#c792ea" font-size="9" font-family="sans-serif" font-weight="bold">③ BD Segura</text>
+              <line x1="361" y1="98" x2="438" y2="98" stroke="#333" stroke-width="1" opacity=".4"/>
+              <text x="400" y="112" text-anchor="middle" fill="#664477" font-size="8" font-family="sans-serif">PDO prepare()</text>
+              <text x="400" y="125" text-anchor="middle" fill="#664477" font-size="8" font-family="sans-serif">Bind params</text>
+              <text x="400" y="138" text-anchor="middle" fill="#664477" font-size="8" font-family="sans-serif">Least privilege</text>
+              <text x="400" y="155" text-anchor="middle" fill="#c792ea" font-size="8" font-family="sans-serif">→ Anti-SQLi</text>
+              <line x1="444" y1="125" x2="472" y2="125" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#sec2)"/>
+              <rect x="474" y="70" width="88" height="110" rx="8" fill="#0d2000" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="518" y="89" text-anchor="middle" fill="#06d6a0" font-size="9" font-family="sans-serif" font-weight="bold">④ CSRF</text>
+              <text x="518" y="101" text-anchor="middle" fill="#06d6a0" font-size="9" font-family="sans-serif" font-weight="bold">+ Auth</text>
+              <line x1="479" y1="108" x2="556" y2="108" stroke="#333" stroke-width="1" opacity=".4"/>
+              <text x="518" y="122" text-anchor="middle" fill="#336633" font-size="8" font-family="sans-serif">CSRF Token</text>
+              <text x="518" y="135" text-anchor="middle" fill="#336633" font-size="8" font-family="sans-serif">Session segura</text>
+              <text x="518" y="148" text-anchor="middle" fill="#336633" font-size="8" font-family="sans-serif">password_hash</text>
+              <text x="518" y="161" text-anchor="middle" fill="#06d6a0" font-size="8" font-family="sans-serif">→ Anti-CSRF</text>
+              <text x="320" y="218" text-anchor="middle" fill="#06d6a0" font-size="11" font-family="sans-serif" font-weight="bold">✅ Input seguro → BD → Respuesta protegida</text>
+              <text x="320" y="238" text-anchor="middle" fill="#9999bb" font-size="9" font-family="sans-serif">Cada capa detiene un tipo de ataque. Si una falla, las otras siguen protegiendo.</text>
+              <text x="320" y="256" text-anchor="middle" fill="#9999bb" font-size="9" font-family="sans-serif">① Validar → ② Sanitizar → ③ Queries seguras → ④ Autenticación</text>
+            </svg>
+          </div>
+          <div class="alert alert-warn"><span class="alert-icon">⚠️</span> <strong>Nunca confíes en el input del usuario.</strong> Valida siempre en el servidor aunque ya valides en el cliente. El cliente puede ser manipulado; el servidor es tu última línea de defensa.</div>
+        </div>
+      </div>
+
+      <!-- REST API -->
+      <div class="concept-card" id="diag-rest">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0070ff)">6</div>
+          <div>
+            <div class="concept-title">REST API — Verbos HTTP y Rutas Completas</div>
+            <div class="concept-desc">Cómo diseñar una API RESTful completa con PHP puro.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <table class="data-table">
+            <tr><th>Método HTTP</th><th>Ruta</th><th>Acción</th><th>Respuesta exitosa</th><th>Body</th></tr>
+            <tr><td><span style="background:rgba(6,214,160,.2);color:#06d6a0;padding:.15rem .5rem;border-radius:5px;font-weight:700;font-family:monospace">GET</span></td><td><code>/api/productos</code></td><td>Listar todos</td><td><code>200 OK</code></td><td>—</td></tr>
+            <tr><td><span style="background:rgba(6,214,160,.2);color:#06d6a0;padding:.15rem .5rem;border-radius:5px;font-weight:700;font-family:monospace">GET</span></td><td><code>/api/productos/42</code></td><td>Ver uno</td><td><code>200 OK</code></td><td>—</td></tr>
+            <tr><td><span style="background:rgba(124,92,252,.2);color:#c792ea;padding:.15rem .5rem;border-radius:5px;font-weight:700;font-family:monospace">POST</span></td><td><code>/api/productos</code></td><td>Crear nuevo</td><td><code>201 Created</code></td><td>JSON con campos</td></tr>
+            <tr><td><span style="background:rgba(255,209,102,.2);color:#ffd166;padding:.15rem .5rem;border-radius:5px;font-weight:700;font-family:monospace">PUT</span></td><td><code>/api/productos/42</code></td><td>Reemplazar completo</td><td><code>200 OK</code></td><td>JSON completo</td></tr>
+            <tr><td><span style="background:rgba(0,229,255,.15);color:#00e5ff;padding:.15rem .5rem;border-radius:5px;font-weight:700;font-family:monospace">PATCH</span></td><td><code>/api/productos/42</code></td><td>Actualizar parcial</td><td><code>200 OK</code></td><td>JSON parcial</td></tr>
+            <tr><td><span style="background:rgba(255,107,107,.2);color:#ff6b6b;padding:.15rem .5rem;border-radius:5px;font-weight:700;font-family:monospace">DELETE</span></td><td><code>/api/productos/42</code></td><td>Eliminar</td><td><code>204 No Content</code></td><td>—</td></tr>
+          </table>
+          <div class="code-wrap">
+            <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>api_rest.php — Router con match()</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+            <pre><span class="tag">&lt;?php</span>
+<span class="fn">header</span>(<span class="str">'Content-Type: application/json'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'Access-Control-Allow-Origin: *'</span>)<span class="op">;</span>
+
+<span class="var">$method</span> <span class="op">=</span> <span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>]<span class="op">;</span>
+<span class="var">$uri</span>    <span class="op">=</span> <span class="fn">parse_url</span>(<span class="var">$_SERVER</span>[<span class="str">'REQUEST_URI'</span>]<span class="op">,</span> <span class="fn">PHP_URL_PATH</span>)<span class="op">;</span>
+<span class="var">$parts</span>  <span class="op">=</span> <span class="fn">explode</span>(<span class="str">'/'</span><span class="op">,</span> <span class="fn">trim</span>(<span class="var">$uri</span><span class="op">,</span><span class="str">'/'</span>))<span class="op">;</span>  <span class="cmt">// ['api','productos','42']</span>
+<span class="var">$resource</span> <span class="op">=</span> <span class="var">$parts</span>[<span class="num">1</span>] <span class="op">??</span> <span class="str">''</span><span class="op">;</span>
+<span class="var">$id</span>       <span class="op">=</span> <span class="fn">isset</span>(<span class="var">$parts</span>[<span class="num">2</span>]) <span class="op">?</span> (<span class="kw">int</span>)<span class="var">$parts</span>[<span class="num">2</span>] <span class="op">:</span> <span class="kw">null</span><span class="op">;</span>
+<span class="var">$body</span>     <span class="op">=</span> <span class="fn">json_decode</span>(<span class="fn">file_get_contents</span>(<span class="str">'php://input'</span>)<span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>
+
+<span class="kw">match</span>(<span class="kw">true</span>) {
+    <span class="var">$resource</span><span class="op">===</span><span class="str">'productos'</span><span class="op">&amp;&amp;</span><span class="var">$method</span><span class="op">===</span><span class="str">'GET'</span>   <span class="op">&amp;&amp;</span>!<span class="var">$id</span> <span class="op">=&gt;</span> <span class="fn">listar</span>()<span class="op">,</span>
+    <span class="var">$resource</span><span class="op">===</span><span class="str">'productos'</span><span class="op">&amp;&amp;</span><span class="var">$method</span><span class="op">===</span><span class="str">'GET'</span>   <span class="op">&amp;&amp;</span> <span class="var">$id</span> <span class="op">=&gt;</span> <span class="fn">obtener</span>(<span class="var">$id</span>)<span class="op">,</span>
+    <span class="var">$resource</span><span class="op">===</span><span class="str">'productos'</span><span class="op">&amp;&amp;</span><span class="var">$method</span><span class="op">===</span><span class="str">'POST'</span>        <span class="op">=&gt;</span> <span class="fn">crear</span>(<span class="var">$body</span>)<span class="op">,</span>
+    <span class="var">$resource</span><span class="op">===</span><span class="str">'productos'</span><span class="op">&amp;&amp;</span><span class="var">$method</span><span class="op">===</span><span class="str">'PUT'</span>   <span class="op">&amp;&amp;</span> <span class="var">$id</span> <span class="op">=&gt;</span> <span class="fn">actualizar</span>(<span class="var">$id</span><span class="op">,</span><span class="var">$body</span>)<span class="op">,</span>
+    <span class="var">$resource</span><span class="op">===</span><span class="str">'productos'</span><span class="op">&amp;&amp;</span><span class="var">$method</span><span class="op">===</span><span class="str">'DELETE'</span><span class="op">&amp;&amp;</span> <span class="var">$id</span> <span class="op">=&gt;</span> <span class="fn">eliminar</span>(<span class="var">$id</span>)<span class="op">,</span>
+    <span class="kw">default</span> <span class="op">=&gt;</span> (<span class="fn">http_response_code</span>(<span class="num">404</span>) <span class="op">&amp;&amp;</span>
+                 <span class="fn">print</span> <span class="fn">json_encode</span>([<span class="str">'error'</span><span class="op">=&gt;</span><span class="str">'Ruta no encontrada'</span>]))
+}<span class="op">;</span>
+
+<span class="kw">function</span> <span class="fn">crear</span>(<span class="kw">array</span> <span class="var">$body</span>): <span class="kw">void</span> {
+    <span class="fn">http_response_code</span>(<span class="num">201</span>)<span class="op">;</span>
+    <span class="fn">echo</span> <span class="fn">json_encode</span>([<span class="str">'id'</span><span class="op">=&gt;</span><span class="num">99</span><span class="op">,</span> <span class="op">...</span><span class="var">$body</span>])<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- MINI QUIZ -->
+      <div class="concept-card" id="diag-quiz">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#f72585,#ffd166)">7</div>
+          <div>
+            <div class="concept-title">🧠 Mini Quiz — Pon a prueba tu PHP</div>
+            <div class="concept-desc">5 preguntas sobre PHP. ¿Cuántas aciertas?</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div id="quiz-container"></div>
+          <div id="quiz-score" style="display:none;text-align:center;padding:1.5rem;background:var(--bg3);border-radius:10px;margin-top:1rem">
+            <div style="font-size:2.5rem;margin-bottom:.5rem" id="quiz-emoji">🎉</div>
+            <div style="font-size:1.4rem;font-weight:800;margin-bottom:.3rem" id="quiz-final"></div>
+            <div style="font-size:.85rem;color:var(--text2)" id="quiz-msg"></div>
+            <button onclick="reiniciarQuiz()" style="margin-top:1rem;background:var(--accent);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:8px;font-family:'Syne',sans-serif;font-weight:700;cursor:pointer">Reintentar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>

@@ -1,0 +1,290 @@
+﻿<section id="composer">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">📦 Módulo 12</span>
+    <h2 class="section-title">Composer y Namespaces</h2>
+    <p class="section-subtitle">Gestiona dependencias con Composer, organiza tu código con namespaces y usa PSR-4 autoloading.</p>
+  </div>
+
+  <!-- NAMESPACES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ffd166,#ff9a3c)">1</div>
+      <div>
+        <div class="concept-title">Namespaces</div>
+        <div class="concept-desc">Evitan conflictos de nombres entre clases y organizan el código en "carpetas lógicas".</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>src/Models/Usuario.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Declarar namespace — coincide con la ruta del archivo</span>
+<span class="kw">namespace</span> <span class="fn">App\Models</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">Usuario</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">public readonly</span> <span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span>
+        <span class="kw">public readonly</span> <span class="kw">string</span> <span class="var">$email</span>
+    ) {}
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>src/Services/UsuarioService.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">namespace</span> <span class="fn">App\Services</span><span class="op">;</span>
+
+<span class="cmt">// Importar con use</span>
+<span class="kw">use</span> <span class="fn">App\Models\Usuario</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">App\Models\Producto</span> <span class="kw">as</span> <span class="fn">Prod</span><span class="op">;</span>  <span class="cmt">// alias</span>
+
+<span class="kw">class</span> <span class="fn">UsuarioService</span> {
+    <span class="kw">public function</span> <span class="fn">crear</span>(<span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$email</span>): <span class="fn">Usuario</span> {
+        <span class="kw">return new</span> <span class="fn">Usuario</span>(<span class="var">$nombre</span><span class="op">,</span> <span class="var">$email</span>)<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>index.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Cargar el autoloader de Composer (carga clases automáticamente)</span>
+<span class="kw">require_once</span> <span class="str">'vendor/autoload.php'</span><span class="op">;</span>
+
+<span class="kw">use</span> <span class="fn">App\Services\UsuarioService</span><span class="op">;</span>
+
+<span class="var">$service</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">UsuarioService</span>()<span class="op">;</span>
+<span class="var">$usuario</span> <span class="op">=</span> <span class="var">$service</span><span class="op">-&gt;</span><span class="fn">crear</span>(<span class="str">"Ana"</span><span class="op">,</span> <span class="str">"ana@mail.com"</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$usuario</span><span class="op">-&gt;</span><span class="var">nombre</span><span class="op">;</span>  <span class="cmt">// Ana</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPOSER -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ffd166,#ff9a3c)">2</div>
+      <div>
+        <div class="concept-title">Composer — Gestor de dependencias</div>
+        <div class="concept-desc">El estándar para instalar, actualizar y gestionar librerías PHP.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <ol class="steps">
+        <li>Descarga e instala Composer desde <strong style="color:var(--accent2)">getcomposer.org</strong> — queda disponible como comando global.</li>
+        <li>En tu proyecto ejecuta <code>composer init</code> para crear el archivo <code>composer.json</code>.</li>
+        <li>Instala paquetes con <code>composer require nombre/paquete</code>.</li>
+        <li>Incluye <code>vendor/autoload.php</code> en tu proyecto para cargar todo automáticamente.</li>
+      </ol>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — comandos Composer</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Instalar paquete (guarda en composer.json)</span>
+composer require guzzlehttp/guzzle       <span class="cmt"># HTTP client popular</span>
+composer require vlucas/phpdotenv        <span class="cmt"># variables .env</span>
+composer require ramsey/uuid             <span class="cmt"># generador de UUIDs</span>
+
+<span class="cmt"># Solo en desarrollo</span>
+composer require --dev phpunit/phpunit   <span class="cmt"># framework de tests</span>
+
+<span class="cmt"># Actualizar todas las dependencias</span>
+composer update
+
+<span class="cmt"># Regenerar autoloader (tras añadir clases propias)</span>
+composer dump-autoload
+
+<span class="cmt"># Ver paquetes instalados</span>
+composer show</pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>composer.json</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre>{
+    "name": "mi-empresa/mi-proyecto",
+    "description": "Mi aplicación PHP",
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.0",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- USO DE PAQUETES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ffd166,#ff9a3c)">3</div>
+      <div>
+        <div class="concept-title">Ejemplos reales con Composer</div>
+        <div class="concept-desc">Usando Guzzle (HTTP client) y PHPDotenv (variables de entorno).</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'pkg-guzzle')">Guzzle HTTP</button>
+        <button class="tab-btn" onclick="showTab(this,'pkg-dotenv')">PHPDotenv</button>
+        <button class="tab-btn" onclick="showTab(this,'pkg-test')">PHPUnit Tests</button>
+      </div>
+
+      <div id="pkg-guzzle" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>guzzle_ejemplo.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">require_once</span> <span class="str">'vendor/autoload.php'</span><span class="op">;</span>
+
+<span class="kw">use</span> <span class="fn">GuzzleHttp\Client</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">GuzzleHttp\Exception\RequestException</span><span class="op">;</span>
+
+<span class="var">$client</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Client</span>([<span class="str">'base_uri'</span> <span class="op">=&gt;</span> <span class="str">'https://api.github.com'</span>])<span class="op">;</span>
+
+<span class="kw">try</span> {
+    <span class="var">$response</span> <span class="op">=</span> <span class="var">$client</span><span class="op">-&gt;</span><span class="fn">get</span>(<span class="str">'/users/torvalds'</span><span class="op">,</span> [
+        <span class="str">'headers'</span> <span class="op">=&gt;</span> [<span class="str">'User-Agent'</span> <span class="op">=&gt;</span> <span class="str">'MiApp/1.0'</span>]<span class="op">,</span>
+    ])<span class="op">;</span>
+
+    <span class="var">$datos</span> <span class="op">=</span> <span class="fn">json_decode</span>(<span class="var">$response</span><span class="op">-&gt;</span><span class="fn">getBody</span>()<span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Nombre: {$datos['name']}\n"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Repos públicos: {$datos['public_repos']}\n"</span><span class="op">;</span>
+
+} <span class="kw">catch</span> (<span class="fn">RequestException</span> <span class="var">$e</span>) {
+    <span class="fn">echo</span> <span class="str">"❌ Error: "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>()<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">Nombre: Linus Torvalds</div>
+          <div class="output-info">Repos públicos: 10</div>
+        </div>
+      </div>
+
+      <div id="pkg-dotenv" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>.env</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Nunca subas este archivo a Git (.gitignore)</span>
+DB_HOST=localhost
+DB_NAME=mi_tienda
+DB_USER=root
+DB_PASS=mi_password_super_secreta
+API_KEY=sk-abcdef123456
+APP_ENV=development</pre>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>config.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">require_once</span> <span class="str">'vendor/autoload.php'</span><span class="op">;</span>
+
+<span class="kw">use</span> <span class="fn">Dotenv\Dotenv</span><span class="op">;</span>
+
+<span class="cmt">// Carga el archivo .env</span>
+<span class="var">$dotenv</span> <span class="op">=</span> <span class="fn">Dotenv</span>::<span class="fn">createImmutable</span>(<span class="fn">__DIR__</span>)<span class="op">;</span>
+<span class="var">$dotenv</span><span class="op">-&gt;</span><span class="fn">load</span>()<span class="op">;</span>
+<span class="var">$dotenv</span><span class="op">-&gt;</span><span class="fn">required</span>([<span class="str">'DB_HOST'</span><span class="op">,</span> <span class="str">'DB_NAME'</span><span class="op">,</span> <span class="str">'DB_USER'</span>])<span class="op">;</span>
+
+<span class="cmt">// Leer variables seguras</span>
+<span class="var">$config</span> <span class="op">=</span> [
+    <span class="str">'db_host'</span> <span class="op">=&gt;</span> <span class="var">$_ENV</span>[<span class="str">'DB_HOST'</span>]<span class="op">,</span>
+    <span class="str">'db_name'</span> <span class="op">=&gt;</span> <span class="var">$_ENV</span>[<span class="str">'DB_NAME'</span>]<span class="op">,</span>
+    <span class="str">'db_user'</span> <span class="op">=&gt;</span> <span class="var">$_ENV</span>[<span class="str">'DB_USER'</span>]<span class="op">,</span>
+    <span class="str">'db_pass'</span> <span class="op">=&gt;</span> <span class="var">$_ENV</span>[<span class="str">'DB_PASS'</span>]<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="cmt">// Usar en PDO</span>
+<span class="var">$pdo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PDO</span>(
+    <span class="str">"mysql:host={$config['db_host']};dbname={$config['db_name']}"</span><span class="op">,</span>
+    <span class="var">$config</span>[<span class="str">'db_user'</span>]<span class="op">,</span>
+    <span class="var">$config</span>[<span class="str">'db_pass'</span>]
+)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="pkg-test" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tests/CalculadoraTest.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">PHPUnit\Framework\TestCase</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">Calculadora</span> {
+    <span class="kw">public function</span> <span class="fn">sumar</span>(<span class="kw">int</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$b</span>): <span class="kw">int</span> { <span class="kw">return</span> <span class="var">$a</span> <span class="op">+</span> <span class="var">$b</span><span class="op">;</span> }
+    <span class="kw">public function</span> <span class="fn">dividir</span>(<span class="kw">float</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$b</span>): <span class="kw">float</span> {
+        <span class="kw">if</span> (<span class="var">$b</span> <span class="op">==</span> <span class="num">0</span>) <span class="kw">throw new</span> <span class="fn">InvalidArgumentException</span>(<span class="str">"División por cero"</span>)<span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$a</span> <span class="op">/</span> <span class="var">$b</span><span class="op">;</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">CalculadoraTest</span> <span class="kw">extends</span> <span class="fn">TestCase</span> {
+    <span class="kw">private</span> <span class="fn">Calculadora</span> <span class="var">$calc</span><span class="op">;</span>
+
+    <span class="kw">protected function</span> <span class="fn">setUp</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Calculadora</span>()<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testSumar</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">5</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">sumar</span>(<span class="num">2</span><span class="op">,</span> <span class="num">3</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testDividirPorCero</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">expectException</span>(<span class="fn">InvalidArgumentException</span>::<span class="kw">class</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">dividir</span>(<span class="num">10</span><span class="op">,</span> <span class="num">0</span>)<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Ejecutar tests: <code>./vendor/bin/phpunit tests/</code></div>
+          <div class="output-success">OK (2 tests, 2 assertions)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTRUCTURA DE PROYECTO -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ffd166,#ff9a3c)">4</div>
+      <div>
+        <div class="concept-title">Estructura de Proyecto PHP Profesional</div>
+        <div class="concept-desc">La organización recomendada para un proyecto PHP moderno.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Estructura de carpetas</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre>mi-proyecto/
+├── public/              <span class="cmt"># Único directorio público (DocumentRoot)</span>
+│   └── index.php        <span class="cmt"># Punto de entrada de la aplicación</span>
+├── src/                 <span class="cmt"># Código fuente (PSR-4: App\)</span>
+│   ├── Controllers/     <span class="cmt"># Lógica de petición HTTP</span>
+│   ├── Models/          <span class="cmt"># Entidades de datos</span>
+│   ├── Services/        <span class="cmt"># Lógica de negocio</span>
+│   └── Repositories/    <span class="cmt"># Acceso a BD</span>
+├── tests/               <span class="cmt"># Tests unitarios y de integración</span>
+├── config/              <span class="cmt"># Archivos de configuración</span>
+├── storage/             <span class="cmt"># Logs, caché, uploads</span>
+│   ├── logs/
+│   └── uploads/
+├── vendor/              <span class="cmt"># Dependencias de Composer (no tocar)</span>
+├── .env                 <span class="cmt"># Variables de entorno (NO al repo)</span>
+├── .env.example         <span class="cmt"># Plantilla del .env (sí al repo)</span>
+├── .gitignore           <span class="cmt"># Excluir vendor/, .env, etc.</span>
+└── composer.json        <span class="cmt"># Dependencias y configuración PSR-4</span></pre>
+      </div>
+      <div class="alert alert-tip"><span class="alert-icon">💡</span> Configura Apache/Nginx para que el <strong>DocumentRoot</strong> apunte a <code>public/</code>. Así todo el código en <code>src/</code> nunca será accesible directamente desde el navegador — mucho más seguro.</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- DIAGRAMAS Y ARQUITECTURA -->

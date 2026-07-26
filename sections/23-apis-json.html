@@ -1,0 +1,277 @@
+﻿<section id="apis-json" style="background:var(--bg2);">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">🌐 Módulo 11</span>
+    <h2 class="section-title">APIs y JSON</h2>
+    <p class="section-subtitle">Consume APIs externas con cURL, trabaja con JSON y crea tu propia API REST en PHP.</p>
+  </div>
+
+  <!-- JSON -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00e5ff,#0096c7)">1</div>
+      <div>
+        <div class="concept-title">JSON — encode y decode</div>
+        <div class="concept-desc">JSON es el formato estándar para intercambiar datos entre aplicaciones.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>json.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Array PHP → JSON string</span>
+<span class="var">$datos</span> <span class="op">=</span> [
+    <span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Ana García'</span><span class="op">,</span>
+    <span class="str">'edad'</span>   <span class="op">=&gt;</span> <span class="num">28</span><span class="op">,</span>
+    <span class="str">'activo'</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+    <span class="str">'roles'</span>  <span class="op">=&gt;</span> [<span class="str">'admin'</span><span class="op">,</span> <span class="str">'editor'</span>]
+]<span class="op">;</span>
+
+<span class="var">$json</span> <span class="op">=</span> <span class="fn">json_encode</span>(<span class="var">$datos</span><span class="op">,</span> <span class="kw">JSON_PRETTY_PRINT</span> <span class="op">|</span> <span class="kw">JSON_UNESCAPED_UNICODE</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$json</span><span class="op">;</span>
+
+<span class="cmt">// JSON string → Array PHP</span>
+<span class="var">$cadena</span> <span class="op">=</span> <span class="str">'{"producto":"Laptop","precio":999.99}'</span><span class="op">;</span>
+<span class="var">$array</span>  <span class="op">=</span> <span class="fn">json_decode</span>(<span class="var">$cadena</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>  <span class="cmt">// true → array asociativo</span>
+<span class="fn">echo</span> <span class="var">$array</span>[<span class="str">'producto'</span>]<span class="op">;</span>                <span class="cmt">// Laptop</span>
+
+<span class="cmt">// JSON string → Objeto PHP (sin el parámetro true)</span>
+<span class="var">$obj</span> <span class="op">=</span> <span class="fn">json_decode</span>(<span class="var">$cadena</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$obj</span><span class="op">-&gt;</span><span class="var">precio</span><span class="op">;</span>  <span class="cmt">// 999.99</span>
+
+<span class="cmt">// Verificar errores JSON</span>
+<span class="kw">if</span> (<span class="fn">json_last_error</span>() <span class="op">!==</span> <span class="kw">JSON_ERROR_NONE</span>) {
+    <span class="fn">echo</span> <span class="str">"❌ JSON inválido: "</span> <span class="op">.</span> <span class="fn">json_last_error_msg</span>()<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-info">{ "nombre": "Ana García", "edad": 28, "activo": true, "roles": ["admin","editor"] }</div>
+        <div class="output-success">Laptop &nbsp;|&nbsp; 999.99</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- cURL -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00e5ff,#0096c7)">2</div>
+      <div>
+        <div class="concept-title">Consumir APIs con cURL</div>
+        <div class="concept-desc">cURL permite hacer peticiones HTTP (GET, POST, PUT, DELETE) desde PHP.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'api-get')">GET Request</button>
+        <button class="tab-btn" onclick="showTab(this,'api-post')">POST con datos</button>
+        <button class="tab-btn" onclick="showTab(this,'api-auth')">Con Autenticación</button>
+      </div>
+
+      <div id="api-get" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>curl_get.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Función reutilizable para peticiones GET</span>
+<span class="kw">function</span> <span class="fn">apiGet</span>(<span class="kw">string</span> <span class="var">$url</span><span class="op">,</span> <span class="kw">array</span> <span class="var">$headers</span> <span class="op">=</span> []): <span class="kw">array</span> {
+    <span class="var">$ch</span> <span class="op">=</span> <span class="fn">curl_init</span>()<span class="op">;</span>
+    <span class="fn">curl_setopt_array</span>(<span class="var">$ch</span><span class="op">,</span> [
+        <span class="kw">CURLOPT_URL</span>            <span class="op">=&gt;</span> <span class="var">$url</span><span class="op">,</span>
+        <span class="kw">CURLOPT_RETURNTRANSFER</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+        <span class="kw">CURLOPT_HTTPHEADER</span>     <span class="op">=&gt;</span> <span class="fn">array_merge</span>([<span class="str">'Accept: application/json'</span>]<span class="op">,</span> <span class="var">$headers</span>)<span class="op">,</span>
+        <span class="kw">CURLOPT_TIMEOUT</span>        <span class="op">=&gt;</span> <span class="num">10</span><span class="op">,</span>
+        <span class="kw">CURLOPT_FOLLOWLOCATION</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+    ])<span class="op">;</span>
+    <span class="var">$respuesta</span>  <span class="op">=</span> <span class="fn">curl_exec</span>(<span class="var">$ch</span>)<span class="op">;</span>
+    <span class="var">$httpCode</span>   <span class="op">=</span> <span class="fn">curl_getinfo</span>(<span class="var">$ch</span><span class="op">,</span> <span class="kw">CURLINFO_HTTP_CODE</span>)<span class="op">;</span>
+    <span class="fn">curl_close</span>(<span class="var">$ch</span>)<span class="op">;</span>
+
+    <span class="kw">return</span> [<span class="str">'status'</span> <span class="op">=&gt;</span> <span class="var">$httpCode</span><span class="op">,</span> <span class="str">'data'</span> <span class="op">=&gt;</span> <span class="fn">json_decode</span>(<span class="var">$respuesta</span><span class="op">,</span> <span class="kw">true</span>)]<span class="op">;</span>
+}
+
+<span class="cmt">// Consumir API pública (JSONPlaceholder)</span>
+<span class="var">$resultado</span> <span class="op">=</span> <span class="fn">apiGet</span>(<span class="str">'https://jsonplaceholder.typicode.com/users/1'</span>)<span class="op">;</span>
+
+<span class="kw">if</span> (<span class="var">$resultado</span>[<span class="str">'status'</span>] <span class="op">===</span> <span class="num">200</span>) {
+    <span class="var">$usuario</span> <span class="op">=</span> <span class="var">$resultado</span>[<span class="str">'data'</span>]<span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Nombre: {$usuario['name']}\n"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Email: {$usuario['email']}\n"</span><span class="op">;</span>
+} <span class="kw">else</span> {
+    <span class="fn">echo</span> <span class="str">"❌ Error HTTP: {$resultado['status']}"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">Nombre: Leanne Graham</div>
+          <div class="output-info">Email: Sincere@april.biz</div>
+        </div>
+      </div>
+
+      <div id="api-post" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>curl_post.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">function</span> <span class="fn">apiPost</span>(<span class="kw">string</span> <span class="var">$url</span><span class="op">,</span> <span class="kw">array</span> <span class="var">$datos</span><span class="op">,</span> <span class="kw">array</span> <span class="var">$headers</span> <span class="op">=</span> []): <span class="kw">array</span> {
+    <span class="var">$ch</span> <span class="op">=</span> <span class="fn">curl_init</span>()<span class="op">;</span>
+    <span class="fn">curl_setopt_array</span>(<span class="var">$ch</span><span class="op">,</span> [
+        <span class="kw">CURLOPT_URL</span>            <span class="op">=&gt;</span> <span class="var">$url</span><span class="op">,</span>
+        <span class="kw">CURLOPT_POST</span>           <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+        <span class="kw">CURLOPT_POSTFIELDS</span>     <span class="op">=&gt;</span> <span class="fn">json_encode</span>(<span class="var">$datos</span>)<span class="op">,</span>
+        <span class="kw">CURLOPT_RETURNTRANSFER</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+        <span class="kw">CURLOPT_HTTPHEADER</span>     <span class="op">=&gt;</span> <span class="fn">array_merge</span>([
+            <span class="str">'Content-Type: application/json'</span><span class="op">,</span>
+            <span class="str">'Accept: application/json'</span><span class="op">,</span>
+        ]<span class="op">,</span> <span class="var">$headers</span>)<span class="op">,</span>
+    ])<span class="op">;</span>
+    <span class="var">$respuesta</span> <span class="op">=</span> <span class="fn">curl_exec</span>(<span class="var">$ch</span>)<span class="op">;</span>
+    <span class="var">$httpCode</span>  <span class="op">=</span> <span class="fn">curl_getinfo</span>(<span class="var">$ch</span><span class="op">,</span> <span class="kw">CURLINFO_HTTP_CODE</span>)<span class="op">;</span>
+    <span class="fn">curl_close</span>(<span class="var">$ch</span>)<span class="op">;</span>
+    <span class="kw">return</span> [<span class="str">'status'</span> <span class="op">=&gt;</span> <span class="var">$httpCode</span><span class="op">,</span> <span class="str">'data'</span> <span class="op">=&gt;</span> <span class="fn">json_decode</span>(<span class="var">$respuesta</span><span class="op">,</span> <span class="kw">true</span>)]<span class="op">;</span>
+}
+
+<span class="var">$resultado</span> <span class="op">=</span> <span class="fn">apiPost</span>(<span class="str">'https://jsonplaceholder.typicode.com/posts'</span><span class="op">,</span> [
+    <span class="str">'title'</span>  <span class="op">=&gt;</span> <span class="str">'Mi primer post'</span><span class="op">,</span>
+    <span class="str">'body'</span>   <span class="op">=&gt;</span> <span class="str">'Contenido del post'</span><span class="op">,</span>
+    <span class="str">'userId'</span> <span class="op">=&gt;</span> <span class="num">1</span><span class="op">,</span>
+])<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="str">"Creado con ID: {$resultado['data']['id']}"</span><span class="op">;</span>  <span class="cmt">// 101</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-success">Creado con ID: 101</div></div>
+      </div>
+
+      <div id="api-auth" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>curl_auth.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// API con Bearer Token (JWT)</span>
+<span class="var">$token</span> <span class="op">=</span> <span class="str">'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'</span><span class="op">;</span>
+
+<span class="var">$resultado</span> <span class="op">=</span> <span class="fn">apiGet</span>(<span class="str">'https://api.ejemplo.com/mis-datos'</span><span class="op">,</span> [
+    <span class="str">"Authorization: Bearer <span class="var">$token</span>"</span><span class="op">,</span>
+])<span class="op">;</span>
+
+<span class="cmt">// API con Basic Auth</span>
+<span class="var">$ch</span> <span class="op">=</span> <span class="fn">curl_init</span>()<span class="op">;</span>
+<span class="fn">curl_setopt_array</span>(<span class="var">$ch</span><span class="op">,</span> [
+    <span class="kw">CURLOPT_URL</span>            <span class="op">=&gt;</span> <span class="str">'https://api.ejemplo.com/datos'</span><span class="op">,</span>
+    <span class="kw">CURLOPT_RETURNTRANSFER</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>
+    <span class="kw">CURLOPT_USERPWD</span>        <span class="op">=&gt;</span> <span class="str">'usuario:contraseña'</span><span class="op">,</span>   <span class="cmt">// Basic Auth</span>
+    <span class="kw">CURLOPT_SSL_VERIFYPEER</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>  <span class="cmt">// SIEMPRE verificar SSL en producción</span>
+])<span class="op">;</span>
+<span class="var">$resp</span> <span class="op">=</span> <span class="fn">curl_exec</span>(<span class="var">$ch</span>)<span class="op">;</span>
+<span class="fn">curl_close</span>(<span class="var">$ch</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="alert alert-warn" style="margin-top:1rem"><span class="alert-icon">⚠️</span> Nunca escribas tokens o contraseñas directamente en el código. Usa variables de entorno o un archivo <code>.env</code> que no se suba a Git.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREAR API REST -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00e5ff,#0096c7)">3</div>
+      <div>
+        <div class="concept-title">Crear tu propia API REST</div>
+        <div class="concept-desc">Responde con JSON, maneja métodos HTTP y cabeceras CORS desde PHP.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>api.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Cabeceras — indicar que devuelves JSON y permitir CORS</span>
+<span class="fn">header</span>(<span class="str">'Content-Type: application/json; charset=UTF-8'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'Access-Control-Allow-Origin: *'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'Access-Control-Allow-Methods: GET, POST, PUT, DELETE'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'Access-Control-Allow-Headers: Content-Type, Authorization'</span>)<span class="op">;</span>
+
+<span class="cmt">// Función helper para responder</span>
+<span class="kw">function</span> <span class="fn">responder</span>(<span class="kw">array</span> <span class="var">$datos</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$codigo</span> <span class="op">=</span> <span class="num">200</span>): <span class="kw">void</span> {
+    <span class="fn">http_response_code</span>(<span class="var">$codigo</span>)<span class="op">;</span>
+    <span class="fn">echo</span> <span class="fn">json_encode</span>(<span class="var">$datos</span><span class="op">,</span> <span class="kw">JSON_UNESCAPED_UNICODE</span>)<span class="op">;</span>
+    <span class="fn">exit</span><span class="op">;</span>
+}
+
+<span class="cmt">// Leer el método HTTP y la ruta</span>
+<span class="var">$metodo</span> <span class="op">=</span> <span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>]<span class="op">;</span>
+<span class="var">$ruta</span>   <span class="op">=</span> <span class="fn">trim</span>(<span class="var">$_SERVER</span>[<span class="str">'PATH_INFO'</span>] <span class="op">??</span> <span class="str">'/'</span><span class="op">,</span> <span class="str">'/'</span>)<span class="op">;</span>
+<span class="var">$cuerpo</span> <span class="op">=</span> <span class="fn">json_decode</span>(<span class="fn">file_get_contents</span>(<span class="str">'php://input'</span>)<span class="op">,</span> <span class="kw">true</span>) <span class="op">??</span> []<span class="op">;</span>
+
+<span class="cmt">// Enrutador simple</span>
+<span class="kw">match</span>(<span class="str">"<span class="var">$metodo</span> /<span class="var">$ruta</span>"</span>) {
+    <span class="str">'GET /productos'</span>   <span class="op">=&gt;</span> <span class="fn">responder</span>([<span class="str">'data'</span> <span class="op">=&gt;</span> <span class="fn">obtenerProductos</span>()])<span class="op">,</span>
+    <span class="str">'POST /productos'</span>  <span class="op">=&gt;</span> <span class="fn">responder</span>([<span class="str">'data'</span> <span class="op">=&gt;</span> <span class="fn">crearProducto</span>(<span class="var">$cuerpo</span>)]<span class="op">,</span> <span class="num">201</span>)<span class="op">,</span>
+    <span class="kw">default</span>            <span class="op">=&gt;</span> <span class="fn">responder</span>([<span class="str">'error'</span> <span class="op">=&gt;</span> <span class="str">'Ruta no encontrada'</span>]<span class="op">,</span> <span class="num">404</span>)<span class="op">,</span>
+}<span class="op">;</span>
+
+<span class="kw">function</span> <span class="fn">obtenerProductos</span>(): <span class="kw">array</span> {
+    <span class="cmt">// Aquí consultas la BD con PDO</span>
+    <span class="kw">return</span> [
+        [<span class="str">'id'</span> <span class="op">=&gt;</span> <span class="num">1</span><span class="op">,</span> <span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Laptop'</span><span class="op">,</span> <span class="str">'precio'</span> <span class="op">=&gt;</span> <span class="num">999.99</span>]<span class="op">,</span>
+        [<span class="str">'id'</span> <span class="op">=&gt;</span> <span class="num">2</span><span class="op">,</span> <span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Teclado'</span><span class="op">,</span> <span class="str">'precio'</span> <span class="op">=&gt;</span> <span class="num">89.00</span>]<span class="op">,</span>
+    ]<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ GET /api.php/productos devuelve</div>
+        <div class="output-info">{"data":[{"id":1,"nombre":"Laptop","precio":999.99},{"id":2,"nombre":"Teclado","precio":89}]}</div>
+      </div>
+      <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> Para una API más robusta usa <strong>Slim Framework</strong> o <strong>Laravel</strong>. Instálalos con Composer (ver módulo siguiente).</div>
+    </div>
+  </div>
+
+  <!-- VARIABLES SUPERGLOBALES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00e5ff,#0096c7)">4</div>
+      <div>
+        <div class="concept-title">Variables Superglobales de Servidor</div>
+        <div class="concept-desc">$_SERVER y $_ENV: información del servidor, petición HTTP y variables de entorno.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>superglobales.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// $_SERVER — info del servidor y la petición</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>]<span class="op">;</span>    <span class="cmt">// GET, POST, PUT...</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'REQUEST_URI'</span>]<span class="op">;</span>       <span class="cmt">// /api/productos?page=1</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'HTTP_HOST'</span>]<span class="op">;</span>          <span class="cmt">// localhost o mi-dominio.com</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'REMOTE_ADDR'</span>]<span class="op">;</span>        <span class="cmt">// IP del visitante</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'HTTP_USER_AGENT'</span>]<span class="op">;</span>    <span class="cmt">// navegador del usuario</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'DOCUMENT_ROOT'</span>]<span class="op">;</span>      <span class="cmt">// ruta raíz del servidor</span>
+
+<span class="cmt">// Detectar si es HTTPS</span>
+<span class="var">$esHttps</span> <span class="op">=</span> (<span class="op">!</span><span class="fn">empty</span>(<span class="var">$_SERVER</span>[<span class="str">'HTTPS'</span>]) <span class="op">&amp;&amp;</span> <span class="var">$_SERVER</span>[<span class="str">'HTTPS'</span>] <span class="op">!==</span> <span class="str">'off'</span>)<span class="op">;</span>
+<span class="var">$protocolo</span> <span class="op">=</span> <span class="var">$esHttps</span> <span class="op">?</span> <span class="str">'https'</span> <span class="op">:</span> <span class="str">'http'</span><span class="op">;</span>
+
+<span class="cmt">// Leer header personalizado</span>
+<span class="var">$tokenBearer</span> <span class="op">=</span> <span class="var">$_SERVER</span>[<span class="str">'HTTP_AUTHORIZATION'</span>] <span class="op">??</span> <span class="str">''</span><span class="op">;</span>
+
+<span class="cmt">// $_ENV — variables de entorno (del sistema o .env)</span>
+<span class="var">$dbPassword</span> <span class="op">=</span> <span class="fn">getenv</span>(<span class="str">'DB_PASSWORD'</span>)<span class="op">;</span>     <span class="cmt">// Leer variable de entorno</span>
+<span class="fn">putenv</span>(<span class="str">'MI_VAR=valor'</span>)<span class="op">;</span>                  <span class="cmt">// Definir variable de entorno</span>
+
+<span class="cmt">// URL completa actual</span>
+<span class="var">$urlActual</span> <span class="op">=</span> <span class="var">$protocolo</span> <span class="op">.</span> <span class="str">'://'</span> <span class="op">.</span> <span class="var">$_SERVER</span>[<span class="str">'HTTP_HOST'</span>] <span class="op">.</span> <span class="var">$_SERVER</span>[<span class="str">'REQUEST_URI'</span>]<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$urlActual</span><span class="op">;</span>  <span class="cmt">// https://mi-dominio.com/api/productos</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Ejemplo de valores</div>
+        <div class="output-info">GET &nbsp;|&nbsp; /api/productos?page=1 &nbsp;|&nbsp; localhost</div>
+        <div class="output-success">https://mi-dominio.com/api/productos</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- COMPOSER Y NAMESPACES -->

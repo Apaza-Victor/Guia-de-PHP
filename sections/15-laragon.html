@@ -1,0 +1,60 @@
+<section id="laragon">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">⚡ Módulo 3</span>
+    <h2 class="section-title">Laragon — Entorno moderno</h2>
+    <p class="section-subtitle">La alternativa rápida y elegante a XAMPP, especialmente para proyectos Laravel.</p>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">L</div>
+      <div>
+        <div class="concept-title">¿Por qué Laragon?</div>
+        <div class="concept-desc">Rápido, portable, con dominios automáticos .test y soporte multi-PHP</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <table class="data-table">
+        <tr><th>Característica</th><th>XAMPP</th><th>Laragon</th></tr>
+        <tr><td>Velocidad inicio</td><td>Lenta</td><td>⚡ Muy rápida</td></tr>
+        <tr><td>Dominios automáticos</td><td>❌</td><td>✅ .test automático</td></tr>
+        <tr><td>Cambiar versión PHP</td><td>Manual y complejo</td><td>✅ Con un clic</td></tr>
+        <tr><td>SSL local</td><td>Manual</td><td>✅ Automático</td></tr>
+        <tr><td>Portable</td><td>Parcial</td><td>✅ Totalmente</td></tr>
+        <tr><td>Laravel CLI</td><td>Instalar manualmente</td><td>✅ Integrado</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#0096c7)">2</div>
+      <div>
+        <div class="concept-title">Instalación y primer proyecto</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <ol class="steps">
+        <li>Descarga Laragon desde <strong style="color:var(--accent2)">laragon.org</strong> (versión Full recomendada).</li>
+        <li>Instala en <code>C:\laragon\</code> — es muy rápido, no tiene muchas opciones.</li>
+        <li>Abre Laragon y pulsa <strong>Iniciar todo</strong>.</li>
+        <li>Tus proyectos van en <code>C:\laragon\www\</code></li>
+        <li>Laragon crea automáticamente el dominio <code>http://mi-proyecto.test</code> por cada carpeta en www.</li>
+      </ol>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>Terminal en Laragon</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Crear proyecto Laravel desde el terminal de Laragon</span>
+composer create-project laravel/laravel mi-app
+
+<span class="cmt"># Accede automáticamente en:</span>
+<span class="cmt"># http://mi-app.test</span>
+
+<span class="cmt"># Cambiar versión de PHP: clic derecho en icono Laragon</span>
+<span class="cmt"># → PHP → Seleccionar versión</span></pre>
+      </div>
+      <div class="alert alert-tip"><span class="alert-icon">💡</span> Laragon incluye Composer, Node.js, NPM, Git y muchas herramientas preinstaladas. Es la opción ideal para proyectos Laravel y modernos.</div>
+    </div>
+  </div>
+</div>
+</section>

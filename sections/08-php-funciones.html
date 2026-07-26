@@ -1,0 +1,238 @@
+﻿      <section id="php-funciones">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">6</div>
+          <div>
+            <div class="concept-title">Funciones</div>
+            <div class="concept-desc">Definición · tipado estricto · variadic · referencia · recursividad · closures · callable.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'fn-basic')">Básicas y Tipos</button>
+            <button class="tab-btn" onclick="showTab(this,'fn-variadic')">Variadic &amp; Referencia</button>
+            <button class="tab-btn" onclick="showTab(this,'fn-closures')">Closures y Arrows</button>
+            <button class="tab-btn" onclick="showTab(this,'fn-recursion')">Recursividad</button>
+          </div>
+
+          <div id="fn-basic" class="tab-content active">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>funciones_tipos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// declare(strict_types=1) — obliga a pasar exactamente el tipo declarado</span>
+<span class="kw">declare</span>(<span class="fn">strict_types</span><span class="op">=</span><span class="num">1</span>)<span class="op">;</span>
+
+<span class="cmt">// Función con tipos de entrada y retorno</span>
+<span class="kw">function</span> <span class="fn">sumar</span>(<span class="kw">int</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$b</span>): <span class="kw">int</span> {
+    <span class="kw">return</span> <span class="var">$a</span> <span class="op">+</span> <span class="var">$b</span><span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="fn">sumar</span>(<span class="num">3</span><span class="op">,</span> <span class="num">4</span>)<span class="op">;</span>  <span class="cmt">// 7</span>
+
+<span class="cmt">// Tipo nullable — puede recibir null además del tipo declarado</span>
+<span class="kw">function</span> <span class="fn">saludar</span>(<span class="op">?</span><span class="kw">string</span> <span class="var">$nombre</span>): <span class="kw">string</span> {
+    <span class="kw">return</span> <span class="str">"Hola, "</span> <span class="op">.</span> (<span class="var">$nombre</span> <span class="op">??</span> <span class="str">"invitado"</span>) <span class="op">.</span> <span class="str">"!"</span><span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="fn">saludar</span>(<span class="kw">null</span>)<span class="op">;</span>    <span class="cmt">// Hola, invitado!</span>
+<span class="fn">echo</span> <span class="fn">saludar</span>(<span class="str">"Ana"</span>)<span class="op">;</span>   <span class="cmt">// Hola, Ana!</span>
+
+<span class="cmt">// Tipos unión — acepta varios tipos (PHP 8)</span>
+<span class="kw">function</span> <span class="fn">formatear</span>(<span class="kw">int</span><span class="op">|</span><span class="kw">float</span> <span class="var">$num</span>): <span class="kw">string</span> {
+    <span class="kw">return</span> <span class="str">"S/ "</span> <span class="op">.</span> <span class="fn">number_format</span>(<span class="var">$num</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="fn">formatear</span>(<span class="num">1500</span>)<span class="op">;</span>       <span class="cmt">// S/ 1,500.00</span>
+<span class="fn">echo</span> <span class="fn">formatear</span>(<span class="num">49.99</span>)<span class="op">;</span>     <span class="cmt">// S/ 49.99</span>
+
+<span class="cmt">// void — función que no retorna valor</span>
+<span class="kw">function</span> <span class="fn">registrar</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span> {
+    <span class="fn">error_log</span>(<span class="var">$msg</span>)<span class="op">;</span>
+    <span class="cmt">// return; — sin valor, o simplemente no poner return</span>
+}
+
+<span class="cmt">// never — función que NUNCA retorna (lanza excepción o termina el script)</span>
+<span class="kw">function</span> <span class="fn">error404</span>(): <span class="kw">never</span> {
+    <span class="fn">http_response_code</span>(<span class="num">404</span>)<span class="op">;</span>
+    <span class="fn">exit</span>(<span class="str">"Página no encontrada"</span>)<span class="op">;</span>
+}
+
+<span class="cmt">// mixed — acepta y/o retorna cualquier tipo</span>
+<span class="kw">function</span> <span class="fn">obtenerValor</span>(<span class="kw">string</span> <span class="var">$clave</span>): <span class="kw">mixed</span> {
+    <span class="var">$datos</span> <span class="op">=</span> [<span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Ana'</span><span class="op">,</span> <span class="str">'edad'</span> <span class="op">=&gt;</span> <span class="num">30</span><span class="op">,</span> <span class="str">'activo'</span> <span class="op">=&gt;</span> <span class="kw">true</span>]<span class="op">;</span>
+    <span class="kw">return</span> <span class="var">$datos</span>[<span class="var">$clave</span>] <span class="op">??</span> <span class="kw">null</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">7</div>
+              <div class="output-info">Hola, invitado! &nbsp;|&nbsp; Hola, Ana!</div>
+              <div class="output-info">S/ 1,500.00 &nbsp;|&nbsp; S/ 49.99</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Tipo retorno</th><th>Significado</th></tr>
+              <tr><td><code>string</code>, <code>int</code>, <code>float</code>…</td><td>Retorna exactamente ese tipo</td></tr>
+              <tr><td><code>?string</code></td><td>Retorna string o null</td></tr>
+              <tr><td><code>int|float</code></td><td>Tipo unión — uno u otro (PHP 8)</td></tr>
+              <tr><td><code>void</code></td><td>No retorna nada</td></tr>
+              <tr><td><code>never</code></td><td>Nunca retorna — termina o lanza excepción (PHP 8.1)</td></tr>
+              <tr><td><code>mixed</code></td><td>Cualquier tipo (PHP 8)</td></tr>
+            </table>
+          </div>
+
+          <div id="fn-variadic" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>variadic_referencia.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Variadic — número variable de argumentos con ...</span>
+<span class="kw">function</span> <span class="fn">sumarTodo</span>(<span class="kw">int</span> <span class="op">...</span><span class="var">$nums</span>): <span class="kw">int</span> {
+    <span class="kw">return</span> <span class="fn">array_sum</span>(<span class="var">$nums</span>)<span class="op">;</span>  <span class="cmt">// $nums es un array</span>
+}
+<span class="fn">echo</span> <span class="fn">sumarTodo</span>(<span class="num">1</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">3</span>)<span class="op">;</span>         <span class="cmt">// 6</span>
+<span class="fn">echo</span> <span class="fn">sumarTodo</span>(<span class="num">10</span><span class="op">,</span> <span class="num">20</span><span class="op">,</span> <span class="num">30</span><span class="op">,</span> <span class="num">40</span>)<span class="op">;</span>  <span class="cmt">// 100</span>
+
+<span class="cmt">// Mezcla de parámetros normales y variadic</span>
+<span class="kw">function</span> <span class="fn">etiqueta</span>(<span class="kw">string</span> <span class="var">$tag</span><span class="op">,</span> <span class="kw">string</span> <span class="op">...</span><span class="var">$clases</span>): <span class="kw">string</span> {
+    <span class="var">$cls</span> <span class="op">=</span> <span class="fn">implode</span>(<span class="str">" "</span><span class="op">,</span> <span class="var">$clases</span>)<span class="op">;</span>
+    <span class="kw">return</span> <span class="str">"&lt;<span class="var">$tag</span> class='<span class="var">$cls</span>'&gt;"</span><span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="fn">etiqueta</span>(<span class="str">"div"</span><span class="op">,</span> <span class="str">"card"</span><span class="op">,</span> <span class="str">"flex"</span><span class="op">,</span> <span class="str">"p-4"</span>)<span class="op">;</span>
+<span class="cmt">// &lt;div class='card flex p-4'&gt;</span>
+
+<span class="cmt">// Spread operator — pasar array como argumentos</span>
+<span class="var">$valores</span> <span class="op">=</span> [<span class="num">5</span><span class="op">,</span> <span class="num">10</span><span class="op">,</span> <span class="num">15</span>]<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">sumarTodo</span>(<span class="op">...</span><span class="var">$valores</span>)<span class="op">;</span>  <span class="cmt">// 30 — equivale a sumarTodo(5,10,15)</span>
+
+<span class="cmt">// Paso por REFERENCIA con & — modifica la variable original</span>
+<span class="kw">function</span> <span class="fn">duplicar</span>(<span class="kw">int</span> <span class="op">&amp;</span><span class="var">$valor</span>): <span class="kw">void</span> {
+    <span class="var">$valor</span> <span class="op">*=</span> <span class="num">2</span><span class="op">;</span>  <span class="cmt">// modifica la variable del exterior</span>
+}
+<span class="var">$precio</span> <span class="op">=</span> <span class="num">50</span><span class="op">;</span>
+<span class="fn">duplicar</span>(<span class="var">$precio</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$precio</span><span class="op">;</span>  <span class="cmt">// 100 — cambió el original</span>
+
+<span class="cmt">// Sin referencia — solo cambia la copia local</span>
+<span class="kw">function</span> <span class="fn">triplicarCopia</span>(<span class="kw">int</span> <span class="var">$valor</span>): <span class="kw">int</span> {
+    <span class="kw">return</span> <span class="var">$valor</span> <span class="op">*</span> <span class="num">3</span><span class="op">;</span>
+}
+<span class="var">$n</span> <span class="op">=</span> <span class="num">10</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">triplicarCopia</span>(<span class="var">$n</span>)<span class="op">;</span>  <span class="cmt">// 30</span>
+<span class="fn">echo</span> <span class="var">$n</span><span class="op">;</span>                   <span class="cmt">// 10 — $n no cambió</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">6 &nbsp;|&nbsp; 100</div>
+              <div class="output-info">&lt;div class='card flex p-4'&gt;</div>
+              <div class="output-info">$precio tras duplicar(): 100</div>
+              <div class="output-warn">$n sin referencia sigue siendo: 10</div>
+            </div>
+          </div>
+
+          <div id="fn-closures" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>closures_arrows.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Función anónima (closure) — se asigna a variable</span>
+<span class="var">$doble</span> <span class="op">=</span> <span class="kw">function</span>(<span class="kw">int</span> <span class="var">$n</span>): <span class="kw">int</span> {
+    <span class="kw">return</span> <span class="var">$n</span> <span class="op">*</span> <span class="num">2</span><span class="op">;</span>
+}<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$doble</span>(<span class="num">5</span>)<span class="op">;</span>  <span class="cmt">// 10</span>
+
+<span class="cmt">// Capturar variables externas con use</span>
+<span class="var">$impuesto</span> <span class="op">=</span> <span class="num">0.18</span><span class="op">;</span>
+<span class="var">$conIGV</span> <span class="op">=</span> <span class="kw">function</span>(<span class="kw">float</span> <span class="var">$precio</span>) <span class="kw">use</span> (<span class="var">$impuesto</span>): <span class="kw">float</span> {
+    <span class="kw">return</span> <span class="var">$precio</span> <span class="op">*</span> (<span class="num">1</span> <span class="op">+</span> <span class="var">$impuesto</span>)<span class="op">;</span>
+}<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$conIGV</span>(<span class="num">100</span>)<span class="op">;</span>  <span class="cmt">// 118</span>
+
+<span class="cmt">// Arrow function fn() — captura variables externas automáticamente</span>
+<span class="var">$factor</span> <span class="op">=</span> <span class="num">3</span><span class="op">;</span>
+<span class="var">$multiplicar</span> <span class="op">=</span> <span class="kw">fn</span>(<span class="kw">int</span> <span class="var">$n</span>) <span class="op">=&gt;</span> <span class="var">$n</span> <span class="op">*</span> <span class="var">$factor</span><span class="op">;</span>  <span class="cmt">// $factor capturado automáticamente</span>
+<span class="fn">echo</span> <span class="var">$multiplicar</span>(<span class="num">7</span>)<span class="op">;</span>  <span class="cmt">// 21</span>
+
+<span class="cmt">// Closures como callbacks — array_map, array_filter, usort</span>
+<span class="var">$precios</span> <span class="op">=</span> [<span class="num">100</span><span class="op">,</span> <span class="num">250</span><span class="op">,</span> <span class="num">50</span><span class="op">,</span> <span class="num">400</span><span class="op">,</span> <span class="num">30</span>]<span class="op">;</span>
+
+<span class="var">$conIGVTodos</span> <span class="op">=</span> <span class="fn">array_map</span>(<span class="kw">fn</span>(<span class="var">$p</span>) <span class="op">=&gt;</span> <span class="var">$p</span> <span class="op">*</span> <span class="num">1.18</span><span class="op">,</span> <span class="var">$precios</span>)<span class="op">;</span>
+<span class="var">$caros</span>       <span class="op">=</span> <span class="fn">array_filter</span>(<span class="var">$precios</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$p</span>) <span class="op">=&gt;</span> <span class="var">$p</span> <span class="op">&gt;</span> <span class="num">100</span>)<span class="op">;</span>
+<span class="fn">usort</span>(<span class="var">$precios</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$a</span><span class="op">,</span> <span class="var">$b</span>) <span class="op">=&gt;</span> <span class="var">$a</span> <span class="op">&lt;=&gt;</span> <span class="var">$b</span>)<span class="op">;</span>  <span class="cmt">// <=> operador spaceship</span>
+
+<span class="fn">print_r</span>(<span class="var">$caros</span>)<span class="op">;</span>   <span class="cmt">// [250, 400]</span>
+<span class="fn">print_r</span>(<span class="var">$precios</span>)<span class="op">;</span> <span class="cmt">// [30, 50, 100, 250, 400]</span>
+
+<span class="cmt">// callable type hint — acepta cualquier función invocable</span>
+<span class="kw">function</span> <span class="fn">aplicar</span>(<span class="kw">callable</span> <span class="var">$fn</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$valor</span>): <span class="kw">int</span> {
+    <span class="kw">return</span> <span class="var">$fn</span>(<span class="var">$valor</span>)<span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="fn">aplicar</span>(<span class="kw">fn</span>(<span class="var">$n</span>) <span class="op">=&gt;</span> <span class="var">$n</span> <span class="op">**</span> <span class="num">2</span><span class="op">,</span> <span class="num">5</span>)<span class="op">;</span>  <span class="cmt">// 25 — fn al cuadrado</span>
+<span class="fn">echo</span> <span class="fn">aplicar</span>(<span class="str">'abs'</span><span class="op">,</span> <span class="op">-</span><span class="num">10</span>)<span class="op">;</span>             <span class="cmt">// 10 — función nativa como callable</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">10 &nbsp;|&nbsp; 118 &nbsp;|&nbsp; 21</div>
+              <div class="output-success">Caros (>100): [250, 400]</div>
+              <div class="output-success">Ordenado: [30, 50, 100, 250, 400]</div>
+            </div>
+          </div>
+
+          <div id="fn-recursion" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>recursividad.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Factorial — función que se llama a sí misma</span>
+<span class="kw">function</span> <span class="fn">factorial</span>(<span class="kw">int</span> <span class="var">$n</span>): <span class="kw">int</span> {
+    <span class="kw">if</span> (<span class="var">$n</span> <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span><span class="op">;</span>  <span class="cmt">// caso base — SIEMPRE necesario</span>
+    <span class="kw">return</span> <span class="var">$n</span> <span class="op">*</span> <span class="fn">factorial</span>(<span class="var">$n</span> <span class="op">-</span> <span class="num">1</span>)<span class="op">;</span>  <span class="cmt">// llamada recursiva</span>
+}
+<span class="fn">echo</span> <span class="fn">factorial</span>(<span class="num">5</span>)<span class="op">;</span>  <span class="cmt">// 120  →  5*4*3*2*1</span>
+<span class="fn">echo</span> <span class="fn">factorial</span>(<span class="num">0</span>)<span class="op">;</span>  <span class="cmt">// 1</span>
+
+<span class="cmt">// Recorrer árbol/menú anidado — muy común en CMS y menús</span>
+<span class="kw">function</span> <span class="fn">renderMenu</span>(<span class="kw">array</span> <span class="var">$items</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$nivel</span> <span class="op">=</span> <span class="num">0</span>): <span class="kw">void</span> {
+    <span class="kw">foreach</span> (<span class="var">$items</span> <span class="kw">as</span> <span class="var">$item</span>) {
+        <span class="fn">echo</span> <span class="fn">str_repeat</span>(<span class="str">"  "</span><span class="op">,</span> <span class="var">$nivel</span>) <span class="op">.</span> <span class="str">"- {$item['nombre']}&lt;br&gt;"</span><span class="op">;</span>
+        <span class="kw">if</span> (<span class="op">!</span><span class="fn">empty</span>(<span class="var">$item</span>[<span class="str">'hijos'</span>])) {
+            <span class="fn">renderMenu</span>(<span class="var">$item</span>[<span class="str">'hijos'</span>]<span class="op">,</span> <span class="var">$nivel</span> <span class="op">+</span> <span class="num">1</span>)<span class="op">;</span>
+        }
+    }
+}
+
+<span class="var">$menu</span> <span class="op">=</span> [
+    [<span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Inicio'</span><span class="op">,</span> <span class="str">'hijos'</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+    [<span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Productos'</span><span class="op">,</span> <span class="str">'hijos'</span> <span class="op">=&gt;</span> [
+        [<span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Electrónica'</span><span class="op">,</span> <span class="str">'hijos'</span> <span class="op">=&gt;</span> [
+            [<span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Laptops'</span><span class="op">,</span> <span class="str">'hijos'</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+        ]]<span class="op">,</span>
+        [<span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Ropa'</span><span class="op">,</span> <span class="str">'hijos'</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+    ]]<span class="op">,</span>
+]<span class="op">;</span>
+<span class="fn">renderMenu</span>(<span class="var">$menu</span>)<span class="op">;</span>
+
+<span class="cmt">// Fibonacci con memoización — evitar recálculos</span>
+<span class="kw">function</span> <span class="fn">fib</span>(<span class="kw">int</span> <span class="var">$n</span><span class="op">,</span> <span class="kw">array</span> <span class="op">&amp;</span><span class="var">$cache</span> <span class="op">=</span> []): <span class="kw">int</span> {
+    <span class="kw">if</span> (<span class="var">$n</span> <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> <span class="var">$n</span><span class="op">;</span>
+    <span class="kw">if</span> (<span class="fn">isset</span>(<span class="var">$cache</span>[<span class="var">$n</span>])) <span class="kw">return</span> <span class="var">$cache</span>[<span class="var">$n</span>]<span class="op">;</span>
+    <span class="kw">return</span> <span class="var">$cache</span>[<span class="var">$n</span>] <span class="op">=</span> <span class="fn">fib</span>(<span class="var">$n</span><span class="op">-</span><span class="num">1</span><span class="op">,</span> <span class="var">$cache</span>) <span class="op">+</span> <span class="fn">fib</span>(<span class="var">$n</span><span class="op">-</span><span class="num">2</span><span class="op">,</span> <span class="var">$cache</span>)<span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="fn">fib</span>(<span class="num">10</span>)<span class="op">;</span>  <span class="cmt">// 55</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">factorial(5) = 120</div>
+              <div class="output-info">- Inicio</div>
+              <div class="output-info">- Productos</div>
+              <div class="output-info">&nbsp;&nbsp;- Electrónica</div>
+              <div class="output-info">&nbsp;&nbsp;&nbsp;&nbsp;- Laptops</div>
+              <div class="output-info">&nbsp;&nbsp;- Ropa</div>
+              <div class="output-success">fib(10) = 55</div>
+            </div>
+            <div class="alert alert-warn" style="margin-top:1rem"><span class="alert-icon">⚠️</span> Toda función recursiva necesita un <strong>caso base</strong> que detenga la recursión. Sin él, causará un error de desbordamiento de pila (<em>stack overflow</em>).</div>
+          </div>
+        </div>
+      </div>
+</div>
+
+      <!-- ARRAYS -->
+      </section>

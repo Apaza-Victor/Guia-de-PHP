@@ -1,0 +1,407 @@
+﻿<section id="errores" style="background:var(--bg2);">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag">⚠️ Módulo 9</span>
+    <h2 class="section-title">Manejo de Errores y Excepciones</h2>
+    <p class="section-subtitle">Detecta, maneja y registra errores de forma elegante y profesional.</p>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">1</div>
+      <div>
+        <div class="concept-title">Tipos de errores y configuración</div>
+        <div class="concept-desc">Niveles de severidad · error_reporting · desarrollo vs producción · error_log.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'err-tipos')">Tipos de error</button>
+        <button class="tab-btn" onclick="showTab(this,'err-config')">Configuración</button>
+        <button class="tab-btn" onclick="showTab(this,'err-handler')">set_error_handler</button>
+      </div>
+
+      <div id="err-tipos" class="tab-content active">
+        <table class="data-table">
+          <tr><th>Constante</th><th>Tipo</th><th>Descripción</th><th>¿Detiene?</th></tr>
+          <tr><td><code>E_ERROR</code></td><td>Fatal</td><td>Función/clase no encontrada, memoria agotada</td><td>✅ Sí</td></tr>
+          <tr><td><code>E_PARSE</code></td><td>Fatal</td><td>Error de sintaxis en el código fuente</td><td>✅ Sí</td></tr>
+          <tr><td><code>E_WARNING</code></td><td>Advertencia</td><td>Archivo no encontrado, parámetro incorrecto</td><td>❌ No</td></tr>
+          <tr><td><code>E_NOTICE</code></td><td>Aviso</td><td>Variable no definida, índice inexistente</td><td>❌ No</td></tr>
+          <tr><td><code>E_DEPRECATED</code></td><td>Obsoleto</td><td>Función o característica que se eliminará</td><td>❌ No</td></tr>
+          <tr><td><code>E_STRICT</code></td><td>Estricto</td><td>Código que podría no funcionar en futuras versiones</td><td>❌ No</td></tr>
+          <tr><td><code>E_ALL</code></td><td>Todos</td><td>Activa todos los niveles de error</td><td>—</td></tr>
+        </table>
+        <div class="code-wrap" style="margin-top:1rem">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tipos_error.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// E_NOTICE — variable no definida</span>
+<span class="fn">echo</span> <span class="var">$variableNoDefinida</span><span class="op">;</span>
+<span class="cmt">// Notice: Undefined variable $variableNoDefinida</span>
+
+<span class="cmt">// E_WARNING — archivo no existe</span>
+<span class="fn">include</span> <span class="str">"archivo_inexistente.php"</span><span class="op">;</span>
+<span class="cmt">// Warning: include(): Failed opening 'archivo_inexistente.php'</span>
+
+<span class="cmt">// E_DEPRECATED — función obsoleta</span>
+<span class="fn">mysql_connect</span>()<span class="op">;</span>  <span class="cmt">// Deprecated en PHP 5, eliminada en PHP 7</span>
+
+<span class="cmt">// E_ERROR — clase no existe (detiene el script)</span>
+<span class="var">$obj</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">ClaseQueNoExiste</span>()<span class="op">;</span>
+<span class="cmt">// Fatal error: Class "ClaseQueNoExiste" not found</span>
+
+<span class="cmt">// Generar error manualmente</span>
+<span class="fn">trigger_error</span>(<span class="str">"Algo salió mal"</span><span class="op">,</span> <span class="kw">E_USER_WARNING</span>)<span class="op">;</span>
+<span class="fn">trigger_error</span>(<span class="str">"Error grave"</span><span class="op">,</span>       <span class="kw">E_USER_ERROR</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="err-config" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>config_errores.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ── DESARROLLO ──────────────────────────────────</span>
+<span class="fn">error_reporting</span>(<span class="kw">E_ALL</span>)<span class="op">;</span>             <span class="cmt">// todos los errores</span>
+<span class="fn">ini_set</span>(<span class="str">'display_errors'</span><span class="op">,</span> <span class="str">'1'</span>)<span class="op">;</span>      <span class="cmt">// mostrar en pantalla</span>
+<span class="fn">ini_set</span>(<span class="str">'display_startup_errors'</span><span class="op">,</span> <span class="str">'1'</span>)<span class="op">;</span>
+
+<span class="cmt">// ── PRODUCCIÓN ──────────────────────────────────</span>
+<span class="fn">error_reporting</span>(<span class="kw">E_ALL</span> <span class="op">&amp;</span> <span class="op">~</span><span class="kw">E_NOTICE</span> <span class="op">&amp;</span> <span class="op">~</span><span class="kw">E_DEPRECATED</span>)<span class="op">;</span>
+<span class="fn">ini_set</span>(<span class="str">'display_errors'</span><span class="op">,</span> <span class="str">'0'</span>)<span class="op">;</span>      <span class="cmt">// NUNCA mostrar en pantalla</span>
+<span class="fn">ini_set</span>(<span class="str">'log_errors'</span><span class="op">,</span>     <span class="str">'1'</span>)<span class="op">;</span>      <span class="cmt">// guardar en archivo</span>
+<span class="fn">ini_set</span>(<span class="str">'error_log'</span><span class="op">,</span>      <span class="str">'/var/log/php_errors.log'</span>)<span class="op">;</span>
+
+<span class="cmt">// Registrar error manualmente en el log</span>
+<span class="fn">error_log</span>(<span class="str">"Error crítico en el pago del usuario #123"</span>)<span class="op">;</span>
+
+<span class="cmt">// Controlar qué errores mostrar con máscaras de bits</span>
+<span class="fn">error_reporting</span>(<span class="kw">E_ERROR</span> <span class="op">|</span> <span class="kw">E_WARNING</span>)<span class="op">;</span>  <span class="cmt">// solo fatales y advertencias</span>
+<span class="fn">error_reporting</span>(<span class="kw">E_ALL</span> <span class="op">&amp;</span> <span class="op">~</span><span class="kw">E_NOTICE</span>)<span class="op">;</span>  <span class="cmt">// todos excepto notices</span>
+
+<span class="cmt">// También en php.ini:</span>
+<span class="cmt">// error_reporting = E_ALL</span>
+<span class="cmt">// display_errors = Off</span>
+<span class="cmt">// log_errors = On</span>
+<span class="cmt">// error_log = /var/log/php_errors.log</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <table class="data-table" style="margin-top:1rem">
+          <tr><th>Contexto</th><th>display_errors</th><th>log_errors</th><th>Razón</th></tr>
+          <tr><td>Desarrollo</td><td><code>On</code></td><td>Opcional</td><td>Ver errores en pantalla para depurar rápido</td></tr>
+          <tr><td>Producción</td><td><code>Off</code></td><td><code>On</code></td><td>Nunca exponer errores al usuario final</td></tr>
+        </table>
+      </div>
+
+      <div id="err-handler" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>error_handler.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// set_error_handler — capturar errores de PHP con función propia</span>
+<span class="fn">set_error_handler</span>(<span class="kw">function</span>(<span class="kw">int</span> <span class="var">$nivel</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$msg</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$archivo</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$linea</span>): <span class="kw">bool</span> {
+    <span class="var">$tipos</span> <span class="op">=</span> [<span class="kw">E_WARNING</span> <span class="op">=&gt;</span> <span class="str">"⚠️ WARNING"</span><span class="op">,</span> <span class="kw">E_NOTICE</span> <span class="op">=&gt;</span> <span class="str">"📌 NOTICE"</span><span class="op">,</span> <span class="kw">E_USER_ERROR</span> <span class="op">=&gt;</span> <span class="str">"🔴 ERROR"</span>]<span class="op">;</span>
+    <span class="var">$tipo</span>  <span class="op">=</span> <span class="var">$tipos</span>[<span class="var">$nivel</span>] <span class="op">??</span> <span class="str">"❓ UNKNOWN"</span><span class="op">;</span>
+    <span class="var">$log</span>   <span class="op">=</span> <span class="fn">sprintf</span>(<span class="str">"[%s] %s — %s en %s línea %d\n"</span><span class="op">,</span>
+        <span class="fn">date</span>(<span class="str">'Y-m-d H:i:s'</span>)<span class="op">,</span> <span class="var">$tipo</span><span class="op">,</span> <span class="var">$msg</span><span class="op">,</span> <span class="fn">basename</span>(<span class="var">$archivo</span>)<span class="op">,</span> <span class="var">$linea</span>
+    )<span class="op">;</span>
+    <span class="fn">error_log</span>(<span class="var">$log</span>)<span class="op">;</span>
+    <span class="kw">return true</span><span class="op">;</span>  <span class="cmt">// true = no ejecutar el handler por defecto de PHP</span>
+})<span class="op">;</span>
+
+<span class="cmt">// set_exception_handler — capturar excepciones no capturadas</span>
+<span class="fn">set_exception_handler</span>(<span class="kw">function</span>(<span class="fn">Throwable</span> <span class="var">$e</span>): <span class="kw">void</span> {
+    <span class="fn">error_log</span>(<span class="str">"Excepción no capturada: "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>())<span class="op">;</span>
+    <span class="fn">http_response_code</span>(<span class="num">500</span>)<span class="op">;</span>
+    <span class="fn">echo</span> <span class="fn">json_encode</span>([<span class="str">'error'</span> <span class="op">=&gt;</span> <span class="str">'Error interno del servidor'</span>])<span class="op">;</span>
+})<span class="op">;</span>
+
+<span class="cmt">// register_shutdown_function — ejecutar al terminar el script</span>
+<span class="fn">register_shutdown_function</span>(<span class="kw">function</span>(): <span class="kw">void</span> {
+    <span class="var">$error</span> <span class="op">=</span> <span class="fn">error_get_last</span>()<span class="op">;</span>
+    <span class="kw">if</span> (<span class="var">$error</span> <span class="op">&amp;&amp;</span> <span class="kw">in_array</span>(<span class="var">$error</span>[<span class="str">'type'</span>]<span class="op">,</span> [<span class="kw">E_ERROR</span><span class="op">,</span> <span class="kw">E_PARSE</span>])) {
+        <span class="fn">error_log</span>(<span class="str">"Fatal: "</span> <span class="op">.</span> <span class="var">$error</span>[<span class="str">'message'</span>])<span class="op">;</span>
+    }
+})<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Entrada en el log</div>
+          <div class="output-warn">[2024-01-15 10:30:00] ⚠️ WARNING — file not found en index.php línea 12</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num">2</div>
+      <div>
+        <div class="concept-title">Try / Catch / Finally y Excepciones</div>
+        <div class="concept-desc">Manejo estructurado · excepciones personalizadas · jerarquía · rethrow · finally.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+
+      <!-- Diagrama flujo try/catch -->
+      <div style="background:var(--bg3);border-radius:12px;padding:1rem;margin-bottom:1.2rem">
+        <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.88rem">Diagrama de flujo: try / catch / finally</div>
+        <svg viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto">
+          <defs><marker id="atc" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+          <!-- TRY -->
+          <rect x="10" y="10" width="130" height="220" rx="8" fill="#0d2137" stroke="#42a5f5" stroke-width="1.5"/>
+          <text x="75" y="30" text-anchor="middle" fill="#42a5f5" font-size="12" font-weight="bold" font-family="sans-serif">try {</text>
+          <rect x="22" y="38" width="106" height="30" rx="5" fill="#1565c0"/>
+          <text x="75" y="57" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Ejecutar código</text>
+          <!-- flecha a throw -->
+          <line x1="140" y1="53" x2="168" y2="53" stroke="#ef5350" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#atc)"/>
+          <text x="148" y="47" fill="#ef5350" font-size="9" font-family="sans-serif">throw</text>
+          <rect x="22" y="78" width="106" height="30" rx="5" fill="#1565c0"/>
+          <text x="75" y="97" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Más código...</text>
+          <rect x="22" y="118" width="106" height="30" rx="5" fill="#1565c0"/>
+          <text x="75" y="137" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Fin del try</text>
+          <text x="75" y="165" text-anchor="middle" fill="#42a5f5" font-size="10" font-family="sans-serif">→ sin error</text>
+          <!-- flecha try al finally (sin error) -->
+          <line x1="75" y1="170" x2="75" y2="205" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#atc)"/>
+
+          <!-- CATCH -->
+          <rect x="168" y="30" width="130" height="160" rx="8" fill="#1a0a0a" stroke="#ef5350" stroke-width="1.5"/>
+          <text x="233" y="52" text-anchor="middle" fill="#ef5350" font-size="12" font-weight="bold" font-family="sans-serif">catch {</text>
+          <rect x="178" y="60" width="110" height="36" rx="5" fill="#b71c1c"/>
+          <text x="233" y="75" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Capturar excepción</text>
+          <text x="233" y="88" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">$e->getMessage()</text>
+          <rect x="178" y="104" width="110" height="30" rx="5" fill="#b71c1c"/>
+          <text x="233" y="123" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Registrar error</text>
+          <rect x="178" y="142" width="110" height="30" rx="5" fill="#b71c1c"/>
+          <text x="233" y="161" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Respuesta al usuario</text>
+          <!-- flecha catch al finally -->
+          <line x1="233" y1="195" x2="233" y2="210" stroke="#ef5350" stroke-width="1.5" marker-end="url(#atc)"/>
+          <line x1="233" y1="193" x2="233" y2="195" stroke="#ef5350" stroke-width="1.5"/>
+
+          <!-- FINALLY -->
+          <rect x="326" y="10" width="104" height="80" rx="8" fill="#0d370d" stroke="#66bb6a" stroke-width="1.5"/>
+          <text x="378" y="32" text-anchor="middle" fill="#66bb6a" font-size="12" font-weight="bold" font-family="sans-serif">finally {</text>
+          <rect x="334" y="40" width="88" height="40" rx="5" fill="#1b5e20"/>
+          <text x="378" y="56" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">Se ejecuta</text>
+          <text x="378" y="70" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">SIEMPRE</text>
+          <!-- flechas al finally -->
+          <line x1="140" y1="148" x2="320" y2="60" stroke="#66bb6a" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#atc)"/>
+          <line x1="298" y1="148" x2="326" y2="60" stroke="#66bb6a" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#atc)"/>
+          <!-- texto SIEMPRE -->
+          <text x="378" y="108" text-anchor="middle" fill="#66bb6a" font-size="9" font-family="sans-serif">↓ haya error o no</text>
+          <!-- Fin -->
+          <rect x="336" y="118" width="84" height="26" rx="13" fill="#4CAF50"/>
+          <text x="378" y="135" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Continúa</text>
+          <line x1="378" y1="90" x2="378" y2="118" stroke="#66bb6a" stroke-width="1.5" marker-end="url(#atc)"/>
+        </svg>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'tc-basico')">Try/Catch básico</button>
+        <button class="tab-btn" onclick="showTab(this,'tc-custom')">Excepciones propias</button>
+        <button class="tab-btn" onclick="showTab(this,'tc-jerarquia')">Jerarquía y rethrow</button>
+      </div>
+
+      <div id="tc-basico" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>try_catch.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">function</span> <span class="fn">dividir</span>(<span class="kw">float</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$b</span>): <span class="kw">float</span> {
+    <span class="kw">if</span> (<span class="var">$b</span> <span class="op">==</span> <span class="num">0</span>) {
+        <span class="kw">throw new</span> <span class="fn">InvalidArgumentException</span>(<span class="str">"No se puede dividir por cero"</span><span class="op">,</span> <span class="num">400</span>)<span class="op">;</span>
+    }
+    <span class="kw">return</span> <span class="var">$a</span> <span class="op">/</span> <span class="var">$b</span><span class="op">;</span>
+}
+
+<span class="kw">try</span> {
+    <span class="fn">echo</span> <span class="fn">dividir</span>(<span class="num">10</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>   <span class="cmt">// 5</span>
+    <span class="fn">echo</span> <span class="fn">dividir</span>(<span class="num">10</span><span class="op">,</span> <span class="num">0</span>)<span class="op">;</span>   <span class="cmt">// lanza excepción</span>
+    <span class="fn">echo</span> <span class="str">"Esta línea NO se ejecuta"</span><span class="op">;</span>
+
+} <span class="kw">catch</span> (<span class="fn">InvalidArgumentException</span> <span class="var">$e</span>) {
+    <span class="cmt">// Información de la excepción</span>
+    <span class="fn">echo</span> <span class="str">"Mensaje: "</span>  <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>()<span class="op">;</span>   <span class="cmt">// No se puede dividir por cero</span>
+    <span class="fn">echo</span> <span class="str">"Código: "</span>   <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getCode</span>()<span class="op">;</span>      <span class="cmt">// 400</span>
+    <span class="fn">echo</span> <span class="str">"Archivo: "</span>  <span class="op">.</span> <span class="fn">basename</span>(<span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getFile</span>())<span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Línea: "</span>    <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getLine</span>()<span class="op">;</span>
+
+} <span class="kw">catch</span> (<span class="fn">TypeError</span> <span class="op">|</span> <span class="fn">ValueError</span> <span class="var">$e</span>) {
+    <span class="cmt">// Captura múltiple con | (PHP 8)</span>
+    <span class="fn">echo</span> <span class="str">"Error de tipo/valor: "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>()<span class="op">;</span>
+
+} <span class="kw">catch</span> (<span class="fn">Throwable</span> <span class="var">$e</span>) {
+    <span class="cmt">// Throwable captura CUALQUIER error o excepción</span>
+    <span class="fn">echo</span> <span class="str">"Error inesperado"</span><span class="op">;</span>
+
+} <span class="kw">finally</span> {
+    <span class="cmt">// Se ejecuta SIEMPRE — ideal para liberar recursos</span>
+    <span class="fn">echo</span> <span class="str">"Script finalizado (finally)"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">5</div>
+          <div class="output-err">Mensaje: No se puede dividir por cero | Código: 400</div>
+          <div class="output-info">Script finalizado (finally)</div>
+        </div>
+      </div>
+
+      <div id="tc-custom" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>excepciones_propias.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Jerarquía de excepciones propias</span>
+<span class="kw">class</span> <span class="fn">AppException</span>        <span class="kw">extends</span> <span class="fn">RuntimeException</span> {}
+<span class="kw">class</span> <span class="fn">ValidacionException</span> <span class="kw">extends</span> <span class="fn">AppException</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">string</span> <span class="var">$msg</span><span class="op">,</span>
+        <span class="kw">private</span> <span class="kw">string</span> <span class="var">$campo</span> <span class="op">=</span> <span class="str">""</span>
+    ) {
+        <span class="kw">parent</span>::<span class="fn">__construct</span>(<span class="var">$msg</span><span class="op">,</span> <span class="num">422</span>)<span class="op">;</span>
+    }
+    <span class="kw">public function</span> <span class="fn">getCampo</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">campo</span><span class="op">;</span> }
+}
+<span class="kw">class</span> <span class="fn">AuthException</span>       <span class="kw">extends</span> <span class="fn">AppException</span> {}
+<span class="kw">class</span> <span class="fn">NotFoundException</span>   <span class="kw">extends</span> <span class="fn">AppException</span> {}
+
+<span class="kw">function</span> <span class="fn">registrarUsuario</span>(<span class="kw">array</span> <span class="var">$datos</span>): <span class="kw">void</span> {
+    <span class="kw">if</span> (<span class="fn">empty</span>(<span class="var">$datos</span>[<span class="str">'email'</span>])) {
+        <span class="kw">throw new</span> <span class="fn">ValidacionException</span>(<span class="str">"El email es obligatorio"</span><span class="op">,</span> <span class="str">"email"</span>)<span class="op">;</span>
+    }
+    <span class="kw">if</span> (<span class="fn">strlen</span>(<span class="var">$datos</span>[<span class="str">'password'</span>] <span class="op">??</span> <span class="str">""</span>) <span class="op">&lt;</span> <span class="num">8</span>) {
+        <span class="kw">throw new</span> <span class="fn">ValidacionException</span>(<span class="str">"Contraseña muy corta (min 8)"</span><span class="op">,</span> <span class="str">"password"</span>)<span class="op">;</span>
+    }
+}
+
+<span class="kw">try</span> {
+    <span class="fn">registrarUsuario</span>([<span class="str">'email'</span> <span class="op">=&gt;</span> <span class="str">''</span><span class="op">,</span> <span class="str">'password'</span> <span class="op">=&gt;</span> <span class="str">'123'</span>])<span class="op">;</span>
+
+} <span class="kw">catch</span> (<span class="fn">ValidacionException</span> <span class="var">$e</span>) {
+    <span class="fn">echo</span> <span class="str">"Campo: {$e->getCampo()} — {$e->getMessage()}&lt;br&gt;"</span><span class="op">;</span>
+} <span class="kw">catch</span> (<span class="fn">AuthException</span> <span class="var">$e</span>) {
+    <span class="fn">echo</span> <span class="str">"Sin permisos: {$e->getMessage()}&lt;br&gt;"</span><span class="op">;</span>
+} <span class="kw">catch</span> (<span class="fn">AppException</span> <span class="var">$e</span>) {
+    <span class="fn">echo</span> <span class="str">"Error de app: {$e->getMessage()}&lt;br&gt;"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-err">Campo: email — El email es obligatorio</div>
+        </div>
+      </div>
+
+      <div id="tc-jerarquia" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>rethrow_jerarquia.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Jerarquía de Throwable en PHP</span>
+<span class="cmt">// Throwable</span>
+<span class="cmt">// ├── Error (errores internos de PHP)</span>
+<span class="cmt">// │   ├── TypeError, ValueError, ArithmeticError...</span>
+<span class="cmt">// └── Exception (lanzadas con throw)</span>
+<span class="cmt">// │   ├── RuntimeException, LogicException, InvalidArgumentException...</span>
+<span class="cmt">// │   └── (tus excepciones personalizadas)</span>
+
+<span class="cmt">// Rethrow — capturar, registrar y relanzar</span>
+<span class="kw">function</span> <span class="fn">conectarBD</span>(): <span class="fn">PDO</span> {
+    <span class="kw">try</span> {
+        <span class="kw">return new</span> <span class="fn">PDO</span>(<span class="str">"mysql:host=localhost;dbname=test"</span><span class="op">,</span> <span class="str">"root"</span><span class="op">,</span> <span class="str">""</span>)<span class="op">;</span>
+    } <span class="kw">catch</span> (<span class="fn">PDOException</span> <span class="var">$e</span>) {
+        <span class="fn">error_log</span>(<span class="str">"DB Error: "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>())<span class="op">;</span>
+        <span class="cmt">// Relanzar como excepción más genérica</span>
+        <span class="kw">throw new</span> <span class="fn">RuntimeException</span>(<span class="str">"No se pudo conectar a la BD"</span><span class="op">,</span> <span class="num">500</span><span class="op">,</span> <span class="var">$e</span>)<span class="op">;</span>
+    }
+}
+
+<span class="kw">try</span> {
+    <span class="var">$pdo</span> <span class="op">=</span> <span class="fn">conectarBD</span>()<span class="op">;</span>
+
+} <span class="kw">catch</span> (<span class="fn">RuntimeException</span> <span class="var">$e</span>) {
+    <span class="fn">echo</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>()<span class="op">;</span>       <span class="cmt">// "No se pudo conectar a la BD"</span>
+
+    <span class="cmt">// Excepción original (PDOException) disponible en getPrevious()</span>
+    <span class="var">$original</span> <span class="op">=</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getPrevious</span>()<span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Causa original: "</span> <span class="op">.</span> <span class="var">$original</span><span class="op">?-&gt;</span><span class="fn">getMessage</span>()<span class="op">;</span>
+}
+
+<span class="cmt">// Excepciones nativas más usadas</span>
+<span class="cmt">// InvalidArgumentException — argumento inválido</span>
+<span class="cmt">// RuntimeException        — error en tiempo de ejecución</span>
+<span class="cmt">// LogicException          — error en la lógica del programa</span>
+<span class="cmt">// OverflowException       — desbordamiento</span>
+<span class="cmt">// OutOfRangeException     — índice fuera de rango</span>
+<span class="cmt">// BadMethodCallException  — método no existe o mal llamado</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-err">No se pudo conectar a la BD</div>
+          <div class="output-info">Causa original: SQLSTATE[HY000] [2002] Connection refused</div>
+        </div>
+        <table class="data-table" style="margin-top:1rem">
+          <tr><th>Excepción nativa</th><th>Cuándo usarla</th></tr>
+          <tr><td><code>InvalidArgumentException</code></td><td>Argumento inválido para una función</td></tr>
+          <tr><td><code>RuntimeException</code></td><td>Error durante la ejecución (BD, red, archivos)</td></tr>
+          <tr><td><code>LogicException</code></td><td>Error en la lógica del programa (bug del programador)</td></tr>
+          <tr><td><code>OverflowException</code></td><td>Añadir elementos a una estructura llena</td></tr>
+          <tr><td><code>OutOfRangeException</code></td><td>Índice o clave fuera de rango</td></tr>
+          <tr><td><code>BadMethodCallException</code></td><td>Método no existe o se llamó incorrectamente</td></tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BUENAS PRACTICAS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ffd166,#ff9a3c)">★</div>
+      <div>
+        <div class="concept-title">Resumen de Buenas Prácticas</div>
+        <div class="concept-desc">Lo más importante para escribir PHP profesional y seguro.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+          <div style="font-size:1.5rem;margin-bottom:.5rem">🔒</div>
+          <div style="font-weight:700;margin-bottom:.4rem;font-size:.9rem">Seguridad</div>
+          <ul style="list-style:none;font-size:.82rem;color:var(--text2);line-height:2;">
+            <li>✅ Usar sentencias preparadas (PDO)</li>
+            <li>✅ Sanitizar TODA entrada del usuario</li>
+            <li>✅ Hashear contraseñas con password_hash()</li>
+            <li>✅ Tokens CSRF en formularios</li>
+            <li>✅ Validar tipo MIME en uploads</li>
+          </ul>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+          <div style="font-size:1.5rem;margin-bottom:.5rem">⚡</div>
+          <div style="font-weight:700;margin-bottom:.4rem;font-size:.9rem">Rendimiento</div>
+          <ul style="list-style:none;font-size:.82rem;color:var(--text2);line-height:2;">
+            <li>✅ Usar OPcache en producción</li>
+            <li>✅ Índices en columnas de búsqueda</li>
+            <li>✅ Paginar resultados con LIMIT</li>
+            <li>✅ Lazy loading de clases</li>
+            <li>✅ Reutilizar conexión PDO</li>
+          </ul>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;">
+          <div style="font-size:1.5rem;margin-bottom:.5rem">📐</div>
+          <div style="font-weight:700;margin-bottom:.4rem;font-size:.9rem">Código limpio</div>
+          <ul style="list-style:none;font-size:.82rem;color:var(--text2);line-height:2;">
+            <li>✅ Declarar tipos en funciones</li>
+            <li>✅ Nombres descriptivos</li>
+            <li>✅ Funciones pequeñas, una sola tarea</li>
+            <li>✅ Seguir PSR-12 (estilo de código)</li>
+            <li>✅ Comentar el "por qué", no el "qué"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- POO AVANZADA -->

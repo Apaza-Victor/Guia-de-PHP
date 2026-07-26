@@ -1,0 +1,201 @@
+      <section id="php-ops">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">3</div>
+          <div>
+            <div class="concept-title">Operadores</div>
+            <div class="concept-desc">Aritméticos · comparación · lógicos · asignación · bitwise · spaceship · precedencia.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'tab-arith')">Aritméticos</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-comp')">Comparación</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-logic')">Lógicos</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-asign')">Asignación y bits</button>
+          </div>
+
+          <div id="tab-arith" class="tab-content active">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>aritmeticos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$a</span> <span class="op">=</span> <span class="num">10</span><span class="op">;</span>  <span class="var">$b</span> <span class="op">=</span> <span class="num">3</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$a</span> <span class="op">+</span>  <span class="var">$b</span><span class="op">;</span>   <span class="cmt">// 13    — Suma</span>
+<span class="fn">echo</span> <span class="var">$a</span> <span class="op">-</span>  <span class="var">$b</span><span class="op">;</span>   <span class="cmt">// 7     — Resta</span>
+<span class="fn">echo</span> <span class="var">$a</span> <span class="op">*</span>  <span class="var">$b</span><span class="op">;</span>   <span class="cmt">// 30    — Multiplicación</span>
+<span class="fn">echo</span> <span class="var">$a</span> <span class="op">/</span>  <span class="var">$b</span><span class="op">;</span>   <span class="cmt">// 3.333 — División</span>
+<span class="fn">echo</span> <span class="var">$a</span> <span class="op">%</span>  <span class="var">$b</span><span class="op">;</span>   <span class="cmt">// 1     — Módulo (resto de la división entera)</span>
+<span class="fn">echo</span> <span class="var">$a</span> <span class="op">**</span> <span class="var">$b</span><span class="op">;</span>   <span class="cmt">// 1000  — Potencia (10³)</span>
+
+<span class="cmt">// intdiv — división entera (sin decimales)</span>
+<span class="fn">echo</span> <span class="fn">intdiv</span>(<span class="num">10</span><span class="op">,</span> <span class="num">3</span>)<span class="op">;</span>   <span class="cmt">// 3</span>
+<span class="fn">echo</span> <span class="fn">fmod</span>(<span class="num">10.5</span><span class="op">,</span> <span class="num">3.2</span>)<span class="op">;</span> <span class="cmt">// 0.9 — módulo para floats</span>
+<span class="fn">echo</span> <span class="fn">abs</span>(<span class="op">-</span><span class="num">42</span>)<span class="op">;</span>         <span class="cmt">// 42  — valor absoluto</span>
+<span class="fn">echo</span> <span class="fn">round</span>(<span class="num">3.567</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>  <span class="cmt">// 3.57 — redondear a 2 decimales</span>
+<span class="fn">echo</span> <span class="fn">ceil</span>(<span class="num">4.1</span>)<span class="op">;</span>         <span class="cmt">// 5   — redondear arriba</span>
+<span class="fn">echo</span> <span class="fn">floor</span>(<span class="num">4.9</span>)<span class="op">;</span>        <span class="cmt">// 4   — redondear abajo</span>
+<span class="fn">echo</span> <span class="fn">sqrt</span>(<span class="num">16</span>)<span class="op">;</span>          <span class="cmt">// 4   — raíz cuadrada</span>
+<span class="fn">echo</span> <span class="fn">pow</span>(<span class="num">2</span><span class="op">,</span> <span class="num">8</span>)<span class="op">;</span>          <span class="cmt">// 256 — equivale a 2**8</span>
+
+<span class="cmt">// Incremento / decremento</span>
+<span class="var">$n</span> <span class="op">=</span> <span class="num">5</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$n</span><span class="op">++</span><span class="op">;</span>   <span class="cmt">// 5 — usa $n LUEGO incrementa</span>
+<span class="fn">echo</span> <span class="var">$n</span><span class="op">;</span>     <span class="cmt">// 6</span>
+<span class="fn">echo</span> <span class="op">++</span><span class="var">$n</span><span class="op">;</span>   <span class="cmt">// 7 — incrementa LUEGO usa $n</span>
+<span class="fn">echo</span> <span class="var">$n</span><span class="op">--</span><span class="op">;</span>   <span class="cmt">// 7 — usa $n LUEGO decrementa</span>
+<span class="fn">echo</span> <span class="var">$n</span><span class="op">;</span>     <span class="cmt">// 6</span>
+
+<span class="cmt">// Concatenar strings con .</span>
+<span class="fn">echo</span> <span class="str">"Hola"</span> <span class="op">.</span> <span class="str">" "</span> <span class="op">.</span> <span class="str">"Mundo"</span><span class="op">;</span>  <span class="cmt">// Hola Mundo</span>
+<span class="var">$s</span>  <span class="op">=</span> <span class="str">"PHP"</span><span class="op">;</span>
+<span class="var">$s</span> <span class="op">.=</span> <span class="str">" 8.3"</span><span class="op">;</span>  <span class="cmt">// "PHP 8.3" — concatenar y asignar</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div>13 &nbsp;|&nbsp; 7 &nbsp;|&nbsp; 30 &nbsp;|&nbsp; 3.333 &nbsp;|&nbsp; 1 &nbsp;|&nbsp; 1000</div>
+              <div class="output-info">intdiv(10,3)=3 &nbsp;|&nbsp; round(3.567,2)=3.57 &nbsp;|&nbsp; sqrt(16)=4</div>
+              <div class="output-success">$n++ → 5 luego 6 &nbsp;|&nbsp; ++$n → 7 inmediatamente</div>
+            </div>
+          </div>
+
+          <div id="tab-comp" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>comparacion.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$x</span> <span class="op">=</span> <span class="num">5</span><span class="op">;</span>  <span class="var">$y</span> <span class="op">=</span> <span class="str">"5"</span><span class="op">;</span>
+<span class="fn">var_dump</span>(<span class="var">$x</span> <span class="op">==</span>  <span class="var">$y</span>)<span class="op">;</span>   <span class="cmt">// true  — igual, comparación laxa (convierte tipos)</span>
+<span class="fn">var_dump</span>(<span class="var">$x</span> <span class="op">===</span> <span class="var">$y</span>)<span class="op">;</span>   <span class="cmt">// false — idéntico: valor Y tipo deben coincidir</span>
+<span class="fn">var_dump</span>(<span class="var">$x</span> <span class="op">!=</span>  <span class="var">$y</span>)<span class="op">;</span>   <span class="cmt">// false — no igual (laxa)</span>
+<span class="fn">var_dump</span>(<span class="var">$x</span> <span class="op">!==</span> <span class="var">$y</span>)<span class="op">;</span>   <span class="cmt">// true  — no idéntico</span>
+<span class="fn">var_dump</span>(<span class="num">10</span> <span class="op">&gt;</span>   <span class="num">5</span>)<span class="op">;</span>     <span class="cmt">// true</span>
+<span class="fn">var_dump</span>(<span class="num">10</span> <span class="op">&gt;=</span>  <span class="num">10</span>)<span class="op">;</span>   <span class="cmt">// true</span>
+<span class="fn">var_dump</span>(<span class="num">3</span>  <span class="op">&lt;</span>   <span class="num">7</span>)<span class="op">;</span>     <span class="cmt">// true</span>
+<span class="fn">var_dump</span>(<span class="num">3</span>  <span class="op">&lt;=</span>  <span class="num">3</span>)<span class="op">;</span>     <span class="cmt">// true</span>
+
+<span class="cmt">// Operador Spaceship <=> (PHP 7+)</span>
+<span class="cmt">// Devuelve -1, 0, o 1</span>
+<span class="fn">echo</span> <span class="num">1</span> <span class="op">&lt;=&gt;</span> <span class="num">2</span><span class="op">;</span>   <span class="cmt">// -1 ($a < $b)</span>
+<span class="fn">echo</span> <span class="num">2</span> <span class="op">&lt;=&gt;</span> <span class="num">2</span><span class="op">;</span>   <span class="cmt">//  0 ($a == $b)</span>
+<span class="fn">echo</span> <span class="num">3</span> <span class="op">&lt;=&gt;</span> <span class="num">2</span><span class="op">;</span>   <span class="cmt">//  1 ($a > $b)</span>
+
+<span class="cmt">// Muy útil en usort</span>
+<span class="var">$nombres</span> <span class="op">=</span> [<span class="str">"Carlos"</span><span class="op">,</span> <span class="str">"Ana"</span><span class="op">,</span> <span class="str">"Beatriz"</span>]<span class="op">;</span>
+<span class="fn">usort</span>(<span class="var">$nombres</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$a</span><span class="op">,</span> <span class="var">$b</span>) <span class="op">=&gt;</span> <span class="var">$a</span> <span class="op">&lt;=&gt;</span> <span class="var">$b</span>)<span class="op">;</span>
+<span class="cmt">// ["Ana", "Beatriz", "Carlos"]</span>
+
+<span class="cmt">// TRAMPAS comunes con comparación laxa ==</span>
+<span class="fn">var_dump</span>(<span class="num">0</span>   <span class="op">==</span> <span class="str">"hola"</span>)<span class="op">;</span>   <span class="cmt">// true en PHP 7, false en PHP 8 ← cambio importante</span>
+<span class="fn">var_dump</span>(<span class="str">""</span>  <span class="op">==</span> <span class="kw">null</span>)<span class="op">;</span>    <span class="cmt">// true</span>
+<span class="fn">var_dump</span>(<span class="str">"1"</span> <span class="op">==</span> <span class="str">"01"</span>)<span class="op">;</span>    <span class="cmt">// true (ambos son 1 numéricamente)</span>
+<span class="fn">var_dump</span>(<span class="num">100</span> <span class="op">==</span> <span class="str">"1e2"</span>)<span class="op">;</span>  <span class="cmt">// true (1e2 = 100)</span>
+<span class="cmt">// Regla: usa === siempre que puedas</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Trampas de ==</div>
+              <div class="output-warn">5 == "5" → true (laxa) pero 5 === "5" → false (estricta)</div>
+              <div class="output-warn">"1" == "01" → true ← sorpresa</div>
+              <div class="output-success">Spaceship: 1&lt;=&gt;2 = -1 &nbsp;|&nbsp; 2&lt;=&gt;2 = 0 &nbsp;|&nbsp; 3&lt;=&gt;2 = 1</div>
+            </div>
+          </div>
+
+          <div id="tab-logic" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>logicos.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$a</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>  <span class="var">$b</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
+
+<span class="cmt">// Operadores lógicos (forma símbolo — mayor precedencia)</span>
+<span class="fn">var_dump</span>(<span class="var">$a</span> <span class="op">&amp;&amp;</span> <span class="var">$b</span>)<span class="op">;</span>   <span class="cmt">// false — AND: ambos deben ser true</span>
+<span class="fn">var_dump</span>(<span class="var">$a</span> <span class="op">||</span> <span class="var">$b</span>)<span class="op">;</span>   <span class="cmt">// true  — OR: al menos uno true</span>
+<span class="fn">var_dump</span>(<span class="op">!</span><span class="var">$a</span>)<span class="op">;</span>          <span class="cmt">// false — NOT: invierte</span>
+
+<span class="cmt">// Operadores lógicos (forma palabra — menor precedencia)</span>
+<span class="fn">var_dump</span>(<span class="var">$a</span> <span class="kw">and</span> <span class="var">$b</span>)<span class="op">;</span>  <span class="cmt">// false</span>
+<span class="fn">var_dump</span>(<span class="var">$a</span> <span class="kw">or</span>  <span class="var">$b</span>)<span class="op">;</span>  <span class="cmt">// true</span>
+<span class="fn">var_dump</span>(<span class="var">$a</span> <span class="kw">xor</span> <span class="var">$b</span>)<span class="op">;</span>  <span class="cmt">// true — XOR: uno pero no ambos</span>
+
+<span class="cmt">// Short-circuit: PHP deja de evaluar si el resultado ya está claro</span>
+<span class="kw">function</span> <span class="fn">caro</span>(): <span class="kw">bool</span> { <span class="fn">echo</span> <span class="str">"[se ejecutó]"</span><span class="op">;</span> <span class="kw">return</span> <span class="kw">true</span><span class="op">;</span> }
+
+<span class="kw">false</span> <span class="op">&amp;&amp;</span> <span class="fn">caro</span>()<span class="op">;</span>  <span class="cmt">// [se ejecutó] NO aparece — el && ya sabe que es false</span>
+<span class="kw">true</span>  <span class="op">||</span> <span class="fn">caro</span>()<span class="op">;</span>  <span class="cmt">// [se ejecutó] NO aparece — el || ya sabe que es true</span>
+
+<span class="cmt">// Aplicación práctica: ejecutar solo si el anterior fue exitoso</span>
+<span class="fn">file_exists</span>(<span class="str">"config.php"</span>) <span class="op">&amp;&amp;</span> <span class="kw">require</span> <span class="str">"config.php"</span><span class="op">;</span>
+<span class="fn">connect</span>() <span class="op">||</span> <span class="kw">throw new</span> <span class="fn">RuntimeException</span>(<span class="str">"Sin conexión"</span>)<span class="op">;</span>
+
+<span class="cmt">// Diferencia && vs and (precedencia)</span>
+<span class="var">$r1</span> <span class="op">=</span> <span class="kw">true</span>  <span class="op">&amp;&amp;</span>  <span class="kw">false</span><span class="op">;</span>  <span class="cmt">// $r1 = (true && false) = false</span>
+<span class="var">$r2</span> <span class="op">=</span> <span class="kw">true</span>  <span class="kw">and</span> <span class="kw">false</span><span class="op">;</span>  <span class="cmt">// $r2 = true; (luego: true and false — ignorado)</span>
+<span class="fn">var_dump</span>(<span class="var">$r1</span><span class="op">,</span> <span class="var">$r2</span>)<span class="op">;</span>      <span class="cmt">// bool(false), bool(true) ← distintos!</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida clave</div>
+              <div class="output-warn">$r1 (&amp;&amp;) = false &nbsp;|&nbsp; $r2 (and) = true ← misma expresión, distinto resultado</div>
+              <div class="output-info">Short-circuit: false &amp;&amp; caro() → caro() nunca se llama</div>
+            </div>
+          </div>
+
+          <div id="tab-asign" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>asignacion_bits.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Asignación compuesta — operación + asignación en uno</span>
+<span class="var">$n</span> <span class="op">=</span> <span class="num">10</span><span class="op">;</span>
+<span class="var">$n</span> <span class="op">+=</span>  <span class="num">5</span><span class="op">;</span>   <span class="cmt">// $n = $n + 5  = 15</span>
+<span class="var">$n</span> <span class="op">-=</span>  <span class="num">3</span><span class="op">;</span>   <span class="cmt">// $n = $n - 3  = 12</span>
+<span class="var">$n</span> <span class="op">*=</span>  <span class="num">2</span><span class="op">;</span>   <span class="cmt">// $n = $n * 2  = 24</span>
+<span class="var">$n</span> <span class="op">/=</span>  <span class="num">4</span><span class="op">;</span>   <span class="cmt">// $n = $n / 4  = 6</span>
+<span class="var">$n</span> <span class="op">%=</span>  <span class="num">4</span><span class="op">;</span>   <span class="cmt">// $n = $n % 4  = 2</span>
+<span class="var">$n</span> <span class="op">**=</span> <span class="num">3</span><span class="op">;</span>   <span class="cmt">// $n = $n ** 3 = 8</span>
+<span class="var">$s</span>  <span class="op">=</span> <span class="str">"Hola"</span><span class="op">;</span>
+<span class="var">$s</span> <span class="op">.=</span> <span class="str">" PHP"</span><span class="op">;</span> <span class="cmt">// $s = "Hola PHP"</span>
+
+<span class="cmt">// Asignación múltiple / desestructuración</span>
+[<span class="var">$x</span><span class="op">,</span> <span class="var">$y</span><span class="op">,</span> <span class="var">$z</span>] <span class="op">=</span> [<span class="num">1</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">3</span>]<span class="op">;</span>        <span class="cmt">// $x=1, $y=2, $z=3</span>
+[<span class="str">"a"</span> <span class="op">=&gt;</span> <span class="var">$val</span>] <span class="op">=</span> [<span class="str">"a"</span> <span class="op">=&gt;</span> <span class="num">42</span>]<span class="op">;</span>   <span class="cmt">// $val=42</span>
+
+<span class="cmt">// Intercambiar variables sin temporal</span>
+[<span class="var">$x</span><span class="op">,</span> <span class="var">$y</span>] <span class="op">=</span> [<span class="var">$y</span><span class="op">,</span> <span class="var">$x</span>]<span class="op">;</span>
+
+<span class="cmt">// OPERADORES BITWISE — trabajan bit a bit</span>
+<span class="fn">echo</span> <span class="num">0b1010</span> <span class="op">&amp;</span>  <span class="num">0b1100</span><span class="op">;</span>  <span class="cmt">// 8  (1000) — AND bit a bit</span>
+<span class="fn">echo</span> <span class="num">0b1010</span> <span class="op">|</span>  <span class="num">0b1100</span><span class="op">;</span>  <span class="cmt">// 14 (1110) — OR bit a bit</span>
+<span class="fn">echo</span> <span class="num">0b1010</span> <span class="op">^</span>  <span class="num">0b1100</span><span class="op">;</span>  <span class="cmt">// 6  (0110) — XOR bit a bit</span>
+<span class="fn">echo</span> <span class="op">~</span><span class="num">5</span><span class="op">;</span>                 <span class="cmt">// -6       — NOT bit a bit</span>
+<span class="fn">echo</span> <span class="num">1</span>  <span class="op">&lt;&lt;</span> <span class="num">3</span><span class="op">;</span>            <span class="cmt">// 8  — desplazamiento izq. (1 * 2³)</span>
+<span class="fn">echo</span> <span class="num">16</span> <span class="op">&gt;&gt;</span> <span class="num">2</span><span class="op">;</span>            <span class="cmt">// 4  — desplazamiento der. (16 / 2²)</span>
+
+<span class="cmt">// Uso práctico de bits: flags/permisos</span>
+<span class="kw">const</span> <span class="fn">LEER</span>    <span class="op">=</span> <span class="num">0b001</span><span class="op">;</span>  <span class="cmt">// 1</span>
+<span class="kw">const</span> <span class="fn">ESCRIBIR</span> <span class="op">=</span> <span class="num">0b010</span><span class="op">;</span>  <span class="cmt">// 2</span>
+<span class="kw">const</span> <span class="fn">EJECUTAR</span> <span class="op">=</span> <span class="num">0b100</span><span class="op">;</span>  <span class="cmt">// 4</span>
+
+<span class="var">$permisos</span> <span class="op">=</span> <span class="fn">LEER</span> <span class="op">|</span> <span class="fn">ESCRIBIR</span><span class="op">;</span>  <span class="cmt">// 3 — tiene leer Y escribir</span>
+<span class="fn">echo</span> (<span class="var">$permisos</span> <span class="op">&amp;</span> <span class="fn">LEER</span>)    <span class="op">?</span> <span class="str">"✅ Puede leer"</span>    <span class="op">:</span> <span class="str">"❌"</span><span class="op">;</span>
+<span class="fn">echo</span> (<span class="var">$permisos</span> <span class="op">&amp;</span> <span class="fn">EJECUTAR</span>) <span class="op">?</span> <span class="str">"✅ Puede ejecutar"</span> <span class="op">:</span> <span class="str">"❌ No ejecutar"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">✅ Puede leer</div>
+              <div class="output-err">❌ No ejecutar</div>
+              <div class="output-info">Desplazamiento: 1&lt;&lt;3 = 8 &nbsp;|&nbsp; 16&gt;&gt;2 = 4</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Operador</th><th>Ejemplo</th><th>Resultado</th><th>Equivale a</th></tr>
+              <tr><td><code>+=</code></td><td><code>$n += 5</code></td><td>$n = $n + 5</td><td>Suma y asigna</td></tr>
+              <tr><td><code>-=</code></td><td><code>$n -= 3</code></td><td>$n = $n - 3</td><td>Resta y asigna</td></tr>
+              <tr><td><code>*=</code></td><td><code>$n *= 2</code></td><td>$n = $n * 2</td><td>Multiplica y asigna</td></tr>
+              <tr><td><code>.=</code></td><td><code>$s .= "!"</code></td><td>$s = $s . "!"</td><td>Concatena y asigna</td></tr>
+              <tr><td><code>??=</code></td><td><code>$x ??= 0</code></td><td>$x = $x ?? 0</td><td>Asigna si es null</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+</div>
+      </section>

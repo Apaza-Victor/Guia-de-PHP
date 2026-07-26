@@ -1,0 +1,321 @@
+      <section id="php-anidados">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#f72585,#b5179e)">5b</div>
+          <div>
+            <div class="concept-title">Bucles y Condicionales Anidados</div>
+            <div class="concept-desc">Combinaciones reales de for, foreach, while e if para resolver problemas concretos.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'nest-tabla')">Tabla de datos</button>
+            <button class="tab-btn" onclick="showTab(this,'nest-carrito')">Carrito de compras</button>
+            <button class="tab-btn" onclick="showTab(this,'nest-matriz')">Matrices y patrones</button>
+            <button class="tab-btn" onclick="showTab(this,'nest-menu')">Menú multinivel</button>
+          </div>
+
+          <!-- TAB 1 -->
+          <div id="nest-tabla" class="tab-content active">
+            <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Escenario: tenemos un array de usuarios y queremos clasificarlos y mostrarlos en una tabla HTML con estilos según su estado y rol.</div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tabla_usuarios.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$usuarios</span> <span class="op">=</span> [
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Ana"</span><span class="op">,</span>   <span class="str">"rol"</span> <span class="op">=&gt;</span> <span class="str">"admin"</span><span class="op">,</span>  <span class="str">"activo"</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>  <span class="str">"edad"</span> <span class="op">=&gt;</span> <span class="num">28</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Luis"</span><span class="op">,</span>  <span class="str">"rol"</span> <span class="op">=&gt;</span> <span class="str">"editor"</span><span class="op">,</span> <span class="str">"activo"</span> <span class="op">=&gt;</span> <span class="kw">false</span><span class="op">,</span> <span class="str">"edad"</span> <span class="op">=&gt;</span> <span class="num">34</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"María"</span><span class="op">,</span> <span class="str">"rol"</span> <span class="op">=&gt;</span> <span class="str">"admin"</span><span class="op">,</span>  <span class="str">"activo"</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>  <span class="str">"edad"</span> <span class="op">=&gt;</span> <span class="num">41</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Pedro"</span><span class="op">,</span> <span class="str">"rol"</span> <span class="op">=&gt;</span> <span class="str">"lector"</span><span class="op">,</span> <span class="str">"activo"</span> <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>  <span class="str">"edad"</span> <span class="op">=&gt;</span> <span class="num">22</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Sara"</span><span class="op">,</span>  <span class="str">"rol"</span> <span class="op">=&gt;</span> <span class="str">"editor"</span><span class="op">,</span> <span class="str">"activo"</span> <span class="op">=&gt;</span> <span class="kw">false</span><span class="op">,</span> <span class="str">"edad"</span> <span class="op">=&gt;</span> <span class="num">17</span>]<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="str">"&lt;table border='1'&gt;&lt;tr&gt;&lt;th&gt;Nombre&lt;/th&gt;&lt;th&gt;Rol&lt;/th&gt;&lt;th&gt;Estado&lt;/th&gt;&lt;th&gt;Grupo edad&lt;/th&gt;&lt;/tr&gt;"</span><span class="op">;</span>
+
+<span class="kw">foreach</span> (<span class="var">$usuarios</span> <span class="kw">as</span> <span class="var">$u</span>) {
+
+    <span class="cmt">// Condicional anidado: ícono de rol</span>
+    <span class="kw">if</span> (<span class="var">$u</span>[<span class="str">"rol"</span>] <span class="op">===</span> <span class="str">"admin"</span>) {
+        <span class="var">$icono</span> <span class="op">=</span> <span class="str">"👑"</span><span class="op">;</span>
+    } <span class="kw">elseif</span> (<span class="var">$u</span>[<span class="str">"rol"</span>] <span class="op">===</span> <span class="str">"editor"</span>) {
+        <span class="var">$icono</span> <span class="op">=</span> <span class="str">"✏️"</span><span class="op">;</span>
+    } <span class="kw">else</span> {
+        <span class="var">$icono</span> <span class="op">=</span> <span class="str">"👁"</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// Condicional anidado: estado activo + es mayor de edad</span>
+    <span class="kw">if</span> (<span class="var">$u</span>[<span class="str">"activo"</span>]) {
+        <span class="kw">if</span> (<span class="var">$u</span>[<span class="str">"edad"</span>] <span class="op">&gt;=</span> <span class="num">18</span>) {
+            <span class="var">$estado</span> <span class="op">=</span> <span class="str">"✅ Activo"</span><span class="op">;</span>
+        } <span class="kw">else</span> {
+            <span class="var">$estado</span> <span class="op">=</span> <span class="str">"⚠️ Activo (menor)"</span><span class="op">;</span>
+        }
+    } <span class="kw">else</span> {
+        <span class="var">$estado</span> <span class="op">=</span> <span class="str">"❌ Inactivo"</span><span class="op">;</span>
+    }
+
+    <span class="cmt">// match anidado: grupo de edad</span>
+    <span class="var">$grupoEdad</span> <span class="op">=</span> <span class="kw">match</span>(<span class="kw">true</span>) {
+        <span class="var">$u</span>[<span class="str">"edad"</span>] <span class="op">&lt;</span>  <span class="num">18</span> <span class="op">=&gt;</span> <span class="str">"Menor"</span><span class="op">,</span>
+        <span class="var">$u</span>[<span class="str">"edad"</span>] <span class="op">&lt;</span>  <span class="num">30</span> <span class="op">=&gt;</span> <span class="str">"Joven"</span><span class="op">,</span>
+        <span class="var">$u</span>[<span class="str">"edad"</span>] <span class="op">&lt;</span>  <span class="num">45</span> <span class="op">=&gt;</span> <span class="str">"Adulto"</span><span class="op">,</span>
+        <span class="kw">default</span>          <span class="op">=&gt;</span> <span class="str">"Senior"</span><span class="op">,</span>
+    }<span class="op">;</span>
+
+    <span class="fn">echo</span> <span class="str">"&lt;tr&gt;"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"  &lt;td&gt;{$u['nombre']}&lt;/td&gt;"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"  &lt;td&gt;<span class="var">$icono</span> {$u['rol']}&lt;/td&gt;"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"  &lt;td&gt;<span class="var">$estado</span>&lt;/td&gt;"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"  &lt;td&gt;<span class="var">$grupoEdad</span> ({$u['edad']} años)&lt;/td&gt;"</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"&lt;/tr&gt;"</span><span class="op">;</span>
+}
+
+<span class="fn">echo</span> <span class="str">"&lt;/table&gt;"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">👑 Ana &nbsp;→&nbsp; ✅ Activo &nbsp;→&nbsp; Joven (28 años)</div>
+              <div class="output-err">✏️ Luis &nbsp;→&nbsp; ❌ Inactivo &nbsp;→&nbsp; Adulto (34 años)</div>
+              <div class="output-success">👑 María &nbsp;→&nbsp; ✅ Activo &nbsp;→&nbsp; Adulto (41 años)</div>
+              <div class="output-success">👁 Pedro &nbsp;→&nbsp; ✅ Activo &nbsp;→&nbsp; Joven (22 años)</div>
+              <div class="output-warn">✏️ Sara &nbsp;→&nbsp; ⚠️ Activo (menor) &nbsp;→&nbsp; Menor (17 años)</div>
+            </div>
+          </div>
+
+          <!-- TAB 2 -->
+          <div id="nest-carrito" class="tab-content">
+            <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Escenario: calcular el total de un carrito aplicando descuentos por cantidad, impuestos por categoría y cupón global.</div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>carrito_anidado.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$carrito</span> <span class="op">=</span> [
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Laptop"</span><span class="op">,</span>    <span class="str">"cat"</span> <span class="op">=&gt;</span> <span class="str">"tech"</span><span class="op">,</span>   <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">1200</span><span class="op">,</span> <span class="str">"qty"</span> <span class="op">=&gt;</span> <span class="num">1</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Auriculares"</span><span class="op">,</span> <span class="str">"cat"</span> <span class="op">=&gt;</span> <span class="str">"tech"</span><span class="op">,</span>   <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">80</span><span class="op">,</span>   <span class="str">"qty"</span> <span class="op">=&gt;</span> <span class="num">3</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Camiseta"</span><span class="op">,</span>   <span class="str">"cat"</span> <span class="op">=&gt;</span> <span class="str">"ropa"</span><span class="op">,</span>   <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">25</span><span class="op">,</span>   <span class="str">"qty"</span> <span class="op">=&gt;</span> <span class="num">5</span>]<span class="op">,</span>
+    [<span class="str">"nombre"</span> <span class="op">=&gt;</span> <span class="str">"Libro PHP"</span><span class="op">,</span>  <span class="str">"cat"</span> <span class="op">=&gt;</span> <span class="str">"libros"</span><span class="op">,</span> <span class="str">"precio"</span> <span class="op">=&gt;</span> <span class="num">45</span><span class="op">,</span>   <span class="str">"qty"</span> <span class="op">=&gt;</span> <span class="num">2</span>]<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="var">$cupon</span>      <span class="op">=</span> <span class="str">"DESCUENTO10"</span><span class="op">;</span>
+<span class="var">$totalFinal</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+
+<span class="kw">foreach</span> (<span class="var">$carrito</span> <span class="kw">as</span> <span class="var">$item</span>) {
+    <span class="var">$subtotal</span> <span class="op">=</span> <span class="var">$item</span>[<span class="str">"precio"</span>] <span class="op">*</span> <span class="var">$item</span>[<span class="str">"qty"</span>]<span class="op">;</span>
+
+    <span class="cmt">// 1. Descuento por cantidad (bucle anidado implícito: condición dentro de foreach)</span>
+    <span class="kw">if</span> (<span class="var">$item</span>[<span class="str">"qty"</span>] <span class="op">&gt;=</span> <span class="num">5</span>) {
+        <span class="var">$descQty</span> <span class="op">=</span> <span class="num">0.15</span><span class="op">;</span>        <span class="cmt">// 15% por comprar 5 o más</span>
+    } <span class="kw">elseif</span> (<span class="var">$item</span>[<span class="str">"qty"</span>] <span class="op">&gt;=</span> <span class="num">3</span>) {
+        <span class="var">$descQty</span> <span class="op">=</span> <span class="num">0.08</span><span class="op">;</span>        <span class="cmt">// 8% por comprar 3 o más</span>
+    } <span class="kw">else</span> {
+        <span class="var">$descQty</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    }
+    <span class="var">$subtotal</span> <span class="op">*=</span> (<span class="num">1</span> <span class="op">-</span> <span class="var">$descQty</span>)<span class="op">;</span>
+
+    <span class="cmt">// 2. IVA según categoría (switch anidado dentro del foreach)</span>
+    <span class="kw">switch</span> (<span class="var">$item</span>[<span class="str">"cat"</span>]) {
+        <span class="kw">case</span> <span class="str">"tech"</span><span class="op">:</span>
+            <span class="var">$iva</span> <span class="op">=</span> <span class="num">0.18</span><span class="op">;</span>
+            <span class="kw">break</span><span class="op">;</span>
+        <span class="kw">case</span> <span class="str">"ropa"</span><span class="op">:</span>
+            <span class="var">$iva</span> <span class="op">=</span> <span class="num">0.10</span><span class="op">;</span>
+            <span class="kw">break</span><span class="op">;</span>
+        <span class="kw">case</span> <span class="str">"libros"</span><span class="op">:</span>
+            <span class="var">$iva</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>           <span class="cmt">// libros exentos</span>
+            <span class="kw">break</span><span class="op">;</span>
+        <span class="kw">default</span><span class="op">:</span>
+            <span class="var">$iva</span> <span class="op">=</span> <span class="num">0.21</span><span class="op">;</span>
+    }
+    <span class="var">$subtotal</span> <span class="op">*=</span> (<span class="num">1</span> <span class="op">+</span> <span class="var">$iva</span>)<span class="op">;</span>
+
+    <span class="var">$totalFinal</span> <span class="op">+=</span> <span class="var">$subtotal</span><span class="op">;</span>
+
+    <span class="fn">printf</span>(
+        <span class="str">"%-12s x%d  desc:%.0f%%  IVA:%.0f%%  → S/ %.2f\n"</span><span class="op">,</span>
+        <span class="var">$item</span>[<span class="str">"nombre"</span>]<span class="op">,</span> <span class="var">$item</span>[<span class="str">"qty"</span>]<span class="op">,</span>
+        <span class="var">$descQty</span> <span class="op">*</span> <span class="num">100</span><span class="op">,</span> <span class="var">$iva</span> <span class="op">*</span> <span class="num">100</span><span class="op">,</span> <span class="var">$subtotal</span>
+    )<span class="op">;</span>
+}
+
+<span class="cmt">// 3. Cupón global (condicional fuera del bucle)</span>
+<span class="kw">if</span> (<span class="var">$cupon</span> <span class="op">===</span> <span class="str">"DESCUENTO10"</span> <span class="op">&amp;&amp;</span> <span class="var">$totalFinal</span> <span class="op">&gt;</span> <span class="num">200</span>) {
+    <span class="var">$totalFinal</span> <span class="op">*=</span> <span class="num">0.90</span><span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"🎟 Cupón aplicado: -10%\n"</span><span class="op">;</span>
+} <span class="kw">elseif</span> (<span class="var">$cupon</span> <span class="op">!==</span> <span class="str">""</span>) {
+    <span class="fn">echo</span> <span class="str">"⚠️ Cupón no válido o compra insuficiente\n"</span><span class="op">;</span>
+}
+
+<span class="fn">echo</span> <span class="str">"Total: S/ " . number_format($totalFinal, 2)</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">Laptop       x1  desc:0%   IVA:18%  → S/ 1416.00</div>
+              <div class="output-info">Auriculares  x3  desc:8%   IVA:18%  → S/ 273.89</div>
+              <div class="output-info">Camiseta     x5  desc:15%  IVA:10%  → S/ 116.88</div>
+              <div class="output-info">Libro PHP    x2  desc:0%   IVA:0%   → S/ 90.00</div>
+              <div class="output-success">🎟 Cupón aplicado: -10%</div>
+              <div class="output-success">Total: S/ 1,709.77</div>
+            </div>
+          </div>
+
+          <!-- TAB 3 -->
+          <div id="nest-matriz" class="tab-content">
+            <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Escenario: recorrer una matriz bidimensional con for anidado y aplicar condiciones para colorear celdas, dibujar patrones y calcular estadísticas por fila/columna.</div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>matriz_anidada.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Notas de estudiantes: filas = estudiantes, columnas = materias</span>
+<span class="var">$notas</span> <span class="op">=</span> [
+    <span class="str">"Ana"</span>   <span class="op">=&gt;</span> [<span class="num">88</span><span class="op">,</span> <span class="num">92</span><span class="op">,</span> <span class="num">45</span><span class="op">,</span> <span class="num">76</span>]<span class="op">,</span>
+    <span class="str">"Luis"</span>  <span class="op">=&gt;</span> [<span class="num">72</span><span class="op">,</span> <span class="num">58</span><span class="op">,</span> <span class="num">90</span><span class="op">,</span> <span class="num">83</span>]<span class="op">,</span>
+    <span class="str">"María"</span> <span class="op">=&gt;</span> [<span class="num">95</span><span class="op">,</span> <span class="num">98</span><span class="op">,</span> <span class="num">100</span><span class="op">,</span> <span class="num">92</span>]<span class="op">,</span>
+    <span class="str">"Pedro"</span> <span class="op">=&gt;</span> [<span class="num">40</span><span class="op">,</span> <span class="num">35</span><span class="op">,</span> <span class="num">55</span><span class="op">,</span> <span class="num">48</span>]<span class="op">,</span>
+]<span class="op">;</span>
+<span class="var">$materias</span>  <span class="op">=</span> [<span class="str">"Matemáticas"</span><span class="op">,</span> <span class="str">"PHP"</span><span class="op">,</span> <span class="str">"BD"</span><span class="op">,</span> <span class="str">"HTML"</span>]<span class="op">;</span>
+<span class="var">$aprobados</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+<span class="var">$suspensos</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+
+<span class="cmt">// foreach anidado con múltiples condicionales</span>
+<span class="kw">foreach</span> (<span class="var">$notas</span> <span class="kw">as</span> <span class="var">$alumno</span> <span class="op">=&gt;</span> <span class="var">$calificaciones</span>) {
+    <span class="var">$total</span>     <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="var">$suspenso</span>  <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
+    <span class="var">$sobresale</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>
+
+    <span class="fn">echo</span> <span class="str">"\n📋 <span class="var">$alumno</span>: "</span><span class="op">;</span>
+
+    <span class="cmt">// for anidado dentro del foreach: recorrer cada nota</span>
+    <span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;</span> <span class="fn">count</span>(<span class="var">$calificaciones</span>)<span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+        <span class="var">$nota</span>  <span class="op">=</span> <span class="var">$calificaciones</span>[<span class="var">$i</span>]<span class="op">;</span>
+        <span class="var">$total</span> <span class="op">+=</span> <span class="var">$nota</span><span class="op">;</span>
+
+        <span class="cmt">// if anidado dentro del for: clasificar nota</span>
+        <span class="kw">if</span> (<span class="var">$nota</span> <span class="op">&lt;</span> <span class="num">50</span>) {
+            <span class="fn">echo</span> <span class="str">"❌<span class="var">$nota</span> "</span><span class="op">;</span>
+            <span class="var">$suspenso</span>  <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>
+            <span class="var">$sobresale</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
+        } <span class="kw">elseif</span> (<span class="var">$nota</span> <span class="op">&lt;</span> <span class="num">70</span>) {
+            <span class="fn">echo</span> <span class="str">"🟡<span class="var">$nota</span> "</span><span class="op">;</span>
+            <span class="var">$sobresale</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span>
+        } <span class="kw">elseif</span> (<span class="var">$nota</span> <span class="op">&lt;</span> <span class="num">90</span>) {
+            <span class="fn">echo</span> <span class="str">"🟢<span class="var">$nota</span> "</span><span class="op">;</span>
+        } <span class="kw">else</span> {
+            <span class="fn">echo</span> <span class="str">"⭐<span class="var">$nota</span> "</span><span class="op">;</span>
+        }
+    }
+
+    <span class="var">$media</span> <span class="op">=</span> <span class="var">$total</span> <span class="op">/</span> <span class="fn">count</span>(<span class="var">$calificaciones</span>)<span class="op">;</span>
+
+    <span class="cmt">// if/elseif anidado para resultado final del alumno</span>
+    <span class="kw">if</span> (<span class="var">$suspenso</span>) {
+        <span class="kw">if</span> (<span class="var">$media</span> <span class="op">&gt;=</span> <span class="num">50</span>) {
+            <span class="fn">echo</span> <span class="str">"→ Recuperación (media: <span class="var">$media</span>)"</span><span class="op">;</span>
+        } <span class="kw">else</span> {
+            <span class="fn">echo</span> <span class="str">"→ Suspenso (media: <span class="var">$media</span>)"</span><span class="op">;</span>
+            <span class="var">$suspensos</span><span class="op">++</span><span class="op">;</span>
+        }
+    } <span class="kw">elseif</span> (<span class="var">$sobresale</span>) {
+        <span class="fn">echo</span> <span class="str">"→ 🏆 Sobresaliente (media: <span class="var">$media</span>)"</span><span class="op">;</span>
+        <span class="var">$aprobados</span><span class="op">++</span><span class="op">;</span>
+    } <span class="kw">else</span> {
+        <span class="fn">echo</span> <span class="str">"→ Aprobado (media: <span class="var">$media</span>)"</span><span class="op">;</span>
+        <span class="var">$aprobados</span><span class="op">++</span><span class="op">;</span>
+    }
+}
+
+<span class="fn">echo</span> <span class="str">"\n\n📊 Resumen: <span class="var">$aprobados</span> aprobados, <span class="var">$suspensos</span> suspensos"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">📋 Ana: 🟢88 ⭐92 ❌45 🟢76 → Recuperación (media: 75.25)</div>
+              <div class="output-info">📋 Luis: 🟢72 🟡58 ⭐90 🟢83 → Aprobado (media: 75.75)</div>
+              <div class="output-success">📋 María: ⭐95 ⭐98 ⭐100 ⭐92 → 🏆 Sobresaliente (media: 96.25)</div>
+              <div class="output-err">📋 Pedro: ❌40 ❌35 🟡55 ❌48 → Suspenso (media: 44.5)</div>
+              <div class="output-info">📊 Resumen: 2 aprobados, 1 suspensos</div>
+            </div>
+          </div>
+
+          <!-- TAB 4 -->
+          <div id="nest-menu" class="tab-content">
+            <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Escenario: renderizar un menú de navegación multinivel (hasta 3 niveles) combinando while, foreach y condicionales para marcar el ítem activo y calcular indentación.</div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>menu_multinivel.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$menu</span> <span class="op">=</span> [
+    [<span class="str">"titulo"</span> <span class="op">=&gt;</span> <span class="str">"Inicio"</span><span class="op">,</span>    <span class="str">"url"</span> <span class="op">=&gt;</span> <span class="str">"/"</span><span class="op">,</span>         <span class="str">"hijos"</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+    [<span class="str">"titulo"</span> <span class="op">=&gt;</span> <span class="str">"Productos"</span><span class="op">,</span> <span class="str">"url"</span> <span class="op">=&gt;</span> <span class="str">"/productos"</span><span class="op">,</span> <span class="str">"hijos"</span> <span class="op">=&gt;</span> [
+        [<span class="str">"titulo"</span> <span class="op">=&gt;</span> <span class="str">"Electrónica"</span><span class="op">,</span> <span class="str">"url"</span> <span class="op">=&gt;</span> <span class="str">"/electronica"</span><span class="op">,</span> <span class="str">"hijos"</span> <span class="op">=&gt;</span> [
+            [<span class="str">"titulo"</span> <span class="op">=&gt;</span> <span class="str">"Laptops"</span><span class="op">,</span>  <span class="str">"url"</span> <span class="op">=&gt;</span> <span class="str">"/laptops"</span><span class="op">,</span>  <span class="str">"hijos"</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+            [<span class="str">"titulo"</span> <span class="op">=&gt;</span> <span class="str">"Monitores"</span><span class="op">,</span> <span class="str">"url"</span> <span class="op">=&gt;</span> <span class="str">"/monitores"</span><span class="op">,</span> <span class="str">"hijos"</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+        ]]<span class="op">,</span>
+        [<span class="str">"titulo"</span> <span class="op">=&gt;</span> <span class="str">"Ropa"</span><span class="op">,</span> <span class="str">"url"</span> <span class="op">=&gt;</span> <span class="str">"/ropa"</span><span class="op">,</span> <span class="str">"hijos"</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+    ]]<span class="op">,</span>
+    [<span class="str">"titulo"</span> <span class="op">=&gt;</span> <span class="str">"Blog"</span><span class="op">,</span>      <span class="str">"url"</span> <span class="op">=&gt;</span> <span class="str">"/blog"</span><span class="op">,</span>      <span class="str">"hijos"</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+    [<span class="str">"titulo"</span> <span class="op">=&gt;</span> <span class="str">"Contacto"</span><span class="op">,</span>  <span class="str">"url"</span> <span class="op">=&gt;</span> <span class="str">"/contacto"</span><span class="op">,</span>  <span class="str">"hijos"</span> <span class="op">=&gt;</span> []]<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="var">$urlActual</span> <span class="op">=</span> <span class="str">"/laptops"</span><span class="op">;</span>  <span class="cmt">// simular la página actual</span>
+
+<span class="cmt">// Función recursiva que usa foreach + while + condicionales anidados</span>
+<span class="kw">function</span> <span class="fn">renderMenu</span>(<span class="kw">array</span> <span class="var">$items</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$urlActual</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$nivel</span> <span class="op">=</span> <span class="num">0</span>): <span class="kw">void</span> {
+    <span class="var">$maxNivel</span> <span class="op">=</span> <span class="num">3</span><span class="op">;</span>  <span class="cmt">// máximo de niveles a renderizar</span>
+
+    <span class="cmt">// while anidado: no superar el nivel máximo</span>
+    <span class="kw">if</span> (<span class="var">$nivel</span> <span class="op">&gt;=</span> <span class="var">$maxNivel</span>) <span class="kw">return</span><span class="op">;</span>
+
+    <span class="var">$prefijos</span> <span class="op">=</span> [<span class="str">"├─"</span><span class="op">,</span> <span class="str">"│ ├─"</span><span class="op">,</span> <span class="str">"│ │ └─"</span>]<span class="op">;</span>
+    <span class="var">$iconos</span>   <span class="op">=</span> [<span class="str">"📁"</span><span class="op">,</span> <span class="str">"📂"</span><span class="op">,</span> <span class="str">"📄"</span>]<span class="op">;</span>
+
+    <span class="kw">foreach</span> (<span class="var">$items</span> <span class="kw">as</span> <span class="var">$item</span>) {
+        <span class="var">$esActivo</span>  <span class="op">=</span> (<span class="var">$item</span>[<span class="str">"url"</span>] <span class="op">===</span> <span class="var">$urlActual</span>)<span class="op">;</span>
+        <span class="var">$tieneHijos</span> <span class="op">=</span> <span class="op">!</span><span class="fn">empty</span>(<span class="var">$item</span>[<span class="str">"hijos"</span>])<span class="op">;</span>
+
+        <span class="cmt">// if anidado: ícono según nivel + si tiene hijos</span>
+        <span class="kw">if</span> (<span class="var">$tieneHijos</span>) {
+            <span class="var">$icono</span> <span class="op">=</span> <span class="var">$nivel</span> <span class="op">===</span> <span class="num">0</span> <span class="op">?</span> <span class="str">"📁"</span> <span class="op">:</span> <span class="str">"📂"</span><span class="op">;</span>
+        } <span class="kw">else</span> {
+            <span class="var">$icono</span> <span class="op">=</span> <span class="str">"📄"</span><span class="op">;</span>
+        }
+
+        <span class="cmt">// if anidado: marcar activo o ancestro del activo</span>
+        <span class="kw">if</span> (<span class="var">$esActivo</span>) {
+            <span class="var">$marca</span> <span class="op">=</span> <span class="str">" ◀ ACTUAL"</span><span class="op">;</span>
+        } <span class="kw">elseif</span> (<span class="fn">str_starts_with</span>(<span class="var">$urlActual</span><span class="op">,</span> <span class="var">$item</span>[<span class="str">"url"</span>]) <span class="op">&amp;&amp;</span> <span class="var">$item</span>[<span class="str">"url"</span>] <span class="op">!==</span> <span class="str">"/"</span>) {
+            <span class="var">$marca</span> <span class="op">=</span> <span class="str">" ▶ (ancestro)"</span><span class="op">;</span>
+        } <span class="kw">else</span> {
+            <span class="var">$marca</span> <span class="op">=</span> <span class="str">""</span><span class="op">;</span>
+        }
+
+        <span class="var">$prefijo</span> <span class="op">=</span> <span class="var">$prefijos</span>[<span class="var">$nivel</span>] <span class="op">??</span> <span class="str">"  "</span><span class="op">;</span>
+        <span class="fn">echo</span> <span class="str">"<span class="var">$prefijo</span> <span class="var">$icono</span> {$item['titulo']}<span class="var">$marca</span>\n"</span><span class="op">;</span>
+
+        <span class="cmt">// Recursión condicional: entrar en hijos solo si los hay</span>
+        <span class="kw">if</span> (<span class="var">$tieneHijos</span>) {
+            <span class="fn">renderMenu</span>(<span class="var">$item</span>[<span class="str">"hijos"</span>]<span class="op">,</span> <span class="var">$urlActual</span><span class="op">,</span> <span class="var">$nivel</span> <span class="op">+</span> <span class="num">1</span>)<span class="op">;</span>
+        }
+    }
+}
+
+<span class="fn">echo</span> <span class="str">"🗂 Menú de Navegación\n"</span><span class="op">;</span>
+<span class="fn">renderMenu</span>(<span class="var">$menu</span><span class="op">,</span> <span class="var">$urlActual</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-info">🗂 Menú de Navegación</div>
+              <div>├─ 📁 Inicio</div>
+              <div class="output-warn">├─ 📁 Productos ▶ (ancestro)</div>
+              <div class="output-warn">│ ├─ 📂 Electrónica ▶ (ancestro)</div>
+              <div class="output-success">│ │ └─ 📄 Laptops ◀ ACTUAL</div>
+              <div>│ │ └─ 📄 Monitores</div>
+              <div>│ ├─ 📄 Ropa</div>
+              <div>├─ 📄 Blog</div>
+              <div>├─ 📄 Contacto</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+</div>
+      </section>

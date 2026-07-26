@@ -1,0 +1,411 @@
+      <section id="php-condicionales">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">4</div>
+          <div>
+            <div class="concept-title">Condicionales</div>
+            <div class="concept-desc">if / elseif / switch / match / operadores ternario, Elvis, Null Coalescing y Nullsafe.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'cond-if')">if / elseif</button>
+            <button class="tab-btn" onclick="showTab(this,'cond-switch')">switch</button>
+            <button class="tab-btn" onclick="showTab(this,'cond-match')">match (PHP 8)</button>
+            <button class="tab-btn" onclick="showTab(this,'cond-ops')">Operadores</button>
+          </div>
+
+          <div id="cond-if" class="tab-content active">
+            <!-- DIAGRAMAS DE FLUJO -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
+
+              <!-- IF simple -->
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+                <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">Diagrama: IF simple</div>
+                <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px;display:block;margin:0 auto">
+                  <!-- Inicio -->
+                  <rect x="60" y="10" width="80" height="34" rx="17" fill="#4CAF50" stroke="none"/>
+                  <text x="100" y="32" text-anchor="middle" fill="white" font-size="13" font-family="sans-serif">Inicio</text>
+                  <!-- flecha -->
+                  <line x1="100" y1="44" x2="100" y2="66" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr)"/>
+                  <!-- Rombo condición -->
+                  <polygon points="100,68 160,100 100,132 40,100" fill="#CE93D8" stroke="none"/>
+                  <text x="100" y="97" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">¿Condición?</text>
+                  <!-- Sí -->
+                  <line x1="100" y1="132" x2="100" y2="155" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#arr)"/>
+                  <text x="108" y="148" fill="#4CAF50" font-size="10" font-family="sans-serif">Sí</text>
+                  <!-- Bloque SI -->
+                  <rect x="50" y="156" width="100" height="34" rx="6" fill="#4CAF50" stroke="none"/>
+                  <text x="100" y="178" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Se ejecuta</text>
+                  <!-- No →derecha -->
+                  <line x1="160" y1="100" x2="180" y2="100" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="180" y1="100" x2="180" y2="230" stroke="#e53935" stroke-width="1.5"/>
+                  <text x="165" y="94" fill="#e53935" font-size="10" font-family="sans-serif">No</text>
+                  <!-- Bloque NO -->
+                  <rect x="135" y="155" width="80" height="34" rx="6" fill="#ef9a9a" stroke="none"/>
+                  <text x="175" y="177" text-anchor="middle" fill="#333" font-size="10" font-family="sans-serif">No ejecuta</text>
+                  <!-- Fin -->
+                  <line x1="100" y1="190" x2="100" y2="230" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr)"/>
+                  <line x1="180" y1="230" x2="100" y2="230" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr)"/>
+                  <rect x="60" y="230" width="80" height="34" rx="17" fill="#90CAF9" stroke="none"/>
+                  <text x="100" y="252" text-anchor="middle" fill="#333" font-size="13" font-family="sans-serif">Fin</text>
+                  <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                </svg>
+              </div>
+
+              <!-- IF / ELSEIF / ELSE -->
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+                <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">Diagrama: IF / ELSEIF / ELSE</div>
+                <svg viewBox="0 0 220 370" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px;display:block;margin:0 auto">
+                  <defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                  <!-- Inicio -->
+                  <rect x="70" y="8" width="80" height="30" rx="15" fill="#4CAF50"/>
+                  <text x="110" y="28" text-anchor="middle" fill="white" font-size="12" font-family="sans-serif">Inicio</text>
+                  <line x1="110" y1="38" x2="110" y2="58" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr2)"/>
+                  <!-- Rombo 1 -->
+                  <polygon points="110,60 170,88 110,116 50,88" fill="#CE93D8"/>
+                  <text x="110" y="85" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">nota≥90?</text>
+                  <!-- Sí1 -->
+                  <line x1="110" y1="116" x2="110" y2="134" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#arr2)"/>
+                  <text x="118" y="129" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                  <rect x="60" y="134" width="100" height="26" rx="5" fill="#4CAF50"/>
+                  <text x="110" y="151" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Excelente</text>
+                  <!-- No1 -->
+                  <line x1="170" y1="88" x2="195" y2="88" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="195" y1="88" x2="195" y2="178" stroke="#e53935" stroke-width="1.5"/>
+                  <text x="174" y="83" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                  <!-- Rombo 2 -->
+                  <polygon points="110,178 170,206 110,234 50,206" fill="#CE93D8"/>
+                  <text x="110" y="203" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">nota≥70?</text>
+                  <line x1="195" y1="178" x2="170" y2="178" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr2)"/>
+                  <!-- Sí2 -->
+                  <line x1="110" y1="234" x2="110" y2="252" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#arr2)"/>
+                  <text x="118" y="247" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                  <rect x="60" y="252" width="100" height="26" rx="5" fill="#66BB6A"/>
+                  <text x="110" y="269" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Notable</text>
+                  <!-- No2 → else -->
+                  <line x1="170" y1="206" x2="195" y2="206" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="195" y1="206" x2="195" y2="296" stroke="#e53935" stroke-width="1.5"/>
+                  <rect x="148" y="283" width="80" height="26" rx="5" fill="#ef5350"/>
+                  <text x="188" y="300" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Suspenso</text>
+                  <!-- Fin -->
+                  <line x1="110" y1="278" x2="110" y2="332" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr2)"/>
+                  <line x1="195" y1="322" x2="110" y2="322" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr2)"/>
+                  <line x1="160" y1="160" x2="10" y2="160" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+                  <line x1="10" y1="160" x2="10" y2="335" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+                  <line x1="10" y1="335" x2="110" y2="335" stroke="#aaa" stroke-width="1" marker-end="url(#arr2)"/>
+                  <rect x="70" y="332" width="80" height="30" rx="15" fill="#90CAF9"/>
+                  <text x="110" y="351" text-anchor="middle" fill="#333" font-size="12" font-family="sans-serif">Fin</text>
+                </svg>
+              </div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>if_elseif.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$nota</span> <span class="op">=</span> <span class="num">75</span><span class="op">;</span>
+
+<span class="cmt">// Estructura if / elseif / else</span>
+<span class="kw">if</span> (<span class="var">$nota</span> <span class="op">&gt;=</span> <span class="num">90</span>) {
+    <span class="fn">echo</span> <span class="str">"Sobresaliente"</span><span class="op">;</span>
+} <span class="kw">elseif</span> (<span class="var">$nota</span> <span class="op">&gt;=</span> <span class="num">70</span>) {
+    <span class="fn">echo</span> <span class="str">"Notable"</span><span class="op">;</span>
+} <span class="kw">elseif</span> (<span class="var">$nota</span> <span class="op">&gt;=</span> <span class="num">50</span>) {
+    <span class="fn">echo</span> <span class="str">"Aprobado"</span><span class="op">;</span>
+} <span class="kw">else</span> {
+    <span class="fn">echo</span> <span class="str">"Suspenso"</span><span class="op">;</span>
+}
+
+<span class="cmt">// if de una sola línea (sin llaves — solo si hay 1 instrucción)</span>
+<span class="kw">if</span> (<span class="var">$nota</span> <span class="op">&gt;</span> <span class="num">0</span>) <span class="fn">echo</span> <span class="str">"Nota válida"</span><span class="op">;</span>
+
+<span class="cmt">// Sintaxis alternativa útil en plantillas HTML</span>
+<span class="kw">if</span> (<span class="var">$nota</span> <span class="op">&gt;=</span> <span class="num">50</span>)<span class="op">:</span>
+    <span class="fn">echo</span> <span class="str">"&lt;p&gt;Aprobado&lt;/p&gt;"</span><span class="op">;</span>
+<span class="kw">elseif</span> (<span class="var">$nota</span> <span class="op">&gt;=</span> <span class="num">30</span>)<span class="op">:</span>
+    <span class="fn">echo</span> <span class="str">"&lt;p&gt;Cerca&lt;/p&gt;"</span><span class="op">;</span>
+<span class="kw">else</span><span class="op">:</span>
+    <span class="fn">echo</span> <span class="str">"&lt;p&gt;Suspenso&lt;/p&gt;"</span><span class="op">;</span>
+<span class="kw">endif</span><span class="op">;</span>
+
+<span class="cmt">// Condiciones compuestas</span>
+<span class="var">$edad</span> <span class="op">=</span> <span class="num">20</span><span class="op">;</span>
+<span class="var">$tieneDocumento</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>
+<span class="kw">if</span> (<span class="var">$edad</span> <span class="op">&gt;=</span> <span class="num">18</span> <span class="op">&amp;&amp;</span> <span class="var">$tieneDocumento</span>) {
+    <span class="fn">echo</span> <span class="str">"Puede ingresar"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">Notable</div>
+              <div class="output-info">Nota válida</div>
+              <div class="output-success">Puede ingresar</div>
+            </div>
+          </div>
+
+          <div id="cond-switch" class="tab-content">
+            <!-- Diagrama switch -->
+            <div style="background:var(--bg3);border-radius:10px;padding:1rem;margin-bottom:1.2rem">
+              <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">Diagrama de flujo: switch</div>
+              <svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto">
+                <defs><marker id="asw" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                <!-- Inicio -->
+                <rect x="120" y="8" width="100" height="30" rx="15" fill="#4CAF50"/>
+                <text x="170" y="28" text-anchor="middle" fill="white" font-size="12" font-family="sans-serif">Inicio</text>
+                <line x1="170" y1="38" x2="170" y2="58" stroke="#aaa" stroke-width="1.5" marker-end="url(#asw)"/>
+                <!-- Evaluar -->
+                <rect x="100" y="58" width="140" height="30" rx="6" fill="#1e88e5"/>
+                <text x="170" y="78" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Evaluar $dia</text>
+                <line x1="170" y1="88" x2="170" y2="108" stroke="#aaa" stroke-width="1.5" marker-end="url(#asw)"/>
+                <!-- Rombo 1 -->
+                <polygon points="170,110 230,135 170,160 110,135" fill="#CE93D8"/>
+                <text x="170" y="132" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">¿Es 1?</text>
+                <line x1="170" y1="160" x2="170" y2="180" stroke="#e53935" stroke-width="1.5"/>
+                <text x="178" y="174" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                <!-- Caso 1 resultado (derecha) -->
+                <line x1="230" y1="135" x2="280" y2="135" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#asw)"/>
+                <text x="237" y="129" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                <rect x="280" y="119" width="55" height="28" rx="5" fill="#4CAF50"/>
+                <text x="307" y="137" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Lunes</text>
+                <!-- Rombo 2 -->
+                <polygon points="170,182 230,207 170,232 110,207" fill="#CE93D8"/>
+                <text x="170" y="204" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">¿Es 2?</text>
+                <line x1="170" y1="232" x2="170" y2="252" stroke="#e53935" stroke-width="1.5"/>
+                <text x="178" y="246" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                <!-- Caso 2 resultado (derecha) -->
+                <line x1="230" y1="207" x2="280" y2="207" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#asw)"/>
+                <text x="237" y="201" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                <rect x="280" y="191" width="55" height="28" rx="5" fill="#66BB6A"/>
+                <text x="307" y="209" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Martes</text>
+                <!-- Default -->
+                <rect x="115" y="252" width="110" height="28" rx="5" fill="#ef5350"/>
+                <text x="170" y="270" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Ejecutar default</text>
+                <!-- líneas casos al fin -->
+                <line x1="307" y1="147" x2="307" y2="305" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+                <line x1="307" y1="219" x2="307" y2="305" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+                <line x1="307" y1="305" x2="230" y2="305" stroke="#aaa" stroke-width="1.5" marker-end="url(#asw)"/>
+                <line x1="170" y1="280" x2="170" y2="305" stroke="#aaa" stroke-width="1.5" marker-end="url(#asw)"/>
+                <!-- Fin -->
+                <rect x="120" y="305" width="100" height="30" rx="15" fill="#90CAF9"/>
+                <text x="170" y="325" text-anchor="middle" fill="#333" font-size="12" font-family="sans-serif">Fin</text>
+              </svg>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>switch.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$dia</span> <span class="op">=</span> <span class="str">"lunes"</span><span class="op">;</span>
+
+<span class="cmt">// switch usa comparación laxa (==), no estricta (===)</span>
+<span class="kw">switch</span> (<span class="var">$dia</span>) {
+    <span class="kw">case</span> <span class="str">"lunes"</span><span class="op">:</span>
+    <span class="kw">case</span> <span class="str">"martes"</span><span class="op">:</span>
+    <span class="kw">case</span> <span class="str">"miércoles"</span><span class="op">:</span>
+        <span class="fn">echo</span> <span class="str">"Primera mitad de semana"</span><span class="op">;</span>
+        <span class="kw">break</span><span class="op">;</span>  <span class="cmt">// sin break, cae al siguiente case</span>
+    <span class="kw">case</span> <span class="str">"jueves"</span><span class="op">:</span>
+    <span class="kw">case</span> <span class="str">"viernes"</span><span class="op">:</span>
+        <span class="fn">echo</span> <span class="str">"Segunda mitad de semana"</span><span class="op">;</span>
+        <span class="kw">break</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="str">"sábado"</span><span class="op">:</span>
+    <span class="kw">case</span> <span class="str">"domingo"</span><span class="op">:</span>
+        <span class="fn">echo</span> <span class="str">"¡Fin de semana!"</span><span class="op">;</span>
+        <span class="kw">break</span><span class="op">;</span>
+    <span class="kw">default</span><span class="op">:</span>
+        <span class="fn">echo</span> <span class="str">"Día no válido"</span><span class="op">;</span>
+}
+
+<span class="cmt">// switch con return dentro de función — sin break necesario</span>
+<span class="kw">function</span> <span class="fn">tipoUsuario</span>(<span class="kw">int</span> <span class="var">$rol</span>): <span class="kw">string</span> {
+    <span class="kw">switch</span> (<span class="var">$rol</span>) {
+        <span class="kw">case</span> <span class="num">1</span><span class="op">:</span>  <span class="kw">return</span> <span class="str">"Administrador"</span><span class="op">;</span>
+        <span class="kw">case</span> <span class="num">2</span><span class="op">:</span>  <span class="kw">return</span> <span class="str">"Editor"</span><span class="op">;</span>
+        <span class="kw">case</span> <span class="num">3</span><span class="op">:</span>  <span class="kw">return</span> <span class="str">"Lector"</span><span class="op">;</span>
+        <span class="kw">default</span><span class="op">:</span> <span class="kw">return</span> <span class="str">"Desconocido"</span><span class="op">;</span>
+    }
+}
+<span class="fn">echo</span> <span class="fn">tipoUsuario</span>(<span class="num">2</span>)<span class="op">;</span>  <span class="cmt">// Editor</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">Primera mitad de semana</div>
+              <div class="output-info">Editor</div>
+            </div>
+            <div class="alert alert-warn" style="margin-top:1rem"><span class="alert-icon">⚠️</span> <strong>Cuidado:</strong> Sin <code>break</code>, el switch "cae" (fall-through) al siguiente case. Esto puede ser intencional (agrupar casos) o un bug.</div>
+          </div>
+
+          <div id="cond-match" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>match.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// match usa comparación ESTRICTA (===), es una expresión (devuelve valor)</span>
+<span class="var">$codigo</span> <span class="op">=</span> <span class="num">404</span><span class="op">;</span>
+
+<span class="var">$mensaje</span> <span class="op">=</span> <span class="kw">match</span>(<span class="var">$codigo</span>) {
+    <span class="num">200</span>       <span class="op">=&gt;</span> <span class="str">"✅ OK"</span><span class="op">,</span>
+    <span class="num">201</span>       <span class="op">=&gt;</span> <span class="str">"✅ Creado"</span><span class="op">,</span>
+    <span class="num">301</span><span class="op">,</span> <span class="num">302</span>  <span class="op">=&gt;</span> <span class="str">"↩ Redirección"</span><span class="op">,</span>
+    <span class="num">400</span>       <span class="op">=&gt;</span> <span class="str">"❌ Petición incorrecta"</span><span class="op">,</span>
+    <span class="num">401</span>       <span class="op">=&gt;</span> <span class="str">"🔒 No autorizado"</span><span class="op">,</span>
+    <span class="num">403</span>       <span class="op">=&gt;</span> <span class="str">"🚫 Prohibido"</span><span class="op">,</span>
+    <span class="num">404</span>       <span class="op">=&gt;</span> <span class="str">"🔍 No encontrado"</span><span class="op">,</span>
+    <span class="num">500</span>       <span class="op">=&gt;</span> <span class="str">"💥 Error del servidor"</span><span class="op">,</span>
+    <span class="kw">default</span>   <span class="op">=&gt;</span> <span class="str">"Código desconocido"</span>
+}<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$mensaje</span><span class="op">;</span>  <span class="cmt">// 🔍 No encontrado</span>
+
+<span class="cmt">// match con condición booleana (no valor)</span>
+<span class="var">$nota</span> <span class="op">=</span> <span class="num">75</span><span class="op">;</span>
+<span class="var">$calificacion</span> <span class="op">=</span> <span class="kw">match</span>(<span class="kw">true</span>) {
+    <span class="var">$nota</span> <span class="op">&gt;=</span> <span class="num">90</span> <span class="op">=&gt;</span> <span class="str">"Sobresaliente"</span><span class="op">,</span>
+    <span class="var">$nota</span> <span class="op">&gt;=</span> <span class="num">70</span> <span class="op">=&gt;</span> <span class="str">"Notable"</span><span class="op">,</span>
+    <span class="var">$nota</span> <span class="op">&gt;=</span> <span class="num">50</span> <span class="op">=&gt;</span> <span class="str">"Aprobado"</span><span class="op">,</span>
+    <span class="kw">default</span>     <span class="op">=&gt;</span> <span class="str">"Suspenso"</span>
+}<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$calificacion</span><span class="op">;</span>  <span class="cmt">// Notable</span>
+
+<span class="cmt">// match lanza UnhandledMatchError si ningún caso aplica y no hay default</span>
+<span class="cmt">// Por eso siempre añade default cuando sea posible</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-err">🔍 No encontrado</div>
+              <div class="output-success">Notable</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Característica</th><th>switch</th><th>match</th></tr>
+              <tr><td>Comparación</td><td>Laxa <code>==</code></td><td>Estricta <code>===</code></td></tr>
+              <tr><td>Es expresión</td><td>❌ No</td><td>✅ Sí (devuelve valor)</td></tr>
+              <tr><td>Fall-through</td><td>✅ Sí (sin break)</td><td>❌ No</td></tr>
+              <tr><td>Sin case válido</td><td>Ejecuta default</td><td>Lanza UnhandledMatchError</td></tr>
+            </table>
+          </div>
+
+          <div id="cond-ops" class="tab-content">
+            <!-- Diagramas ternario y ?? -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
+              <!-- Ternario -->
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+                <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">Diagrama: Ternario <code>? :</code></div>
+                <svg viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px;display:block;margin:0 auto">
+                  <defs><marker id="atn" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                  <rect x="60" y="8" width="80" height="28" rx="14" fill="#4CAF50"/>
+                  <text x="100" y="27" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Inicio</text>
+                  <line x1="100" y1="36" x2="100" y2="56" stroke="#aaa" stroke-width="1.5" marker-end="url(#atn)"/>
+                  <polygon points="100,58 158,85 100,112 42,85" fill="#CE93D8"/>
+                  <text x="100" y="82" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">¿Condición?</text>
+                  <!-- Sí izq -->
+                  <line x1="42" y1="85" x2="10" y2="85" stroke="#4CAF50" stroke-width="1.5"/>
+                  <line x1="10" y1="85" x2="10" y2="145" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#atn)"/>
+                  <text x="14" y="80" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                  <rect x="0" y="145" width="85" height="28" rx="5" fill="#4CAF50"/>
+                  <text x="42" y="163" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Valor verdadero</text>
+                  <!-- No der -->
+                  <line x1="158" y1="85" x2="190" y2="85" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="190" y1="85" x2="190" y2="145" stroke="#e53935" stroke-width="1.5" marker-end="url(#atn)"/>
+                  <text x="163" y="80" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                  <rect x="113" y="145" width="85" height="28" rx="5" fill="#ef5350"/>
+                  <text x="155" y="163" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Valor falso</text>
+                  <!-- al fin -->
+                  <line x1="42" y1="173" x2="42" y2="218" stroke="#aaa" stroke-width="1.5"/>
+                  <line x1="155" y1="173" x2="155" y2="210" stroke="#aaa" stroke-width="1.5"/>
+                  <line x1="42" y1="218" x2="100" y2="218" stroke="#aaa" stroke-width="1.5" marker-end="url(#atn)"/>
+                  <line x1="155" y1="210" x2="100" y2="210" stroke="#aaa" stroke-width="1.5" marker-end="url(#atn)"/>
+                  <rect x="55" y="218" width="90" height="28" rx="14" fill="#90CAF9"/>
+                  <text x="100" y="237" text-anchor="middle" fill="#333" font-size="11" font-family="sans-serif">Fin</text>
+                </svg>
+              </div>
+              <!-- Null Coalescing -->
+              <div style="background:var(--bg3);border-radius:10px;padding:1rem">
+                <div style="text-align:center;font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">Diagrama: Null Coalescing <code>??</code></div>
+                <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:200px;display:block;margin:0 auto">
+                  <defs><marker id="ann" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#aaa"/></marker></defs>
+                  <rect x="55" y="8" width="90" height="28" rx="14" fill="#4CAF50"/>
+                  <text x="100" y="27" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif">Inicio</text>
+                  <line x1="100" y1="36" x2="100" y2="56" stroke="#aaa" stroke-width="1.5" marker-end="url(#ann)"/>
+                  <polygon points="100,58 168,90 100,122 32,90" fill="#CE93D8"/>
+                  <text x="100" y="85" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">¿Existe y</text>
+                  <text x="100" y="98" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">no es NULL?</text>
+                  <!-- Sí -->
+                  <line x1="100" y1="122" x2="100" y2="148" stroke="#4CAF50" stroke-width="1.5" marker-end="url(#ann)"/>
+                  <text x="108" y="140" fill="#4CAF50" font-size="9" font-family="sans-serif">Sí</text>
+                  <rect x="30" y="148" width="140" height="28" rx="5" fill="#4CAF50"/>
+                  <text x="100" y="166" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Usar $variable</text>
+                  <!-- No -->
+                  <line x1="168" y1="90" x2="190" y2="90" stroke="#e53935" stroke-width="1.5"/>
+                  <line x1="190" y1="90" x2="190" y2="200" stroke="#e53935" stroke-width="1.5" marker-end="url(#ann)"/>
+                  <text x="172" y="85" fill="#e53935" font-size="9" font-family="sans-serif">No</text>
+                  <rect x="108" y="188" width="100" height="28" rx="5" fill="#ef5350"/>
+                  <text x="158" y="206" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Valor defecto</text>
+                  <!-- Asignar -->
+                  <line x1="100" y1="176" x2="100" y2="228" stroke="#aaa" stroke-width="1.5" marker-end="url(#ann)"/>
+                  <line x1="158" y1="216" x2="158" y2="234" stroke="#aaa" stroke-width="1.5"/>
+                  <line x1="158" y1="234" x2="100" y2="234" stroke="#aaa" stroke-width="1.5" marker-end="url(#ann)"/>
+                  <rect x="30" y="228" width="140" height="28" rx="5" fill="#1e88e5"/>
+                  <text x="100" y="246" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Asignar resultado</text>
+                  <line x1="100" y1="256" x2="100" y2="270" stroke="#aaa" stroke-width="1.5" marker-end="url(#ann)"/>
+                  <rect x="55" y="268" width="90" height="28" rx="14" fill="#90CAF9"/>
+                  <text x="100" y="287" text-anchor="middle" fill="#333" font-size="11" font-family="sans-serif">Fin</text>
+                </svg>
+              </div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>operadores_condicionales.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Ternario: condición ? valor_true : valor_false</span>
+<span class="var">$edad</span> <span class="op">=</span> <span class="num">20</span><span class="op">;</span>
+<span class="var">$acceso</span> <span class="op">=</span> <span class="var">$edad</span> <span class="op">&gt;=</span> <span class="num">18</span> <span class="op">?</span> <span class="str">"Permitido"</span> <span class="op">:</span> <span class="str">"Denegado"</span><span class="op">;</span>
+
+<span class="cmt">// Elvis ?: — si el valor ya es truthy, úsalo; si no, usa el alternativo</span>
+<span class="var">$nombre</span> <span class="op">=</span> <span class="str">""</span><span class="op">;</span>
+<span class="var">$display</span> <span class="op">=</span> <span class="var">$nombre</span> <span class="op">?:</span> <span class="str">"Anónimo"</span><span class="op">;</span>   <span class="cmt">// "Anónimo" (porque "" es falsy)</span>
+
+<span class="cmt">// Null Coalescing ?? — si existe y no es null, úsalo; si no, usa el alternativo</span>
+<span class="var">$usuario</span> <span class="op">=</span> <span class="var">$_GET</span>[<span class="str">'user'</span>] <span class="op">??</span> <span class="str">"invitado"</span><span class="op">;</span>   <span class="cmt">// seguro aunque no exista $_GET['user']</span>
+<span class="var">$config</span>  <span class="op">=</span> <span class="var">$a</span> <span class="op">??</span> <span class="var">$b</span> <span class="op">??</span> <span class="var">$c</span> <span class="op">??</span> <span class="str">"default"</span><span class="op">;</span> <span class="cmt">// encadenado</span>
+
+<span class="cmt">// ??= Null Coalescing Assignment (PHP 7.4) — asigna solo si es null</span>
+<span class="var">$config</span>[<span class="str">'timeout'</span>] <span class="op">??=</span> <span class="num">30</span><span class="op">;</span>  <span class="cmt">// solo asigna 30 si 'timeout' no estaba definido</span>
+
+<span class="cmt">// Nullsafe operator ?-> (PHP 8) — evita errores al encadenar objetos nulables</span>
+<span class="kw">class</span> <span class="fn">Direccion</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">public</span> <span class="kw">string</span> <span class="var">$ciudad</span>) {}
+}
+<span class="kw">class</span> <span class="fn">Perfil</span> {
+    <span class="kw">public</span> <span class="op">?</span><span class="fn">Direccion</span> <span class="var">$direccion</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+}
+<span class="kw">class</span> <span class="fn">Usuario</span> {
+    <span class="kw">public</span> <span class="op">?</span><span class="fn">Perfil</span> <span class="var">$perfil</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+}
+
+<span class="var">$u</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Usuario</span>()<span class="op">;</span>
+
+<span class="cmt">// ❌ Sin nullsafe — crash si $perfil es null</span>
+<span class="cmt">// echo $u->perfil->direccion->ciudad;</span>
+
+<span class="cmt">// ✅ Con nullsafe — devuelve null si cualquier parte es null</span>
+<span class="var">$ciudad</span> <span class="op">=</span> <span class="var">$u</span><span class="op">?-&gt;</span><span class="var">perfil</span><span class="op">?-&gt;</span><span class="var">direccion</span><span class="op">?-&gt;</span><span class="var">ciudad</span> <span class="op">??</span> <span class="str">"Sin ciudad"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$ciudad</span><span class="op">;</span>  <span class="cmt">// Sin ciudad</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">Permitido</div>
+              <div class="output-warn">Anónimo</div>
+              <div class="output-info">Sin ciudad</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Operador</th><th>Nombre</th><th>Cuándo usarlo</th></tr>
+              <tr><td><code>? :</code></td><td>Ternario</td><td>Elegir entre dos valores según condición</td></tr>
+              <tr><td><code>?:</code></td><td>Elvis</td><td>Valor alternativo si el primero es falsy</td></tr>
+              <tr><td><code>??</code></td><td>Null Coalescing</td><td>Valor alternativo si es null o no existe</td></tr>
+              <tr><td><code>??=</code></td><td>Null Coalescing Assign</td><td>Asignar valor por defecto solo si es null</td></tr>
+              <tr><td><code>?-></code></td><td>Nullsafe</td><td>Encadenar métodos/propiedades que pueden ser null</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+</div>
+      </section>

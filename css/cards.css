@@ -1,0 +1,21 @@
+/* CONCEPT CARDS */
+.concept-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;margin-bottom:2rem;
+}
+.concept-header{
+  padding:1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:1rem;
+}
+.concept-num{
+  width:36px;height:36px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:800;color:#fff;flex-shrink:0;
+}
+.concept-title{font-size:1.1rem;font-weight:700;}
+.concept-desc{font-size:.85rem;color:var(--text2);margin-top:.3rem;line-height:1.6;}
+.concept-body{padding:1.5rem;}

@@ -1,0 +1,233 @@
+﻿      <section id="php-strings">
+<div class="section">
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num">8</div>
+          <div>
+            <div class="concept-title">Manejo de Strings</div>
+            <div class="concept-desc">Búsqueda · transformación · formato · división y multilinea con Heredoc/Nowdoc.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="showTab(this,'str-basic')">Básicas</button>
+            <button class="tab-btn" onclick="showTab(this,'str-buscar')">Buscar y reemplazar</button>
+            <button class="tab-btn" onclick="showTab(this,'str-format')">Formato y número</button>
+            <button class="tab-btn" onclick="showTab(this,'str-multi')">Heredoc / Nowdoc</button>
+          </div>
+
+          <div id="str-basic" class="tab-content active">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>strings_basic.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$s</span> <span class="op">=</span> <span class="str">"  Hola, Mundo PHP!  "</span><span class="op">;</span>
+
+<span class="cmt">// Longitud y espacios</span>
+<span class="fn">echo</span> <span class="fn">strlen</span>(<span class="var">$s</span>)<span class="op">;</span>       <span class="cmt">// 20 — en bytes (cuidado con UTF-8)</span>
+<span class="fn">echo</span> <span class="fn">mb_strlen</span>(<span class="var">$s</span>)<span class="op">;</span>   <span class="cmt">// 20 — en caracteres (multibyte seguro)</span>
+<span class="fn">echo</span> <span class="fn">trim</span>(<span class="var">$s</span>)<span class="op">;</span>        <span class="cmt">// "Hola, Mundo PHP!" — quita espacios de ambos lados</span>
+<span class="fn">echo</span> <span class="fn">ltrim</span>(<span class="var">$s</span>)<span class="op">;</span>       <span class="cmt">// quita solo por la izquierda</span>
+<span class="fn">echo</span> <span class="fn">rtrim</span>(<span class="var">$s</span>)<span class="op">;</span>       <span class="cmt">// quita solo por la derecha</span>
+
+<span class="cmt">// Mayúsculas / minúsculas</span>
+<span class="fn">echo</span> <span class="fn">strtoupper</span>(<span class="var">$s</span>)<span class="op">;</span>   <span class="cmt">// HOLA, MUNDO PHP!</span>
+<span class="fn">echo</span> <span class="fn">strtolower</span>(<span class="var">$s</span>)<span class="op">;</span>   <span class="cmt">// hola, mundo php!</span>
+<span class="fn">echo</span> <span class="fn">ucfirst</span>(<span class="str">"hola mundo"</span>)<span class="op">;</span>  <span class="cmt">// Hola mundo</span>
+<span class="fn">echo</span> <span class="fn">ucwords</span>(<span class="str">"hola mundo php"</span>)<span class="op">;</span> <span class="cmt">// Hola Mundo Php</span>
+<span class="fn">echo</span> <span class="fn">mb_strtoupper</span>(<span class="str">"ñoño"</span>)<span class="op">;</span>    <span class="cmt">// ÑOÑO — seguro con acentos</span>
+
+<span class="cmt">// Extracción</span>
+<span class="fn">echo</span> <span class="fn">substr</span>(<span class="var">$s</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">4</span>)<span class="op">;</span>    <span class="cmt">// "Hola" — desde pos 2, longitud 4</span>
+<span class="fn">echo</span> <span class="fn">substr</span>(<span class="var">$s</span><span class="op">,</span> <span class="op">-</span><span class="num">4</span>)<span class="op">;</span>      <span class="cmt">// "PHP!" — últimos 4 caracteres</span>
+<span class="fn">echo</span> <span class="fn">mb_substr</span>(<span class="str">"Ñoño"</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span> <span class="cmt">// "Ño" — seguro con UTF-8</span>
+
+<span class="cmt">// Dividir y unir</span>
+<span class="var">$partes</span> <span class="op">=</span> <span class="fn">explode</span>(<span class="str">","</span><span class="op">,</span> <span class="str">"a,b,c,d"</span>)<span class="op">;</span>     <span class="cmt">// ["a","b","c","d"]</span>
+<span class="var">$partes</span> <span class="op">=</span> <span class="fn">explode</span>(<span class="str">","</span><span class="op">,</span> <span class="str">"a,b,c,d"</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>  <span class="cmt">// ["a","b,c,d"] — max 2 partes</span>
+<span class="fn">echo</span> <span class="fn">implode</span>(<span class="str">" | "</span><span class="op">,</span> [<span class="str">"PHP"</span><span class="op">,</span><span class="str">"HTML"</span><span class="op">,</span><span class="str">"CSS"</span>])<span class="op">;</span> <span class="cmt">// PHP | HTML | CSS</span>
+
+<span class="cmt">// Repetir y rellenar</span>
+<span class="fn">echo</span> <span class="fn">str_repeat</span>(<span class="str">"=-"</span><span class="op">,</span> <span class="num">5</span>)<span class="op">;</span>             <span class="cmt">// =-=-=-=-</span>
+<span class="fn">echo</span> <span class="fn">str_pad</span>(<span class="str">"42"</span><span class="op">,</span> <span class="num">6</span><span class="op">,</span> <span class="str">"0"</span><span class="op">,</span> <span class="kw">STR_PAD_LEFT</span>)<span class="op">;</span> <span class="cmt">// 000042</span>
+<span class="fn">echo</span> <span class="fn">wordwrap</span>(<span class="str">"Lorem ipsum dolor"</span><span class="op">,</span> <span class="num">10</span><span class="op">,</span> <span class="str">"\n"</span>)<span class="op">;</span>  <span class="cmt">// corta a 10 chars</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida destacada</div>
+              <div class="output-info">trim(): "Hola, Mundo PHP!"</div>
+              <div class="output-info">substr($s, -4): "PHP!"</div>
+              <div class="output-success">implode: PHP | HTML | CSS</div>
+              <div class="output-info">str_pad("42",6,"0",LEFT): 000042</div>
+            </div>
+          </div>
+
+          <div id="str-buscar" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>strings_buscar.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$texto</span> <span class="op">=</span> <span class="str">"El veloz murciélago hindú comía feliz cardillo y kiwi"</span><span class="op">;</span>
+
+<span class="cmt">// Buscar posición</span>
+<span class="fn">echo</span> <span class="fn">strpos</span>(<span class="var">$texto</span><span class="op">,</span>  <span class="str">"kiwi"</span>)<span class="op">;</span>    <span class="cmt">// posición primera ocurrencia</span>
+<span class="fn">echo</span> <span class="fn">strrpos</span>(<span class="var">$texto</span><span class="op">,</span> <span class="str">"i"</span>)<span class="op">;</span>      <span class="cmt">// posición ÚLTIMA ocurrencia de "i"</span>
+<span class="fn">echo</span> <span class="fn">stripos</span>(<span class="var">$texto</span><span class="op">,</span>  <span class="str">"KIWI"</span>)<span class="op">;</span>   <span class="cmt">// sin distinguir mayúsculas</span>
+
+<span class="cmt">// Comprobar presencia (PHP 8) — más legible que strpos</span>
+<span class="fn">echo</span> <span class="fn">str_contains</span>(<span class="var">$texto</span><span class="op">,</span>   <span class="str">"kiwi"</span>)<span class="op">;</span>    <span class="cmt">// true</span>
+<span class="fn">echo</span> <span class="fn">str_starts_with</span>(<span class="var">$texto</span><span class="op">,</span> <span class="str">"El"</span>)<span class="op">;</span>      <span class="cmt">// true</span>
+<span class="fn">echo</span> <span class="fn">str_ends_with</span>(<span class="var">$texto</span><span class="op">,</span>   <span class="str">"kiwi"</span>)<span class="op">;</span>    <span class="cmt">// true</span>
+
+<span class="cmt">// Contar ocurrencias</span>
+<span class="fn">echo</span> <span class="fn">substr_count</span>(<span class="var">$texto</span><span class="op">,</span> <span class="str">"i"</span>)<span class="op">;</span>   <span class="cmt">// cuántas veces aparece "i"</span>
+
+<span class="cmt">// Reemplazar</span>
+<span class="fn">echo</span> <span class="fn">str_replace</span>(<span class="str">"kiwi"</span><span class="op">,</span> <span class="str">"mango"</span><span class="op">,</span> <span class="var">$texto</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">str_ireplace</span>(<span class="str">"KIWI"</span><span class="op">,</span> <span class="str">"mango"</span><span class="op">,</span> <span class="var">$texto</span>)<span class="op">;</span> <span class="cmt">// insensible a mayúsculas</span>
+
+<span class="cmt">// Reemplazar múltiples a la vez</span>
+<span class="var">$limpio</span> <span class="op">=</span> <span class="fn">str_replace</span>(
+    [<span class="str">"veloz"</span><span class="op">,</span> <span class="str">"hindú"</span><span class="op">,</span> <span class="str">"feliz"</span>]<span class="op">,</span>
+    [<span class="str">"rápido"</span><span class="op">,</span> <span class="str">"español"</span><span class="op">,</span> <span class="str">"contento"</span>]<span class="op">,</span>
+    <span class="var">$texto</span>
+)<span class="op">;</span>
+
+<span class="cmt">// Extraer parte después de una subcadena</span>
+<span class="fn">echo</span> <span class="fn">strstr</span>(<span class="var">$texto</span><span class="op">,</span> <span class="str">"kiwi"</span>)<span class="op">;</span>         <span class="cmt">// "kiwi" en adelante</span>
+<span class="fn">echo</span> <span class="fn">strstr</span>(<span class="var">$texto</span><span class="op">,</span> <span class="str">"kiwi"</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>  <span class="cmt">// todo ANTES de "kiwi"</span>
+
+<span class="cmt">// Invertir y mezclar</span>
+<span class="fn">echo</span> <span class="fn">strrev</span>(<span class="str">"PHP"</span>)<span class="op">;</span>  <span class="cmt">// PHP — PHP es palíndromo!</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">str_contains("kiwi") → true</div>
+              <div class="output-success">str_starts_with("El") → true</div>
+              <div class="output-success">str_ends_with("kiwi") → true</div>
+              <div class="output-info">strrev("PHP") → PHP ← ¡palíndromo!</div>
+            </div>
+          </div>
+
+          <div id="str-format" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>strings_format.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// sprintf — formato de cadena (no imprime, devuelve)</span>
+<span class="var">$precio</span> <span class="op">=</span> <span class="fn">sprintf</span>(<span class="str">"S/ %.2f"</span><span class="op">,</span> <span class="num">49.9</span>)<span class="op">;</span>      <span class="cmt">// "S/ 49.90"</span>
+<span class="var">$codigo</span> <span class="op">=</span> <span class="fn">sprintf</span>(<span class="str">"%05d"</span><span class="op">,</span> <span class="num">42</span>)<span class="op">;</span>          <span class="cmt">// "00042"</span>
+<span class="var">$hex</span>    <span class="op">=</span> <span class="fn">sprintf</span>(<span class="str">"%x"</span><span class="op">,</span> <span class="num">255</span>)<span class="op">;</span>            <span class="cmt">// "ff"</span>
+<span class="var">$msg</span>    <span class="op">=</span> <span class="fn">sprintf</span>(<span class="str">"Hola %s, tienes %d años"</span><span class="op">,</span> <span class="str">"Ana"</span><span class="op">,</span> <span class="num">28</span>)<span class="op">;</span>
+
+<span class="cmt">// printf — igual que sprintf pero sí imprime</span>
+<span class="fn">printf</span>(<span class="str">"%.2f%%"</span><span class="op">,</span> <span class="num">98.6</span>)<span class="op">;</span>  <span class="cmt">// 98.60% — %% imprime el símbolo %</span>
+
+<span class="cmt">// Formatear números</span>
+<span class="fn">echo</span> <span class="fn">number_format</span>(<span class="num">1234567.891</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>          <span class="cmt">// 1,234,567.89</span>
+<span class="fn">echo</span> <span class="fn">number_format</span>(<span class="num">1234567.891</span><span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="str">","</span><span class="op">,</span> <span class="str">"."</span>)<span class="op">;</span>  <span class="cmt">// 1.234.567,89 (español)</span>
+<span class="fn">echo</span> <span class="fn">money_format</span>(<span class="str">"%.2n"</span><span class="op">,</span> <span class="num">1234.56</span>)<span class="op">;</span>          <span class="cmt">// depende del locale</span>
+
+<span class="cmt">// Convertir entre bases numéricas</span>
+<span class="fn">echo</span> <span class="fn">decbin</span>(<span class="num">10</span>)<span class="op">;</span>    <span class="cmt">// "1010"  — decimal a binario</span>
+<span class="fn">echo</span> <span class="fn">decoct</span>(<span class="num">8</span>)<span class="op">;</span>     <span class="cmt">// "10"    — decimal a octal</span>
+<span class="fn">echo</span> <span class="fn">dechex</span>(<span class="num">255</span>)<span class="op">;</span>   <span class="cmt">// "ff"    — decimal a hexadecimal</span>
+<span class="fn">echo</span> <span class="fn">bindec</span>(<span class="str">"1010"</span>)<span class="op">;</span> <span class="cmt">// 10     — binario a decimal</span>
+<span class="fn">echo</span> <span class="fn">hexdec</span>(<span class="str">"ff"</span>)<span class="op">;</span>  <span class="cmt">// 255    — hexadecimal a decimal</span>
+
+<span class="cmt">// Caracteres ASCII y Unicode</span>
+<span class="fn">echo</span> <span class="fn">chr</span>(<span class="num">65</span>)<span class="op">;</span>        <span class="cmt">// "A"   — ASCII a caracter</span>
+<span class="fn">echo</span> <span class="fn">ord</span>(<span class="str">"A"</span>)<span class="op">;</span>       <span class="cmt">// 65    — caracter a ASCII</span>
+<span class="fn">echo</span> <span class="fn">mb_chr</span>(<span class="num">0x00F1</span>)<span class="op">;</span> <span class="cmt">// "ñ"   — Unicode a caracter</span>
+
+<span class="cmt">// Hash de texto</span>
+<span class="fn">echo</span> <span class="fn">md5</span>(<span class="str">"hola"</span>)<span class="op">;</span>           <span class="cmt">// hash MD5 (no usar para passwords)</span>
+<span class="fn">echo</span> <span class="fn">sha1</span>(<span class="str">"hola"</span>)<span class="op">;</span>          <span class="cmt">// hash SHA-1</span>
+<span class="fn">echo</span> <span class="fn">hash</span>(<span class="str">"sha256"</span><span class="op">,</span> <span class="str">"hola"</span>)<span class="op">;</span> <span class="cmt">// SHA-256</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">sprintf("S/ %.2f", 49.9) → S/ 49.90</div>
+              <div class="output-info">number_format(1234567.891, 2, ",", ".") → 1.234.567,89</div>
+              <div class="output-info">decbin(10) → 1010 &nbsp;|&nbsp; dechex(255) → ff</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Especificador sprintf</th><th>Tipo</th><th>Ejemplo</th></tr>
+              <tr><td><code>%s</code></td><td>String</td><td><code>sprintf("%s","Ana")</code> → Ana</td></tr>
+              <tr><td><code>%d</code></td><td>Entero</td><td><code>sprintf("%05d",42)</code> → 00042</td></tr>
+              <tr><td><code>%f</code></td><td>Float</td><td><code>sprintf("%.2f",3.1)</code> → 3.10</td></tr>
+              <tr><td><code>%x</code></td><td>Hexadecimal</td><td><code>sprintf("%x",255)</code> → ff</td></tr>
+              <tr><td><code>%%</code></td><td>Símbolo %</td><td><code>sprintf("%.1f%%",98.6)</code> → 98.6%</td></tr>
+            </table>
+          </div>
+
+          <div id="str-multi" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>heredoc_nowdoc.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="var">$nombre</span> <span class="op">=</span> <span class="str">"Ana"</span><span class="op">;</span>
+<span class="var">$total</span>  <span class="op">=</span> <span class="num">299.90</span><span class="op">;</span>
+
+<span class="cmt">// HEREDOC — como comillas dobles: interpola variables</span>
+<span class="var">$email</span> <span class="op">=</span> <span class="op">&lt;&lt;&lt;</span>HTML
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hola, <span class="var">$nombre</span>&lt;/h1&gt;
+    &lt;p&gt;Tu pedido de S/ <span class="var">$total</span> está listo.&lt;/p&gt;
+    &lt;a href="https://tienda.com/pedidos"&gt;Ver pedido&lt;/a&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+HTML<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="var">$email</span><span class="op">;</span>
+
+<span class="cmt">// NOWDOC — como comillas simples: NO interpola</span>
+<span class="var">$plantilla</span> <span class="op">=</span> <span class="op">&lt;&lt;&lt;</span><span class="str">'TMPL'</span>
+Hola, $nombre.
+Tu total es: $total.
+(Esto es una plantilla sin interpolar)
+TMPL<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="var">$plantilla</span><span class="op">;</span>
+<span class="cmt">// Hola, $nombre.</span>
+<span class="cmt">// Tu total es: $total.</span>
+
+<span class="cmt">// Diferencias clave:</span>
+<span class="cmt">// Heredoc  → <<<LABEL  → interpola variables ($var, {$obj->prop})</span>
+<span class="cmt">// Nowdoc   → <<<'LABEL' → texto literal, sin interpolación</span>
+
+<span class="cmt">// Heredoc en llamada a función (PHP 7.3+)</span>
+<span class="fn">echo</span> <span class="fn">trim</span>(<span class="op">&lt;&lt;&lt;</span>EOT
+  Texto con espacios extra
+  en varias líneas
+EOT)<span class="op">;</span>
+
+<span class="cmt">// Heredoc dentro de array</span>
+<span class="var">$config</span> <span class="op">=</span> [
+    <span class="str">"query"</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;&lt;</span>SQL
+        SELECT *
+        FROM usuarios
+        WHERE activo = 1
+        ORDER BY nombre
+SQL<span class="op">,</span>
+]<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Heredoc vs Nowdoc</div>
+              <div class="output-success">Heredoc: "Hola, Ana." — variable interpolada</div>
+              <div class="output-warn">Nowdoc: "Hola, $nombre." — texto literal</div>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th></th><th>Heredoc <code>&lt;&lt;&lt;LABEL</code></th><th>Nowdoc <code>&lt;&lt;&lt;'LABEL'</code></th></tr>
+              <tr><td>Interpolación</td><td>✅ Sí ($var, {$obj->p})</td><td>❌ No — texto literal</td></tr>
+              <tr><td>Equivale a</td><td>Comillas dobles <code>"..."</code></td><td>Comillas simples <code>'...'</code></td></tr>
+              <tr><td>Uso típico</td><td>HTML/email con variables</td><td>SQL, JSON, plantillas estáticas</td></tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
+</div>
+
+      <!-- FORMULARIOS -->
+      </section>
