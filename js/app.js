@@ -1,3 +1,20 @@
+// DYNAMIC YEAR
+function updateYears() {
+  const year = new Date().getFullYear();
+  document.querySelectorAll('.dynamic-year').forEach(el => el.textContent = year);
+  const footerYear = document.getElementById('footerYear');
+  if (footerYear) footerYear.textContent = year;
+  const badge = document.getElementById('homeYear');
+  if (badge) badge.textContent = year;
+}
+
+// LUCIDE ICONS
+function initIcons() {
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+}
+
 // THEME TOGGLE
 const html = document.documentElement;
 const btn = document.getElementById('themeBtn');
@@ -7,6 +24,12 @@ btn.addEventListener('click', () => {
   const t = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', t);
   localStorage.setItem('theme', t);
+});
+
+// INIT ON LOAD
+document.addEventListener('DOMContentLoaded', () => {
+  updateYears();
+  initIcons();
 });
 
 // MOBILE MENU

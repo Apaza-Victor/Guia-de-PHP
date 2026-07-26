@@ -1,78 +1,78 @@
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="badge fade-up">📚 Guía Completa · Desde Cero · Actualizada 2024</div>
+  <div class="badge fade-up"><i data-lucide="book-open" style="width:16px;height:16px"></i> Guía Completa · Desde Cero · Actualizada <span id="homeYear" class="dynamic-year"></span></div>
   <h1 class="fade-up delay-1">Aprende <span>PHP</span><br>desde cero</h1>
   <p class="hero-desc fade-up delay-2">
     Domina PHP, configura tu entorno con XAMPP o Laragon, conecta bases de datos MySQL y construye aplicaciones web reales. Todo en un solo lugar.
   </p>
   <div class="hero-btns fade-up delay-3">
-    <a href="#php" class="btn btn-primary">🚀 Empezar a aprender</a>
-    <a href="#entornos" class="btn btn-outline">🛠 Ver entornos</a>
+    <a href="#php" class="btn btn-primary"><i data-lucide="rocket" style="width:18px;height:18px"></i> Empezar a aprender</a>
+    <a href="#entornos" class="btn btn-outline"><i data-lucide="wrench" style="width:18px;height:18px"></i> Ver entornos</a>
   </div>
   <div class="modules-grid fade-up delay-3">
     <a href="#php" class="module-card">
-      <span class="card-icon">🐘</span>
+      <span class="card-icon"><i data-lucide="code-2" style="width:32px;height:32px;color:var(--accent)"></i></span>
       <div class="card-title">PHP Completo</div>
       <div class="card-desc">Variables, tipos, operadores, control de flujo, funciones, arrays, POO, formularios y más.</div>
       <span class="card-tag tag-php">PHP 8+</span>
     </a>
     <a href="#entornos" class="module-card">
-      <span class="card-icon">🛠</span>
+      <span class="card-icon"><i data-lucide="layout-dashboard" style="width:32px;height:32px;color:var(--accent2)"></i></span>
       <div class="card-title">XAMPP</div>
       <div class="card-desc">Instala y configura tu servidor local Apache + MySQL + PHP en minutos.</div>
       <span class="card-tag tag-env">Entorno Local</span>
     </a>
     <a href="#entornos-laragon" class="module-card">
-      <span class="card-icon">⚡</span>
+      <span class="card-icon"><i data-lucide="zap" style="width:32px;height:32px;color:#ffd166"></i></span>
       <div class="card-title">Laragon</div>
       <div class="card-desc">El entorno moderno y rápido para desarrollo web en Windows. Configura y crea proyectos fácilmente.</div>
       <span class="card-tag tag-env">Entorno Moderno</span>
     </a>
     <a href="#bases-datos" class="module-card">
-      <span class="card-icon">🗄</span>
+      <span class="card-icon"><i data-lucide="database" style="width:32px;height:32px;color:var(--green)"></i></span>
       <div class="card-title">Bases de Datos</div>
       <div class="card-desc">MySQL, PDO, CRUD completo, relaciones de tablas, consultas SQL y más.</div>
       <span class="card-tag tag-db">MySQL · PDO</span>
     </a>
     <a href="#sesiones" class="module-card">
-      <span class="card-icon">🔑</span>
+      <span class="card-icon"><i data-lucide="key-round" style="width:32px;height:32px;color:#ff6b6b"></i></span>
       <div class="card-title">Sesiones & Cookies</div>
       <div class="card-desc">Autenticación, login, logout, carrito de compras y manejo de estado con $_SESSION y $_COOKIE.</div>
       <span class="card-tag tag-php">Auth · Estado</span>
     </a>
     <a href="#archivos" class="module-card">
-      <span class="card-icon">📁</span>
+      <span class="card-icon"><i data-lucide="folder-open" style="width:32px;height:32px;color:#c77dff"></i></span>
       <div class="card-title">Manejo de Archivos</div>
       <div class="card-desc">Leer, escribir, subir archivos, trabajar con directorios y gestión de uploads seguros.</div>
       <span class="card-tag tag-php">Filesystem</span>
     </a>
     <a href="#seguridad" class="module-card">
-      <span class="card-icon">🛡</span>
+      <span class="card-icon"><i data-lucide="shield-check" style="width:32px;height:32px;color:var(--green)"></i></span>
       <div class="card-title">Seguridad Web</div>
       <div class="card-desc">XSS, CSRF, SQL Injection, hash de contraseñas y buenas prácticas de seguridad en PHP.</div>
       <span class="card-tag tag-env">Security</span>
     </a>
     <a href="#regex" class="module-card">
-      <span class="card-icon">🔍</span>
+      <span class="card-icon"><i data-lucide="regex" style="width:32px;height:32px;color:var(--accent)"></i></span>
       <div class="card-title">Expresiones Regulares</div>
       <div class="card-desc">Validar emails, URLs, teléfonos y extraer patrones de texto con preg_match y preg_replace.</div>
       <span class="card-tag tag-php">Regex · PCRE</span>
     </a>
     <a href="#poo-avanzada" class="module-card">
-      <span class="card-icon">🏗</span>
+      <span class="card-icon"><i data-lucide="blocks" style="width:32px;height:32px;color:#ffd166"></i></span>
       <div class="card-title">POO Avanzada</div>
       <div class="card-desc">Interfaces, Traits, métodos estáticos, readonly, enums y constructor property promotion de PHP 8.</div>
       <span class="card-tag tag-php">PHP 8.1+</span>
     </a>
     <a href="#apis-json" class="module-card">
-      <span class="card-icon">🌐</span>
+      <span class="card-icon"><i data-lucide="globe" style="width:32px;height:32px;color:var(--accent2)"></i></span>
       <div class="card-title">APIs y JSON</div>
       <div class="card-desc">Consumir APIs externas con cURL, crear tu propia API REST en PHP y trabajar con JSON.</div>
       <span class="card-tag tag-db">REST · JSON</span>
     </a>
     <a href="#composer" class="module-card">
-      <span class="card-icon">📦</span>
+      <span class="card-icon"><i data-lucide="package" style="width:32px;height:32px;color:#ff8e53"></i></span>
       <div class="card-title">Composer y Namespaces</div>
       <div class="card-desc">Gestiona dependencias con Composer, usa PSR-4 autoloading y organiza tu código con namespaces.</div>
       <span class="card-tag tag-env">Composer · PSR</span>

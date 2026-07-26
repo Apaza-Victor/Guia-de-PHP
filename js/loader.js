@@ -63,7 +63,9 @@ async function loadSection(sectionId) {
     // Scroll to top of content
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Re-init quiz if present
+    // Re-init Lucide icons, dynamic years, quiz
+    initIcons();
+    updateYears();
     if (document.getElementById('quiz-container') && typeof renderQuiz === 'function') {
       renderQuiz();
     }
