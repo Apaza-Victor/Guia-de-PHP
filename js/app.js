@@ -56,7 +56,7 @@ window.addEventListener('scroll', () => {
   backTop.classList.toggle('show', s.scrollTop > 400);
 
   // Update active nav based on scroll
-  const sections = ['home','php','entornos','bases-datos','sesiones','archivos','seguridad','regex','errores','poo-avanzada','apis-json','composer','diagramas'];
+  const sections = ['home','php','entornos','bases-datos','sesiones','archivos','seguridad','regex','errores','poo-avanzada','apis-json','composer','diagramas','recursos'];
   let current = 'home';
   sections.forEach(id => {
     const el = document.getElementById(id);

@@ -26,7 +26,8 @@ const SECTIONS_MAP = {
   'poo-avanzada':     'sections/22-poo-avanzada.html',
   'apis-json':        'sections/23-apis-json.html',
   'composer':         'sections/24-composer.html',
-  'diagramas':        'sections/25-diagramas-patrones.html'
+  'diagramas':        'sections/25-diagramas-patrones.html',
+  'recursos':         'sections/26-recursos.html'
 };
 
 const SECTION_ORDER = [
@@ -36,7 +37,7 @@ const SECTION_ORDER = [
   'php-forms','php-poo-fundamentos','php-poo',
   'entornos','entornos-xampp','entornos-laragon','bases-datos','sesiones','archivos',
   'seguridad','regex','errores','poo-avanzada','apis-json',
-  'composer','diagramas'
+  'composer','diagramas','recursos'
 ];
 
 let currentSectionIndex = 0;
