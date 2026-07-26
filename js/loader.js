@@ -27,7 +27,13 @@ const SECTIONS_MAP = {
   'apis-json':        'sections/23-apis-json.html',
   'composer':         'sections/24-composer.html',
   'diagramas':        'sections/25-diagramas-patrones.html',
-  'recursos':         'sections/26-recursos.html'
+  'recursos':         'sections/26-recursos.html',
+  'php8':             'sections/27-php8.html',
+  'laravel':          'sections/28-laravel-intro.html',
+  'phpunit':          'sections/29-phpunit.html',
+  'docker':           'sections/30-docker-despliegue.html',
+  'rendimiento':      'sections/31-rendimiento.html',
+  'git':              'sections/32-git-basico.html'
 };
 
 const SECTION_ORDER = [
@@ -37,7 +43,8 @@ const SECTION_ORDER = [
   'php-forms','php-poo-fundamentos','php-poo',
   'entornos','entornos-xampp','entornos-laragon','bases-datos','sesiones','archivos',
   'seguridad','regex','errores','poo-avanzada','apis-json',
-  'composer','diagramas','recursos'
+  'composer','diagramas','recursos',
+  'php8','laravel','phpunit','docker','rendimiento','git'
 ];
 
 let currentSectionIndex = 0;

@@ -1,0 +1,626 @@
+<section id="laravel">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag"><i data-lucide="framework" style="width:16px;height:16px"></i> Modulo 20</span>
+    <h2 class="section-title">Introduccion a Laravel</h2>
+    <p class="section-subtitle">Descubre el framework MVC mas popular de PHP: routing, Blade, Eloquent ORM, migraciones y Artisan CLI.</p>
+  </div>
+
+  <!-- QUE ES LARAVEL -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff2d20,#ff6b35)">1</div>
+      <div>
+        <div class="concept-title">Que es Laravel</div>
+        <div class="concept-desc">Framework MVC basado en Symfony. Proporciona routing, ORM, templates y herramientas de CLI listas para usar.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Comparativa de enfoques</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># PHP crudo — todo manual</span>
+<span class="tag">&lt;?php</span>
+<span class="kw">if</span> (<span class="var">$_SERVER</span>[<span class="str">'REQUEST_URI'</span>] <span class="op">==</span> <span class="str">'/usuarios'</span>) {
+    <span class="var">$pdo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PDO</span>(<span class="str">'mysql:host=localhost;db=app'</span><span class="op">,</span> <span class="str">'root'</span><span class="op">,</span> <span class="str">''</span>)<span class="op">;</span>
+    <span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">query</span>(<span class="str">'SELECT * FROM usuarios'</span>)<span class="op">;</span>
+    <span class="cmt">// renderizar HTML manualmente...</span>
+}
+<span class="tag">?&gt;</span>
+
+<span class="cmt"># Laravel — conciso y expresivo</span>
+<span class="tag">&lt;?php</span>
+<span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/usuarios'</span><span class="op">,</span> <span class="kw">function</span> () {
+    <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'usuarios.index'</span><span class="op">,</span> [
+        <span class="str">'usuarios'</span> <span class="op">=&gt;</span> <span class="fn">Usuario</span>::<span class="fn">all</span>()
+    ])<span class="op">;</span>
+})<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Caracteristica</th><th>PHP Crudo</th><th>CodeIgniter</th><th>Laravel</th></tr></thead>
+        <tbody>
+          <tr><td>Routing</td><td>Manual $_SERVER</td><td>Rutas en array</td><td>Fluente y flexible</td></tr>
+          <tr><td>ORM / BD</td><td>PDO a mano</td><td>Query Builder</td><td>Eloquent ORM completo</td></tr>
+          <tr><td>Templates</td><td>echo/concatenar</td><td>Variables en vistas</td><td>Blade con herencia</td></tr>
+          <tr><td>Auth</td><td>Desarrollar desde cero</td><td>Paquetes externos</td><td>Auth scaffolding incluido</td></tr>
+          <tr><td>CLI</td><td>No hay</td><td>Basic CLI</td><td>Artisan con 100+ comandos</td></tr>
+          <tr><td>Testing</td><td>PHPUnit manual</td><td>Soporte basico</td><td>Testing integrado completo</td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Laravel usa el patrón <strong>MVC</strong>: el Modelo gestiona datos, la Vista renderiza HTML, el Controlador coordina la logica. Esto separa responsabilidades y facilita el mantenimiento.</div>
+    </div>
+  </div>
+
+  <!-- INSTALACION -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff2d20,#ff6b35)">2</div>
+      <div>
+        <div class="concept-title">Instalacion</div>
+        <div class="concept-desc">Crea un proyecto Laravel completo con Composer en un solo comando.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <ol class="steps">
+        <li>Instala Composer desde <strong style="color:var(--accent2)">getcomposer.org</strong> si aun no lo tienes.</li>
+        <li>Crea el proyecto: <code>composer create-project laravel/laravel mi-app</code></li>
+        <li>Entra a la carpeta: <code>cd mi-app</code></li>
+        <li>Inicia el servidor de desarrollo: <code>php artisan serve</code></li>
+        <li>Abre <code>http://localhost:8000</code> en tu navegador.</li>
+      </ol>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Crear proyecto Laravel</span>
+composer create-project laravel/laravel mi-app
+
+<span class="cmt"># Iniciar servidor de desarrollo</span>
+<span class="kw">cd</span> mi-app
+php artisan serve
+
+<span class="cmt"># Salida: Laravel development server started: http://127.0.0.1:8000</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Estructura del proyecto Laravel</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre>mi-app/
+├── app/                 <span class="cmt"># Logica: Models, Controllers, Middleware</span>
+│   ├── Http/Controllers/<span class="cmt"># Controladores</span>
+│   ├── Models/          <span class="cmt"># Modelos Eloquent</span>
+│   └── Providers/       <span class="cmt"># Servicios y bindding</span>
+├── config/              <span class="cmt"># Archivos de configuracion (.env)</span>
+├── database/            <span class="cmt"># Migraciones, seeders, factories</span>
+│   ├── migrations/
+│   ├── seeders/
+│   └── factories/
+├── resources/views/     <span class="cmt"># Plantillas Blade</span>
+├── routes/              <span class="cmt"># Rutas (web.php, api.php)</span>
+│   ├── web.php
+│   └── api.php
+├── storage/             <span class="cmt"># Cache, logs, archivos subidos</span>
+├── tests/               <span class="cmt"># Tests unitarios y feature</span>
+├── public/              <span class="cmt"># Punto de entrada (DocumentRoot)</span>
+│   └── index.php
+├── .env                 <span class="cmt"># Variables de entorno (no al repo)</span>
+├── artisan              <span class="cmt"># CLI de Laravel</span>
+└── composer.json        <span class="cmt"># Dependencias</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>.env</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Variables de entorno principales</span>
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:...
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=mi_app
+DB_USERNAME=root
+DB_PASSWORD=</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROUTING -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff2d20,#ff6b35)">3</div>
+      <div>
+        <div class="concept-title">Routing</div>
+        <div class="concept-desc">Define rutas HTTP en <code>routes/web.php</code> con una sintaxis fluida y legible.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'route-basic')">Basicas</button>
+        <button class="tab-btn" onclick="showTab(this,'route-param')">Parametros</button>
+        <button class="tab-btn" onclick="showTab(this,'route-group')">Grupos y Middleware</button>
+      </div>
+
+      <div id="route-basic" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>routes/web.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">Illuminate\Support\Facades\Route</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">App\Http\Controllers\HomeController</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">App\Http\Controllers\UserController</span><span class="op">;</span>
+
+<span class="cmt">// Rutas por metodo HTTP</span>
+<span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/'</span><span class="op">,</span> [<span class="fn">HomeController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'index'</span>])<span class="op">;</span>
+<span class="fn">Route</span>::<span class="fn">post</span>(<span class="str">'/usuarios'</span><span class="op">,</span> [<span class="fn">UserController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'store'</span>])<span class="op">;</span>
+<span class="fn">Route</span>::<span class="fn">put</span>(<span class="str">'/usuarios/{id}'</span><span class="op">,</span> [<span class="fn">UserController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'update'</span>])<span class="op">;</span>
+<span class="fn">Route</span>::<span class="fn">delete</span>(<span class="str">'/usuarios/{id}'</span><span class="op">,</span> [<span class="fn">UserController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'destroy'</span>])<span class="op">;</span>
+
+<span class="cmt">// Closure rapida</span>
+<span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/about'</span><span class="op">,</span> <span class="kw">function</span> () {
+    <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'about'</span>)<span class="op">;</span>
+})<span class="op">;</span>
+
+<span class="cmt">// Ruta con nombre (facil de referenciar)</span>
+<span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/dashboard'</span><span class="op">,</span> [<span class="fn">HomeController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'dashboard'</span>])
+    <span class="op">-&gt;</span><span class="fn">name</span>(<span class="str">'dashboard'</span>)<span class="op">;</span>
+
+<span class="cmt">// Usar nombre: route('dashboard') en Blade o PHP</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="route-param" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>routes/web.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">Illuminate\Support\Facades\Route</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">App\Http\Controllers\PostController</span><span class="op">;</span>
+
+<span class="cmt">// Parametro obligatorio</span>
+<span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/posts/{id}'</span><span class="op">,</span> [<span class="fn">PostController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'show'</span>])<span class="op">;</span>
+
+<span class="cmt">// Parametro opcional con default</span>
+<span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/buscar/{termino?}'</span><span class="op">,</span> <span class="kw">function</span> (<span class="var">$termino</span> <span class="op">=</span> <span class="str">'todos'</span>) {
+    <span class="kw">return</span> <span class="str">"Buscando: {$termino}"</span><span class="op">;</span>
+})<span class="op">;</span>
+
+<span class="cmt">// Parametro con restriccion</span>
+<span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/user/{id}'</span><span class="op">,</span> [<span class="fn">UserController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'show'</span>])
+    <span class="op">-&gt;</span><span class="fn">where</span>(<span class="str">'id'</span><span class="op">,</span> <span class="str">'[0-9]+'</span>)<span class="op">;</span>
+
+<span class="cmt">// Multiples rutas CRUD con resource</span>
+<span class="fn">Route</span>::<span class="fn">resource</span>(<span class="str">'/articulos'</span><span class="op">,</span> <span class="fn">ArticuloController</span>::<span class="kw">class</span>)<span class="op">;</span>
+<span class="cmt">// Genera: index, create, store, show, edit, update, destroy</span>
+
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="route-group" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>routes/web.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">Illuminate\Support\Facades\Route</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">App\Http\Controllers\*</span><span class="op">;</span>
+
+<span class="cmt">// Grupo con prefijo y middleware</span>
+<span class="fn">Route</span>::<span class="fn">middleware</span>(<span class="str">'auth'</span>)-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/dashboard'</span><span class="op">,</span> [<span class="fn">DashboardController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'index'</span>])<span class="op">;</span>
+    <span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/perfil'</span><span class="op">,</span> [<span class="fn">PerfilController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'edit'</span>])<span class="op">;</span>
+    <span class="fn">Route</span>::<span class="fn">put</span>(<span class="str">'/perfil'</span><span class="op">,</span> [<span class="fn">PerfilController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'update'</span>])<span class="op">;</span>
+})<span class="op">;</span>
+
+<span class="cmt">// Grupo con prefijo de URL</span>
+<span class="fn">Route</span>::<span class="fn">prefix</span>(<span class="str">'admin'</span>)-><span class="fn">middleware</span>(<span class="str">'auth'</span>)-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/usuarios'</span><span class="op">,</span> [<span class="fn">AdminUserController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'index'</span>])<span class="op">;</span>
+    <span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/config'</span><span class="op">,</span> [<span class="fn">ConfigController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'index'</span>])<span class="op">;</span>
+})<span class="op">;</span>
+
+<span class="cmt">// Grupo con nombre y prefijo</span>
+<span class="fn">Route</span>::<span class="fn">name</span>(<span class="str">'api.'</span>)-><span class="fn">prefix</span>(<span class="str">'api'</span>)-><span class="fn">group</span>(<span class="kw">function</span> () {
+    <span class="fn">Route</span>::<span class="fn">get</span>(<span class="str">'/usuarios'</span><span class="op">,</span> [<span class="fn">ApiController</span>::<span class="kw">class</span><span class="op">,</span> <span class="str">'usuarios'</span>])
+        <span class="op">-&gt;</span><span class="fn">name</span>(<span class="str">'usuarios'</span>)<span class="op">;</span> <span class="cmt">// -> api.usuarios</span>
+})<span class="op">;</span>
+
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLADE TEMPLATES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff2d20,#ff6b35)">4</div>
+      <div>
+        <div class="concept-title">Blade Templates</div>
+        <div class="concept-desc">Motor de plantillas con herencia, componentes y sintaxis limpia. No compila — compila en PHP optimizado.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'blade-layout')">Layout base</button>
+        <button class="tab-btn" onclick="showTab(this,'blade-page')">Pagina hija</button>
+        <button class="tab-btn" onclick="showTab(this,'blade-sintaxis')">Sintaxis</button>
+      </div>
+
+      <div id="blade-layout" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>resources/views/layouts/app.blade.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="var">lang</span>=<span class="str">"es"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="var">charset</span>=<span class="str">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span>@yield('title', 'Mi App')<span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;nav&gt;</span>
+        <span class="tag">&lt;a</span> <span class="var">href</span>=<span class="str">"{{ route('dashboard') }}"</span><span class="tag">&gt;</span>Dashboard<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;a</span> <span class="var">href</span>=<span class="str">"{{ route('perfil') }}"</span><span class="tag">&gt;</span>Mi Perfil<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+
+    <span class="cmt">&lt;!-- Contenido principal que cada pagina inyecta --&gt;</span>
+    <span class="tag">&lt;main&gt;</span>
+        @yield('content')
+    <span class="tag">&lt;/main&gt;</span>
+
+    <span class="cmt">&lt;!-- Seccion de scripts --&gt;</span>
+    @yield('scripts')
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="blade-page" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>resources/views/usuarios/index.blade.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt">&lt;!-- Hereda del layout --&gt;</span>
+@extends('layouts.app')
+
+@section('title', 'Lista de Usuarios')
+
+@section('content')
+    <span class="tag">&lt;h1&gt;</span>Usuarios Registrados<span class="tag">&lt;/h1&gt;</span>
+
+    @if(count($usuarios) > 0)
+        <span class="tag">&lt;table&gt;</span>
+            <span class="tag">&lt;tr&gt;</span>
+                <span class="tag">&lt;th&gt;</span>Nombre<span class="tag">&lt;/th&gt;</span>
+                <span class="tag">&lt;th&gt;</span>Email<span class="tag">&lt;/th&gt;</span>
+            <span class="tag">&lt;/tr&gt;</span>
+            @foreach($usuarios as $usuario)
+            <span class="tag">&lt;tr&gt;</span>
+                <span class="tag">&lt;td&gt;</span>{{ $usuario->name }}<span class="tag">&lt;/td&gt;</span>
+                <span class="tag">&lt;td&gt;</span>{{ $usuario->email }}<span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;/tr&gt;</span>
+            @endforeach
+        <span class="tag">&lt;/table&gt;</span>
+    @else
+        <span class="tag">&lt;p&gt;</span>No hay usuarios registrados.<span class="tag">&lt;/p&gt;</span>
+    @endif
+@endsection</pre>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Controlador que retorna la vista</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">namespace</span> <span class="fn">App\Http\Controllers</span><span class="op">;</span>
+
+<span class="kw">use</span> <span class="fn">App\Models\User</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">UserController</span> <span class="kw">extends</span> <span class="fn">Controller</span> {
+    <span class="kw">public function</span> <span class="fn">index</span>() {
+        <span class="kw">return</span> <span class="fn">view</span>(<span class="str">'usuarios.index'</span><span class="op">,</span> [
+            <span class="str">'usuarios'</span> <span class="op">=&gt;</span> <span class="fn">User</span>::<span class="fn">all</span>()
+        ])<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="blade-sintaxis" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Blade — Sintaxis completa</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt">&lt;!-- Variables --&gt;</span>
+{{ $variable }}              <span class="cmt">&lt;!-- escape HTML --&gt;</span>
+{!! $html_raw !!}           <span class="cmt">&lt;!-- NO escapar (cuidado!) --&gt;</span>
+{{ $var ?? 'default' }}     <span class="cmt">&lt;!-- null coalesce --&gt;</span>
+
+<span class="cmt">&lt;!-- Condicionales --&gt;</span>
+@if($activo)
+    <span class="tag">&lt;p&gt;</span>Activo<span class="tag">&lt;/p&gt;</span>
+@elseif($pendiente)
+    <span class="tag">&lt;p&gt;</span>Pendiente<span class="tag">&lt;/p&gt;</span>
+@else
+    <span class="tag">&lt;p&gt;</span>Inactivo<span class="tag">&lt;/p&gt;</span>
+@endif
+
+@unless($admin)
+    <span class="tag">&lt;p&gt;</span>Solo administradores.<span class="tag">&lt;/p&gt;</span>
+@endunless
+
+<span class="cmt">&lt;!-- Loops --&gt;</span>
+@foreach($items as $item)
+    {{ $item->name }}
+@empty
+    <span class="tag">&lt;p&gt;</span>No hay items.<span class="tag">&lt;/p&gt;</span>
+@endforeach
+
+@for($i = 0; $i < 10; $i++)
+    Numero: {{ $i }}
+@endfor
+
+<span class="cmt">&lt;!-- Componentes --&gt;</span>
+<x-alert type="success" message="Guardado correctamente" />
+
+@component('components.alert')
+    @slot('type') success @endslot
+    <span class="tag">&lt;p&gt;</span>Operacion completada.<span class="tag">&lt;/p&gt;</span>
+@endcomponent</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ELOQUENT ORM -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff2d20,#ff6b35)">5</div>
+      <div>
+        <div class="concept-title">Eloquent ORM</div>
+        <div class="concept-desc">ORM activo por defecto en Laravel. Cada tabla se modela como una clase con metodos expresivos.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'eloquent-model')">Modelo</button>
+        <button class="tab-btn" onclick="showTab(this,'eloquent-crud')">CRUD</button>
+        <button class="tab-btn" onclick="showTab(this,'eloquent-rel')">Relaciones</button>
+      </div>
+
+      <div id="eloquent-model" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>app/Models/User.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">namespace</span> <span class="fn">App\Models</span><span class="op">;</span>
+
+<span class="kw">use</span> <span class="fn">Illuminate\Database\Eloquent\Model</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">Illuminate\Database\Eloquent\Factories\HasFactory</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">User</span> <span class="kw">extends</span> <span class="fn">Model</span> {
+    <span class="kw">use</span> <span class="fn">HasFactory</span><span class="op">;</span>
+
+    <span class="kw">protected</span> <span class="var">$table</span> <span class="op">=</span> <span class="str">'users'</span><span class="op">;</span>
+    <span class="kw">protected</span> <span class="var">$fillable</span> <span class="op">=</span> [<span class="str">'name'</span><span class="op">,</span> <span class="str">'email'</span><span class="op">,</span> <span class="str">'password'</span>]<span class="op">;</span>
+    <span class="kw">protected</span> <span class="var">$hidden</span> <span class="op">=</span> [<span class="str">'password'</span><span class="op">,</span> <span class="str">'remember_token'</span>]<span class="op">;</span>
+    <span class="kw">protected</span> <span class="var">$casts</span> <span class="op">=</span> [<span class="str">'email_verified_at'</span> <span class="op">=&gt;</span> <span class="str">'datetime'</span>]<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>app/Models/Post.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">namespace</span> <span class="fn">App\Models</span><span class="op">;</span>
+
+<span class="kw">use</span> <span class="fn">Illuminate\Database\Eloquent\Model</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">Illuminate\Database\Eloquent\Factories\HasFactory</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">Post</span> <span class="kw">extends</span> <span class="fn">Model</span> {
+    <span class="kw">use</span> <span class="fn">HasFactory</span><span class="op">;</span>
+
+    <span class="kw">protected</span> <span class="var">$fillable</span> <span class="op">=</span> [<span class="str">'title'</span><span class="op">,</span> <span class="str">'body'</span><span class="op">,</span> <span class="str">'user_id'</span>]<span class="op">;</span>
+
+    <span class="cmt">// Un post pertenece a un usuario</span>
+    <span class="kw">public function</span> <span class="fn">user</span>() {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">belongsTo</span>(<span class="fn">User</span>::<span class="kw">class</span>)<span class="op">;</span>
+    }
+
+    <span class="cmt">// Un post tiene muchos comentarios</span>
+    <span class="kw">public function</span> <span class="fn">comments</span>() {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">hasMany</span>(<span class="fn">Comment</span>::<span class="kw">class</span>)<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="eloquent-crud" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Eloquent CRUD — operaciones basicas</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">App\Models\User</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">App\Models\Post</span><span class="op">;</span>
+
+<span class="cmt">// CREATE</span>
+<span class="var">$user</span> <span class="op">=</span> <span class="fn">User</span>::<span class="fn">create</span>([
+    <span class="str">'name'</span>     <span class="op">=&gt;</span> <span class="str">'Ana Lopez'</span><span class="op">,</span>
+    <span class="str">'email'</span>    <span class="op">=&gt;</span> <span class="str">'ana@mail.com'</span><span class="op">,</span>
+    <span class="str">'password'</span> <span class="op">=&gt;</span> <span class="fn">bcrypt</span>(<span class="str">'secreto123'</span>)
+])<span class="op">;</span>
+
+<span class="cmt">// READ</span>
+<span class="var">$user</span> <span class="op">=</span> <span class="fn">User</span>::<span class="fn">find</span>(<span class="num">1</span>)<span class="op">;</span>           <span class="cmt">// por ID</span>
+<span class="var">$user</span> <span class="op">=</span> <span class="fn">User</span>::<span class="fn">where</span>(<span class="str">'email'</span><span class="op">,</span> <span class="str">'ana@mail.com'</span>)-><span class="fn">first</span>()<span class="op">;</span>
+<span class="var">$users</span> <span class="op">=</span> <span class="fn">User</span>::<span class="fn">where</span>(<span class="str">'active'</span><span class="op">,</span> <span class="kw">true</span>)-><span class="fn">get</span>()<span class="op">;</span>
+<span class="var">$count</span> <span class="op">=</span> <span class="fn">User</span>::<span class="fn">count</span>()<span class="op">;</span>
+
+<span class="cmt">// UPDATE</span>
+<span class="fn">User</span>::<span class="fn">where</span>(<span class="str">'id'</span><span class="op">,</span> <span class="num">1</span>)-><span class="fn">update</span>([<span class="str">'name'</span> <span class="op">=&gt;</span> <span class="str">'Ana M. Lopez'</span>])<span class="op">;</span>
+<span class="var">$user</span><span class="op">-&gt;</span><span class="var">name</span> <span class="op">=</span> <span class="str">'Ana M.'</span><span class="op">;</span>
+<span class="var">$user</span><span class="op">-&gt;</span><span class="fn">save</span>()<span class="op">;</span>
+
+<span class="cmt">// DELETE</span>
+<span class="fn">User</span>::<span class="fn">where</span>(<span class="str">'id'</span><span class="op">,</span> <span class="num">5</span>)-><span class="fn">delete</span>()<span class="op">;</span>
+<span class="var">$user</span><span class="op">-&gt;</span><span class="fn">delete</span>()<span class="op">;</span>
+
+<span class="cmt">// Query avanzado</span>
+<span class="var">$posts</span> <span class="op">=</span> <span class="fn">Post</span>::<span class="fn">where</span>(<span class="str">'created_at'</span><span class="op">,&gt;=</span> <span class="fn">now</span>()-><span class="fn">subDays</span>(<span class="num">30</span>))
+    <span class="op">-&gt;</span><span class="fn">with</span>(<span class="str">'user'</span>)         <span class="cmt">// eager loading</span>
+    <span class="op">-&gt;</span><span class="fn">orderBy</span>(<span class="str">'created_at'</span><span class="op">,</span> <span class="str">'desc'</span>)
+    <span class="op">-&gt;</span><span class="fn">paginate</span>(<span class="num">15</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="eloquent-rel" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Relaciones Eloquent</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">App\Models\{User, Post, Comment, Profile}</span><span class="op">;</span>
+
+<span class="cmt">// hasOne — Un usuario tiene un perfil</span>
+<span class="kw">class</span> <span class="fn">User</span> <span class="kw">extends</span> <span class="fn">Model</span> {
+    <span class="kw">public function</span> <span class="fn">profile</span>() {
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">hasOne</span>(<span class="fn">Profile</span>::<span class="kw">class</span>)<span class="op">;</span>
+    }
+}
+
+<span class="cmt">// hasMany — Un usuario tiene muchos posts</span>
+<span class="kw">public function</span> <span class="fn">posts</span>() {
+    <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">hasMany</span>(<span class="fn">Post</span>::<span class="kw">class</span>)<span class="op">;</span>
+}
+
+<span class="cmt">// belongsTo — Un post pertenece a un usuario</span>
+<span class="kw">public function</span> <span class="fn">user</span>() {
+    <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">belongsTo</span>(<span class="fn">User</span>::<span class="kw">class</span>)<span class="op">;</span>
+}
+
+<span class="cmt">// Uso en controlador</span>
+<span class="var">$user</span> <span class="op">=</span> <span class="fn">User</span>::<span class="fn">with</span>([<span class="str">'posts'</span><span class="op">,</span> <span class="str">'profile'</span>])-><span class="fn">find</span>(<span class="num">1</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$user</span><span class="op">-&gt;</span><span class="var">profile</span><span class="op">-&gt;</span><span class="var">bio</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$user</span><span class="op">-&gt;</span><span class="fn">posts</span><span class="op">-&gt;</span><span class="fn">count</span>()<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIGRACIONES Y SEEDERS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff2d20,#ff6b35)">6</div>
+      <div>
+        <div class="concept-title">Migraciones y Seeders</div>
+        <div class="concept-desc">Controla la estructura de tu BD con migraciones versionadas y carga datos de prueba con seeders.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'mig-create')">Crear migracion</button>
+        <button class="tab-btn" onclick="showTab(this,'mig-seed')">Seeders y Factories</button>
+      </div>
+
+      <div id="mig-create" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Crear migracion para tabla users</span>
+php artisan make:migration create_users_table
+
+<span class="cmt"># Crear migracion con modelo</span>
+php artisan make:model Post -m
+
+<span class="cmt"># Ejecutar migraciones</span>
+php artisan migrate
+
+<span class="cmt"># Rollback (deshacer ultima migracion)</span>
+php artisan migrate:rollback</pre>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>database/migrations/2024_01_15_create_users_table.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">Illuminate\Database\Migrations\Migration</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">Illuminate\Database\Schema\Blueprint</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">Illuminate\Support\Facades\Schema</span><span class="op">;</span>
+
+<span class="kw">return new class</span> <span class="kw">extends</span> <span class="fn">Migration</span> {
+    <span class="kw">public function</span> <span class="fn">up</span>(): <span class="kw">void</span> {
+        <span class="fn">Schema</span>::<span class="fn">create</span>(<span class="str">'users'</span><span class="op">,</span> <span class="kw">function</span> (<span class="fn">Blueprint</span> <span class="var">$table</span>) {
+            <span class="var">$table</span><span class="op">-&gt;</span><span class="fn">id</span>()<span class="op">;</span>
+            <span class="var">$table</span><span class="op">-&gt;</span><span class="fn">string</span>(<span class="str">'name'</span>)<span class="op">;</span>
+            <span class="var">$table</span><span class="op">-&gt;</span><span class="fn">string</span>(<span class="str">'email'</span>)-><span class="fn">unique</span>()<span class="op">;</span>
+            <span class="var">$table</span><span class="op">-&gt;</span><span class="fn">timestamp</span>(<span class="str">'email_verified_at'</span>)-><span class="fn">nullable</span>()<span class="op">;</span>
+            <span class="var">$table</span><span class="op">-&gt;</span><span class="fn">string</span>(<span class="str">'password'</span>)<span class="op">;</span>
+            <span class="var">$table</span><span class="op">-&gt;</span><span class="fn">rememberToken</span>()<span class="op">;</span>
+            <span class="var">$table</span><span class="op">-&gt;</span><span class="fn">timestamps</span>()<span class="op">;</span>
+        })<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">down</span>(): <span class="kw">void</span> {
+        <span class="fn">Schema</span>::<span class="fn">dropIfExists</span>(<span class="str">'users'</span>)<span class="op">;</span>
+    }
+}<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="mig-seed" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>database/seeders/DatabaseSeeder.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">namespace</span> <span class="fn">Database\Seeders</span><span class="op">;</span>
+
+<span class="kw">use</span> <span class="fn">Illuminate\Database\Seeder</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">App\Models\User</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">DatabaseSeeder</span> <span class="kw">extends</span> <span class="fn">Seeder</span> {
+    <span class="kw">public function</span> <span class="fn">run</span>(): <span class="kw">void</span> {
+        <span class="cmt">// Crear usuario admin manual</span>
+        <span class="fn">User</span>::<span class="fn">create</span>([
+            <span class="str">'name'</span>     <span class="op">=&gt;</span> <span class="str">'Admin'</span><span class="op">,</span>
+            <span class="str">'email'</span>    <span class="op">=&gt;</span> <span class="str">'admin@mail.com'</span><span class="op">,</span>
+            <span class="str">'password'</span> <span class="op">=&gt;</span> <span class="fn">bcrypt</span>(<span class="str">'password'</span>)
+        ])<span class="op">;</span>
+
+        <span class="cmt">// Crear 50 usuarios con factory</span>
+        <span class="fn">User</span>::<span class="fn">factory</span>()-><span class="fn">count</span>(<span class="num">50</span>)-><span class="fn">create</span>()<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Ejecutar seeders</span>
+php artisan db:seed
+
+<span class="cmt"># Ejecutar seeder especifico</span>
+php artisan db:seed --class=UserSeeder
+
+<span class="cmt"># Fresh: borrar BD + migrar + sembrar</span>
+php artisan migrate:fresh --seed</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTISAN CLI -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff2d20,#ff6b35)">7</div>
+      <div>
+        <div class="concept-title">Artisan CLI</div>
+        <div class="concept-desc">Herramienta de linea de comandos integrada. Genera codigo, gestiona BD y ejecuta tareas del framework.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <table class="data-table">
+        <thead><tr><th>Comando</th><th>Que hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>php artisan serve</code></td><td>Inicia servidor de desarrollo local</td></tr>
+          <tr><td><code>php artisan make:controller Name</code></td><td>Crea un controlador en app/Http/Controllers</td></tr>
+          <tr><td><code>php artisan make:model Name</code></td><td>Crea un modelo en app/Models</td></tr>
+          <tr><td><code>php artisan make:model Name -mcr</code></td><td>Crea modelo + migracion + controller + resource</td></tr>
+          <tr><td><code>php artisan make:migration name</code></td><td>Crea archivo de migracion en database/migrations</td></tr>
+          <tr><td><code>php artisan make:seeder Name</code></td><td>Crea un seeder en database/seeders</td></tr>
+          <tr><td><code>php artisan make:factory Name</code></td><td>Crea un factory para generar datos falsos</td></tr>
+          <tr><td><code>php artisan make:middleware Name</code></td><td>Crea un middleware en app/Http/Middleware</td></tr>
+          <tr><td><code>php artisan migrate</code></td><td>Ejecuta todas las migraciones pendientes</td></tr>
+          <tr><td><code>php artisan migrate:rollback</code></td><td>Deshace la ultima migracion ejecutada</td></tr>
+          <tr><td><code>php artisan migrate:fresh</code></td><td>Borra BD, re-migra y sembrar</td></tr>
+          <tr><td><code>php artisan db:seed</code></td><td>Ejecuta los seeders del proyecto</td></tr>
+          <tr><td><code>php artisan route:list</code></td><td>Muestra todas las rutas registradas</td></tr>
+          <tr><td><code>php artisan tinker</code></td><td>Consola interactiva para probar codigo</td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> El atajo <code>make:model Post -mcr</code> crea el modelo, la migracion y el controller con resource routes en un solo comando. Muy util para empezar rapidamente un recurso CRUD.</div>
+    </div>
+  </div>
+
+</div>
+</section>

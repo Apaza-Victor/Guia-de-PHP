@@ -1,0 +1,756 @@
+<section id="docker">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag"><i data-lucide="container" style="width:16px;height:16px"></i> Modulo 22</span>
+    <h2 class="section-title">Docker y Despliegue</h2>
+    <p class="section-subtitle">Containeriza tus aplicaciones PHP, configura CI/CD automatizado y despliega a produccion con confianza.</p>
+  </div>
+
+  <!-- QUE ES DOCKER -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#0db7ed,#2496ed)">1</div>
+      <div>
+        <div class="concept-title">Que es Docker</div>
+        <div class="concept-desc">Containers vs VMs, porque Docker para PHP, imagenes, contenedores, volumenes y redes.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-info">
+        <span><i data-lucide="info" style="width:16px;height:16px"></i></span>
+        <span>Docker empaqueta tu aplicacion con todo lo que necesita (runtime, dependencias, configuracion) en un <strong>container</strong> portable que corre igual en cualquier maquina.</span>
+      </div>
+
+      <div class="visual-box">
+        <div class="visual-label">Containers vs Maquinas Virtuales</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px">
+          <div style="background:rgba(13,183,237,0.1);border:1px solid rgba(13,183,237,0.3);border-radius:8px;padding:16px">
+            <div style="font-weight:700;color:var(--accent2);margin-bottom:8px"><i data-lucide="box" style="width:16px;height:16px"></i> Docker Containers</div>
+            <ul style="list-style:none;padding:0;margin:0;font-size:0.85rem;color:var(--text2)">
+              <li style="margin-bottom:4px">&#x2713; Arranque en segundos</li>
+              <li style="margin-bottom:4px">&#x2713; Peso ligero (MB)</li>
+              <li style="margin-bottom:4px">&#x2713; Comparten kernel del host</li>
+              <li style="margin-bottom:4px">&#x2713; Facil de versionar (Dockerfile)</li>
+              <li>&#x2713; Consumo minimo de recursos</li>
+            </ul>
+          </div>
+          <div style="background:rgba(255,209,102,0.1);border:1px solid rgba(255,209,102,0.3);border-radius:8px;padding:16px">
+            <div style="font-weight:700;color:#ffd166;margin-bottom:8px"><i data-lucide="server" style="width:16px;height:16px"></i> Maquinas Virtuales</div>
+            <ul style="list-style:none;padding:0;margin:0;font-size:0.85rem;color:var(--text2)">
+              <li style="margin-bottom:4px">&#x2717; Minutos en arrancar</li>
+              <li style="margin-bottom:4px">&#x2717; Peso pesado (GB)</li>
+              <li style="margin-bottom:4px">&#x2717; OS completo por VM</li>
+              <li style="margin-bottom:4px">&#x2717; Mas dificil de automatizar</li>
+              <li>&#x2717; Alto consumo de RAM/disco</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <div class="concept-desc" style="margin-bottom:12px"><strong>Comparativa de entornos de desarrollo PHP</strong></div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Caracteristica</th>
+              <th>XAMPP</th>
+              <th>Laragon</th>
+              <th>Docker</th>
+              <th>Produccion real</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Portabilidad</strong></td>
+              <td style="color:#ff6b6b">Solo Windows</td>
+              <td style="color:#ff6b6b">Solo Windows</td>
+              <td style="color:#51cf66">Cualquier OS</td>
+              <td style="color:#51cf66">Linux mayormente</td>
+            </tr>
+            <tr>
+              <td><strong>Similitud con prod</strong></td>
+              <td style="color:#ff6b6b">Baja</td>
+              <td style="color:#ffd166">Media</td>
+              <td style="color:#51cf66">Identica</td>
+              <td style="color:#51cf66">N/A</td>
+            </tr>
+            <tr>
+              <td><strong>Facilidad uso</strong></td>
+              <td style="color:#51cf66">Muy facil</td>
+              <td style="color:#51cf66">Muy facil</td>
+              <td style="color:#ffd166">Curva inicial</td>
+              <td style="color:#ff6b6b">Complejo</td>
+            </tr>
+            <tr>
+              <td><strong>Versiones PHP</strong></td>
+              <td>Una por instalacion</td>
+              <td>Cambia rapido</td>
+              <td>Cualquier version</td>
+              <td>Cualquier version</td>
+            </tr>
+            <tr>
+              <td><strong>Servicios extra</strong></td>
+              <td>Limitado</td>
+              <td>Bueno</td>
+              <td>Redis, Mongo, etc.</td>
+              <td>Todo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert alert-tip" style="margin-top:16px">
+        <span><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span>
+        <span>Docker usa el mismo kernel que el host OS. En Windows/Mac corre una VM Linux diminuta automaticamente via <strong>Docker Desktop</strong>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCKER PARA PHP -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#0db7ed,#2496ed)">2</div>
+      <div>
+        <div class="concept-title">Docker para PHP</div>
+        <div class="concept-desc">Dockerfile con extensiones esenciales, docker-compose con PHP + Apache + MySQL, y comandos para construir y ejecutar.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'dockerfile-php')">Dockerfile</button>
+        <button class="tab-btn" onclick="showTab(this,'compose-simple')">docker-compose.yml</button>
+        <button class="tab-btn" onclick="showTab(this,'docker-cmds')">Comandos</button>
+      </div>
+
+      <div id="dockerfile-php" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Dockerfile</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Imagen base oficial de PHP con Apache</span>
+<span class="kw">FROM</span> php:8.3-apache
+
+<span class="cmt"># Instalar extensiones PHP esenciales</span>
+<span class="kw">RUN</span> docker-php-ext-install pdo_mysql mbstring opcache bcmath gd
+<span class="kw">RUN</span> a2enmod rewrite
+
+<span class="cmt"># Instalar Composer desde imagen oficial</span>
+<span class="kw">COPY</span> --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+<span class="cmt"># Establecer Directorio de Trabajo</span>
+<span class="kw">WORKDIR</span> /var/www/html
+
+<span class="cmt"># Copiar el codigo de la aplicacion</span>
+<span class="kw">COPY</span> . .
+
+<span class="cmt"># Ajustar permisos</span>
+<span class="kw">RUN</span> chown -R www-data:www-data /var/www/html \
+    <span class="op">&amp;&amp;</span> chmod -R <span class="num">755</span> /var/www/html/storage
+
+<span class="cmt"># Copiar configuracion de Apache virtual host</span>
+<span class="kw">COPY</span> docker/apache.conf /etc/apache2/sites-available/000-default.conf
+
+<span class="cmt"># Puerto de la aplicacion</span>
+<span class="kw">EXPOSE</span> <span class="num">80</span>
+
+<span class="cmt"># Comando de inicio</span>
+<span class="kw">CMD</span> [<span class="str">"apache2-foreground"</span>]</pre>
+        </div>
+      </div>
+
+      <div id="compose-simple" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>docker-compose.yml</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="kw">version</span>: <span class="str">"3.9"</span>
+
+<span class="kw">services</span>:
+  <span class="cmt"># Servicio PHP con Apache</span>
+  <span class="fn">web</span>:
+    <span class="kw">build</span>: .
+    <span class="kw">ports</span>:
+      - <span class="str">"8080:80"</span>
+    <span class="kw">volumes</span>:
+      - .:/var/www/html
+    <span class="kw">depends_on</span>:
+      - db
+    <span class="kw">environment</span>:
+      - <span class="var">DB_HOST</span>=db
+      - <span class="var">DB_NAME</span>=mi_app
+      - <span class="var">DB_USER</span>=root
+      - <span class="var">DB_PASS</span>=secret
+
+  <span class="cmt"># Servicio MySQL</span>
+  <span class="fn">db</span>:
+    <span class="kw">image</span>: mysql:8.0
+    <span class="kw">ports</span>:
+      - <span class="str">"3306:3306"</span>
+    <span class="kw">environment</span>:
+      - <span class="var">MYSQL_ROOT_PASSWORD</span>=secret
+      - <span class="var">MYSQL_DATABASE</span>=mi_app
+    <span class="kw">volumes</span>:
+      - db_data:/var/lib/mysql
+
+<span class="kw">volumes</span>:
+  <span class="fn">db_data</span>:</pre>
+        </div>
+      </div>
+
+      <div id="docker-cmds" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Construir y levantar todo en segundo plano</span>
+docker compose up -d --build
+
+<span class="cmt"># Ver logs en tiempo real</span>
+docker compose logs -f web
+
+<span class="cmt"># Entrar al container PHP</span>
+docker compose exec web bash
+
+<span class="cmt"># Ejecutar composer install dentro del container</span>
+docker compose exec web composer install
+
+<span class="cmt"># Ejecutar migraciones</span>
+docker compose exec web php artisan migrate
+
+<span class="cmt"># Parar todo</span>
+docker compose down
+
+<span class="cmt"># Parar y eliminar volumenes (cuidado: borra datos)</span>
+docker compose down -v
+
+<span class="cmt"># Rebuild completo</span>
+docker compose up -d --build --force-recreate</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCKER COMPOSE COMPLETO -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#0db7ed,#2496ed)">3</div>
+      <div>
+        <div class="concept-title">Docker Compose Completo</div>
+        <div class="concept-desc">Setup multi-servicio: PHP-FPM, Nginx, MySQL, Redis y phpMyAdmin con volumenes y redes dedicadas.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <ol class="steps">
+        <li>Crea la carpeta del proyecto y el archivo <code>docker-compose.yml</code>.</li>
+        <li>Crea la carpeta <code>docker/</code> con los archivos de configuracion de Nginx y PHP.</li>
+        <li>Ejecuta <code>docker compose up -d</code> y accede en <code>http://localhost:8080</code>.</li>
+      </ol>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>docker-compose.yml — Produccion completa</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="kw">version</span>: <span class="str">"3.9"</span>
+
+<span class="kw">services</span>:
+
+  <span class="cmt"># --- PHP-FPM (procesa el codigo PHP) ---</span>
+  <span class="fn">php</span>:
+    <span class="kw">build</span>:
+      <span class="kw">context</span>: .
+      <span class="kw">dockerfile</span>: docker/Dockerfile.php
+    <span class="kw">volumes</span>:
+      - ./src:/var/www/html
+    <span class="kw">environment</span>:
+      - <span class="var">APP_ENV</span>=production
+      - <span class="var">DB_HOST</span>=mysql
+      - <span class="var">DB_PORT</span>=<span class="num">3306</span>
+      - <span class="var">DB_NAME</span>=mi_app
+      - <span class="var">DB_USER</span>=app_user
+      - <span class="var">DB_PASS</span>=<span class="str">${DB_PASSWORD}</span>
+      - <span class="var">REDIS_HOST</span>=redis
+      - <span class="var">REDIS_PORT</span>=<span class="num">6379</span>
+    <span class="kw">depends_on</span>:
+      <span class="fn">mysql</span>:
+        <span class="kw">condition</span>: service_healthy
+      <span class="fn">redis</span>:
+        <span class="kw">condition</span>: service_started
+    <span class="kw">networks</span>:
+      - backend
+
+  <span class="cmt"># --- Nginx (servidor web reverse proxy) ---</span>
+  <span class="fn">nginx</span>:
+    <span class="kw">image</span>: nginx:1.25-alpine
+    <span class="kw">ports</span>:
+      - <span class="str">"8080:80"</span>
+      - <span class="str">"8443:443"</span>
+    <span class="kw">volumes</span>:
+      - ./src:/var/www/html
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    <span class="kw">depends_on</span>:
+      - php
+    <span class="kw">networks</span>:
+      - backend
+
+  <span class="cmt"># --- MySQL 8 ---</span>
+  <span class="fn">mysql</span>:
+    <span class="kw">image</span>: mysql:8.0
+    <span class="kw">ports</span>:
+      - <span class="str">"3306:3306"</span>
+    <span class="kw">environment</span>:
+      - <span class="var">MYSQL_ROOT_PASSWORD</span>=<span class="str">${MYSQL_ROOT_PASS}</span>
+      - <span class="var">MYSQL_DATABASE</span>=mi_app
+      - <span class="var">MYSQL_USER</span>=app_user
+      - <span class="var">MYSQL_PASSWORD</span>=<span class="str">${DB_PASSWORD}</span>
+    <span class="kw">volumes</span>:
+      - mysql_data:/var/lib/mysql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    <span class="kw">healthcheck</span>:
+      <span class="kw">test</span>: [<span class="str">"CMD"</span>, <span class="str">"mysqladmin"</span>, <span class="str">"ping"</span>, <span class="str">"-h"</span>, <span class="str">"localhost"</span>]
+      <span class="kw">interval</span>: <span class="num">10s</span>
+      <span class="kw">timeout</span>: <span class="num">5s</span>
+      <span class="kw">retries</span>: <span class="num">5</span>
+    <span class="kw">networks</span>:
+      - backend
+
+  <span class="cmt"># --- Redis (cache y sesiones) ---</span>
+  <span class="fn">redis</span>:
+    <span class="kw">image</span>: redis:7-alpine
+    <span class="kw">ports</span>:
+      - <span class="str">"6379:6379"</span>
+    <span class="kw">command</span>: redis-server --requirepass <span class="str">${REDIS_PASSWORD}</span>
+    <span class="kw">volumes</span>:
+      - redis_data:/data
+    <span class="kw">networks</span>:
+      - backend
+
+  <span class="cmt"># --- phpMyAdmin (admin web de MySQL) ---</span>
+  <span class="fn">phpmyadmin</span>:
+    <span class="kw">image</span>: phpmyadmin:5
+    <span class="kw">ports</span>:
+      - <span class="str">"8081:80"</span>
+    <span class="kw">environment</span>:
+      - <span class="var">PMA_HOST</span>=mysql
+      - <span class="var">PMA_PORT</span>=<span class="num">3306</span>
+      - <span class="var">MYSQL_ROOT_PASSWORD</span>=<span class="str">${MYSQL_ROOT_PASS}</span>
+    <span class="kw">depends_on</span>:
+      - mysql
+    <span class="kw">networks</span>:
+      - backend
+
+<span class="kw">volumes</span>:
+  <span class="fn">mysql_data</span>:
+  <span class="fn">redis_data</span>:
+
+<span class="kw">networks</span>:
+  <span class="fn">backend</span>:
+    <span class="kw">driver</span>: bridge</pre>
+      </div>
+
+      <div class="code-wrap" style="margin-top:12px">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>docker/nginx.conf</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="kw">server</span> {
+    <span class="fn">listen</span> <span class="num">80</span>;
+    <span class="fn">server_name</span> localhost;
+    <span class="fn">root</span> /var/www/html/<span class="str">public</span>;
+    <span class="fn">index</span> index.php;
+
+    <span class="kw">location</span> / {
+        <span class="fn">try_files</span> <span class="var">$uri</span> <span class="var">$uri/</span> /index.php?<span class="var">$query_string</span>;
+    }
+
+    <span class="kw">location</span> ~ \.php$ {
+        <span class="fn">fastcgi_pass</span>   php:<span class="num">9000</span>;
+        <span class="fn">fastcgi_index</span>  index.php;
+        <span class="fn">fastcgi_param</span>  SCRIPT_FILENAME <span class="var">$document_root$fastcgi_script_name</span>;
+        <span class="fn">include</span>        fastcgi_params;
+    }
+}</pre>
+      </div>
+
+      <div class="code-wrap" style="margin-top:12px">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>.env (variables para Docker Compose)</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="var">MYSQL_ROOT_PASS</span>=<span class="str">RootS3cret!2024</span>
+<span class="var">DB_PASSWORD</span>=<span class="str">AppUserP@ss99</span>
+<span class="var">REDIS_PASSWORD</span>=<span class="str">RedisSecret42</span></pre>
+      </div>
+
+      <div class="alert alert-warn" style="margin-top:12px">
+        <span><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span>
+        <span>Nunca subas archivos <code>.env</code> con passwords reales a repositorios. Usa <code>.env.example</code> como plantilla y agrega <code>.env</code> al <code>.gitignore</code>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CI/CD CON GITHUB ACTIONS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#0db7ed,#2496ed)">4</div>
+      <div>
+        <div class="concept-title">CI/CD con GitHub Actions</div>
+        <div class="concept-desc">Pipeline automatico: testear, construir y desplegar tu app PHP al hacer push a main.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-info">
+        <span><i data-lucide="info" style="width:16px;height:16px"></i></span>
+        <span><strong>CI</strong> = Integracion Continua (testear automaticamente). <strong>CD</strong> = Despliegue Continuo (publicar automaticamente). GitHub Actions ejecuta workflows gratis para repos publicos.</span>
+      </div>
+
+      <ol class="steps">
+        <li>Crea la carpeta <code>.github/workflows/</code> en la raiz de tu repositorio.</li>
+        <li>Agrega el archivo <code>deploy.yml</code> con el pipeline completo.</li>
+        <li>Configura los <strong>Secrets</strong> del repositorio (Settings > Secrets) para credenciales de produccion.</li>
+        <li>Al hacer push a <code>main</code>, el workflow ejecuta tests, build y despliegue automatico.</li>
+      </ol>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>.github/workflows/deploy.yml</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="kw">name</span>: <span class="str">CI/CD Pipeline</span>
+
+<span class="kw">on</span>:
+  <span class="fn">push</span>:
+    <span class="kw">branches</span>: [ <span class="str">main</span> ]
+  <span class="fn">pull_request</span>:
+    <span class="kw">branches</span>: [ <span class="str">main</span> ]
+
+<span class="kw">env</span>:
+  <span class="var">PHP_VERSION</span>: <span class="str">"8.3"</span>
+
+<span class="kw">jobs</span>:
+
+  <span class="cmt"># ── FASE 1: Tests ──</span>
+  <span class="fn">test</span>:
+    <span class="kw">name</span>: <span class="str">PHPUnit Tests</span>
+    <span class="kw">runs-on</span>: <span class="str">ubuntu-latest</span>
+
+    <span class="kw">services</span>:
+      <span class="fn">mysql</span>:
+        <span class="kw">image</span>: <span class="str">mysql:8.0</span>
+        <span class="kw">env</span>:
+          <span class="var">MYSQL_ROOT_PASSWORD</span>: <span class="str">root</span>
+          <span class="var">MYSQL_DATABASE</span>: <span class="str">test_db</span>
+        <span class="kw">ports</span>:
+          - <span class="str">3306:3306</span>
+        <span class="kw">options</span>: <span class="str">--health-cmd="mysqladmin ping"</span>
+
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: <span class="str">actions/checkout@v4</span>
+
+      - <span class="kw">name</span>: <span class="str">Setup PHP</span>
+        <span class="kw">uses</span>: <span class="str">shivammathur/setup-php@v2</span>
+        <span class="kw">with</span>:
+          <span class="var">php-version</span>: <span class="str">${{ env.PHP_VERSION }}</span>
+          <span class="var">extensions</span>: <span class="str">pdo_mysql, mbstring, xml</span>
+          <span class="var">coverage</span>: <span class="str">xdebug</span>
+
+      - <span class="kw">name</span>: <span class="str">Install Dependencies</span>
+        <span class="kw">run</span>: <span class="str">composer install --no-progress</span>
+
+      - <span class="kw">name</span>: <span class="str">Copy .env</span>
+        <span class="kw">run</span>: <span class="str">cp .env.example .env</span>
+
+      - <span class="kw">name</span>: <span class="str">Run PHPUnit</span>
+        <span class="kw">run</span>: <span class="str">vendor/bin/phpunit --coverage-text</span>
+
+  <span class="cmt"># ── FASE 2: Build Docker ──</span>
+  <span class="fn">build</span>:
+    <span class="kw">name</span>: <span class="str">Build Image</span>
+    <span class="kw">needs</span>: <span class="str">test</span>
+    <span class="kw">runs-on</span>: <span class="str">ubuntu-latest</span>
+    <span class="kw">if</span>: <span class="str">github.ref == 'refs/heads/main'</span>
+
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: <span class="str">actions/checkout@v4</span>
+
+      - <span class="kw">name</span>: <span class="str">Build Docker Image</span>
+        <span class="kw">run</span>: <span class="str">docker build -t mi-app:${{ github.sha }} .</span>
+
+      - <span class="kw">name</span>: <span class="str">Save Image</span>
+        <span class="kw">run</span>: <span class="str">docker save mi-app:${{ github.sha }} | gzip > image.tar.gz</span>
+
+      - <span class="kw">uses</span>: <span class="str">actions/upload-artifact@v4</span>
+        <span class="kw">with</span>:
+          <span class="var">name</span>: <span class="str">docker-image</span>
+          <span class="var">path</span>: <span class="str">image.tar.gz</span>
+
+  <span class="cmt"># ── FASE 3: Deploy ──</span>
+  <span class="fn">deploy</span>:
+    <span class="kw">name</span>: <span class="str">Deploy to Server</span>
+    <span class="kw">needs</span>: <span class="str">build</span>
+    <span class="kw">runs-on</span>: <span class="str">ubuntu-latest</span>
+    <span class="kw">if</span>: <span class="str">github.ref == 'refs/heads/main'</span>
+
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: <span class="str">actions/download-artifact@v4</span>
+        <span class="kw">with</span>:
+          <span class="var">name</span>: <span class="str">docker-image</span>
+
+      - <span class="kw">name</span>: <span class="str">Deploy via SSH</span>
+        <span class="kw">uses</span>: <span class="str">appleboy/ssh-action@v1</span>
+        <span class="kw">with</span>:
+          <span class="var">host</span>: <span class="str">${{ secrets.SERVER_HOST }}</span>
+          <span class="var">username</span>: <span class="str">${{ secrets.SERVER_USER }}</span>
+          <span class="var">key</span>: <span class="str">${{ secrets.SSH_PRIVATE_KEY }}</span>
+          <span class="kw">script</span>: |
+            <span class="str">cd /var/www/mi-app</span>
+            <span class="str">docker compose down</span>
+            <span class="str">docker load < image.tar.gz</span>
+            <span class="str">docker compose up -d</span>
+            <span class="str">docker compose exec php php artisan migrate --force</span></pre>
+      </div>
+
+      <div class="alert alert-tip" style="margin-top:12px">
+        <span><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span>
+        <span>Los <strong>Secrets</strong> (<code>SERVER_HOST</code>, <code>SSH_PRIVATE_KEY</code>) se configuran en Settings > Secrets and variables > Actions. Nunca se imprimen en logs.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESPLIEGUE EN PRODUCCION -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#0db7ed,#2496ed)">5</div>
+      <div>
+        <div class="concept-title">Despliegue en Produccion</div>
+        <div class="concept-desc">Opciones de hosting, configuracion de entorno, Nginx/Apache, SSL y checklist de rendimiento.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div style="margin-bottom:16px">
+        <div class="concept-desc" style="margin-bottom:12px"><strong>Opciones de hosting PHP</strong></div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Ejemplos</th>
+              <th>Costo</th>
+              <th>Control</th>
+              <th>Ideal para</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Shared Hosting</strong></td>
+              <td>Hostinger, SiteGround</td>
+              <td>$3-15/mes</td>
+              <td style="color:#ff6b6b">Bajo</td>
+              <td>Sitios estaticos, blogs</td>
+            </tr>
+            <tr>
+              <td><strong>VPS</strong></td>
+              <td>DigitalOcean, Linode</td>
+              <td>$5-40/mes</td>
+              <td style="color:#51cf66">Total</td>
+              <td>Apps PHP completas</td>
+            </tr>
+            <tr>
+              <td><strong>Cloud Managed</strong></td>
+              <td>AWS, Google Cloud, Azure</td>
+              <td>$10-100+/mes</td>
+              <td style="color:#ffd166">Alto</td>
+              <td>Apps escalables, enterprise</td>
+            </tr>
+            <tr>
+              <td><strong>PaaS</strong></td>
+              <td>Laravel Forge, Forge Road</td>
+              <td>$12-39/mes</td>
+              <td style="color:#ffd166">Medio</td>
+              <td>Laravel, apps rapidas</td>
+            </tr>
+            <tr>
+              <td><strong>Containers</strong></td>
+              <td>DigitalOcean App, Railway</td>
+              <td>$5-25/mes</td>
+              <td style="color:#51cf66">Alto</td>
+              <td>Docker apps, microservicios</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>.env.production (ajustes clave)</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="var">APP_ENV</span>=<span class="str">production</span>
+<span class="var">APP_DEBUG</span>=<span class="str">false</span>
+<span class="var">APP_URL</span>=<span class="str">https://midominio.com</span>
+
+<span class="var">DB_CONNECTION</span>=<span class="str">mysql</span>
+<span class="var">DB_HOST</span>=<span class="str">127.0.0.1</span>
+<span class="var">DB_PORT</span>=<span class="num">3306</span>
+<span class="var">DB_DATABASE</span>=<span class="str">produccion_db</span>
+<span class="var">DB_USERNAME</span>=<span class="str">app_user</span>
+<span class="var">DB_PASSWORD</span>=<span class="str">PasswordSeguro123!</span>
+
+<span class="var">CACHE_DRIVER</span>=<span class="str">redis</span>
+<span class="var">SESSION_DRIVER</span>=<span class="str">redis</span>
+<span class="var">QUEUE_CONNECTION</span>=<span class="str">redis</span>
+
+<span class="var">MAIL_MAILER</span>=<span class="str">smtp</span>
+<span class="var">MAIL_HOST</span>=<span class="str">smtp.mailgun.org</span>
+<span class="var">MAIL_PORT</span>=<span class="num">587</span></pre>
+      </div>
+
+      <div class="code-wrap" style="margin-top:12px">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>/etc/nginx/sites-available/midominio.conf</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="kw">server</span> {
+    <span class="fn">listen</span> <span class="num">443</span> ssl http2;
+    <span class="fn">server_name</span> midominio.com;
+    <span class="fn">root</span> /var/www/mi-app/public;
+
+    <span class="cmt"># SSL — Certbot genera estos archivos</span>
+    <span class="fn">ssl_certificate</span>     /etc/letsencrypt/live/midominio.com/fullchain.pem;
+    <span class="fn">ssl_certificate_key</span> /etc/letsencrypt/live/midominio.com/privkey.pem;
+
+    <span class="fn">index</span> index.php;
+
+    <span class="cmt"># Headers de seguridad</span>
+    <span class="kw">add_header</span> X-Frame-Options <span class="str">"SAMEORIGIN"</span>;
+    <span class="kw">add_header</span> X-Content-Type-Options <span class="str">"nosniff"</span>;
+    <span class="kw">add_header</span> Strict-Transport-Security <span class="str">"max-age=31536000"</span>;
+
+    <span class="cmt"># Rutas limpias</span>
+    <span class="kw">location</span> / {
+        <span class="fn">try_files</span> <span class="var">$uri</span> <span class="var">$uri/</span> /index.php?<span class="var">$query_string</span>;
+    }
+
+    <span class="cmt"># Procesar PHP via PHP-FPM</span>
+    <span class="kw">location</span> ~ \.php$ {
+        <span class="fn">fastcgi_pass</span>  unix:/var/run/php/php8.3-fpm.sock;
+        <span class="fn">fastcgi_index</span> index.php;
+        <span class="fn">fastcgi_param</span> SCRIPT_FILENAME <span class="var">$document_root$fastcgi_script_name</span>;
+        <span class="fn">include</span>       fastcgi_params;
+    }
+
+    <span class="cmt"># Bloquear archivos sensibles</span>
+    <span class="kw">location</span> ~ /\.(ht|git|env) {
+        <span class="fn">deny</span> all;
+    }
+}
+
+<span class="cmt"># Redirect HTTP a HTTPS</span>
+<span class="kw">server</span> {
+    <span class="fn">listen</span> <span class="num">80</span>;
+    <span class="fn">server_name</span> midominio.com;
+    <span class="kw">return</span> <span class="num">301</span> https://<span class="var">$host$request_uri</span>;
+}</pre>
+      </div>
+
+      <div class="visual-box" style="margin-top:16px">
+        <div class="visual-label">Checklist de rendimiento para produccion</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;font-size:0.85rem">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#51cf66;font-size:1.1rem">&#x2611;</span> APP_DEBUG=false
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#51cf66;font-size:1.1rem">&#x2611;</span> OPcache activado
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#51cf66;font-size:1.1rem">&#x2611;</span> SSL/HTTPS activo
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#51cf66;font-size:1.1rem">&#x2611;</span> Cache Redis/Memcached
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#51cf66;font-size:1.1rem">&#x2611;</span> Compresion GZIP
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#51cf66;font-size:1.1rem">&#x2611;</span> Headers de seguridad
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#51cf66;font-size:1.1rem">&#x2611;</span> Backups automaticos
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#51cf66;font-size:1.1rem">&#x2611;</span> Monitoreo de errores
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCKER VS HOSTING TRADICIONAL -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#0db7ed,#2496ed)">6</div>
+      <div>
+        <div class="concept-title">Docker vs Hosting Tradicional</div>
+        <div class="concept-desc">Pros, contras, costo, escalabilidad y complejidad de cada enfoque.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th><i data-lucide="box" style="width:14px;height:14px"></i> Docker</th>
+            <th><i data-lucide="globe" style="width:14px;height:14px"></i> Hosting Tradicional</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Configuracion inicial</strong></td>
+            <td>Requiere aprender Dockerfile y Compose</td>
+            <td style="color:#51cf66">Panel cPanel/Plesk, instantaneo</td>
+          </tr>
+          <tr>
+            <td><strong>Reproduciibilidad</strong></td>
+            <td style="color:#51cf66">Identico en dev, test y prod</td>
+            <td style="color:#ff6b6b">"Funciona en mi maquina"</td>
+          </tr>
+          <tr>
+            <td><strong>Escalabilidad</strong></td>
+            <td style="color:#51cf66">Horizontal con Docker Swarm/K8s</td>
+            <td style="color:#ffd166">Vertical (mas RAM/CPU)</td>
+          </tr>
+          <tr>
+            <td><strong>Costo mensual</strong></td>
+            <td style="color:#51cf66">$5-20 (VPS + Docker)</td>
+            <td>$3-30 (depende del plan)</td>
+          </tr>
+          <tr>
+            <td><strong>Control total</strong></td>
+            <td style="color:#51cf66">Root access completo</td>
+            <td style="color:#ff6b6b">Limitado al panel</td>
+          </tr>
+          <tr>
+            <td><strong>Mantenimiento</strong></td>
+            <td style="color:#ffd166">Actualizas imagenes manualmente</td>
+            <td style="color:#51cf66">El hosting gestiona el server</td>
+          </tr>
+          <tr>
+            <td><strong>Velocidad despliegue</strong></td>
+            <td style="color:#51cf66">1 comando: <code>docker compose up</code></td>
+            <td style="color:#ffd166">Subir archivos via FTP/SFTP</td>
+          </tr>
+          <tr>
+            <td><strong>Complejidad</strong></td>
+            <td style="color:#ffd166">Curva de aprendizaje media</td>
+            <td style="color:#51cf66">Baja para sitios simples</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="visual-box">
+          <div class="visual-label">Usa Docker cuando...</div>
+          <ul style="list-style:none;padding:8px 0 0 0;margin:0;font-size:0.85rem;color:var(--text2)">
+            <li style="margin-bottom:6px">&#x2713; Tu equipo trabaja en multiples OS</li>
+            <li style="margin-bottom:6px">&#x2713; Necesitas entornos replicables</li>
+            <li style="margin-bottom:6px">&#x2713; Usas microservicios</li>
+            <li style="margin-bottom:6px">&#x2713; Quieres CI/CD consistente</li>
+            <li>&#x2713; La app crecera en complejidad</li>
+          </ul>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">Usa Hosting tradicional cuando...</div>
+          <ul style="list-style:none;padding:8px 0 0 0;margin:0;font-size:0.85rem;color:var(--text2)">
+            <li style="margin-bottom:6px">&#x2713; Es un sitio WordPress o estatico</li>
+            <li style="margin-bottom:6px">&#x2713; No tienes experiencia con servidores</li>
+            <li style="margin-bottom:6px">&#x2713; Presupuesto muy limitado</li>
+            <li style="margin-bottom:6px">&#x2713; Necesitas soporte tecnico incluido</li>
+            <li>&#x2713; El proyecto no crecera mucho</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert alert-tip" style="margin-top:16px">
+        <span><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span>
+        <span>Punto intermedio: usa <strong>Laravel Forge</strong> o <strong>Forge Road</strong> para desplegar en VPS sin tocar Docker. Te dan un panel sobre un VPS puro, con deploy automatico via Git.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>

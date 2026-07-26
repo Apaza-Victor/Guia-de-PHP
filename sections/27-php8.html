@@ -1,0 +1,489 @@
+<section id="php8">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag"><i data-lucide="sparkles" style="width:16px;height:16px"></i> Modulo 19</span>
+    <h2 class="section-title">Novedades de PHP 8.x</h2>
+    <p class="section-subtitle">Enums, Readonly, Fibers, Named Arguments, Match, Null Safe y tipos avanzados: todo lo que aportaron PHP 8.0 a 8.2.</p>
+  </div>
+
+  <!-- ENUMS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">1</div>
+      <div>
+        <div class="concept-title">Enums (PHP 8.1)</div>
+        <div class="concept-desc">Tipos enumerados para definir conjuntos finitos de valores constantes con comportamiento propio.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'enum-basico')">Enums basicos</button>
+        <button class="tab-btn" onclick="showTab(this,'enum-backed')">Backed Enums</button>
+        <button class="tab-btn" onclick="showTab(this,'enum-completo')">EstadoPedido</button>
+      </div>
+
+      <div id="enum-basico" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>enum.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Enum simple — cada caso es una unica instancia de la clase</span>
+<span class="kw">enum</span> <span class="fn">Color</span> {
+    <span class="kw">case</span> <span class="fn">Rojo</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Verde</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Azul</span><span class="op">;</span>
+}
+
+<span class="var">$c</span> <span class="op">=</span> <span class="fn">Color</span>::<span class="fn">Rojo</span><span class="op">;</span>
+
+<span class="kw">match</span> (<span class="var">$c</span>) {
+    <span class="fn">Color</span>::<span class="fn">Rojo</span>  <span class="op">=&gt;</span> <span class="fn">echo</span> <span class="str">"Es rojo\n"</span><span class="op">,</span>
+    <span class="fn">Color</span>::<span class="fn">Verde</span> <span class="op">=&gt;</span> <span class="fn">echo</span> <span class="str">"Es verde\n"</span><span class="op">,</span>
+    <span class="fn">Color</span>::<span class="fn">Azul</span>  <span class="op">=&gt;</span> <span class="fn">echo</span> <span class="str">"Es azul\n"</span><span class="op">,</span>
+}<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="enum-backed" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>enum-backed.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Backed enums: cada caso tiene un valor string o int</span>
+<span class="kw">enum</span> <span class="fn">Estado</span>: <span class="kw">string</span> {
+    <span class="kw">case</span> <span class="fn">Pendiente</span>  <span class="op">=</span> <span class="str">'pendiente'</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Enviado</span>    <span class="op">=</span> <span class="str">'enviado'</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Entregado</span>  <span class="op">=</span> <span class="str">'entregado'</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Cancelado</span>  <span class="op">=</span> <span class="str">'cancelado'</span><span class="op">;</span>
+}
+
+<span class="cmt">// Obtener el valor almacenado</span>
+<span class="fn">echo</span> <span class="fn">Estado</span>::<span class="fn">Enviado</span><span class="op">-&gt;</span><span class="fn">value</span><span class="op">;</span>   <span class="cmt">// enviado</span>
+<span class="fn">echo</span> <span class="fn">Estado</span>::<span class="fn">Enviado</span><span class="op">-&gt;</span><span class="fn">name</span><span class="op">;</span>    <span class="cmt">// Enviado</span>
+
+<span class="cmt">// Crear desde un valor (ideal para BD)</span>
+<span class="var">$estado</span> <span class="op">=</span> <span class="fn">Estado</span>::<span class="fn">from</span>(<span class="str">'enviado'</span>)<span class="op">;</span>
+
+<span class="cmt">// Buscar sin lanzar excepcion (devuelve null)</span>
+<span class="var">$buscado</span> <span class="op">=</span> <span class="fn">Estado</span>::<span class="fn">tryFrom</span>(<span class="str">'inexistente'</span>)<span class="op">;</span>  <span class="cmt">// null</span>
+
+<span class="cmt">// Enum con interfaz</span>
+<span class="kw">enum</span> <span class="fn">Estado</span>: <span class="kw">string</span> <span class="kw">implements</span> <span class="fn">ColorInterfaz</span> {
+    <span class="kw">case</span> <span class="fn">Pendiente</span> <span class="op">=</span> <span class="str">'pendiente'</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Entregado</span> <span class="op">=</span> <span class="str">'entregado'</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">colorHex</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="kw">match</span> (<span class="var">$this</span>) {
+            <span class="kw">self</span>::<span class="fn">Pendiente</span> <span class="op">=&gt;</span> <span class="str">'#f39c12'</span><span class="op">,</span>
+            <span class="kw">self</span>::<span class="fn">Entregado</span> <span class="op">=&gt;</span> <span class="str">'#27ae60'</span><span class="op">,</span>
+        }<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="enum-completo" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>EstadoPedido.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">enum</span> <span class="fn">EstadoPedido</span>: <span class="kw">int</span> {
+    <span class="kw">case</span> <span class="fn">Creado</span>     <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Procesando</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Enviado</span>    <span class="op">=</span> <span class="num">2</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Entregado</span>  <span class="op">=</span> <span class="num">3</span><span class="op">;</span>
+    <span class="kw">case</span> <span class="fn">Cancelado</span>  <span class="op">=</span> <span class="num">99</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">label</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="kw">match</span> (<span class="var">$this</span>) {
+            <span class="kw">self</span>::<span class="fn">Creado</span>     <span class="op">=&gt;</span> <span class="str">'Creado'</span><span class="op">,</span>
+            <span class="kw">self</span>::<span class="fn">Procesando</span> <span class="op">=&gt;</span> <span class="str">'Procesando pedido'</span><span class="op">,</span>
+            <span class="kw">self</span>::<span class="fn">Enviado</span>    <span class="op">=&gt;</span> <span class="str">'Enviado al cliente'</span><span class="op">,</span>
+            <span class="kw">self</span>::<span class="fn">Entregado</span>  <span class="op">=&gt;</span> <span class="str">'Entregado correctamente'</span><span class="op">,</span>
+            <span class="kw">self</span>::<span class="fn">Cancelado</span>  <span class="op">=&gt;</span> <span class="str">'Pedido cancelado'</span><span class="op">,</span>
+        }<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">estaActivo</span>(): <span class="kw">bool</span> {
+        <span class="kw">return</span> <span class="var">$this</span> <span class="op">!==</span> <span class="kw">self</span>::<span class="fn">Cancelado</span><span class="op">;</span>
+    }
+}
+
+<span class="var">$pedido</span> <span class="op">=</span> <span class="fn">EstadoPedido</span>::<span class="fn">from</span>(<span class="num">2</span>)<span class="op">;</span>         <span class="cmt">// EstadoPedido::Enviado</span>
+<span class="fn">echo</span> <span class="var">$pedido</span><span class="op">-&gt;</span><span class="fn">label</span>()<span class="op">;</span>                <span class="cmt">// Enviado al cliente</span>
+<span class="fn">echo</span> <span class="var">$pedido</span><span class="op">-&gt;</span><span class="fn">value</span><span class="op">;</span>                   <span class="cmt">// 2</span>
+<span class="fn">var_dump</span>(<span class="var">$pedido</span><span class="op">-&gt;</span><span class="fn">estaActivo</span>())<span class="op">;</span>      <span class="cmt">// bool(true)</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Los enums son ideales para reemplazar constantes de clase. Cada caso es un objeto con metodos, lo que permite encapsular logica junto al valor.</div>
+
+      <table class="data-table">
+        <thead><tr><th>Enums</th><th>Constantes</th></tr></thead>
+        <tbody>
+          <tr><td>Son objetos: puedes anadir metodos e implementar interfaces</td><td>Son valores simples sin comportamiento</td></tr>
+          <tr><td>Comparacion estricta por defecto</td><td>Comparacion estricta si se usa ===</td></tr>
+          <tr><td><code>::from()</code> y <code>::tryFrom()</code> para buscar por valor</td><td>No hay forma nativa de buscar por valor</td></tr>
+          <tr><td>Tipado: se puede usar como tipo de parametro o retorno</td><td>No aportan tipos ni validacion</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- READONLY -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">2</div>
+      <div>
+        <div class="concept-title">Readonly Properties y Classes (PHP 8.1 / 8.2)</div>
+        <div class="concept-desc">Propiedades que solo pueden escribirse una vez, ideal para value objects e inmutabilidad.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>readonly.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// PHP 8.1 — readonly en propiedades individuales</span>
+<span class="kw">class</span> <span class="fn">Coordenada</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">public readonly</span> <span class="kw">float</span> <span class="var">$lat</span><span class="op">,</span>
+        <span class="kw">public readonly</span> <span class="kw">float</span> <span class="var">$lng</span>
+    ) {}
+}
+
+<span class="var">$punto</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Coordenada</span>(<span class="num">40.4168</span><span class="op">,</span> <span class="num">-3.7038</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$punto</span><span class="op">-&gt;</span><span class="var">lat</span><span class="op">;</span>       <span class="cmt">// 40.4168</span>
+<span class="cmt">// $punto->lat = 0;  // Error: readonly</span>
+
+<span class="cmt">// PHP 8.2 — clase readonly completa</span>
+<span class="kw">readonly class</span> <span class="fn">Direccion</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">public string</span> <span class="var">$calle</span><span class="op">,</span>
+        <span class="kw">public string</span> <span class="var">$ciudad</span><span class="op">,</span>
+        <span class="kw">public string</span> <span class="var">$codigoPostal</span>
+    ) {}
+}
+
+<span class="var">$dir</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Direccion</span>(<span class="str">'Gran Via 1'</span><span class="op">,</span> <span class="str">'Madrid'</span><span class="op">,</span> <span class="str">'28013'</span>)<span class="op">;</span>
+<span class="cmt">// Todas las propiedades son readonly automaticamente</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Una propiedad <strong>readonly</strong> solo puede asignarse una vez (en el constructor). Cualquier intento de reasignacion lanza una excepcion. Son ideales para <strong>value objects</strong> y DTOs inmutables.</div>
+    </div>
+  </div>
+
+  <!-- FIBERS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">3</div>
+      <div>
+        <div class="concept-title">Fibers (PHP 8.1)</div>
+        <div class="concept-desc">Coroutines ligeras para programacion concurrente sin callbacks. Permiten suspender y reanudar ejecucion.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>fibers.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Una Fiber es una funcion que puede pausarse y reanudarse</span>
+<span class="var">$fiber</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Fiber</span>(<span class="kw">function</span> (<span class="kw">int</span> <span class="var">$inicio</span>): <span class="kw">int</span> {
+    <span class="fn">echo</span> <span class="str">"Fiber: empiezo con {$inicio}\n"</span><span class="op">;</span>
+
+    <span class="var">$valor</span> <span class="op">=</span> <span class="fn">Fiber</span>::<span class="fn">suspend</span>(<span class="str">'desde fiber'</span>)<span class="op">;</span>   <span class="cmt">// pausa aqui</span>
+    <span class="fn">echo</span> <span class="str">"Fiber: recibi {$valor}\n"</span><span class="op">;</span>
+
+    <span class="kw">return</span> <span class="var">$inicio</span> <span class="op">*</span> <span class="num">10</span><span class="op">;</span>
+})<span class="op">;</span>
+
+<span class="var">$resultado</span> <span class="op">=</span> <span class="var">$fiber</span><span class="op">-&gt;</span><span class="fn">start</span>(<span class="num">5</span>)<span class="op">;</span>           <span class="cmt">// Fiber: empiezo con 5</span>
+                                <span class="cmt">// se suspende</span>
+<span class="fn">echo</span> <span class="str">"Main: fiber suspendio con: {$resultado}\n"</span><span class="op">;</span>  <span class="cmt">// desde fiber</span>
+
+<span class="var">$fiber</span><span class="op">-&gt;</span><span class="fn">resume</span>(<span class="num">42</span>)<span class="op">;</span>              <span class="cmt">// reanuda con 42</span>
+                                <span class="cmt">// Fiber: recibi 42</span>
+
+<span class="fn">echo</span> <span class="str">"Main: fiber devolvio: {$fiber->getReturn()}\n"</span><span class="op">;</span>  <span class="cmt">// 50</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>fibers_practico.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Ejemplo practico: scheduler simple de tareas</span>
+<span class="kw">function</span> <span class="fn">tarea</span>(<span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$ms</span>): <span class="fn">Fiber</span> {
+    <span class="kw">return new</span> <span class="fn">Fiber</span>(<span class="kw">function</span>() <span class="kw">use</span> (<span class="var">$nombre</span><span class="op">,</span> <span class="var">$ms</span>) {
+        <span class="fn">echo</span> <span class="str">"[{$nombre}] Inicia\n"</span><span class="op">;</span>
+        <span class="fn">Fiber</span>::<span class="fn">suspend</span>()<span class="op">;</span>            <span class="cmt">// cede control al scheduler</span>
+        <span class="fn">usleep</span>(<span class="var">$ms</span> <span class="op">*</span> <span class="num">1000</span>)<span class="op">;</span>
+        <span class="fn">echo</span> <span class="str">"[{$nombre}] Termina\n"</span><span class="op">;</span>
+    })<span class="op">;</span>
+}
+
+<span class="var">$tareas</span> <span class="op">=</span> [
+    <span class="fn">tarea</span>(<span class="str">'Tarea A'</span><span class="op">,</span> <span class="num">200</span>)<span class="op">,</span>
+    <span class="fn">tarea</span>(<span class="str">'Tarea B'</span><span class="op">,</span> <span class="num">100</span>)<span class="op">,</span>
+    <span class="fn">tarea</span>(<span class="str">'Tarea C'</span><span class="op">,</span> <span class="num">300</span>)<span class="op">,</span>
+]<span class="op">;</span>
+
+<span class="cmt">// Iniciar todas las tareas</span>
+<span class="kw">foreach</span> (<span class="var">$tareas</span> <span class="kw">as</span> <span class="var">$f</span>) <span class="var">$f</span><span class="op">-&gt;</span><span class="fn">start</span>()<span class="op">;</span>
+
+<span class="cmt">// Reanudar todas las tareas</span>
+<span class="kw">foreach</span> (<span class="var">$tareas</span> <span class="kw">as</span> <span class="var">$f</span>) <span class="var">$f</span><span class="op">-&gt;</span><span class="fn">resume</span>()<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Las Fibers son <strong>coroutines ligeras</strong>: se ejecutan en el mismo thread pero pueden pausarse con <code>Fiber::suspend()</code> y reanudarse con <code>resume()</code>. Utiles en bases de datos async, colas de tareas y frameworks como Laravel.</div>
+    </div>
+  </div>
+
+  <!-- NAMED ARGUMENTS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">4</div>
+      <div>
+        <div class="concept-title">Named Arguments (PHP 8.0)</div>
+        <div class="concept-desc">Pasa argumentos por nombre en vez de por posicion. Ideal para funciones con muchos parametros opcionales.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>named-args.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Sin named arguments — debes recordar el orden exacto</span>
+<span class="fn">array_slice</span>([<span class="num">1</span><span class="op">,</span><span class="num">2</span><span class="op">,</span><span class="num">3</span><span class="op">,</span><span class="num">4</span><span class="op">,</span><span class="num">5</span>]<span class="op">,</span> <span class="num">2</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>  <span class="cmt">// [3, 4]</span>
+
+<span class="cmt">// Con named arguments — mas claro y legible</span>
+<span class="fn">array_slice</span>(
+    <span class="var">array</span>: [<span class="num">1</span><span class="op">,</span><span class="num">2</span><span class="op">,</span><span class="num">3</span><span class="op">,</span><span class="num">4</span><span class="op">,</span><span class="num">5</span>]<span class="op">,</span>
+    <span class="var">offset</span>: <span class="num">2</span><span class="op">,</span>
+    <span class="var">length</span>: <span class="num">2</span>
+)<span class="op">;</span>  <span class="cmt">// [3, 4]</span>
+
+<span class="cmt">// Funcion personalizada</span>
+<span class="kw">function</span> <span class="fn">crearUsuario</span>(
+    <span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span>
+    <span class="kw">string</span> <span class="var">$email</span><span class="op">,</span>
+    <span class="kw">string</span> <span class="var">$rol</span> <span class="op">=</span> <span class="str">'user'</span><span class="op">,</span>
+    <span class="kw">bool</span>   <span class="var">$activo</span> <span class="op">=</span> <span class="kw">true</span><span class="op">,</span>
+    <span class="kw">string</span> <span class="var">$idioma</span> <span class="op">=</span> <span class="str">'es'</span>
+): <span class="kw">array</span> {
+    <span class="kw">return</span> <span class="fn">compact</span>(<span class="str">'nombre'</span><span class="op">,</span> <span class="str">'email'</span><span class="op">,</span> <span class="str">'rol'</span><span class="op">,</span> <span class="str">'activo'</span><span class="op">,</span> <span class="str">'idioma'</span>)<span class="op">;</span>
+}
+
+<span class="cmt">// Saltar el $rol pero especificar el idioma</span>
+<span class="var">$user</span> <span class="op">=</span> <span class="fn">crearUsuario</span>(
+    <span class="var">nombre</span>: <span class="str">'Ana'</span><span class="op">,</span>
+    <span class="var">email</span>:  <span class="str">'ana@ejemplo.com'</span><span class="op">,</span>
+    <span class="var">idioma</span>: <span class="str">'en'</span>
+)<span class="op">;</span>
+<span class="fn">print_r</span>(<span class="var">$user</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-success">Array ( [nombre] => Ana [email] => ana@ejemplo.com [rol] => user [activo] => 1 [idioma] => en )</div>
+      </div>
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Los named arguments te permiten <strong>omitir valores por defecto</strong> sin pasarlos todos en orden. Son especialmente utiles con funciones de UI, configuracion y testing.</div>
+    </div>
+  </div>
+
+  <!-- CONSTRUCTOR PROPERTY PROMOTION -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">5</div>
+      <div>
+        <div class="concept-title">Constructor Property Promotion (PHP 8.0)</div>
+        <div class="concept-desc">Declara y asigna propiedades directamente en el constructor. Menos boilerplate, mas claridad.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>antes-vs-despues.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ANTES de PHP 8.0 — mucho boilerplate</span>
+<span class="kw">class</span> <span class="fn">UsuarioAntes</span> {
+    <span class="kw">public</span> <span class="kw">string</span> <span class="var">$nombre</span><span class="op">;</span>
+    <span class="kw">public</span> <span class="kw">string</span> <span class="var">$email</span><span class="op">;</span>
+    <span class="kw">public</span> <span class="kw">string</span> <span class="var">$rol</span><span class="op">;</span>
+
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$email</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$rol</span> <span class="op">=</span> <span class="str">'user'</span>) {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">nombre</span> <span class="op">=</span> <span class="var">$nombre</span><span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">email</span> <span class="op">=</span> <span class="var">$email</span><span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">rol</span> <span class="op">=</span> <span class="var">$rol</span><span class="op">;</span>
+    }
+}
+
+<span class="cmt">// DESPUES de PHP 8.0 — conciso y limpio</span>
+<span class="kw">class</span> <span class="fn">Usuario</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(
+        <span class="kw">public readonly</span> <span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span>
+        <span class="kw">public readonly</span> <span class="kw">string</span> <span class="var">$email</span><span class="op">,</span>
+        <span class="kw">public readonly</span> <span class="kw">string</span> <span class="var">$rol</span> <span class="op">=</span> <span class="str">'user'</span><span class="op">,</span>
+    ) {}
+}
+
+<span class="var">$u</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Usuario</span>(<span class="var">nombre</span>: <span class="str">'Carlos'</span><span class="op">,</span> <span class="var">email</span>: <span class="str">'carlos@mail.com'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$u</span><span class="op">-&gt;</span><span class="var">nombre</span><span class="op">;</span>  <span class="cmt">// Carlos</span>
+<span class="fn">echo</span> <span class="var">$u</span><span class="op">-&gt;</span><span class="var">rol</span><span class="op">;</span>     <span class="cmt">// user</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> La promocion no cambia el comportamiento: solo reduce el codigo repetitivo. Puedes combinar con <code>readonly</code> para crear DTOs inmutables en una sola linea.</div>
+    </div>
+  </div>
+
+  <!-- MATCH EXPRESSION -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">6</div>
+      <div>
+        <div class="concept-title">Match Expression (PHP 8.0)</div>
+        <div class="concept-desc">Alternativa mas potente a switch: compara estrictamente, no tiene fall-through y devuelve valores.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>match.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// match: compara con ===, no hay fall-through, devuelve valor</span>
+<span class="kw">function</span> <span class="fn">statusCode</span>(<span class="kw">int</span> <span class="var">$code</span>): <span class="kw">string</span> {
+    <span class="kw">return</span> <span class="kw">match</span> (<span class="var">$code</span>) {
+        <span class="num">200</span><span class="op">,</span> <span class="num">201</span>  <span class="op">=&gt;</span> <span class="str">'Exito'</span><span class="op">,</span>
+        <span class="num">301</span>       <span class="op">=&gt;</span> <span class="str">'Redireccion permanente'</span><span class="op">,</span>
+        <span class="num">302</span>       <span class="op">=&gt;</span> <span class="str">'Redireccion temporal'</span><span class="op">,</span>
+        <span class="num">400</span>       <span class="op">=&gt;</span> <span class="str">'Peticion incorrecta'</span><span class="op">,</span>
+        <span class="num">401</span>       <span class="op">=&gt;</span> <span class="str">'No autenticado'</span><span class="op">,</span>
+        <span class="num">403</span>       <span class="op">=&gt;</span> <span class="str">'Prohibido'</span><span class="op">,</span>
+        <span class="num">404</span>       <span class="op">=&gt;</span> <span class="str">'No encontrado'</span><span class="op">,</span>
+        <span class="num">500</span>       <span class="op">=&gt;</span> <span class="str">'Error interno del servidor'</span><span class="op">,</span>
+        <span class="kw">default</span>   <span class="op">=&gt;</span> <span class="str">'Codigo desconocido'</span><span class="op">,</span>
+    }<span class="op">;</span>
+}
+
+<span class="fn">echo</span> <span class="fn">statusCode</span>(<span class="num">200</span>)<span class="op">;</span>  <span class="cmt">// Exito</span>
+<span class="fn">echo</span> <span class="fn">statusCode</span>(<span class="num">404</span>)<span class="op">;</span>  <span class="cmt">// No encontrado</span>
+
+<span class="cmt">// Comparacion estricta: 0 == "foo" es false con match</span>
+<span class="var">$x</span> <span class="op">=</span> <span class="kw">match</span>(<span class="num">0</span>) {
+    <span class="str">'foo'</span> <span class="op">=&gt;</span> <span class="str">'bar'</span><span class="op">,</span>   <span class="cmt">// NO coincide (0 !== "foo")</span>
+    <span class="num">0</span>     <span class="op">=&gt;</span> <span class="str">'cero'</span><span class="op">,</span>  <span class="cmt">// SI coincide</span>
+}<span class="op">;</span>  <span class="cmt">// "cero"</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>Caracteristica</th><th>switch</th><th>match</th></tr></thead>
+        <tbody>
+          <tr><td>Comparacion</td><td><code>==</code> (coercion de tipos)</td><td><code>===</code> (estricta)</td></tr>
+          <tr><td>Fall-through</td><td>Si (requiere break)</td><td>No (nunca)</td></tr>
+          <tr><td>Devuelve valor</td><td>No directamente</td><td>Si (es una expresion)</td></tr>
+          <tr><td>Sintaxis</td><td><code>case valor:</code></td><td><code>valor =&gt;</code></td></tr>
+          <tr><td>Comportamiento</td><td>Flujo procedural</td><td>Expresion funcional</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NULL SAFE OPERATOR -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">7</div>
+      <div>
+        <div class="concept-title">Null Safe Operator ?-> (PHP 8.0)</div>
+        <div class="concept-desc">Encadena llamadas a metodos y propiedades que pueden ser null, sin anidar comprobaciones manuales.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>nullsafe.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">Pais</span>   { <span class="kw">public</span> <span class="kw">string</span> <span class="var">$nombre</span><span class="op">;</span> }
+<span class="kw">class</span> <span class="fn">Ciudad</span>  { <span class="kw">public</span> <span class="fn">Pais</span> <span class="var">$pais</span><span class="op">;</span> }
+<span class="kw">class</span> <span class="fn">Direccion</span> { <span class="kw">public</span> <span class="fn">Ciudad</span><span class="op">|</span><span class="kw">null</span> <span class="var">$ciudad</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span> }
+<span class="kw">class</span> <span class="fn">Usuario</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">public</span> <span class="fn">Direccion</span><span class="op">|</span><span class="kw">null</span> <span class="var">$direccion</span> <span class="op">=</span> <span class="kw">null</span>) {}
+}
+
+<span class="var">$user</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Usuario</span>()<span class="op">;</span>  <span class="cmt">// sin direccion</span>
+
+<span class="cmt">// SIN null safe — verbose y propenso a errores</span>
+<span class="kw">if</span> (<span class="var">$user</span><span class="op">-&gt;</span><span class="var">direccion</span> <span class="op">!==</span> <span class="kw">null</span>) {
+    <span class="kw">if</span> (<span class="var">$user</span><span class="op">-&gt;</span><span class="var">direccion</span><span class="op">-&gt;</span><span class="var">ciudad</span> <span class="op">!==</span> <span class="kw">null</span>) {
+        <span class="fn">echo</span> <span class="var">$user</span><span class="op">-&gt;</span><span class="var">direccion</span><span class="op">-&gt;</span><span class="var">ciudad</span><span class="op">-&gt;</span><span class="var">pais</span><span class="op">-&gt;</span><span class="var">nombre</span><span class="op">;</span>
+    }
+}
+
+<span class="cmt">// CON null safe — limpio y seguro</span>
+<span class="fn">echo</span> <span class="var">$user</span><span class="op">?-&gt;</span><span class="var">direccion</span><span class="op">?-&gt;</span><span class="var">ciudad</span><span class="op">?-&gt;</span><span class="var">pais</span><span class="op">?-&gt;</span><span class="var">nombre</span> <span class="op">??</span> <span class="str">'Desconocido'</span><span class="op">;</span>
+<span class="cmt">// Desconocido (sin excepciones)</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="alert alert-warn"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> Si en cualquier punto de la cadena el valor es <code>null</code>, toda la cadena se corta y devuelve <code>null</code>. Combinar con el operador de fusion nula <code>??</code> para proveer un valor por defecto.</div>
+    </div>
+  </div>
+
+  <!-- INTERSECTION & UNION TYPES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24)">8</div>
+      <div>
+        <div class="concept-title">Intersection y Union Types (PHP 8.0 / 8.1 / 8.2)</div>
+        <div class="concept-desc">Tipos avanzados: uniones (int|string), intersecciones (A&B) y DNF (8.2) para mayor precision en los tipos.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tipos-avanzados.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">interface</span> <span class="fn">Logger</span> {
+    <span class="kw">public function</span> <span class="fn">log</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span><span class="op">;</span>
+}
+
+<span class="kw">interface</span> <span class="fn">Cacheable</span> {
+    <span class="kw">public function</span> <span class="fn">getCacheKey</span>(): <span class="kw">string</span><span class="op">;</span>
+}
+
+<span class="cmt">// Union types (PHP 8.0) — el valor puede ser de 2+ tipos</span>
+<span class="kw">function</span> <span class="fn">formatoId</span>(<span class="kw">int</span><span class="op">|</span><span class="kw">string</span> <span class="var">$id</span>): <span class="kw">string</span> {
+    <span class="kw">return</span> <span class="str">"ID: {$id}"</span><span class="op">;</span>
+}
+<span class="fn">formatoId</span>(<span class="num">42</span>)<span class="op">;</span>       <span class="cmt">// OK</span>
+<span class="fn">formatoId</span>(<span class="str">'abc'</span>)<span class="op">;</span>   <span class="cmt">// OK</span>
+
+<span class="cmt">// Intersection types (PHP 8.1) — debe implementar ambas</span>
+<span class="kw">function</span> <span class="fn">registrar</span>(<span class="fn">Logger</span> <span class="op">&</span> <span class="fn">Cacheable</span> <span class="var">$servicio</span>): <span class="kw">void</span> {
+    <span class="var">$servicio</span><span class="op">-&gt;</span><span class="fn">log</span>(<span class="str">"Registrando en cache: "</span> <span class="op">.</span> <span class="var">$servicio</span><span class="op">-&gt;</span><span class="fn">getCacheKey</span>())<span class="op">;</span>
+}
+
+<span class="cmt">// DNF types (PHP 8.2) — combina union e interseccion</span>
+<span class="kw">function</span> <span class="fn">procesar</span>((<span class="fn">Logger</span> <span class="op">&</span> <span class="fn">Cacheable</span>)<span class="op">|</span><span class="kw">null</span> <span class="var">$svc</span>): <span class="kw">void</span> {
+    <span class="var">$svc</span><span class="op">?-&gt;</span><span class="fn">log</span>(<span class="str">'procesando'</span>)<span class="op">;</span>
+}
+
+<span class="cmt">// Ejemplo con clase concreta</span>
+<span class="kw">class</span> <span class="fn">AppLogger</span> <span class="kw">implements</span> <span class="fn">Logger</span><span class="op">,</span> <span class="fn">Cacheable</span> {
+    <span class="kw">public function</span> <span class="fn">log</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span> {
+        <span class="fn">echo</span> <span class="str">"[LOG] {$msg}\n"</span><span class="op">;</span>
+    }
+    <span class="kw">public function</span> <span class="fn">getCacheKey</span>(): <span class="kw">string</span> {
+        <span class="kw">return</span> <span class="str">'app_logger_v1'</span><span class="op">;</span>
+    }
+}
+
+<span class="fn">registrar</span>(<span class="kw">new</span> <span class="fn">AppLogger</span>())<span class="op">;</span>  <span class="cmt">// [LOG] Registrando en cache: app_logger_v1</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>Tipo</th><th>Version</th><th>Sintaxis</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>Union</td><td>PHP 8.0</td><td><code>int|string</code></td><td>Cumple al menos un tipo</td></tr>
+          <tr><td>Intersection</td><td>PHP 8.1</td><td><code>A&B</code></td><td>Cumple todos los tipos</td></tr>
+          <tr><td>DNF</td><td>PHP 8.2</td><td><code>(A&B)|null</code></td><td>Interseccion + union</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Las intersecciones son ideales para <strong>dependency injection</strong>: exigir que un objeto cumpla multiples contratos sin heredar de una clase base.</div>
+    </div>
+  </div>
+
+</div>
+</section>

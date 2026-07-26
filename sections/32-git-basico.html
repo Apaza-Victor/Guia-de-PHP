@@ -1,0 +1,544 @@
+<section id="git">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag"><i data-lucide="git-branch" style="width:16px;height:16px"></i> Modulo 24</span>
+    <h2 class="section-title">Git Basico para PHP</h2>
+    <p class="section-subtitle">Domina el control de versiones con Git: comandos esenciales, branches, remotos y flujos de trabajo para equipos PHP.</p>
+  </div>
+
+  <!-- QUE ES GIT -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#f05033,#e44d26)">1</div>
+      <div>
+        <div class="concept-title">Que es Git</div>
+        <div class="concept-desc">Sistema de control de versiones distribuido, el estandar absoluto en desarrollo de software.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Git registra cada cambio en tu codigo como un "snapshot" (commit), permitiendo viajar en el tiempo, comparar versiones y colaborar sin conflictos.</div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Conceptos clave</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Conceptos fundamentales de Git</span>
+
+<span class="op">Repositorio (repo)</span>   <span class="cmt">→ Carpeta controlada por Git (.git)</span>
+<span class="op">Commit</span>               <span class="cmt">→ Snapshot del proyecto en un punto del tiempo</span>
+<span class="op">Branch</span>               <span class="cmt">→ Linea de desarrollo paralela (aislada)</span>
+<span class="op">Merge</span>                <span class="cmt">→ Unir dos branches en una sola</span>
+<span class="op">Remote</span>               <span class="cmt">→ Repositorio en linea (GitHub, GitLab)</span>
+<span class="op">Staging Area</span>         <span class="cmt">→ Zona intermedia para preparar el commit</span>
+<span class="op">Working Directory</span>    <span class="cmt">→ Tus archivos editados en disco</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Comparacion: Git vs SVN vs Sin control</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="op">Caracteristica        │  Git           │  SVN          │  Sin control</span>
+──────────────────────┼────────────────┼───────────────┼──────────────
+<span class="fn">Tipo</span>                  │  Distribuido   │  Centralizado │  N/A
+<span class="fn">Velocidad</span>             │  Muy rapida    │  Lenta (red)  │  Rapida
+<span class="fn">Commits offline</span>       │  Si            │  No           │  N/A
+<span class="fn">Branching</span>             │  Liviano       │  Costoso      │  N/A
+<span class="fn">Merge</span>                 │  Automatico    │  Manual       │  N/A
+<span class="fn">Historial</span>             │  Completo      │  Por revision │  N/A
+<span class="fn">Comunidad/Ecosistema</span> │  Mas grande    │  Pequena      │  N/A
+<span class="fn">Uso en PHP moderno</span>    │  <span class="str">Estandar</span>      │  Obsoleto     │  Peligroso</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTALACION Y CONFIGURACION -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#f05033,#e44d26)">2</div>
+      <div>
+        <div class="concept-title">Instalacion y Configuracion</div>
+        <div class="concept-desc">Instala Git en tu sistema y configura tu entorno para empezar a trabajar.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'git-install')">Instalacion</button>
+        <button class="tab-btn" onclick="showTab(this,'git-config')">Configuracion</button>
+        <button class="tab-btn" onclick="showTab(this,'gitignore-php')">.gitignore PHP</button>
+      </div>
+
+      <div id="git-install" class="tab-content active">
+        <ol class="steps">
+          <li><strong>Windows:</strong> Descarga desde <code style="color:var(--accent2)">git-scm.com</code> — ejecuta el instalador y acepta las opciones por defecto.</li>
+          <li><strong>Mac:</strong> Ejecuta <code>brew install git</code> o instala <strong>Xcode Command Line Tools</strong>.</li>
+          <li><strong>Linux (Debian/Ubuntu):</strong> Ejecuta <code>sudo apt install git</code></li>
+          <li>Verifica la instalacion con <code>git --version</code>.</li>
+        </ol>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Verificar instalacion</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Verificar que Git esta instalado</span>
+git --version
+<span class="cmt"># git version 2.44.0.windows.1</span>
+
+<span class="cmt"># Inicializar un repositorio en tu proyecto PHP</span>
+<span class="kw">cd</span> mi-proyecto-php
+git init
+<span class="cmt"># Initialized empty Git repository in C:/mi-proyecto-php/.git/</span>
+
+<span class="cmt"># Ver el estado actual</span>
+git status
+<span class="cmt"># On branch master — No commits yet</span></pre>
+        </div>
+      </div>
+
+      <div id="git-config" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Configuracion global</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Configuracion obligatoria — identidad del autor</span>
+git config --global user.name <span class="str">"Tu Nombre"</span>
+git config --global user.email <span class="str">"tu@email.com"</span>
+
+<span class="cmt"># Configuracion recomendada</span>
+git config --global core.editor <span class="str">"code --wait"</span>     <span class="cmt"># VS Code como editor</span>
+git config --global init.defaultBranch <span class="str">"main"</span>      <span class="cmt"># Rama principal: main</span>
+git config --global core.autocrlf <span class="str">true</span>             <span class="cmt"># Windows: saltos de linea</span>
+
+<span class="cmt"># Configuracion de colores</span>
+git config --global color.ui <span class="str">auto</span>
+
+<span class="cmt"># Alias utiles</span>
+git config --global alias.st <span class="str">"status"</span>
+git config --global alias.co <span class="str">"checkout"</span>
+git config --global alias.br <span class="str">"branch"</span>
+git config --global alias.cm <span class="str">"commit -m"</span>
+git config --global alias.lg <span class="str">"log --oneline --graph --all"</span>
+
+<span class="cmt"># Ver toda la configuracion</span>
+git config --list</pre>
+        </div>
+      </div>
+
+      <div id="gitignore-php" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>.gitignore — Completo para proyecto PHP</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># === Dependencias ===</span>
+/vendor/
+composer.lock
+
+<span class="cmt"># === Variables de entorno ===</span>
+.env
+.env.local
+.env.production
+.env.*.local
+
+<span class="cmt"># === Archivos de sistema ===</span>
+.DS_Store
+Thumbs.db
+desktop.ini
+
+<span class="cmt"># === IDE y editores ===</span>
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+.project
+.buildpath
+
+<span class="cmt"># === Logs y temporal ===</span>
+*.log
+/storage/logs/*
+!storage/logs/.gitkeep
+*.cache
+*.tmp
+
+<span class="cmt"># === Compilados y build ===</span>
+/node_modules/
+/public/build/
+/public/hot
+mix-manifest.json
+
+<span class="cmt"># === PHP specific ===</span>
+*.phar
+phpunit.xml
+.phpunit.result.cache
+.php-cs-fixer.cache
+.phpstan/
+
+<span class="cmt"># === Subida de archivos ===</span>
+/public/uploads/*
+!public/uploads/.gitkeep
+
+<span class="cmt"># === Base de datos ===</span>
+*.sql
+*.sqlite</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMANDOS BASICOS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#f05033,#e44d26)">3</div>
+      <div>
+        <div class="concept-title">Comandos Basicos</div>
+        <div class="concept-desc">Los comandos que usaras todos los dias: agregar, commitear, ver historial y diferencias.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'git-flujo')">Flujo basico</button>
+        <button class="tab-btn" onclick="showTab(this,'git-historial')">Historial</button>
+        <button class="tab-btn" onclick="showTab(this,'git-stash')">Stash</button>
+      </div>
+
+      <div id="git-flujo" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Flujo basico de trabajo</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># 1. Ver que archivos han cambiado</span>
+git status
+<span class="cmt"># modified:   src/Controllers/AuthController.php
+# new file:   src/Models/Producto.php
+# deleted:    src/Legacy/OldHelper.php</span>
+
+<span class="cmt"># 2. Agregar archivos al staging</span>
+git add src/Models/Producto.php            <span class="cmt"># un archivo</span>
+git add src/Controllers/                  <span class="cmt"># carpeta entera</span>
+git add -A                                <span class="cmt"># todo (archivos nuevos + modificados)</span>
+git add -p                                <span class="cmt"># interactiva: elegir partes del archivo</span>
+
+<span class="cmt"># 3. Commitear con mensaje descriptivo</span>
+git commit -m <span class="str">"feat: agregar modelo Producto con validacion"</span>
+
+<span class="cmt"># 4. Ver el historial de commits</span>
+git log --oneline -5
+<span class="cmt"># a1b2c3d feat: agregar modelo Producto
+# f4e5d6c fix: corregir login redirect
+# 9a8b7c6 chore: actualizar dependencias
+# d3e2f1a docs: agregar README
+# b0c1d2e feat: sistema de autenticacion</span></pre>
+        </div>
+      </div>
+
+      <div id="git-historial" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Explorar historial y diferencias</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Ver historial detallado</span>
+git log
+git log --oneline --graph --all    <span class="cmt"># grafico compacto</span>
+git log --author=<span class="str">"Ana"</span>             <span class="cmt"># commits de un autor</span>
+git log --since=<span class="str">"2 days ago"</span>       <span class="cmt"># ultimos 2 dias</span>
+git log -p src/Controllers/        <span class="cmt"># cambios en una carpeta</span>
+
+<span class="cmt"># Comparar archivos (working vs staging)</span>
+git diff                             <span class="cmt"># todos los cambios sin agregar</span>
+git diff --staged                    <span class="cmt"># cambios ya en staging</span>
+git diff main..feature-auth          <span class="cmt"># diferencia entre ramas</span>
+git diff a1b2c3d f4e5d6c            <span class="cmt"># entre dos commits</span>
+
+<span class="cmt"># Ver un commit especifico</span>
+git show a1b2c3d                     <span class="cmt"># ver commit completo</span>
+git show a1b2c3d:src/Models/Producto.php  <span class="cmt"># archivo en ese commit</span>
+
+<span class="cmt"># Ver historial de un archivo</span>
+git log --follow src/Models/Producto.php</pre>
+        </div>
+        <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Usa <code>git log --oneline --graph --all</code> como alias: <code>git config --global alias.lg "log --oneline --graph --all"</code>. Ahora solo escribe <code>git lg</code>.</div>
+      </div>
+
+      <div id="git-stash" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Stash: guardar cambios temporalmente</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt"># Guardar cambios sin commitear (comoDraft)</span>
+git stash
+<span class="cmt"># Saved working directory index state:
+# WIP on main: a1b2c3d feat: agregar modelo</span>
+
+<span class="cmt"># Ver lista de stash</span>
+git stash list
+<span class="cmt"># stash@{0}: WIP on main: a1b2c3d
+# stash@{1}: On feature: fix temporal</span>
+
+<span class="cmt"># Recuperar el stash mas reciente</span>
+git stash pop
+
+<span class="cmt"># Recuperar sin eliminar el stash</span>
+git stash apply stash@{0}
+
+<span class="cmt"># Guardar con descripcion</span>
+git stash push -m <span class="str">"cambios pendientes en auth"</span>
+
+<span class="cmt"># Eliminar un stash</span>
+git stash drop stash@{0}
+
+<span class="cmt"># Limpiar todos los stash</span>
+git stash clear</pre>
+        </div>
+        <div class="alert alert-warn"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> <strong>Stash no es un backup.</strong> Solo es para cambios temporales. Siempre haz commit antes de cambiar de branch.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRANCHES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#f05033,#e44d26)">4</div>
+      <div>
+        <div class="concept-title">Branches</div>
+        <div class="concept-desc">Trabaja en paralelo sin afectar la rama principal: crear, cambiar y fusionar ramas.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Comandos de branches</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Listar ramas</span>
+git branch                    <span class="cmt"># solo locales</span>
+git branch -a                 <span class="cmt"># locales + remotas</span>
+git branch -v                 <span class="cmt"># con ultimo commit</span>
+
+<span class="cmt"># Crear y cambiar a una nueva rama</span>
+git checkout -b feature/carrinho
+<span class="cmt"># Switched to a new branch 'feature/carrinho'</span>
+
+<span class="cmt"># Equivalente con git switch (mas moderno)</span>
+git switch -c feature/carrinho
+
+<span class="cmt"># Volver a main</span>
+git switch main
+
+<span class="cmt"># Fusionar una rama en la actual</span>
+git switch main
+git merge feature/carrinho
+
+<span class="cmt"># Eliminar rama (ya fusionada)</span>
+git branch -d feature/carrinho
+
+<span class="cmt"># Eliminar rama remota</span>
+git push origin --delete feature/carrinho</pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">Flujo de branches (texto)</div>
+        <pre style="margin:0;background:transparent;border:none;color:var(--text)">
+<span class="str">main</span>        ───●─────────────●─────────────●───
+                │             ↑             ↑
+<span class="fn">feature</span>      ──●───●───●───┘             │
+                                        │
+<span class="kw">hotfix</span>        ──────────────────────────●───┘</pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Resolver conflictos de merge</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Intentar fusionar — conflicto detectado</span>
+git merge feature/carrinho
+<span class="cmt"># CONFLICT (content): Merge conflict in src/Controllers/Carrito.php
+# Automatic merge failed; fix conflicts and then commit.</span>
+
+<span class="cmt"># Ver archivos con conflicto</span>
+git status
+<span class="cmt"># both modified: src/Controllers/Carrito.php</span>
+
+<span class="cmt"># Abrir el archivo y buscar los conflictos:</span>
+<span class="op">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span>
+<span class="fn">$items = $this-&gt;obtenerItems();</span>         <span class="cmt">&lt;── tu version (main)</span>
+<span class="op">=======</span>
+<span class="fn">$items = $this-&gt;carrito-&gt;getItems();</span>    <span class="cmt">&lt;── version de feature</span>
+<span class="op">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/carrinho</span>
+
+<span class="cmt"># Editar: dejar la version correcta, eliminar los marcadores</span>
+<span class="cmt"># Guardar y luego:</span>
+git add src/Controllers/Carrito.php
+git commit -m <span class="str">"merge: resolver conflicto en CarritoController"</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRABAJO CON REMOTOS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#f05033,#e44d26)">5</div>
+      <div>
+        <div class="concept-title">Trabajo con Remotos</div>
+        <div class="concept-desc">Conecta tu repositorio local con GitHub, GitLab o cualquier servidor remoto.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Clonar y primer push</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># === CLONAR un repositorio existente ===</span>
+git clone https://github.com/usuario/mi-proyecto-php.git
+<span class="cmt"># Cloning into 'mi-proyecto-php'...</span>
+<span class="kw">cd</span> mi-proyecto-php
+
+<span class="cmt"># === Crear repo local y subir por primera vez ===</span>
+git init
+git add -A
+git commit -m <span class="str">"feat: initial commit"</span>
+git branch -M main
+
+<span class="cmt"># Agregar remoto (reemplaza con tu URL)</span>
+git remote add origin https://github.com/tu-usuario/mi-proyecto-php.git
+
+<span class="cmt"># Subir al remoto</span>
+git push -u origin main
+<span class="cmt"># -u = tracking: la proxima vez solo git push</span>
+
+<span class="cmt"># === Sincronizar con el remoto ===</span>
+git pull origin main           <span class="cmt"># traer + fusionar cambios remotos</span>
+git fetch origin               <span class="cmt"># solo descargar (no fusiona)</span>
+git push                       <span class="cmt"># subir commits al remoto</span>
+
+<span class="cmt"># Ver remotos configurados</span>
+git remote -v</pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal — Flujo con fork (GitHub/GitLab)</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># 1. Hacer fork del repositorio original en GitHub</span>
+
+<span class="cmt"># 2. Clonar TU fork</span>
+git clone https://github.com/TU-USUARIO/proyecto.git
+<span class="kw">cd</span> proyecto
+
+<span class="cmt"># 3. Agregar el repositorio original como "upstream"</span>
+git remote add upstream https://github.com/original/proyecto.git
+
+<span class="cmt"># 4. Crear feature branch</span>
+git checkout -b feature/nuevo-metodo
+
+<span class="cmt"># 5. Hacer cambios y commitear</span>
+git add -A
+git commit -m <span class="str">"feat: implementar nuevo metodo de pago"</span>
+
+<span class="cmt"># 6. Subir a tu fork</span>
+git push origin feature/nuevo-metodo
+
+<span class="cmt"># 7. Crear Pull Request desde GitHub</span>
+
+<span class="cmt"># 8. Mantener tu fork actualizado</span>
+git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- GITFLOW Y CONVENCIONES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#f05033,#e44d26)">6</div>
+      <div>
+        <div class="concept-title">Gitflow y Convenciones</div>
+        <div class="concept-desc">Estrategias de branching y convenciones de commits para equipos profesionales.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="visual-box">
+        <div class="visual-label">Gitflow — Estrategia de ramas</div>
+        <pre style="margin:0;background:transparent;border:none;color:var(--text)">
+<span class="str">main (produccion)</span>    ●─────────●─────────────●─────────●───
+                       │         ↑             ↑         ↑
+<span class="fn">develop (integracion)</span> ●───●─────●─────●───────●─────────────
+                       │   ↑     ↑             ↑
+<span class="kw">feature/</span>              └───┘     │             │
+                                │             │
+<span class="var">release/</span>                       └───●─────┘   │
+                                        │
+<span class="op">hotfix/</span>                                 └───●─────┘</pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Gitflow en accion — Ejemplo real</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># === FLUJO COMPLETO ===</span>
+
+<span class="cmt"># 1. Nueva funcionalidad</span>
+git checkout develop
+git checkout -b feature/sistema-pagos
+<span class="cmt"># ... desarrollar, commitear ...</span>
+git checkout develop
+git merge --no-ff feature/sistema-pagos
+git push origin develop
+
+<span class="cmt"># 2. Preparar release</span>
+git checkout develop
+git checkout -b release/1.2.0
+<span class="cmt"># ... fixes finales, actualizar version ...</span>
+git checkout main
+git merge --no-ff release/1.2.0
+git tag -a v1.2.0 -m <span class="str">"Release 1.2.0: sistema de pagos"</span>
+git checkout develop
+git merge --no-ff release/1.2.0
+git push origin main --tags
+
+<span class="cmt"># 3. Hotfix (bug critico en produccion)</span>
+git checkout main
+git checkout -b hotfix/fix-login-crash
+<span class="cmt"># ... corregir bug ...</span>
+git checkout main
+git merge --no-ff hotfix/fix-login-crash
+git tag -a v1.2.1 -m <span class="str">"Hotfix: corregir crash en login"</span>
+git checkout develop
+git merge --no-ff hotfix/fix-login-crash</pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Conventional Commits — Formato estandar</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Formato: tipo(alcance): descripcion</span>
+
+<span class="str">feat(auth):</span> agregar autenticacion JWT para API
+<span class="str">feat(carrinho):</span> implementar carrito de compras
+<span class="str">fix(pagos):</span> corregir calculo de IVA en checkout
+<span class="str">fix(892):</span> resolver error 500 al subir imagen
+<span class="str">chore:</span> actualizar dependencias de Composer
+<span class="str">chore(ci):</span> configurar GitHub Actions para tests
+<span class="str">docs:</span> agregar guia de instalacion
+<span class="str">docs(api):</span> documentar endpoint /usuarios
+<span class="str">refactor(models):</span> extraer logica a ProductoService
+<span class="str">test(auth):</span> agregar tests para LoginController
+<span class="str">style:</span> aplicar PSR-12 al codigo fuente
+<span class="str">perf(db):</span> optimizar query de busqueda
+<span class="str">ci:</span> configurar pipeline de despliegue
+<span class="str">build:</span> agregar webpack para assets</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMANDOS UTILES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#f05033,#e44d26)">7</div>
+      <div>
+        <div class="concept-title">Comandos Utiles — Referencia Rapida</div>
+        <div class="concept-desc">Los 20+ comandos de Git que mas usaras, organizados por categoria.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Tabla de referencia — Comandos Git</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="op">COMANDO                        │  DESCRIPCION</span>
+───────────────────────────────┼──────────────────────────────────────
+<span class="fn">git init</span>                       │  Inicializar repositorio local
+<span class="fn">git clone &lt;url&gt;</span>               │  Clonar repositorio remoto
+<span class="fn">git add &lt;archivo&gt;</span>             │  Agregar archivo al staging
+<span class="fn">git add -A</span>                    │  Agregar todos los cambios
+<span class="fn">git commit -m "msg"</span>           │  Crear commit con mensaje
+<span class="fn">git status</span>                    │  Ver estado del working directory
+<span class="fn">git log --oneline</span>             │  Historial compacto
+<span class="fn">git log --graph --all</span>         │  Historial grafico
+<span class="fn">git diff</span>                      │  Ver cambios sin stagear
+<span class="fn">git diff --staged</span>             │  Ver cambios en staging
+<span class="fn">git show &lt;commit&gt;</span>             │  Ver detalle de un commit
+<span class="fn">git branch</span>                    │  Listar ramas locales
+<span class="fn">git branch -a</span>                 │  Listar todas las ramas
+<span class="fn">git checkout -b &lt;rama&gt;</span>        │  Crear y cambiar a nueva rama
+<span class="fn">git switch &lt;rama&gt;</span>             │  Cambiar de rama (moderno)
+<span class="fn">git merge &lt;rama&gt;</span>              │  Fusionar rama en la actual
+<span class="fn">git rebase &lt;rama&gt;</span>             │  Reaplicar commits sobre otra base
+<span class="fn">git remote add origin &lt;url&gt;</span>  │  Agregar repositorio remoto
+<span class="fn">git push -u origin main</span>       │  Subir al remoto (tracking)
+<span class="fn">git pull origin main</span>          │  Traer + fusionar cambios remotos
+<span class="fn">git fetch origin</span>              │  Descargar cambios sin fusionar
+<span class="fn">git stash</span>                     │  Guardar cambios temporalmente
+<span class="fn">git stash pop</span>                 │  Recuperar stash mas reciente
+<span class="fn">git tag -a v1.0.0</span>            │  Crear tag de version
+<span class="fn">git reset HEAD &lt;archivo&gt;</span>      │  Quitar archivo del staging
+<span class="fn">git revert &lt;commit&gt;</span>           │  Deshacer un commit (nuevo commit)
+<span class="fn">git reflog</span>                    │  Historial de acciones (recuperar)</pre>
+      </div>
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> <strong>Tip:</strong> Usa <code>git reset HEAD -- &lt;archivo&gt;</code> para sacar archivos del staging sin perder los cambios. Y <code>git reflog</code> es tu seguro de vida para recuperar commits "borrados".</div>
+    </div>
+  </div>
+
+</div>
+</section>

@@ -1,0 +1,458 @@
+<section id="rendimiento">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag"><i data-lucide="gauge" style="width:16px;height:16px"></i> Modulo 23</span>
+    <h2 class="section-title">Rendimiento y Optimizacion</h2>
+    <p class="section-subtitle">Mide, analiza y optimiza la velocidad de tus aplicaciones PHP con tecnicas profesionales.</p>
+  </div>
+
+  <!-- MEDIR RENDIMIENTO -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b894,#00cec9)">1</div>
+      <div>
+        <div class="concept-title">Medir Rendimiento</div>
+        <div class="concept-desc">No se puede optimizar lo que no se mide. Herramientas para medir tiempo y memoria.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>medir_rendimiento.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Medir tiempo de ejecucion con microtime</span>
+<span class="var">$inicio</span> <span class="op">=</span> <span class="fn">microtime</span>(<span class="kw">true</span>)<span class="op">;</span>
+
+<span class="cmt">// Simular trabajo pesado</span>
+<span class="var">$datos</span> <span class="op">=</span> <span class="fn">range</span>(<span class="num">1</span><span class="op">,</span> <span class="num">1000000</span>)<span class="op">;</span>
+<span class="var">$filtrados</span> <span class="op">=</span> <span class="fn">array_filter</span>(<span class="var">$datos</span><span class="op">,</span> <span class="kw">fn</span>(<span class="var">$n</span>) <span class="op">=&gt;</span> <span class="var">$n</span> <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>)<span class="op">;</span>
+<span class="var">$suma</span> <span class="op">=</span> <span class="fn">array_sum</span>(<span class="var">$filtrados</span>)<span class="op">;</span>
+
+<span class="var">$fin</span> <span class="op">=</span> <span class="fn">microtime</span>(<span class="kw">true</span>)<span class="op">;</span>
+<span class="var">$memoria</span> <span class="op">=</span> <span class="fn">memory_get_usage</span>(<span class="kw">true</span>)<span class="op">;</span>
+<span class="var">$memoria_peak</span> <span class="op">=</span> <span class="fn">memory_get_peak_usage</span>(<span class="kw">true</span>)<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="str">"Tiempo: "</span> <span class="op">.</span> <span class="fn">round</span>((<span class="var">$fin</span> <span class="op">-</span> <span class="var">$inicio</span>) <span class="op">*</span> <span class="num">1000</span><span class="op">,</span> <span class="num">2</span>) <span class="op">.</span> <span class="str">" ms\n"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Memoria actual: "</span> <span class="op">.</span> <span class="fn">round</span>(<span class="var">$memoria</span> <span class="op">/</span> <span class="num">1024</span>) <span class="op">.</span> <span class="str">" KB\n"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Memoria pico: "</span> <span class="op">.</span> <span class="fn">round</span>(<span class="var">$memoria_peak</span> <span class="op">/</span> <span class="num">1024</span>) <span class="op">.</span> <span class="str">" KB\n"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Usa <code>microtime(true)</code> en lugar de <code>microtime()</code> para obtener el valor como float, mas preciso para mediciones.</div>
+
+      <table class="data-table">
+        <thead><tr><th>Herramienta</th><th>Tipo</th><th>Uso principal</th><th>Instalacion</th></tr></thead>
+        <tbody>
+          <tr><td>Xdebug Profiler</td><td>Extension</td><td>Profiling completo de llamadas</td><td><code>pecl install xdebug</code></td></tr>
+          <tr><td>Blackfire.io</td><td>Extension + SaaS</td><td>Profiling visual, comparaciones</td><td><code>pecl install blackfire</code></td></tr>
+          <tr><td>microtime()</td><td>Built-in</td><td>Medicion rapida de bloques</td><td>Disponible por defecto</td></tr>
+          <tr><td>memory_get_usage()</td><td>Built-in</td><td>Uso de memoria del script</td><td>Disponible por defecto</td></tr>
+          <tr><td>Chrome DevTools</td><td>Browser</td><td>Tiempos HTTP, waterfall</td><td>En el navegador</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- OPCACHE -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b894,#00cec9)">2</div>
+      <div>
+        <div class="concept-title">OPcache</div>
+        <div class="concept-desc">Almacena bytecode precompilado en memoria para evitar leer y parsear archivos en cada peticion.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> OPcache viene habilitado por defecto en PHP 8+. Verifica con <code>php -m | findstr opcache</code> o <code>phpinfo()</code>.</div>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>php.ini — Configuracion recomendada de OPcache</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt">; ====== OPCache Configuracion de Produccion ======</span>
+
+<span class="cmt">; Activar OPcache (1=on, 0=off)</span>
+<span class="var">opcache.enable</span><span class="op">=</span><span class="num">1</span>
+
+<span class="cmt">; Memoria compartida para el bytecode (en MB)</span>
+<span class="var">opcache.memory_consumption</span><span class="op">=</span><span class="num">128</span>
+
+<span class="cmt">; Memoria para strings internas (en MB)</span>
+<span class="var">opcache.interned_strings_buffer</span><span class="op">=</span><span class="num">16</span>
+
+<span class="cmt">; Maximo numero de archivos acelerados</span>
+<span class="var">opcache.max_accelerated_files</span><span class="op">=</span><span class="num">10000</span>
+
+<span class="cmt">; Revalidar caducidad en segundos (0 = cada request en dev)</span>
+<span class="var">opcache.revalidate_freq</span><span class="op">=</span><span class="num">0</span>
+
+<span class="cmt">; Habilitar validacion rapida de cambios en archivos</span>
+<span class="var">opcache.validate_timestamps</span><span class="op">=</span><span class="num">1</span>
+
+<span class="cmt">; Compilar scripts en segundo plano al iniciar</span>
+<span class="var">opcache.enable_cli</span><span class="op">=</span><span class="num">0</span>
+
+<span class="cmt"; Si usas Composer, permite incluir archivos no registrados</span>
+<span class="var">opcache.preload</span><span class="op">=</span><span class="str">/var/www/app/preload.php</span></pre>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Verificar estado de OPcache</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Ver info basica de OPcache</span>
+<span class="var">$status</span> <span class="op">=</span> <span class="fn">opcache_get_status</span>()<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="str">"Memoria usada: "</span> <span class="op">.</span> <span class="var">$status</span>[<span class="str">'memory_usage'</span>][<span class="str">'used_memory'</span>] <span class="op">.</span> <span class="str">" bytes\n"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Scripts acelerados: "</span> <span class="op">.</span> <span class="var">$status</span>[<span class="str">'opcache_statistics'</span>][<span class="str">'num_cached_scripts'</span>] <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Hits: "</span> <span class="op">.</span> <span class="var">$status</span>[<span class="str">'opcache_statistics'</span>][<span class="str">'opcache_hit_rate'</span>] <span class="op">.</span> <span class="str">"%\n"</span><span class="op">;</span>
+
+<span class="cmt">// Invalidar cache completa (desploys)</span>
+<span class="fn">opcache_reset</span>()<span class="op">;</span>
+
+<span class="cmt">// Invalidar un archivo especifico</span>
+<span class="fn">opcache_invalidate</span>(<span class="str">'/var/www/app/src/Config/routes.php'</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+
+      <div class="alert alert-warn"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> En desarrollo, desactiva OPcache o configura <code>opcache.revalidate_freq=0</code> para ver cambios inmediatamente sin reiniciar PHP-FPM.</div>
+    </div>
+  </div>
+
+  <!-- CACHING STRATEGIES -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b894,#00cec9)">3</div>
+      <div>
+        <div class="concept-title">Estrategias de Caching</div>
+        <div class="concept-desc">Almacena resultados costosos para reutilizarlos. Archivos, APCu, Redis y Memcached.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'cache-file')">File Cache</button>
+        <button class="tab-btn" onclick="showTab(this,'cache-apcu')">APCu</button>
+        <button class="tab-btn" onclick="showTab(this,'cache-redis')">Redis</button>
+      </div>
+
+      <div id="cache-file" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>cache_archivo.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">function</span> <span class="fn">cache_get</span>(<span class="kw">string</span> <span class="var">$key</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$ttl</span> <span class="op">=</span> <span class="num">3600</span>): <span class="op">?</span><span class="kw">array</span> {
+    <span class="var">$file</span> <span class="op">=</span> <span class="str">"cache/{$key}.cache"</span><span class="op">;</span>
+    <span class="kw">if</span> (<span class="fn">file_exists</span>(<span class="var">$file</span>) <span class="op">&amp;&amp;</span> <span class="fn">time</span>() <span class="op">-</span> <span class="fn">filemtime</span>(<span class="var">$file</span>) <span class="op">&lt;</span> <span class="var">$ttl</span>) {
+        <span class="kw">return</span> <span class="fn">unserialize</span>(<span class="fn">file_get_contents</span>(<span class="var">$file</span>))<span class="op">;</span>
+    }
+    <span class="kw">return null</span><span class="op">;</span>
+}
+
+<span class="kw">function</span> <span class="fn">cache_set</span>(<span class="kw">string</span> <span class="var">$key</span><span class="op">,</span> <span class="kw">mixed</span> <span class="var">$data</span>): <span class="kw">void</span> {
+    <span class="fn">file_put_contents</span>(<span class="str">"cache/{$key}.cache"</span><span class="op">,</span> <span class="fn">serialize</span>(<span class="var">$data</span>))<span class="op">;</span>
+}
+
+<span class="cmt">// Uso</span>
+<span class="var">$productos</span> <span class="op">=</span> <span class="fn">cache_get</span>(<span class="str">'productos_top'</span><span class="op">,</span> <span class="num">1800</span>)<span class="op">;</span>
+<span class="kw">if</span> (<span class="var">$productos</span> <span class="op">===</span> <span class="kw">null</span>) {
+    <span class="var">$productos</span> <span class="op">=</span> <span class="fn">obtenerProductosTop</span>()<span class="op">;</span>  <span class="cmt">// consulta BD</span>
+    <span class="fn">cache_set</span>(<span class="str">'productos_top'</span><span class="op">,</span> <span class="var">$productos</span>)<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="cache-apcu" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>cache_apcu.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// APCu: almacenamiento en memoria compartido del servidor</span>
+<span class="cmt">// Requiere extension: pecl install apcu</span>
+
+<span class="cmt">// Guardar en cache (clave, valor, TTL en segundos)</span>
+<span class="fn">apcu_store</span>(<span class="str">'usuario:42'</span><span class="op">,</span> [
+    <span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Carlos'</span><span class="op">,</span>
+    <span class="str">'email'</span>  <span class="op">=&gt;</span> <span class="str">'carlos@mail.com'</span>
+]<span class="op">,</span> <span class="num">3600</span>)<span class="op">;</span>
+
+<span class="cmt">// Obtener del cache (devuelve false si no existe)</span>
+<span class="var">$usuario</span> <span class="op">=</span> <span class="fn">apcu_fetch</span>(<span class="str">'usuario:42'</span><span class="op">,</span> <span class="var">$found</span>)<span class="op">;</span>
+<span class="kw">if</span> (<span class="op">!</span><span class="var">$found</span>) {
+    <span class="var">$usuario</span> <span class="op">=</span> <span class="fn">buscarUsuario</span>(<span class="num">42</span>)<span class="op">;</span>
+    <span class="fn">apcu_store</span>(<span class="str">'usuario:42'</span><span class="op">,</span> <span class="var">$usuario</span><span class="op">,</span> <span class="num">3600</span>)<span class="op">;</span>
+}
+
+<span class="cmt">// Eliminar una clave</span>
+<span class="fn">apcu_delete</span>(<span class="str">'usuario:42'</span>)<span class="op">;</span>
+
+<span class="cmt">// Limpiar todo el cache APCu</span>
+<span class="fn">apcu_clear_cache</span>()<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="cache-redis" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>cache_redis.php — con PhpRedis</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Extension PhpRedis (pecl install redis)</span>
+<span class="var">$redis</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Redis</span>()<span class="op">;</span>
+<span class="var">$redis</span><span class="op">-&gt;</span><span class="fn">connect</span>(<span class="str">'127.0.0.1'</span><span class="op">,</span> <span class="num">6379</span>)<span class="op">;</span>
+
+<span class="cmt">// Guardar con TTL (segundos)</span>
+<span class="var">$redis</span><span class="op">-&gt;</span><span class="fn">setex</span>(<span class="str">'productos:top'</span><span class="op">,</span> <span class="num">1800</span><span class="op">,</span> <span class="fn">json_encode</span>(<span class="var">$productos</span>))<span class="op">;</span>
+
+<span class="cmt">// Obtener</span>
+<span class="var">$data</span> <span class="op">=</span> <span class="var">$redis</span><span class="op">-&gt;</span><span class="fn">get</span>(<span class="str">'productos:top'</span>)<span class="op">;</span>
+<span class="kw">if</span> (<span class="var">$data</span>) {
+    <span class="var">$productos</span> <span class="op">=</span> <span class="fn">json_decode</span>(<span class="var">$data</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>
+} <span class="kw">else</span> {
+    <span class="var">$productos</span> <span class="op">=</span> <span class="fn">obtenerProductosTop</span>()<span class="op">;</span>
+    <span class="var">$redis</span><span class="op">-&gt;</span><span class="fn">setex</span>(<span class="str">'productos:top'</span><span class="op">,</span> <span class="num">1800</span><span class="op">,</span> <span class="fn">json_encode</span>(<span class="var">$productos</span>))<span class="op">;</span>
+}
+
+<span class="cmt">// Eliminar clave</span>
+<span class="var">$redis</span><span class="op">-&gt;</span><span class="fn">del</span>(<span class="str">'productos:top'</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>Solucion</th><th>Velocidad</th><th>Persistencia</th><th>Distribuido</th><th>Cuando usar</th></tr></thead>
+        <tbody>
+          <tr><td>File Cache</td><td>Lenta</td><td>Si (disco)</td><td>No</td><td>Proyectos pequenos, sin Redis/APCu</td></tr>
+          <tr><td>APCu</td><td>Muy rapida</td><td>No (memoria)</td><td>No (1 servidor)</td><td>Un solo servidor, datos volatiles</td></tr>
+          <tr><td>Redis</td><td>Rapida</td><td>Configurable</td><td>Si</td><td>Sesiones, colas, datos compartidos</td></tr>
+          <tr><td>Memcached</td><td>Rapida</td><td>No (memoria)</td><td>Si</td><td>Cache de objetos, sesiones distribuidas</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- OPTIMIZACION DE BD -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b894,#00cec9)">4</div>
+      <div>
+        <div class="concept-title">Optimizacion de Base de Datos</div>
+        <div class="concept-desc">Indices, EXPLAIN, consultas eficientes y conexion pooling para queries rapidas.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Antes vs Despues — Consulta optimizada</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt">-- MAL: SELECT * sin indice, sin filtro, sin limite</span>
+<span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> <span class="fn">productos</span> <span class="kw">WHERE</span> <span class="var">nombre</span> <span class="op">LIKE</span> <span class="str">'%laptop%'</span><span class="op">;</span>
+
+<span class="cmt">-- EXPLAIN muestra: ALL (scan completo de 50k filas)</span>
+<span class="cmt">-- type: ALL | key: NULL | rows: 50000</span>
+
+<span class="cmt">-- BIEN: solo columnas necesarias, indice, filtro optimo</span>
+<span class="kw">SELECT</span> <span class="var">id</span><span class="op">,</span> <span class="var">nombre</span><span class="op">,</span> <span class="var">precio</span>
+<span class="kw">FROM</span> <span class="fn">productos</span>
+<span class="kw">WHERE</span> <span class="var">nombre</span> <span class="op">LIKE</span> <span class="str">'laptop%'</span>
+<span class="kw">LIMIT</span> <span class="num">20</span><span class="op">;</span>
+
+<span class="cmt">-- Crear indice para búsquedas por nombre</span>
+<span class="kw">CREATE INDEX</span> <span class="fn">idx_productos_nombre</span> <span class="kw">ON</span> <span class="fn">productos</span>(<span class="var">nombre</span>)<span class="op">;</span>
+
+<span class="cmt">-- Composite index para filtros frecuentes</span>
+<span class="kw">CREATE INDEX</span> <span class="fn">idx_productos_cat_precio</span>
+    <span class="kw">ON</span> <span class="fn">productos</span>(<span class="var">categoria_id</span><span class="op">,</span> <span class="var">precio</span>)<span class="op">;</span>
+
+<span class="cmt">-- EXPLAIN muestra: ref (busqueda por indice)</span>
+<span class="cmt">-- type: ref | key: idx_productos_cat_precio | rows: 20</span></pre>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>conexion_pdo.php — Connection pooling</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Singleton PDO con persistent connections</span>
+<span class="kw">class</span> <span class="fn">Database</span> {
+    <span class="kw">private static</span> <span class="op">?</span><span class="fn">PDO</span> <span class="var">$instance</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+
+    <span class="kw">public static function</span> <span class="fn">getConnection</span>(): <span class="fn">PDO</span> {
+        <span class="kw">if</span> (<span class="var">self</span>::<span class="var">$instance</span> <span class="op">===</span> <span class="kw">null</span>) {
+            <span class="var">self</span>::<span class="var">$instance</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PDO</span>(
+                <span class="str">'mysql:host=localhost;dbname=tienda;charset=utf8mb4'</span><span class="op">,</span>
+                <span class="str">'root'</span><span class="op">,</span>
+                <span class="str">'pass'</span><span class="op">,</span>
+                [
+                    <span class="fn">PDO</span>::<span class="var">ATTR_ERRMODE</span>            <span class="op">=&gt;</span> <span class="fn">PDO</span>::<span class="var">ERRMODE_EXCEPTION</span><span class="op">,</span>
+                    <span class="fn">PDO</span>::<span class="var">ATTR_PERSISTENT</span>         <span class="op">=&gt;</span> <span class="kw">true</span><span class="op">,</span>   <span class="cmt">// reuse connection</span>
+                    <span class="fn">PDO</span>::<span class="var">ATTR_EMULATE_PREPARES</span>  <span class="op">=&gt;</span> <span class="kw">false</span><span class="op">,</span>  <span class="cmt">// prepared nativos</span>
+                ]
+            )<span class="op">;</span>
+        }
+        <span class="kw">return self</span>::<span class="var">$instance</span><span class="op">;</span>
+    }
+}
+
+<span class="cmt">// Uso con prepared statements</span>
+<span class="var">$pdo</span> <span class="op">=</span> <span class="fn">Database</span>::<span class="fn">getConnection</span>()<span class="op">;</span>
+<span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">'SELECT id, nombre FROM usuarios WHERE email = ?'</span>)<span class="op">;</span>
+<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="var">$email</span>])<span class="op">;</span>
+<span class="var">$usuario</span> <span class="op">=</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">fetch</span>(<span class="fn">PDO</span>::<span class="var">FETCH_ASSOC</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Usa <code>EXPLAIN SELECT ...</code> antes de cada consulta en desarrollo. Busca que <code>type</code> no sea <code>ALL</code> y que <code>key</code> no sea <code>NULL</code>.</div>
+    </div>
+  </div>
+
+  <!-- LAZY LOADING Y OPTIMIZACION DE CODIGO -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b894,#00cec9)">5</div>
+      <div>
+        <div class="concept-title">Lazy Loading y Optimizacion de Codigo</div>
+        <div class="concept-desc">Carga diferida de clases, evitar N+1 y micro-optimizaciones PHP.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Problema N+1 — Antes vs Despues</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// MAL: N+1 — 1 query para pedidos + N queries para usuario</span>
+<span class="var">$pedidos</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">query</span>(<span class="str">'SELECT * FROM pedidos LIMIT 50'</span>)-><span class="fn">fetchAll</span>()<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$pedidos</span> <span class="kw">as</span> <span class="var">$pedido</span>) {
+    <span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">'SELECT nombre FROM usuarios WHERE id = ?'</span>)<span class="op">;</span>
+    <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="var">$pedido</span>[<span class="str">'usuario_id'</span>]])<span class="op">;</span>
+    <span class="fn">echo</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">fetchColumn</span>()<span class="op">;</span>  <span class="cmt">// 51 queries totales!</span>
+}
+
+<span class="cmt">// BIEN: JOIN resuelve todo en 1 sola query</span>
+<span class="var">$pedidos</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">query</span>(<span class="str">'
+    SELECT p.id, p.total, u.nombre
+    FROM pedidos p
+    JOIN usuarios u ON u.id = p.usuario_id
+    LIMIT 50
+'</span>)-><span class="fn">fetchAll</span>()<span class="op">;</span>
+
+<span class="cmt">// 1 sola query — 50x mas rapido</span>
+<span class="kw">foreach</span> (<span class="var">$pedidos</span> <span class="kw">as</span> <span class="var">$p</span>) {
+    <span class="fn">echo</span> <span class="str">"{$p['nombre']} — $\{$p['total']}\n"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Lazy Loading de clases</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// MAL: incluir todo al inicio</span>
+<span class="kw">require_once</span> <span class="str">'lib/Logger.php'</span><span class="op">;</span>
+<span class="kw">require_once</span> <span class="str">'lib/ReportGenerator.php'</span><span class="op">;</span>
+<span class="kw">require_once</span> <span class="str">'lib/EmailSender.php'</span><span class="op">;</span>
+<span class="kw">require_once</span> <span class="str">'lib/PdfExporter.php'</span><span class="op">;</span>
+<span class="cmt">// Todas las clases se cargan aunque no se usen</span>
+
+<span class="cmt">// BIEN: lazy load solo cuando se necesitan</span>
+<span class="kw">function</span> <span class="fn">getLogger</span>(): <span class="fn">Logger</span> {
+    <span class="kw">static</span> <span class="var">$logger</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+    <span class="kw">if</span> (<span class="var">$logger</span> <span class="op">===</span> <span class="kw">null</span>) {
+        <span class="kw">require_once</span> <span class="str">'lib/Logger.php'</span><span class="op">;</span>
+        <span class="var">$logger</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Logger</span>()<span class="op">;</span>
+    }
+    <span class="kw">return</span> <span class="var">$logger</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Micro-optimizaciones PHP</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Evitar string concatenation en loops — usar array</span>
+<span class="cmt">// LENTO:</span>
+<span class="var">$html</span> <span class="op">=</span> <span class="str">''</span><span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$items</span> <span class="kw">as</span> <span class="var">$item</span>) {
+    <span class="var">$html</span> <span class="op">.=</span> <span class="str">"&lt;li&gt;{$item}&lt;/li&gt;"</span><span class="op">;</span>
+}
+
+<span class="cmt">// RAPIDO:</span>
+<span class="var">$parts</span> <span class="op">=</span> []<span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$items</span> <span class="kw">as</span> <span class="var">$item</span>) {
+    <span class="var">$parts</span>[] <span class="op">=</span> <span class="str">"&lt;li&gt;{$item}&lt;/li&gt;"</span><span class="op">;</span>
+}
+<span class="var">$html</span> <span class="op">=</span> <span class="fn">implode</span>(<span class="str">''</span><span class="op">,</span> <span class="var">$parts</span>)<span class="op">;</span>
+
+<span class="cmt">// isset() vs array_key_exists()</span>
+<span class="cmt">// isset es mas rapido (no verifica null como valor)</span>
+<span class="kw">if</span> (<span class="fn">isset</span>(<span class="var">$array</span>[<span class="str">'clave'</span>])) { }     <span class="cmt">// preferido</span>
+<span class="kw">if</span> (<span class="fn">array_key_exists</span>(<span class="str">'clave'</span><span class="op">,</span> <span class="var">$array</span>)) { }  <span class="cmt">// solo si el valor puede ser null</span>
+
+<span class="cmt">// Early returns — evita else innecesario</span>
+<span class="cmt">// MAL:</span>
+<span class="kw">function</span> <span class="fn">procesar</span>(<span class="var">$dato</span>): <span class="kw">string</span> {
+    <span class="kw">if</span> (<span class="fn">is_null</span>(<span class="var">$dato</span>)) {
+        <span class="kw">return</span> <span class="str">'vacio'</span><span class="op">;</span>
+    } <span class="kw">else</span> {
+        <span class="kw">return</span> <span class="var">$dato</span><span class="op">-&gt;</span><span class="fn">toString</span>()<span class="op">;</span>
+    }
+}
+
+<span class="cmt">// BIEN:</span>
+<span class="kw">function</span> <span class="fn">procesar</span>(<span class="var">$dato</span>): <span class="kw">string</span> {
+    <span class="kw">if</span> (<span class="fn">is_null</span>(<span class="var">$dato</span>)) <span class="kw">return</span> <span class="str">'vacio'</span><span class="op">;</span>
+    <span class="kw">return</span> <span class="var">$dato</span><span class="op">-&gt;</span><span class="fn">toString</span>()<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST DE PRODUCCION -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b894,#00cec9)">6</div>
+      <div>
+        <div class="concept-title">Checklist de Produccion</div>
+        <div class="concept-desc">Verifica cada punto antes de desplegar tu aplicacion PHP en servidor real.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="visual-box">
+        <div class="visual-label"><i data-lucide="check-circle" style="width:16px;height:16px"></i> Produccion PHP Checklist</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> OPcache activado (opcache.enable=1, memory=128MB+)</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> display_errors = Off, log_errors = On</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> error_reporting = E_ALL &amp; ~E_DEPRECATED &amp; ~E_STRICT</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> Compresion GZIP/Brotli habilitada (Apache o Nginx)</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> CDN configurado para assets estaticos (CSS, JS, imagenes)</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> Minificacion de CSS y JS activada</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> Headers de cache HTTP configurados (Cache-Control, ETag)</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> Indices de BD creados para todas las columnas en WHERE y JOIN</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> Capa de cache implementada (Redis/APCu) para queries frecuentes</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> PHP actualizado a la version LTS mas reciente (8.2+)</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> Extensiones innecesarias deshabilitadas (ej. xdebug)</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> session.gc_maxlifetime ajustado segun necesidad</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> connection persistentes activados en PDO (ATTR_PERSISTENT)</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> HTTP/2 o HTTP/3 habilitado en el servidor web</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> SSL/TLS configurado con certificados actualizados</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> rate limiting activado para endpoints publicos</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> Logs estructurados (JSON) para monitoreo</div>
+        <div class="output-success"><i data-lucide="check" style="width:14px;height:14px"></i> Profiling periódico con Blackfire o Xdebug en staging</div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>php.ini — Configuracion produccion segura</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt">; Seguridad</span>
+<span class="var">expose_php</span> <span class="op">=</span> <span class="num">Off</span>
+<span class="var">display_errors</span> <span class="op">=</span> <span class="num">Off</span>
+<span class="var">log_errors</span> <span class="op">=</span> <span class="num">On</span>
+<span class="var">error_log</span> <span class="op">=</span> <span class="str">/var/log/php_errors.log</span>
+
+<span class="cmt">; Rendimiento</span>
+<span class="var">opcache.enable</span> <span class="op">=</span> <span class="num">1</span>
+<span class="var">opcache.memory_consumption</span> <span class="op">=</span> <span class="num">128</span>
+<span class="var">opcache.max_accelerated_files</span> <span class="op">=</span> <span class="num">10000</span>
+<span class="var">opcache.revalidate_freq</span> <span class="op">=</span> <span class="num">60</span>
+
+<span class="cmt">; Compresion</span>
+<span class="var">zlib.output_compression</span> <span class="op">=</span> <span class="num">On</span>
+<span class="var">zlib.output_compression_level</span> <span class="op">=</span> <span class="num">6</span>
+
+<span class="cmt">; Sesiones</span>
+<span class="var">session.cookie_httponly</span> <span class="op">=</span> <span class="num">1</span>
+<span class="var">session.cookie_secure</span> <span class="op">=</span> <span class="num">1</span>
+<span class="var">session.use_strict_mode</span> <span class="op">=</span> <span class="num">1</span></pre>
+      </div>
+
+      <div class="alert alert-warn"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> Nunca despliegues con <code>display_errors=On</code>. Los errores se filtran en los logs, nunca en la pantalla del usuario.</div>
+    </div>
+  </div>
+
+</div>
+</section>

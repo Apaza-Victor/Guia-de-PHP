@@ -1,0 +1,597 @@
+<section id="phpunit">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag"><i data-lucide="test-tube" style="width:16px;height:16px"></i> Modulo 21</span>
+    <h2 class="section-title">Testing con PHPUnit</h2>
+    <p class="section-subtitle">Escribe tests automatizados para garantizar la calidad de tu código, detectar errores temprano y refactorizar con confianza.</p>
+  </div>
+
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">1</div>
+      <div>
+        <div class="concept-title">Que es PHPUnit</div>
+        <div class="concept-desc">El framework de testing unitario mas usado en PHP. Verifica que tu codigo funciona correctamente en cada cambio.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <p style="margin-bottom:12px;">PHPUnit ejecuta fragments de codigo (tests) que comprueban si el resultado de una funcion o clase es el esperado. Si algo cambia y rompe el comportamiento, el test falla y lo detectas al instante.</p>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'phpunit-tipos')">Tipos de tests</button>
+        <button class="tab-btn" onclick="showTab(this,'phpunit-comparacion')">Comparacion</button>
+        <button class="tab-btn" onclick="showTab(this,'phpunit-tdd')">TDD</button>
+      </div>
+
+      <div id="phpunit-tipos" class="tab-content active">
+        <table class="data-table">
+          <thead>
+            <tr><th>Tipo</th><th>Que verifica</th><th>Ejemplo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Unitario</strong></td><td>Una sola funcion o clase, aislada</td><td>Testear que <code>sumar(2,3)</code> devuelve <code>5</code></td></tr>
+            <tr><td><strong>Integracion</strong></td><td>Varias piezas trabajando juntas</td><td>Testear que un Repository guarda y lee de la BD correctamente</td></tr>
+            <tr><td><strong>Funcional</strong></td><td>Flujos completos del usuario</td><td>Testear que el login funciona de principio a fin</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="phpunit-comparacion" class="tab-content">
+        <table class="data-table">
+          <thead>
+            <tr><th>Aspecto</th><th style="color:#00b894">Con tests</th><th style="color:#d63031">Sin tests</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Mantenibilidad</td><td>Cambios seguros, refactoring rapido</td><td>Miedo a tocar codigo, bugs ocultos</td></tr>
+            <tr><td>Confianza</td><td>Sabes que funciona tras cada cambio</td><td>Esperar a que el usuario reporte errores</td></tr>
+            <tr><td>Debugging</td><td>Error localizado al instante</td><td>Horas buscando la causa del bug</td></tr>
+            <tr><td>Regresion</td><td>Nuevos bugs detectados automaticamente</td><td>Bugs viejos reaparecen sin aviso</td></tr>
+            <tr><td>Documentacion</td><td>Los tests documentan como usar el codigo</td><td>Depender de comentarios desactualizados</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="phpunit-tdd" class="tab-content">
+        <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> <strong>TDD (Test-Driven Development)</strong> — Escribir el test ANTES del codigo: 1) Escribir test que falla, 2) Escribir codigo minimo para que pase, 3) Refactorizar.</div>
+        <ol class="steps">
+          <li><strong>Red:</strong> Escribes un test para una funcionalidad que aun no existe. Falla.</li>
+          <li><strong>Green:</strong> Escribes el codigo mas simple posible para que el test pase.</li>
+          <li><strong>Refactor:</strong> Mejoras el codigo sabiendo que los tests te protegen.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">2</div>
+      <div>
+        <div class="concept-title">Instalacion y Configuracion</div>
+        <div class="concept-desc">Paso a paso para instalar PHPUnit con Composer y configurar tu proyecto.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <ol class="steps">
+        <li>Instala PHPUnit como dependencia de desarrollo: <code>composer require --dev phpunit/phpunit</code></li>
+        <li>Crea el archivo de configuracion <code>phpunit.xml</code> en la raiz del proyecto.</li>
+        <li>Crea la carpeta <code>tests/</code> para almacenar los archivos de test.</li>
+        <li>Ejecuta los tests con <code>./vendor/bin/phpunit</code>.</li>
+      </ol>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Terminal</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="cmt"># Instalar PHPUnit como dependencia de desarrollo</span>
+composer require --dev phpunit/phpunit
+
+<span class="cmt"># Verificar la instalacion</span>
+./vendor/bin/phpunit --version
+
+<span class="cmt"># Ejecutar todos los tests</span>
+./vendor/bin/phpunit
+
+<span class="cmt"># Ejecutar un archivo especifico</span>
+./vendor/bin/phpunit tests/CalculadoraTest.php</pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>phpunit.xml</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?xml</span> <span class="fn">version</span>=<span class="str">"1.0"</span> <span class="fn">encoding</span>=<span class="str">"UTF-8"</span><span class="tag">?&gt;</span>
+&lt;<span class="fn">phpunit</span>
+    <span class="fn">xmlns:xsi</span>=<span class="str">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    <span class="fn">xsi:noNamespaceSchemaLocation</span>=<span class="str">"vendor/phpunit/phpunit/phpunit.xsd"</span>
+    <span class="fn">bootstrap</span>=<span class="str">"vendor/autoload.php"</span>
+    <span class="fn">colors</span>=<span class="str">"true"</span>
+    <span class="fn">stopOnFailure</span>=<span class="str">"false"</span>
+&gt;
+    &lt;<span class="fn">testsuites</span>&gt;
+        &lt;<span class="fn">testsuite</span> <span class="fn">name</span>=<span class="str">" default"</span>&gt;
+            &lt;<span class="fn">directory</span>&gt;tests&lt;/<span class="fn">directory</span>&gt;
+        &lt;/<span class="fn">testsuite</span>&gt;
+    &lt;/<span class="fn">testsuites</span>&gt;
+
+    &lt;<span class="fn">source</span>&gt;
+        &lt;<span class="fn">include</span>&gt;
+            &lt;<span class="fn">directory</span> <span class="fn">suffix</span>=<span class="str">".php"</span>&gt;src&lt;/<span class="fn">directory</span>&gt;
+        &lt;/<span class="fn">include</span>&gt;
+    &lt;/<span class="fn">source</span>&gt;
+&lt;/<span class="fn">phpunit</span>&gt;</pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Estructura de carpetas</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre>mi-proyecto/
+├── src/
+│   └── Calculadora.php
+├── tests/
+│   └── CalculadoraTest.php
+├── phpunit.xml
+├── composer.json
+└── vendor/</pre>
+      </div>
+    </div>
+  </div>
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">3</div>
+      <div>
+        <div class="concept-title">Test Unitarios</div>
+        <div class="concept-desc">La base de todo: clases TestCase, setUp/tearDown y las aserciones mas comunes.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Cada test es un metodo que empieza con <code>test</code> o lleva la anotacion <code>@test</code>. Hereda de <code>PHPUnit\Framework\TestCase</code>.</div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'phpunit-assercciones')">Aserciones</button>
+        <button class="tab-btn" onclick="showTab(this,'phpunit-calc-test')">Calculadora Test</button>
+      </div>
+
+      <div id="phpunit-assercciones" class="tab-content active">
+        <table class="data-table">
+          <thead>
+            <tr><th>Asercion</th><th>Que comprueba</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>assertEquals($expected, $actual)</code></td><td>Que dos valores sean iguales</td></tr>
+            <tr><td><code>assertTrue($cond)</code></td><td>Que la condicion sea <code>true</code></td></tr>
+            <tr><td><code>assertFalse($cond)</code></td><td>Que la condicion sea <code>false</code></td></tr>
+            <tr><td><code>assertNull($value)</code></td><td>Que el valor sea <code>null</code></td></tr>
+            <tr><td><code>assertCount($n, $array)</code></td><td>Que un array tenga N elementos</td></tr>
+            <tr><td><code>assertContains($needle, $haystack)</code></td><td>Que un array contenga un valor</td></tr>
+            <tr><td><code>expectException($class)</code></td><td>Que se lance una excepcion</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="phpunit-calc-test" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>src/Calculadora.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">Calculadora</span> {
+    <span class="kw">public function</span> <span class="fn">sumar</span>(<span class="kw">float</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$b</span>): <span class="kw">float</span> {
+        <span class="kw">return</span> <span class="var">$a</span> <span class="op">+</span> <span class="var">$b</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">restar</span>(<span class="kw">float</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$b</span>): <span class="kw">float</span> {
+        <span class="kw">return</span> <span class="var">$a</span> <span class="op">-</span> <span class="var">$b</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">multiplicar</span>(<span class="kw">float</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$b</span>): <span class="kw">float</span> {
+        <span class="kw">return</span> <span class="var">$a</span> <span class="op">*</span> <span class="var">$b</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">dividir</span>(<span class="kw">float</span> <span class="var">$a</span><span class="op">,</span> <span class="kw">float</span> <span class="var">$b</span>): <span class="kw">float</span> {
+        <span class="kw">if</span> (<span class="var">$b</span> <span class="op">==</span> <span class="num">0</span>) {
+            <span class="kw">throw new</span> <span class="fn">InvalidArgumentException</span>(<span class="str">"No se puede dividir por cero"</span>)<span class="op">;</span>
+        }
+        <span class="kw">return</span> <span class="var">$a</span> <span class="op">/</span> <span class="var">$b</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">esPar</span>(<span class="kw">int</span> <span class="var">$n</span>): <span class="kw">bool</span> {
+        <span class="kw">return</span> <span class="var">$n</span> <span class="op">%</span> <span class="num">2</span> <span class="op">===</span> <span class="num">0</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">factorial</span>(<span class="kw">int</span> <span class="var">$n</span>): <span class="kw">int</span> {
+        <span class="kw">if</span> (<span class="var">$n</span> <span class="op">&lt;</span> <span class="num">0</span>) <span class="kw">throw new</span> <span class="fn">InvalidArgumentException</span>(<span class="str">"No existe factorial negativo"</span>)<span class="op">;</span>
+        <span class="kw">if</span> (<span class="var">$n</span> <span class="op">&lt;=</span> <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span><span class="op">;</span>
+        <span class="var">$resultado</span> <span class="op">=</span> <span class="num">1</span><span class="op">;</span>
+        <span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="num">2</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="var">$n</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) <span class="var">$resultado</span> <span class="op">*=</span> <span class="var">$i</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$resultado</span><span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tests/CalculadoraTest.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">PHPUnit\Framework\TestCase</span><span class="op">;</span>
+<span class="kw">require_once</span> <span class="fn">__DIR__</span> <span class="op">.</span> <span class="str">'/../src/Calculadora.php'</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">CalculadoraTest</span> <span class="kw">extends</span> <span class="fn">TestCase</span> {
+    <span class="kw">private</span> <span class="fn">Calculadora</span> <span class="var">$calc</span><span class="op">;</span>
+
+    <span class="kw">protected function</span> <span class="fn">setUp</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Calculadora</span>()<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testSumar_DosPositivos_RetornaSuma</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">8</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">sumar</span>(<span class="num">3</span><span class="op">,</span> <span class="num">5</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testRestar_DosValores_RetornaDiferencia</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">2</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">restar</span>(<span class="num">7</span><span class="op">,</span> <span class="num">5</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testMultiplicar_DosValores_RetornaProducto</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">15</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">multiplicar</span>(<span class="num">3</span><span class="op">,</span> <span class="num">5</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testDividir_DosValores_RetornaCociente</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">2.5</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">dividir</span>(<span class="num">5</span><span class="op">,</span> <span class="num">2</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testDividir_PorCero_LanzaExcepcion</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">expectException</span>(<span class="fn">InvalidArgumentException</span>::<span class="kw">class</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">expectExceptionMessage</span>(<span class="str">"No se puede dividir por cero"</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">dividir</span>(<span class="num">10</span><span class="op">,</span> <span class="num">0</span>)<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testEsPar_NumeroPar_RetornaTrue</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertTrue</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">esPar</span>(<span class="num">4</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testEsPar_NumeroImpar_RetornaFalse</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertFalse</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">esPar</span>(<span class="num">7</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testFactorial_Cinco_Retorna120</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">120</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">factorial</span>(<span class="num">5</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testFactorial_Negativo_LanzaExcepcion</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">expectException</span>(<span class="fn">InvalidArgumentException</span>::<span class="kw">class</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">calc</span><span class="op">-&gt;</span><span class="fn">factorial</span>(<span class="num">-3</span>)<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida: <code>./vendor/bin/phpunit tests/CalculadoraTest.php</code></div>
+          <div class="output-success">OK (9 tests, 10 assertions)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">4</div>
+      <div>
+        <div class="concept-title">Data Providers</div>
+        <div class="concept-desc">Ejecuta el mismo test con multiples conjuntos de datos sin duplicar codigo.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Un <code>@dataProvider</code> devuelve un array de arrays. Cada sub-array es un conjunto de argumentos que se pasa al test. Si un caso falla, PHPUnit lo muestra por separado.</div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>src/Validador.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">Validador</span> {
+    <span class="kw">public static function</span> <span class="fn">esEmailValido</span>(<span class="kw">string</span> <span class="var">$email</span>): <span class="kw">bool</span> {
+        <span class="kw">return</span> <span class="fn">filter_var</span>(<span class="var">$email</span><span class="op">,</span> <span class="fn">FILTER_VALIDATE_EMAIL</span>) <span class="op">!==</span> <span class="kw">false</span><span class="op">;</span>
+    }
+
+    <span class="kw">public static function</span> <span class="fn">esPasswordSeguro</span>(<span class="kw">string</span> <span class="var">$pass</span>): <span class="kw">bool</span> {
+        <span class="kw">return</span> <span class="fn">strlen</span>(<span class="var">$pass</span>) <span class="op">&gt;=</span> <span class="num">8</span>
+            <span class="op">&amp;&amp;</span> <span class="fn">preg_match</span>(<span class="str">'/[A-Z]/'</span><span class="op">,</span> <span class="var">$pass</span>)
+            <span class="op">&amp;&amp;</span> <span class="fn">preg_match</span>(<span class="str">'/[0-9]/'</span><span class="op">,</span> <span class="var">$pass</span>)<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tests/ValidadorTest.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">PHPUnit\Framework\TestCase</span><span class="op">;</span>
+<span class="kw">require_once</span> <span class="fn">__DIR__</span> <span class="op">.</span> <span class="str">'/../src/Validador.php'</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">ValidadorTest</span> <span class="kw">extends</span> <span class="fn">TestCase</span> {
+
+    <span class="cmt">/**
+     * @dataProvider emailsProvider
+     */</span>
+    <span class="kw">public function</span> <span class="fn">testEsEmailValido</span>(<span class="kw">string</span> <span class="var">$email</span><span class="op">,</span> <span class="kw">bool</span> <span class="var">$esperado</span>): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertSame</span>(<span class="var">$esperado</span><span class="op">,</span> <span class="fn">Validador</span>::<span class="fn">esEmailValido</span>(<span class="var">$email</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public static function</span> <span class="fn">emailsProvider</span>(): <span class="kw">array</span> {
+        <span class="kw">return</span> [
+            [<span class="str">'usuario@correo.com'</span><span class="op">,</span> <span class="kw">true</span>]<span class="op">,</span>
+            [<span class="str">'nombre.apellido@dominio.org'</span><span class="op">,</span> <span class="kw">true</span>]<span class="op">,</span>
+            [<span class="str">'test+tag@gmail.com'</span><span class="op">,</span> <span class="kw">true</span>]<span class="op">,</span>
+            [<span class="str">'sin_arroba.com'</span><span class="op">,</span> <span class="kw">false</span>]<span class="op">,</span>
+            [<span class="str">'@dominio.com'</span><span class="op">,</span> <span class="kw">false</span>]<span class="op">,</span>
+            [<span class="str">'usuario@'</span><span class="op">,</span> <span class="kw">false</span>]<span class="op">,</span>
+            [<span class="str">''</span><span class="op">,</span> <span class="kw">false</span>]<span class="op">,</span>
+        ]<span class="op">;</span>
+    }
+
+    <span class="cmt">/**
+     * @dataProvider passwordsProvider
+     */</span>
+    <span class="kw">public function</span> <span class="fn">testEsPasswordSeguro</span>(<span class="kw">string</span> <span class="var">$pass</span><span class="op">,</span> <span class="kw">bool</span> <span class="var">$esperado</span>): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertSame</span>(<span class="var">$esperado</span><span class="op">,</span> <span class="fn">Validador</span>::<span class="fn">esPasswordSeguro</span>(<span class="var">$pass</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public static function</span> <span class="fn">passwordsProvider</span>(): <span class="kw">array</span> {
+        <span class="kw">return</span> [
+            [<span class="str">'MiClave123'</span><span class="op">,</span> <span class="kw">true</span>]<span class="op">,</span>
+            [<span class="str">'Abcdef1!'</span><span class="op">,</span> <span class="kw">true</span>]<span class="op">,</span>
+            [<span class="str">'corto1A'</span><span class="op">,</span> <span class="kw">false</span>]<span class="op">,</span>     <span class="cmt">// menos de 8 chars</span>
+            [<span class="str">'sinmayuscula123'</span><span class="op">,</span> <span class="kw">false</span>]<span class="op">,</span> <span class="cmt">// sin mayuscula</span>
+            [<span class="str">'SINCIFRAS!!'</span><span class="op">,</span> <span class="kw">false</span>]<span class="op">,</span>  <span class="cmt">// sin numero</span>
+        ]<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-success">OK (12 tests, 12 assertions) — Cada caso del data provider cuenta como un test individual</div>
+      </div>
+    </div>
+  </div>
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">5</div>
+      <div>
+        <div class="concept-title">Mocks y Stubs</div>
+        <div class="concept-desc">Simula dependencias externas (BD, API, email) para aislar el codigo que realmente quieres testear.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'phpunit-mock-concept')">Conceptos</button>
+        <button class="tab-btn" onclick="showTab(this,'phpunit-mock-ejemplo')">Ejemplo completo</button>
+      </div>
+
+      <div id="phpunit-mock-concept" class="tab-content active">
+        <table class="data-table">
+          <thead>
+            <tr><th>Termino</th><th>Que es</th><th>Metodo PHPUnit</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Stub</strong></td><td>Devuelve datos predefinidos sin logica</td><td><code>method()->willReturn()</code></td></tr>
+            <tr><td><strong>Mock</strong></td><td>Verifica que un metodo fue llamado con ciertos argumentos</td><td><code>expects()->method()->with()</code></td></tr>
+            <tr><td><strong>Fake</strong></td><td>Implementacion simplificada (ej: BD en memoria)</td><td>Clase manual</td></tr>
+          </tbody>
+        </table>
+        <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Un <strong>stub</strong> solo devuelve valores; un <strong>mock</strong> verifica interacciones. Puedes combinar ambos en el mismo test.</div>
+      </div>
+
+      <div id="phpunit-mock-ejemplo" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>src/Services/EmailService.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">EmailService</span> {
+    <span class="kw">public function</span> <span class="fn">enviar</span>(<span class="kw">string</span> <span class="var">$para</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$asunto</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$cuerpo</span>): <span class="kw">bool</span> {
+        <span class="cmt">// Logica real: conecta con SMTP, envia correo...</span>
+        <span class="kw">return</span> <span class="kw">true</span><span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>src/Services/NotificationService.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">NotificationService</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="fn">EmailService</span> <span class="var">$email</span>) {}
+
+    <span class="kw">public function</span> <span class="fn">notificarNuevoUsuario</span>(<span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$email</span>): <span class="kw">bool</span> {
+        <span class="var">$asunto</span> <span class="op">=</span> <span class="str">"Bienvenido {$nombre}"</span><span class="op">;</span>
+        <span class="var">$cuerpo</span> <span class="op">=</span> <span class="str">"Hola {$nombre}, tu cuenta ha sido creada."</span><span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">email</span><span class="op">-&gt;</span><span class="fn">enviar</span>(<span class="var">$email</span><span class="op">,</span> <span class="var">$asunto</span><span class="op">,</span> <span class="var">$cuerpo</span>)<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tests/NotificationServiceTest.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">PHPUnit\Framework\TestCase</span><span class="op">;</span>
+<span class="kw">require_once</span> <span class="fn">__DIR__</span> <span class="op">.</span> <span class="str">'/../src/Services/EmailService.php'</span><span class="op">;</span>
+<span class="kw">require_once</span> <span class="fn">__DIR__</span> <span class="op">.</span> <span class="str">'/../src/Services/NotificationService.php'</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">NotificationServiceTest</span> <span class="kw">extends</span> <span class="fn">TestCase</span> {
+
+    <span class="kw">public function</span> <span class="fn">testNotificarNuevoUsuario_EnviaEmail</span>(): <span class="kw">void</span> {
+        <span class="cmt">// 1. Crear mock del EmailService</span>
+        <span class="var">$emailMock</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">createMock</span>(<span class="fn">EmailService</span>::<span class="kw">class</span>)<span class="op">;</span>
+
+        <span class="cmt">// 2. Definir que esperamos: que se llame a enviar() una vez</span>
+        <span class="var">$emailMock</span>
+            <span class="op">-&gt;</span><span class="fn">expects</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="fn">once</span>())
+            <span class="op">-&gt;</span><span class="fn">method</span>(<span class="str">'enviar'</span>)
+            <span class="op">-&gt;</span><span class="fn">with</span>(
+                <span class="str">'ana@correo.com'</span><span class="op">,</span>
+                <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">stringContains</span>(<span class="str">'Ana'</span>)<span class="op">,</span>
+                <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">stringContains</span>(<span class="str">'cuenta ha sido creada'</span>)
+            )
+            <span class="op">-&gt;</span><span class="fn">willReturn</span>(<span class="kw">true</span>)<span class="op">;</span>
+
+        <span class="cmt">// 3. Inyectar el mock y ejecutar</span>
+        <span class="var">$service</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">NotificationService</span>(<span class="var">$emailMock</span>)<span class="op">;</span>
+        <span class="var">$resultado</span> <span class="op">=</span> <span class="var">$service</span><span class="op">-&gt;</span><span class="fn">notificarNuevoUsuario</span>(<span class="str">'Ana'</span><span class="op">,</span> <span class="str">'ana@correo.com'</span>)<span class="op">;</span>
+
+        <span class="cmt">// 4. Verificar resultado</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertTrue</span>(<span class="var">$resultado</span>)<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">6</div>
+      <div>
+        <div class="concept-title">Tests de Integracion</div>
+        <div class="concept-desc">Verifica que tus clases funcionan correctamente con la base de datos y otros componentes reales.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-warn"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> Los tests de integracion son mas lentos que los unitarios. Usa SQLite en memoria para pruebas rapidas sin necesidad de un servidor MySQL.</div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>src/Repositories/UserRepository.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">class</span> <span class="fn">UserRepository</span> {
+    <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="fn">PDO</span> <span class="var">$db</span>) {}
+
+    <span class="kw">public function</span> <span class="fn">crearTabla</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span><span class="op">-&gt;</span><span class="fn">exec</span>(<span class="str">"CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL
+        )"</span>)<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">insertar</span>(<span class="kw">string</span> <span class="var">$nombre</span><span class="op">,</span> <span class="kw">string</span> <span class="var">$email</span>): <span class="kw">int</span> {
+        <span class="var">$stmt</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"INSERT INTO usuarios (nombre, email) VALUES (?, ?)"</span>)<span class="op">;</span>
+        <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="var">$nombre</span><span class="op">,</span> <span class="var">$email</span>])<span class="op">;</span>
+        <span class="kw">return</span> (<span class="kw">int</span>) <span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span><span class="op">-&gt;</span><span class="fn">lastInsertId</span>()<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">buscarPorEmail</span>(<span class="kw">string</span> <span class="var">$email</span>): <span class="op">?</span><span class="kw">array</span> {
+        <span class="var">$stmt</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"SELECT * FROM usuarios WHERE email = ?"</span>)<span class="op">;</span>
+        <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="var">$email</span>])<span class="op">;</span>
+        <span class="kw">return</span> <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">fetch</span>(<span class="fn">PDO</span>::<span class="fn">FETCH_ASSOC</span>) <span class="op">?:</span> <span class="kw">null</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">contar</span>(): <span class="kw">int</span> {
+        <span class="kw">return</span> (<span class="kw">int</span>) <span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span><span class="op">-&gt;</span><span class="fn">query</span>(<span class="str">"SELECT COUNT(*) FROM usuarios"</span>)<span class="op">-&gt;</span><span class="fn">fetchColumn</span>()<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tests/UserRepositoryTest.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="kw">use</span> <span class="fn">PHPUnit\Framework\TestCase</span><span class="op">;</span>
+<span class="kw">require_once</span> <span class="fn">__DIR__</span> <span class="op">.</span> <span class="str">'/../src/Repositories/UserRepository.php'</span><span class="op">;</span>
+
+<span class="kw">class</span> <span class="fn">UserRepositoryTest</span> <span class="kw">extends</span> <span class="fn">TestCase</span> {
+    <span class="kw">private</span> <span class="fn">PDO</span> <span class="var">$db</span><span class="op">;</span>
+    <span class="kw">private</span> <span class="fn">UserRepository</span> <span class="var">$repo</span><span class="op">;</span>
+
+    <span class="kw">protected function</span> <span class="fn">setUp</span>(): <span class="kw">void</span> {
+        <span class="cmt">// SQLite en memoria: se destruye al cerrar la conexion</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">PDO</span>(<span class="str">'sqlite::memory:'</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span><span class="op">-&gt;</span><span class="fn">setAttribute</span>(<span class="fn">PDO</span>::<span class="fn">ATTR_ERRMODE</span><span class="op">,</span> <span class="fn">PDO</span>::<span class="fn">ERRMODE_EXCEPTION</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">UserRepository</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">crearTabla</span>()<span class="op">;</span>
+    }
+
+    <span class="kw">protected function</span> <span class="fn">tearDown</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">db</span> <span class="op">=</span> <span class="kw">null</span><span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testInsertar_RetornaId</span>(): <span class="kw">void</span> {
+        <span class="var">$id</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">insertar</span>(<span class="str">'Carlos'</span><span class="op">,</span> <span class="str">'carlos@test.com'</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertGreaterThan</span>(<span class="num">0</span><span class="op">,</span> <span class="var">$id</span>)<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testInsertarYBuscarByEmail</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">insertar</span>(<span class="str">'Maria'</span><span class="op">,</span> <span class="str">'maria@test.com'</span>)<span class="op">;</span>
+        <span class="var">$usuario</span> <span class="op">=</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">buscarPorEmail</span>(<span class="str">'maria@test.com'</span>)<span class="op">;</span>
+
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertNotNull</span>(<span class="var">$usuario</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="str">'Maria'</span><span class="op">,</span> <span class="var">$usuario</span>[<span class="str">'nombre'</span>])<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testBuscarEmailInexistente_RetornaNull</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertNull</span>(<span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">buscarPorEmail</span>(<span class="str">'noexiste@test.com'</span>))<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testContar_RecienCreada_RetornaCero</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">0</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">contar</span>())<span class="op">;</span>
+    }
+
+    <span class="kw">public function</span> <span class="fn">testContar_DosRegistros_RetornaDos</span>(): <span class="kw">void</span> {
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">insertar</span>(<span class="str">'Ana'</span><span class="op">,</span> <span class="str">'ana@test.com'</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">insertar</span>(<span class="str">'Luis'</span><span class="op">,</span> <span class="str">'luis@test.com'</span>)<span class="op">;</span>
+        <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">2</span><span class="op">,</span> <span class="var">$this</span><span class="op">-&gt;</span><span class="var">repo</span><span class="op">-&gt;</span><span class="fn">contar</span>())<span class="op">;</span>
+    }
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-success">OK (5 tests, 6 assertions) — SQLite en memoria se crea y destruye automaticamente</div>
+      </div>
+    </div>
+  </div>
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">7</div>
+      <div>
+        <div class="concept-title">Buenas Practicas</div>
+        <div class="concept-desc">Convenciones, patron AAA y consejos para escribir tests mantenibles y efectivos.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'phpunit-naming')">Nomenclatura</button>
+        <button class="tab-btn" onclick="showTab(this,'phpunit-aaa')">Patron AAA</button>
+        <button class="tab-btn" onclick="showTab(this,'phpunit-tips')">Que testear</button>
+      </div>
+
+      <div id="phpunit-naming" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Nombres descriptivos</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="cmt">// MAL: nombres vagos</span>
+<span class="kw">public function</span> <span class="fn">test1</span>() { ... }
+<span class="kw">public function</span> <span class="fn">testSumar</span>() { ... }
+
+<span class="cmt">// BIEN: Metodo_Escenario_ResultadoEsperado</span>
+<span class="kw">public function</span> <span class="fn">testSumar_DosNumerosPositivos_RetornaSuma</span>() { ... }
+<span class="kw">public function</span> <span class="fn">testDividir_PorCero_LanzaExcepcion</span>() { ... }
+<span class="kw">public function</span> <span class="fn">testBuscarUsuario_Inexistente_RetornaNull</span>() { ... }
+<span class="kw">public function</span> <span class="fn">testEmail_Vacio_RetornaFalse</span>() { ... }</pre>
+        </div>
+      </div>
+
+      <div id="phpunit-aaa" class="tab-content">
+        <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> <strong>AAA (Arrange / Act / Assert)</strong> — Cada test debe tener tres bloques claros separados por comentarios o lineas en blanco.</div>
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>Ejemplo patron AAA</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="kw">public function</span> <span class="fn">testCrearPedido_ConItems_RetornaTotal</span>(): <span class="kw">void</span> {
+    <span class="cmt">// Arrange — preparar datos y objetos</span>
+    <span class="var">$pedido</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Pedido</span>()<span class="op">;</span>
+    <span class="var">$pedido</span><span class="op">-&gt;</span><span class="fn">agregarItem</span>(<span class="str">'Camisa'</span><span class="op">,</span> <span class="num">25.00</span><span class="op">,</span> <span class="num">2</span>)<span class="op">;</span>
+    <span class="var">$pedido</span><span class="op">-&gt;</span><span class="fn">agregarItem</span>(<span class="str">'Pantalon'</span><span class="op">,</span> <span class="num">40.00</span><span class="op">,</span> <span class="num">1</span>)<span class="op">;</span>
+
+    <span class="cmt">// Act — ejecutar la accion a probar</span>
+    <span class="var">$total</span> <span class="op">=</span> <span class="var">$pedido</span><span class="op">-&gt;</span><span class="fn">calcularTotal</span>()<span class="op">;</span>
+
+    <span class="cmt">// Assert — comprobar el resultado</span>
+    <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertEquals</span>(<span class="num">90.00</span><span class="op">,</span> <span class="var">$total</span>)<span class="op">;</span>
+    <span class="var">$this</span><span class="op">-&gt;</span><span class="fn">assertCount</span>(<span class="num">2</span><span class="op">,</span> <span class="var">$pedido</span><span class="op">-&gt;</span><span class="fn">obtenerItems</span>())<span class="op">;</span>
+}</pre>
+        </div>
+      </div>
+
+      <div id="phpunit-tips" class="tab-content">
+        <table class="data-table">
+          <thead>
+            <tr><th style="color:#00b894">Si testear</th><th style="color:#d63031">No testear</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Logica de negocio compleja</td><td>Getters y setters simples</td></tr>
+            <tr><td>Validaciones de datos</td><td>Configuracion de framework</td></tr>
+            <tr><td>Calculos y transformaciones</td><td>Codigo de terceras partes</td></tr>
+            <tr><td>Manejo de errores y excepciones</td><td>Codigo trivial (un return directo)</td></tr>
+            <tr><td>Integracion con BD/externos</td><td>Metodos privados directamente</td></tr>
+          </tbody>
+        </table>
+        <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> <strong>Cobertura:</strong> Ejecuta <code>./vendor/bin/phpunit --coverage-html coverage/</code> para generar un reporte HTML que muestra que porcentaje de tu codigo esta cubierto por tests.</div>
+        <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> <strong>CI Integration:</strong> En tu archivo de CI (GitHub Actions, GitLab CI), ejecuta los tests en cada push: <code>composer install && ./vendor/bin/phpunit</code>. Si falla, el pipeline se detiene automaticamente.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
