@@ -18,7 +18,7 @@
 
           <!-- TAB 1 -->
           <div id="nest-tabla" class="tab-content active">
-            <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Escenario: tenemos un array de usuarios y queremos clasificarlos y mostrarlos en una tabla HTML con estilos según su estado y rol.</div>
+            <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Escenario: tenemos un array de usuarios y queremos clasificarlos y mostrarlos en una tabla HTML con estilos según su estado y rol.</div>
             <div class="code-wrap">
               <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>tabla_usuarios.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
               <pre><span class="tag">&lt;?php</span>
@@ -75,17 +75,17 @@
             </div>
             <div class="visual-box">
               <div class="visual-label">▶ Salida</div>
-              <div class="output-success">👑 Ana &nbsp;→&nbsp; ✅ Activo &nbsp;→&nbsp; Joven (28 años)</div>
-              <div class="output-err">✏️ Luis &nbsp;→&nbsp; ❌ Inactivo &nbsp;→&nbsp; Adulto (34 años)</div>
-              <div class="output-success">👑 María &nbsp;→&nbsp; ✅ Activo &nbsp;→&nbsp; Adulto (41 años)</div>
-              <div class="output-success">👁 Pedro &nbsp;→&nbsp; ✅ Activo &nbsp;→&nbsp; Joven (22 años)</div>
-              <div class="output-warn">✏️ Sara &nbsp;→&nbsp; ⚠️ Activo (menor) &nbsp;→&nbsp; Menor (17 años)</div>
+              <div class="output-success"><i data-lucide="crown" style="width:14px;height:14px"></i> Ana &nbsp;→&nbsp; <i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Activo &nbsp;→&nbsp; Joven (28 años)</div>
+              <div class="output-err"><i data-lucide="edit" style="width:14px;height:14px"></i> Luis &nbsp;→&nbsp; <i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;color:#ef9a9a"></i> Inactivo &nbsp;→&nbsp; Adulto (34 años)</div>
+              <div class="output-success"><i data-lucide="crown" style="width:14px;height:14px"></i> María &nbsp;→&nbsp; <i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Activo &nbsp;→&nbsp; Adulto (41 años)</div>
+              <div class="output-success"><i data-lucide="eye" style="width:14px;height:14px"></i> Pedro &nbsp;→&nbsp; <i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Activo &nbsp;→&nbsp; Joven (22 años)</div>
+              <div class="output-warn"><i data-lucide="edit" style="width:14px;height:14px"></i> Sara &nbsp;→&nbsp; <i data-lucide="alert-triangle" style="width:14px;height:14px;vertical-align:middle"></i>️ Activo (menor) &nbsp;→&nbsp; Menor (17 años)</div>
             </div>
           </div>
 
           <!-- TAB 2 -->
           <div id="nest-carrito" class="tab-content">
-            <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Escenario: calcular el total de un carrito aplicando descuentos por cantidad, impuestos por categoría y cupón global.</div>
+            <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Escenario: calcular el total de un carrito aplicando descuentos por cantidad, impuestos por categoría y cupón global.</div>
             <div class="code-wrap">
               <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>carrito_anidado.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
               <pre><span class="tag">&lt;?php</span>
@@ -154,14 +154,14 @@
               <div class="output-info">Auriculares  x3  desc:8%   IVA:18%  → S/ 273.89</div>
               <div class="output-info">Camiseta     x5  desc:15%  IVA:10%  → S/ 116.88</div>
               <div class="output-info">Libro PHP    x2  desc:0%   IVA:0%   → S/ 90.00</div>
-              <div class="output-success">🎟 Cupón aplicado: -10%</div>
+              <div class="output-success"><i data-lucide="calendar" style="width:14px;height:14px"></i> Cupón aplicado: -10%</div>
               <div class="output-success">Total: S/ 1,709.77</div>
             </div>
           </div>
 
           <!-- TAB 3 -->
           <div id="nest-matriz" class="tab-content">
-            <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Escenario: recorrer una matriz bidimensional con for anidado y aplicar condiciones para colorear celdas, dibujar patrones y calcular estadísticas por fila/columna.</div>
+            <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Escenario: recorrer una matriz bidimensional con for anidado y aplicar condiciones para colorear celdas, dibujar patrones y calcular estadísticas por fila/columna.</div>
             <div class="code-wrap">
               <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>matriz_anidada.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
               <pre><span class="tag">&lt;?php</span>
@@ -200,7 +200,7 @@
         } <span class="kw">elseif</span> (<span class="var">$nota</span> <span class="op">&lt;</span> <span class="num">90</span>) {
             <span class="fn">echo</span> <span class="str">"🟢<span class="var">$nota</span> "</span><span class="op">;</span>
         } <span class="kw">else</span> {
-            <span class="fn">echo</span> <span class="str">"⭐<span class="var">$nota</span> "</span><span class="op">;</span>
+            <span class="fn">echo</span> <span class="str">"<i data-lucide="star" style="width:14px;height:14px;vertical-align:middle;color:#ffd700"></i><span class="var">$nota</span> "</span><span class="op">;</span>
         }
     }
 
@@ -228,17 +228,17 @@
             </div>
             <div class="visual-box">
               <div class="visual-label">▶ Salida</div>
-              <div class="output-info">📋 Ana: 🟢88 ⭐92 ❌45 🟢76 → Recuperación (media: 75.25)</div>
-              <div class="output-info">📋 Luis: 🟢72 🟡58 ⭐90 🟢83 → Aprobado (media: 75.75)</div>
-              <div class="output-success">📋 María: ⭐95 ⭐98 ⭐100 ⭐92 → 🏆 Sobresaliente (media: 96.25)</div>
-              <div class="output-err">📋 Pedro: ❌40 ❌35 🟡55 ❌48 → Suspenso (media: 44.5)</div>
-              <div class="output-info">📊 Resumen: 2 aprobados, 1 suspensos</div>
+              <div class="output-info"><i data-lucide="clipboard" style="width:14px;height:14px"></i> Ana: <i data-lucide="circle" style="width:14px;height:14px;vertical-align:middle"></i>88 <i data-lucide="star" style="width:14px;height:14px;vertical-align:middle;color:#ffd700"></i>92 <i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;color:#ef9a9a"></i>45 <i data-lucide="circle" style="width:14px;height:14px;vertical-align:middle"></i>76 → Recuperación (media: 75.25)</div>
+              <div class="output-info"><i data-lucide="clipboard" style="width:14px;height:14px"></i> Luis: <i data-lucide="circle" style="width:14px;height:14px;vertical-align:middle"></i>72 <i data-lucide="circle" style="width:14px;height:14px;vertical-align:middle"></i>58 <i data-lucide="star" style="width:14px;height:14px;vertical-align:middle;color:#ffd700"></i>90 <i data-lucide="circle" style="width:14px;height:14px;vertical-align:middle"></i>83 → Aprobado (media: 75.75)</div>
+              <div class="output-success"><i data-lucide="clipboard" style="width:14px;height:14px"></i> María: <i data-lucide="star" style="width:14px;height:14px;vertical-align:middle;color:#ffd700"></i>95 <i data-lucide="star" style="width:14px;height:14px;vertical-align:middle;color:#ffd700"></i>98 <i data-lucide="star" style="width:14px;height:14px;vertical-align:middle;color:#ffd700"></i>100 <i data-lucide="star" style="width:14px;height:14px;vertical-align:middle;color:#ffd700"></i>92 → <i data-lucide="trophy" style="width:14px;height:14px;vertical-align:middle"></i> Sobresaliente (media: 96.25)</div>
+              <div class="output-err"><i data-lucide="clipboard" style="width:14px;height:14px"></i> Pedro: <i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;color:#ef9a9a"></i>40 <i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;color:#ef9a9a"></i>35 <i data-lucide="circle" style="width:14px;height:14px;vertical-align:middle"></i>55 <i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;color:#ef9a9a"></i>48 → Suspenso (media: 44.5)</div>
+              <div class="output-info"><i data-lucide="bar-chart-2" style="width:14px;height:14px"></i> Resumen: 2 aprobados, 1 suspensos</div>
             </div>
           </div>
 
           <!-- TAB 4 -->
           <div id="nest-menu" class="tab-content">
-            <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Escenario: renderizar un menú de navegación multinivel (hasta 3 niveles) combinando while, foreach y condicionales para marcar el ítem activo y calcular indentación.</div>
+            <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Escenario: renderizar un menú de navegación multinivel (hasta 3 niveles) combinando while, foreach y condicionales para marcar el ítem activo y calcular indentación.</div>
             <div class="code-wrap">
               <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>menu_multinivel.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
               <pre><span class="tag">&lt;?php</span>
@@ -303,15 +303,15 @@
             </div>
             <div class="visual-box">
               <div class="visual-label">▶ Salida</div>
-              <div class="output-info">🗂 Menú de Navegación</div>
-              <div>├─ 📁 Inicio</div>
-              <div class="output-warn">├─ 📁 Productos ▶ (ancestro)</div>
-              <div class="output-warn">│ ├─ 📂 Electrónica ▶ (ancestro)</div>
-              <div class="output-success">│ │ └─ 📄 Laptops ◀ ACTUAL</div>
-              <div>│ │ └─ 📄 Monitores</div>
-              <div>│ ├─ 📄 Ropa</div>
-              <div>├─ 📄 Blog</div>
-              <div>├─ 📄 Contacto</div>
+              <div class="output-info"><i data-lucide="folders" style="width:14px;height:14px"></i> Menú de Navegación</div>
+              <div>├─ <i data-lucide="folder" style="width:14px;height:14px;vertical-align:middle"></i> Inicio</div>
+              <div class="output-warn">├─ <i data-lucide="folder" style="width:14px;height:14px;vertical-align:middle"></i> Productos ▶ (ancestro)</div>
+              <div class="output-warn">│ ├─ <i data-lucide="folder-open" style="width:14px;height:14px;vertical-align:middle"></i> Electrónica ▶ (ancestro)</div>
+              <div class="output-success">│ │ └─ <i data-lucide="file-text" style="width:14px;height:14px;vertical-align:middle"></i> Laptops ◀ ACTUAL</div>
+              <div>│ │ └─ <i data-lucide="file-text" style="width:14px;height:14px;vertical-align:middle"></i> Monitores</div>
+              <div>│ ├─ <i data-lucide="file-text" style="width:14px;height:14px;vertical-align:middle"></i> Ropa</div>
+              <div>├─ <i data-lucide="file-text" style="width:14px;height:14px;vertical-align:middle"></i> Blog</div>
+              <div>├─ <i data-lucide="file-text" style="width:14px;height:14px;vertical-align:middle"></i> Contacto</div>
             </div>
           </div>
 

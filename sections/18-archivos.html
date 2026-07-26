@@ -1,7 +1,7 @@
 <section id="archivos">
 <div class="section">
   <div class="section-header">
-    <span class="section-tag">📁 Módulo 6</span>
+    <span class="section-tag"><i data-lucide="folder-open" style="width:16px;height:16px"></i> Módulo 6</span>
     <h2 class="section-title">Manejo de Archivos</h2>
     <p class="section-subtitle">Lee, escribe y sube archivos de forma segura con PHP.</p>
   </div>
@@ -74,7 +74,7 @@
       </div>
 
       <div id="arch-fopen" class="tab-content">
-        <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Usa <code>fopen()</code> cuando necesites control preciso: leer línea a línea sin cargar todo en memoria, posicionarte en un punto del archivo, o leer y escribir al mismo tiempo.</div>
+        <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Usa <code>fopen()</code> cuando necesites control preciso: leer línea a línea sin cargar todo en memoria, posicionarte en un punto del archivo, o leer y escribir al mismo tiempo.</div>
         <div class="code-wrap">
           <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>fopen_avanzado.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
           <pre><span class="tag">&lt;?php</span>
@@ -120,7 +120,7 @@
         <div class="visual-box">
           <div class="visual-label">▶ Flujo fopen</div>
           <div class="output-info">fopen() → fwrite()/fgets()/fread() → fclose()</div>
-          <div class="output-warn">⚠️ Siempre cerrar con fclose() para liberar el recurso</div>
+          <div class="output-warn"><i data-lucide="alert-triangle" style="width:14px;height:14px"></i> Siempre cerrar con fclose() para liberar el recurso</div>
         </div>
       </div>
 
@@ -167,9 +167,9 @@
         </div>
         <div class="visual-box">
           <div class="visual-label">▶ Salida scandir</div>
-          <div class="output-info">📁 imagenes</div>
-          <div class="output-info">📄 logo.png — 14320 bytes</div>
-          <div class="output-info">📄 banner.jpg — 89432 bytes</div>
+          <div class="output-info"><i data-lucide="folder-open" style="width:14px;height:14px"></i> imagenes</div>
+          <div class="output-info"><i data-lucide="file" style="width:14px;height:14px"></i> logo.png — 14320 bytes</div>
+          <div class="output-info"><i data-lucide="file" style="width:14px;height:14px"></i> banner.jpg — 89432 bytes</div>
         </div>
       </div>
 
@@ -231,7 +231,7 @@
       </div>
     </div>
     <div class="concept-body">
-      <div class="alert alert-warn"><span class="alert-icon">⚠️</span> Siempre valida el tipo MIME real del archivo con <code>finfo</code>, no solo la extensión. Nunca uses el nombre original del usuario en producción.</div>
+      <div class="alert alert-warn"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> Siempre valida el tipo MIME real del archivo con <code>finfo</code>, no solo la extensión. Nunca uses el nombre original del usuario en producción.</div>
       <div class="code-wrap">
         <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>subir.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
         <pre><span class="tag">&lt;?php</span>
@@ -260,7 +260,7 @@
       </div>
       <div class="visual-box">
         <div class="visual-label">▶ Salida</div>
-        <div class="output-success">✅ Guardado como: a3f8c1d2e4b60f9a1c2d3e4f5a6b7c8d.jpg</div>
+        <div class="output-success"><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Guardado como: a3f8c1d2e4b60f9a1c2d3e4f5a6b7c8d.jpg</div>
       </div>
     </div>
   </div>

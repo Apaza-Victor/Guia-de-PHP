@@ -1,7 +1,7 @@
 <section id="sesiones">
 <div class="section">
   <div class="section-header">
-    <span class="section-tag">🔑 Módulo 5</span>
+    <span class="section-tag"><i data-lucide="key-round" style="width:16px;height:16px"></i> Módulo 5</span>
     <h2 class="section-title">Sesiones &amp; Cookies</h2>
     <p class="section-subtitle">Mantén el estado del usuario entre páginas: login, carrito de compras y preferencias.</p>
   </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="concept-body">
-      <div class="alert alert-info"><span class="alert-icon">ℹ️</span> <code>session_start()</code> debe ser la <strong>primera línea</strong> de cada archivo PHP que use sesiones, antes de cualquier salida HTML.</div>
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> <code>session_start()</code> debe ser la <strong>primera línea</strong> de cada archivo PHP que use sesiones, antes de cualquier salida HTML.</div>
 
       <div class="tabs">
         <button class="tab-btn active" onclick="showTab(this,'ses-basic')">Básico</button>
@@ -64,7 +64,7 @@
           <div class="output-info">session_id(): a3f9b2c1d4e8f7g6h5i4j3k2l1</div>
         </div>
         <div style="background:var(--bg3);border-radius:10px;padding:1rem;margin-top:1rem">
-          <div style="font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem">🔄 Cómo funcionan las sesiones</div>
+          <div style="font-weight:700;color:var(--accent);margin-bottom:.6rem;font-size:.85rem"><i data-lucide="refresh-cw" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Cómo funcionan las sesiones</div>
           <div style="font-size:.82rem;color:var(--text2);line-height:1.8;font-family:monospace">
             <div>1. <code>session_start()</code> → PHP crea un ID único (ej: <span style="color:#42a5f5">abc123...</span>)</div>
             <div>2. PHP envía al navegador: <code>Set-Cookie: PHPSESSID=abc123</code></div>
@@ -124,7 +124,7 @@
       </div>
 
       <div id="ses-flash" class="tab-content">
-        <div class="alert alert-info"><span class="alert-icon">ℹ️</span> Los mensajes flash son datos en sesión que se muestran <strong>una sola vez</strong> al usuario (éxito, error, aviso) y se eliminan inmediatamente después de leerlos.</div>
+        <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Los mensajes flash son datos en sesión que se muestran <strong>una sola vez</strong> al usuario (éxito, error, aviso) y se eliminan inmediatamente después de leerlos.</div>
         <div class="code-wrap">
           <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>flash_messages.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
           <pre><span class="tag">&lt;?php</span>
@@ -164,8 +164,8 @@
         </div>
         <div class="visual-box">
           <div class="visual-label">▶ Salida tras redirect</div>
-          <div class="output-success">✅ Producto guardado correctamente</div>
-          <div class="output-err">❌ El email ya está registrado</div>
+          <div class="output-success"><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Producto guardado correctamente</div>
+          <div class="output-err"><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> El email ya está registrado</div>
           <div style="font-size:.78rem;color:var(--text3);margin-top:.4rem">← Aparecen una vez y desaparecen al recargar</div>
         </div>
       </div>
@@ -173,16 +173,16 @@
       <div id="ses-vs" class="tab-content">
         <table class="data-table">
           <tr><th>Característica</th><th>$_SESSION</th><th>$_COOKIE</th></tr>
-          <tr><td>Dónde se guardan los datos</td><td>🖥 Servidor (archivo/BD)</td><td>🌐 Navegador del usuario</td></tr>
+          <tr><td>Dónde se guardan los datos</td><td><i data-lucide="monitor" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Servidor (archivo/BD)</td><td><i data-lucide="globe" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Navegador del usuario</td></tr>
           <tr><td>Duración por defecto</td><td>Mientras el navegador esté abierto</td><td>Definida por el programador</td></tr>
           <tr><td>Tamaño máximo</td><td>Sin límite práctico</td><td>~4 KB por cookie</td></tr>
-          <tr><td>Seguridad</td><td>✅ Alta — datos en servidor</td><td>⚠️ Media — visible/modificable</td></tr>
-          <tr><td>El usuario puede ver los datos</td><td>❌ No (solo el ID)</td><td>✅ Sí (desde las DevTools)</td></tr>
+          <tr><td>Seguridad</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Alta — datos en servidor</td><td><i data-lucide="alert-triangle" style="width:14px;height:14px;vertical-align:middle"></i>️ Media — visible/modificable</td></tr>
+          <tr><td>El usuario puede ver los datos</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No (solo el ID)</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Sí (desde las DevTools)</td></tr>
           <tr><td>Uso típico</td><td>Login, carrito, datos temporales</td><td>Tema, idioma, "recuérdame"</td></tr>
-          <tr><td>Sobrevive al cerrar el navegador</td><td>❌ No (por defecto)</td><td>✅ Sí (si lifetime > 0)</td></tr>
-          <tr><td>Acceso en JS</td><td>❌ No (solo PHP)</td><td>⚠️ Solo si HttpOnly=false</td></tr>
+          <tr><td>Sobrevive al cerrar el navegador</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No (por defecto)</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Sí (si lifetime > 0)</td></tr>
+          <tr><td>Acceso en JS</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No (solo PHP)</td><td><i data-lucide="alert-triangle" style="width:14px;height:14px;vertical-align:middle"></i>️ Solo si HttpOnly=false</td></tr>
         </table>
-        <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> <strong>Regla práctica:</strong> usa <code>$_SESSION</code> para datos de autenticación y sensibles. Usa <code>$_COOKIE</code> solo para preferencias no sensibles del usuario.</div>
+        <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> <strong>Regla práctica:</strong> usa <code>$_SESSION</code> para datos de autenticación y sensibles. Usa <code>$_COOKIE</code> solo para preferencias no sensibles del usuario.</div>
       </div>
     </div>
   </div>
@@ -274,7 +274,7 @@
 <span class="fn">header</span>(<span class="str">'Location: dashboard.php'</span>)<span class="op">;</span> <span class="fn">exit</span><span class="op">;</span>
 <span class="tag">?&gt;</span></pre>
         </div>
-        <div class="alert alert-tip"><span class="alert-icon">💡</span> Para crear el hash al registrar: <code>password_hash($password, PASSWORD_DEFAULT)</code></div>
+        <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Para crear el hash al registrar: <code>password_hash($password, PASSWORD_DEFAULT)</code></div>
       </div>
 
       <div id="login-prot" class="tab-content">
@@ -502,7 +502,7 @@
 }
 <span class="tag">?&gt;</span></pre>
         </div>
-        <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> Esta implementación es segura porque: el token está hasheado en BD, se usa <code>hash_equals</code> para comparación segura, y un selector separado permite búsquedas rápidas sin exponer el token real.</div>
+        <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Esta implementación es segura porque: el token está hasheado en BD, se usa <code>hash_equals</code> para comparación segura, y un selector separado permite búsquedas rápidas sin exponer el token real.</div>
       </div>
     </div>
   </div>

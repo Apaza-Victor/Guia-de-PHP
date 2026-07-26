@@ -232,7 +232,7 @@
               <div class="output-success">Primera mitad de semana</div>
               <div class="output-info">Editor</div>
             </div>
-            <div class="alert alert-warn" style="margin-top:1rem"><span class="alert-icon">⚠️</span> <strong>Cuidado:</strong> Sin <code>break</code>, el switch "cae" (fall-through) al siguiente case. Esto puede ser intencional (agrupar casos) o un bug.</div>
+            <div class="alert alert-warn" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> <strong>Cuidado:</strong> Sin <code>break</code>, el switch "cae" (fall-through) al siguiente case. Esto puede ser intencional (agrupar casos) o un bug.</div>
           </div>
 
           <div id="cond-match" class="tab-content">
@@ -271,14 +271,14 @@
             </div>
             <div class="visual-box">
               <div class="visual-label">▶ Salida</div>
-              <div class="output-err">🔍 No encontrado</div>
+              <div class="output-err"><i data-lucide="search" style="width:14px;height:14px"></i> No encontrado</div>
               <div class="output-success">Notable</div>
             </div>
             <table class="data-table" style="margin-top:1rem">
               <tr><th>Característica</th><th>switch</th><th>match</th></tr>
               <tr><td>Comparación</td><td>Laxa <code>==</code></td><td>Estricta <code>===</code></td></tr>
-              <tr><td>Es expresión</td><td>❌ No</td><td>✅ Sí (devuelve valor)</td></tr>
-              <tr><td>Fall-through</td><td>✅ Sí (sin break)</td><td>❌ No</td></tr>
+              <tr><td>Es expresión</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Sí (devuelve valor)</td></tr>
+              <tr><td>Fall-through</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Sí (sin break)</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No</td></tr>
               <tr><td>Sin case válido</td><td>Ejecuta default</td><td>Lanza UnhandledMatchError</td></tr>
             </table>
           </div>

@@ -1,14 +1,14 @@
 <section id="entornos">
 <div class="section">
   <div class="section-header">
-    <span class="section-tag">🛠 Módulo 2</span>
+    <span class="section-tag"><i data-lucide="wrench" style="width:16px;height:16px"></i> Módulo 2</span>
     <h2 class="section-title">Entornos de Desarrollo</h2>
     <p class="section-subtitle">Configura tu servidor local para desarrollar en PHP. Elige entre XAMPP o Laragon.</p>
   </div>
 
   <div class="tabs" style="justify-content:center;margin-bottom:2rem;">
-    <button class="tab-btn active" onclick="showTab(this,'tab-xampp')">🛠 XAMPP</button>
-    <button class="tab-btn" onclick="showTab(this,'tab-laragon')">⚡ Laragon</button>
+    <button class="tab-btn active" onclick="showTab(this,'tab-xampp')"><i data-lucide="wrench" style="width:14px;height:14px"></i> XAMPP</button>
+    <button class="tab-btn" onclick="showTab(this,'tab-laragon')"><i data-lucide="zap" style="width:14px;height:14px"></i> Laragon</button>
   </div>
 
   <!-- TAB XAMPP -->
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="concept-body">
-        <div class="alert alert-info"><span class="alert-icon">ℹ️</span> XAMPP es gratuito y multiplataforma (Windows, Linux, Mac). Es el estándar para aprender PHP de forma local.</div>
+        <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> XAMPP es gratuito y multiplataforma (Windows, Linux, Mac). Es el estándar para aprender PHP de forma local.</div>
         <table class="data-table">
           <tr><th>Componente</th><th>Para qué sirve</th><th>Puerto</th></tr>
           <tr><td>Apache</td><td>Servidor web — procesa archivos PHP</td><td>80 / 443</td></tr>
@@ -52,7 +52,7 @@
           <li>Tu carpeta de proyectos es <code>C:\xampp\htdocs\</code>. Crea una subcarpeta para cada proyecto.</li>
           <li>Accede a tu proyecto en <code>http://localhost/mi-proyecto/</code></li>
         </ol>
-        <div class="alert alert-tip"><span class="alert-icon">💡</span> Si el puerto 80 está ocupado (por Skype o IIS), cambia el puerto de Apache en su configuración a 8080 y accede via <code>http://localhost:8080</code>.</div>
+        <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Si el puerto 80 está ocupado (por Skype o IIS), cambia el puerto de Apache en su configuración a 8080 y accede via <code>http://localhost:8080</code>.</div>
         <div class="code-wrap">
           <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>test.php — probar instalación</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
           <pre><span class="cmt">&lt;!-- Guarda en C:\xampp\htdocs\test\test.php --&gt;</span>
@@ -82,11 +82,11 @@
         <table class="data-table">
           <tr><th>Característica</th><th>XAMPP</th><th>Laragon</th></tr>
           <tr><td>Velocidad inicio</td><td>Lenta</td><td>⚡ Muy rápida</td></tr>
-          <tr><td>Dominios automáticos</td><td>❌</td><td>✅ .test automático</td></tr>
-          <tr><td>Cambiar versión PHP</td><td>Manual y complejo</td><td>✅ Con un clic</td></tr>
-          <tr><td>SSL local</td><td>Manual</td><td>✅ Automático</td></tr>
-          <tr><td>Portable</td><td>Parcial</td><td>✅ Totalmente</td></tr>
-          <tr><td>Laravel CLI</td><td>Instalar manualmente</td><td>✅ Integrado</td></tr>
+          <tr><td>Dominios automáticos</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;color:#ef9a9a"></i></td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> .test automático</td></tr>
+          <tr><td>Cambiar versión PHP</td><td>Manual y complejo</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Con un clic</td></tr>
+          <tr><td>SSL local</td><td>Manual</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Automático</td></tr>
+          <tr><td>Portable</td><td>Parcial</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Totalmente</td></tr>
+          <tr><td>Laravel CLI</td><td>Instalar manualmente</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Integrado</td></tr>
         </table>
       </div>
     </div>
@@ -117,7 +117,7 @@ composer create-project laravel/laravel mi-app
 <span class="cmt"># Cambiar versión de PHP: clic derecho en icono Laragon</span>
 <span class="cmt"># → PHP → Seleccionar versión</span></pre>
         </div>
-        <div class="alert alert-tip"><span class="alert-icon">💡</span> Laragon incluye Composer, Node.js, NPM, Git y muchas herramientas preinstaladas. Es la opción ideal para proyectos Laravel y modernos.</div>
+        <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Laragon incluye Composer, Node.js, NPM, Git y muchas herramientas preinstaladas. Es la opción ideal para proyectos Laravel y modernos.</div>
       </div>
     </div>
 

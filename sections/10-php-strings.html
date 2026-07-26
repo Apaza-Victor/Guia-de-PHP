@@ -219,7 +219,7 @@ SQL<span class="op">,</span>
             </div>
             <table class="data-table" style="margin-top:1rem">
               <tr><th></th><th>Heredoc <code>&lt;&lt;&lt;LABEL</code></th><th>Nowdoc <code>&lt;&lt;&lt;'LABEL'</code></th></tr>
-              <tr><td>Interpolación</td><td>✅ Sí ($var, {$obj->p})</td><td>❌ No — texto literal</td></tr>
+              <tr><td>Interpolación</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Sí ($var, {$obj->p})</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No — texto literal</td></tr>
               <tr><td>Equivale a</td><td>Comillas dobles <code>"..."</code></td><td>Comillas simples <code>'...'</code></td></tr>
               <tr><td>Uso típico</td><td>HTML/email con variables</td><td>SQL, JSON, plantillas estáticas</td></tr>
             </table>

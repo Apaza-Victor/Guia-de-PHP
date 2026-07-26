@@ -1,7 +1,7 @@
 <section id="bases-datos">
 <div class="section">
   <div class="section-header">
-    <span class="section-tag">🗄 Módulo 4</span>
+    <span class="section-tag"><i data-lucide="database" style="width:16px;height:16px"></i> Módulo 4</span>
     <h2 class="section-title">Bases de Datos con PHP</h2>
     <p class="section-subtitle">MySQL, PDO, consultas SQL y operaciones CRUD completas.</p>
   </div>
@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="concept-body">
-      <div class="alert alert-warn"><span class="alert-icon">🔐</span> <strong>Nunca</strong> uses <code>mysql_*</code> (obsoleto y eliminado). Usa siempre PDO o MySQLi con sentencias preparadas para prevenir SQL Injection.</div>
+      <div class="alert alert-warn"><span class="alert-icon"><i data-lucide="lock" style="width:16px;height:16px"></i></span> <strong>Nunca</strong> uses <code>mysql_*</code> (obsoleto y eliminado). Usa siempre PDO o MySQLi con sentencias preparadas para prevenir SQL Injection.</div>
       <div class="code-wrap">
         <div class="code-label"><span><span class="code-dot dot-r"></span> <span class="code-dot dot-y"></span> <span class="code-dot dot-g"></span></span><span>conexion.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
         <pre><span class="tag">&lt;?php</span>
@@ -84,7 +84,7 @@
       </div>
       <div class="visual-box">
         <div class="visual-label">▶ Resultado</div>
-        <div class="output-success">✅ Conexión exitosa</div>
+        <div class="output-success"><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Conexión exitosa</div>
       </div>
     </div>
   </div>
@@ -99,10 +99,10 @@
     </div>
     <div class="concept-body">
       <div class="tabs">
-        <button class="tab-btn active" onclick="showTab(this,'crud-c')">➕ Create</button>
-        <button class="tab-btn" onclick="showTab(this,'crud-r')">📋 Read</button>
-        <button class="tab-btn" onclick="showTab(this,'crud-u')">✏️ Update</button>
-        <button class="tab-btn" onclick="showTab(this,'crud-d')">🗑 Delete</button>
+        <button class="tab-btn active" onclick="showTab(this,'crud-c')"><i data-lucide="plus" style="width:14px;height:14px"></i> Create</button>
+        <button class="tab-btn" onclick="showTab(this,'crud-r')"><i data-lucide="clipboard" style="width:14px;height:14px"></i> Read</button>
+        <button class="tab-btn" onclick="showTab(this,'crud-u')"><i data-lucide="edit" style="width:14px;height:14px"></i> Update</button>
+        <button class="tab-btn" onclick="showTab(this,'crud-d')"><i data-lucide="trash-2" style="width:14px;height:14px"></i> Delete</button>
       </div>
 
       <div id="crud-c" class="tab-content active">
@@ -174,7 +174,7 @@
 }
 <span class="tag">?&gt;</span></pre>
         </div>
-        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-success">✅ Producto actualizado. Filas afectadas: 1</div></div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-success"><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Producto actualizado. Filas afectadas: 1</div></div>
       </div>
 
       <div id="crud-d" class="tab-content">
@@ -193,7 +193,7 @@
 }
 <span class="tag">?&gt;</span></pre>
         </div>
-        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-err">🗑 Producto ID 3 eliminado correctamente</div></div>
+        <div class="visual-box"><div class="visual-label">▶ Salida</div><div class="output-err"><i data-lucide="trash-2" style="width:14px;height:14px"></i> Producto ID 3 eliminado correctamente</div></div>
       </div>
     </div>
   </div>

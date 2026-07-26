@@ -9,7 +9,7 @@
           </div>
         </div>
         <div class="concept-body">
-          <div class="alert alert-warn"><span class="alert-icon">⚠️</span> <strong>Regla de oro:</strong> nunca confíes en datos del usuario. Valida el formato, sanitiza antes de mostrar y usa consultas preparadas antes de guardar en BD.</div>
+          <div class="alert alert-warn"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> <strong>Regla de oro:</strong> nunca confíes en datos del usuario. Valida el formato, sanitiza antes de mostrar y usa consultas preparadas antes de guardar en BD.</div>
           <div class="tabs">
             <button class="tab-btn active" onclick="showTab(this,'form-get-post')">GET vs POST</button>
             <button class="tab-btn" onclick="showTab(this,'form-validar')">Validación completa</button>
@@ -67,7 +67,7 @@
               <tr><td>Límite</td><td>~2000 caracteres</td><td>Configurable (php.ini)</td></tr>
               <tr><td>Seguridad</td><td>Nunca para datos sensibles</td><td>Más seguro (pero usar HTTPS)</td></tr>
               <tr><td>Uso típico</td><td>Búsquedas, filtros, paginación</td><td>Login, registro, crear/editar</td></tr>
-              <tr><td>Se puede marcar</td><td>✅ Sí (en favoritos)</td><td>❌ No</td></tr>
+              <tr><td>Se puede marcar</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Sí (en favoritos)</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No</td></tr>
             </table>
           </div>
 
@@ -128,9 +128,9 @@
             </div>
             <div class="visual-box">
               <div class="visual-label">▶ Salida si hay errores</div>
-              <div class="output-err">❌ nombre: Solo letras y espacios</div>
-              <div class="output-err">❌ email: Formato de email inválido</div>
-              <div class="output-success">✅ Formulario válido, procesando...</div>
+              <div class="output-err"><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> nombre: Solo letras y espacios</div>
+              <div class="output-err"><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> email: Formato de email inválido</div>
+              <div class="output-success"><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Formulario válido, procesando...</div>
             </div>
           </div>
 
@@ -234,9 +234,9 @@
             </div>
             <div class="visual-box">
               <div class="visual-label">▶ Salida</div>
-              <div class="output-success">✅ Imagen guardada: a3f8c1d2e4b6...webp</div>
+              <div class="output-success"><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Imagen guardada: a3f8c1d2e4b6...webp</div>
             </div>
-            <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon">💡</span> Guarda los archivos <strong>fuera del DocumentRoot</strong> o en una carpeta sin ejecución PHP. Nunca uses el nombre original del archivo del usuario.</div>
+            <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Guarda los archivos <strong>fuera del DocumentRoot</strong> o en una carpeta sin ejecución PHP. Nunca uses el nombre original del archivo del usuario.</div>
           </div>
 
         </div>

@@ -1,7 +1,7 @@
 ﻿<section id="errores" style="background:var(--bg2);">
 <div class="section">
   <div class="section-header">
-    <span class="section-tag">⚠️ Módulo 9</span>
+    <span class="section-tag"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i> Módulo 9</span>
     <h2 class="section-title">Manejo de Errores y Excepciones</h2>
     <p class="section-subtitle">Detecta, maneja y registra errores de forma elegante y profesional.</p>
   </div>
@@ -24,12 +24,12 @@
       <div id="err-tipos" class="tab-content active">
         <table class="data-table">
           <tr><th>Constante</th><th>Tipo</th><th>Descripción</th><th>¿Detiene?</th></tr>
-          <tr><td><code>E_ERROR</code></td><td>Fatal</td><td>Función/clase no encontrada, memoria agotada</td><td>✅ Sí</td></tr>
-          <tr><td><code>E_PARSE</code></td><td>Fatal</td><td>Error de sintaxis en el código fuente</td><td>✅ Sí</td></tr>
-          <tr><td><code>E_WARNING</code></td><td>Advertencia</td><td>Archivo no encontrado, parámetro incorrecto</td><td>❌ No</td></tr>
-          <tr><td><code>E_NOTICE</code></td><td>Aviso</td><td>Variable no definida, índice inexistente</td><td>❌ No</td></tr>
-          <tr><td><code>E_DEPRECATED</code></td><td>Obsoleto</td><td>Función o característica que se eliminará</td><td>❌ No</td></tr>
-          <tr><td><code>E_STRICT</code></td><td>Estricto</td><td>Código que podría no funcionar en futuras versiones</td><td>❌ No</td></tr>
+          <tr><td><code>E_ERROR</code></td><td>Fatal</td><td>Función/clase no encontrada, memoria agotada</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Sí</td></tr>
+          <tr><td><code>E_PARSE</code></td><td>Fatal</td><td>Error de sintaxis en el código fuente</td><td><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Sí</td></tr>
+          <tr><td><code>E_WARNING</code></td><td>Advertencia</td><td>Archivo no encontrado, parámetro incorrecto</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No</td></tr>
+          <tr><td><code>E_NOTICE</code></td><td>Aviso</td><td>Variable no definida, índice inexistente</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No</td></tr>
+          <tr><td><code>E_DEPRECATED</code></td><td>Obsoleto</td><td>Función o característica que se eliminará</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No</td></tr>
+          <tr><td><code>E_STRICT</code></td><td>Estricto</td><td>Código que podría no funcionar en futuras versiones</td><td><i data-lucide="x-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> No</td></tr>
           <tr><td><code>E_ALL</code></td><td>Todos</td><td>Activa todos los niveles de error</td><td>—</td></tr>
         </table>
         <div class="code-wrap" style="margin-top:1rem">
@@ -126,7 +126,7 @@
         </div>
         <div class="visual-box">
           <div class="visual-label">▶ Entrada en el log</div>
-          <div class="output-warn">[2024-01-15 10:30:00] ⚠️ WARNING — file not found en index.php línea 12</div>
+          <div class="output-warn">[2024-01-15 10:30:00] <i data-lucide="alert-triangle" style="width:14px;height:14px;vertical-align:middle"></i>️ WARNING — file not found en index.php línea 12</div>
         </div>
       </div>
     </div>
@@ -356,7 +356,7 @@
   <!-- BUENAS PRACTICAS -->
   <div class="concept-card">
     <div class="concept-header">
-      <div class="concept-num" style="background:linear-gradient(135deg,#ffd166,#ff9a3c)">★</div>
+      <div class="concept-num" style="background:linear-gradient(135deg,#ffd166,#ff9a3c)"><i data-lucide="star" style="width:14px;height:14px;vertical-align:middle"></i></div>
       <div>
         <div class="concept-title">Resumen de Buenas Prácticas</div>
         <div class="concept-desc">Lo más importante para escribir PHP profesional y seguro.</div>
@@ -365,36 +365,36 @@
     <div class="concept-body">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;">
-          <div style="font-size:1.5rem;margin-bottom:.5rem">🔒</div>
+          <div style="font-size:1.5rem;margin-bottom:.5rem"><i data-lucide="lock" style="width:14px;height:14px;vertical-align:middle"></i></div>
           <div style="font-weight:700;margin-bottom:.4rem;font-size:.9rem">Seguridad</div>
           <ul style="list-style:none;font-size:.82rem;color:var(--text2);line-height:2;">
-            <li>✅ Usar sentencias preparadas (PDO)</li>
-            <li>✅ Sanitizar TODA entrada del usuario</li>
-            <li>✅ Hashear contraseñas con password_hash()</li>
-            <li>✅ Tokens CSRF en formularios</li>
-            <li>✅ Validar tipo MIME en uploads</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Usar sentencias preparadas (PDO)</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Sanitizar TODA entrada del usuario</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Hashear contraseñas con password_hash()</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Tokens CSRF en formularios</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Validar tipo MIME en uploads</li>
           </ul>
         </div>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;">
           <div style="font-size:1.5rem;margin-bottom:.5rem">⚡</div>
           <div style="font-weight:700;margin-bottom:.4rem;font-size:.9rem">Rendimiento</div>
           <ul style="list-style:none;font-size:.82rem;color:var(--text2);line-height:2;">
-            <li>✅ Usar OPcache en producción</li>
-            <li>✅ Índices en columnas de búsqueda</li>
-            <li>✅ Paginar resultados con LIMIT</li>
-            <li>✅ Lazy loading de clases</li>
-            <li>✅ Reutilizar conexión PDO</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Usar OPcache en producción</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Índices en columnas de búsqueda</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Paginar resultados con LIMIT</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Lazy loading de clases</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Reutilizar conexión PDO</li>
           </ul>
         </div>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;">
-          <div style="font-size:1.5rem;margin-bottom:.5rem">📐</div>
+          <div style="font-size:1.5rem;margin-bottom:.5rem"><i data-lucide="ruler" style="width:14px;height:14px;vertical-align:middle"></i></div>
           <div style="font-weight:700;margin-bottom:.4rem;font-size:.9rem">Código limpio</div>
           <ul style="list-style:none;font-size:.82rem;color:var(--text2);line-height:2;">
-            <li>✅ Declarar tipos en funciones</li>
-            <li>✅ Nombres descriptivos</li>
-            <li>✅ Funciones pequeñas, una sola tarea</li>
-            <li>✅ Seguir PSR-12 (estilo de código)</li>
-            <li>✅ Comentar el "por qué", no el "qué"</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Declarar tipos en funciones</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Nombres descriptivos</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Funciones pequeñas, una sola tarea</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Seguir PSR-12 (estilo de código)</li>
+            <li><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;color:#a5d6a7"></i> Comentar el "por qué", no el "qué"</li>
           </ul>
         </div>
       </div>
