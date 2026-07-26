@@ -1,0 +1,491 @@
+<section id="cheatsheet">
+<link rel="stylesheet" href="css/cheatsheet.css">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag"><i data-lucide="file-text" style="width:16px;height:16px"></i> Modulo 25</span>
+    <h2 class="section-title">Cheat Sheet PHP</h2>
+    <p class="section-subtitle">Referencia rapida de sintaxis, funciones y comandos. Descarga como PDF con el boton de abajo.</p>
+  </div>
+  <div class="cheat-download-bar">
+    <span style="font-size:.85rem;color:var(--text2)"><i data-lucide="download" style="width:16px;height:16px;vertical-align:middle"></i> Guardar como PDF:</span>
+    <button class="btn btn-primary" onclick="window.print()" style="padding:.5rem 1.2rem;font-size:.85rem"><i data-lucide="printer" style="width:16px;height:16px"></i> Descargar PDF</button>
+  </div>
+  <div class="cheat-grid">
+    <div class="cheat-section-title"><i data-lucide="code-2"></i> Sintaxis PHP</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="variable" style="width:14px;height:14px"></i> Variables &amp; Constantes</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>$var</code></td><td>Declara una variable (siempre empieza con $)</td></tr>
+        <tr><td><code>$var = 10</code></td><td>Type juggling: PHP infiere el tipo automaticamente</td></tr>
+        <tr><td><code>$var = null</code></td><td>Valor nulo, tipo NULL</td></tr>
+        <tr><td><code>define('NAME', val)</code></td><td>Define constante global en tiempo de ejecucion</td></tr>
+        <tr><td><code>const NAME = val</code></td><td>Define constante en tiempo de compilacion</td></tr>
+        <tr><td><code>unset($var)</code></td><td>Elimina una variable</td></tr>
+        <tr><td><code>isset($var)</code></td><td>Verifica si la variable esta definida y no es null</td></tr>
+        <tr><td><code>empty($var)</code></td><td>Verifica si la variable esta vacia (0, '', null, false)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="quote" style="width:14px;height:14px"></i> Strings</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>'single'</code></td><td>Cadena literal, sin interpolacion de variables</td></tr>
+        <tr><td><code>"double"</code></td><td>Cadena con interpolacion: <code>"Hola $var"</code></td></tr>
+        <tr><td><code>$a . $b</code></td><td>Concatenacion con el operador punto</td></tr>
+        <tr><td><code>"$var[name]"</code></td><td>Interpolacion con llaves para arreglos/asociativos</td></tr>
+        <tr><td><code>&lt;&lt;&lt;EOT ... EOT;</code></td><td>Heredoc: string multilinea con interpolacion</td></tr>
+        <tr><td><code>&lt;&lt;&lt;'EOT' ... EOT;</code></td><td>Nowdoc: string multilinea sin interpolacion</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="calculator" style="width:14px;height:14px"></i> Operadores</h3>
+      <table>
+        <tr><th>Operador</th><th>Descripcion</th></tr>
+        <tr><td><code>+  -  *  /  %  **</code></td><td>Aritmetico: suma, resta, multiplicacion, division, modulo, potencia</td></tr>
+        <tr><td><code>==  ===  !=  !==  &lt;  &gt;  &lt;=  &gt;=</code></td><td>Comparacion: igual, identico, diferente, no identico, orden</td></tr>
+        <tr><td><code>&amp;&amp;  ||  !  and  or  xor</code></td><td>Logico: AND, OR, NOT, XOR (con precedencia distinta)</td></tr>
+        <tr><td><code>=  +=  -=  *=  /=  .=  %=</code></td><td>Asignacion: basica y compuesta</td></tr>
+        <tr><td><code>$a ?? $b</code></td><td>Null coalescing: retorna $a si no es null, sino $b</td></tr>
+        <tr><td><code>$a &lt;=&gt; $b</code></td><td>Spaceship: retorna -1, 0 o 1 para comparar dos valores</td></tr>
+        <tr><td><code>$a ?: $b</code></td><td>Ternario abreviado: retorna $a si es truthy, sino $b</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="list"></i> Arrays</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="plus-circle" style="width:14px;height:14px"></i> Creacion</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>$arr = array(1,2,3)</code></td><td>Array clasico con la funcion array()</td></tr>
+        <tr><td><code>$arr = [1, 2, 3]</code></td><td>Array con sintaxis corta (desde PHP 5.4)</td></tr>
+        <tr><td><code>$arr = []</code></td><td>Array vacio</td></tr>
+        <tr><td><code>$arr['key'] = 'val'</code></td><td>Asignar elemento por indice o clave</td></tr>
+        <tr><td><code>compact('a','b')</code></td><td>Crea array con variables como elementos</td></tr>
+        <tr><td><code>range(1, 10)</code></td><td>Crea array con secuencia de numeros o caracteres</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="wrench" style="width:14px;height:14px"></i> Funciones de Array</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>array_push/pop($arr, $val)</code></td><td>Agregar/quitar elementos al final</td></tr>
+        <tr><td><code>array_merge($a, $b)</code></td><td>Fusionar dos o mas arrays</td></tr>
+        <tr><td><code>array_map(fn, $arr)</code></td><td>Aplica una funcion a cada elemento</td></tr>
+        <tr><td><code>array_filter($arr, fn)</code></td><td>Filtra elementos segun un criterio</td></tr>
+        <tr><td><code>array_reduce($arr, fn)</code></td><td>Reduce el array a un solo valor</td></tr>
+        <tr><td><code>array_keys($arr)</code></td><td>Retorna todas las claves del array</td></tr>
+        <tr><td><code>array_values($arr)</code></td><td>Retorna todos los valores reindexados</td></tr>
+        <tr><td><code>array_unique($arr)</code></td><td>Elimina duplicados</td></tr>
+        <tr><td><code>sort($arr) / rsort($arr)</code></td><td>Ordenar ascendente / descendente</td></tr>
+        <tr><td><code>in_array($val, $arr)</code></td><td>Verifica si un valor existe en el array</td></tr>
+        <tr><td><code>array_search($val, $arr)</code></td><td>Busca un valor y retorna su clave</td></tr>
+        <tr><td><code>count($arr)</code></td><td>Cuenta los elementos del array</td></tr>
+        <tr><td><code>array_slice($arr, offset, len)</code></td><td>Extrae un fragmento del array</td></tr>
+        <tr><td><code>array_splice($arr, off, len)</code></td><td>Reemplaza o elimina elementos de un array</td></tr>
+        <tr><td><code>array_column($arr, 'col')</code></td><td>Extrae una columna de un array bidimensional</td></tr>
+        <tr><td><code>array_flip($arr)</code></td><td>Intercambia claves con valores</td></tr>
+        <tr><td><code>array_reverse($arr)</code></td><td>Retorna el array en orden inverso</td></tr>
+        <tr><td><code>array_combine($keys, $vals)</code></td><td>Crea array usando claves y valores separados</td></tr>
+        <tr><td><code>array_fill(start, num, val)</code></td><td>Llena un array con un valor repetido</td></tr>
+        <tr><td><code>extract($arr)</code></td><td>Importa variables del array al ambito actual</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="list-tree" style="width:14px;height:14px"></i> Arrays Asociativos</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>$arr = ['a' =&gt; 1, 'b' =&gt; 2]</code></td><td>Array con claves personalizadas (string o int)</td></tr>
+        <tr><td><code>$arr['clave']</code></td><td>Acceder a un valor por su clave</td></tr>
+        <tr><td><code>array_key_exists('k', $arr)</code></td><td>Verificar si una clave existe en el array</td></tr>
+        <tr><td><code>array_keys($arr)</code></td><td>Obtener todas las claves</td></tr>
+        <tr><td><code>array_values($arr)</code></td><td>Obtener todos los valores reindexados</td></tr>
+        <tr><td><code>ksort($arr) / krsort($arr)</code></td><td>Ordenar por clave ascendente / descendente</td></tr>
+        <tr><td><code>array_walk($arr, fn)</code></td><td>Recorrer el array aplicando una funcion</td></tr>
+        <tr><td><code>foreach ($arr as $k =&gt; $v)</code></td><td>Iterar sobre claves y valores</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="type"></i> Strings</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="text" style="width:14px;height:14px"></i> Funciones de String</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>strlen($s)</code></td><td>Longitud de la cadena</td></tr>
+        <tr><td><code>strpos($s, 'needle')</code></td><td>Posicion de la primera ocurrencia (false si no existe)</td></tr>
+        <tr><td><code>substr($s, start, length)</code></td><td>Extrae una subcadena</td></tr>
+        <tr><td><code>strtolower($s)</code></td><td>Convierte a minusculas</td></tr>
+        <tr><td><code>strtoupper($s)</code></td><td>Convierte a mayusculas</td></tr>
+        <tr><td><code>str_replace($old, $new, $s)</code></td><td>Reemplaza todas las ocurrencias</td></tr>
+        <tr><td><code>explode('delim', $s)</code></td><td>Divide string en array por un delimitador</td></tr>
+        <tr><td><code>implode('sep', $arr)</code></td><td>Une un array en string con un separador</td></tr>
+        <tr><td><code>trim($s)</code></td><td>Elimina espacios al inicio y al final</td></tr>
+        <tr><td><code>ltrim($s) / rtrim($s)</code></td><td>Elimina espacios a la izquierda / derecha</td></tr>
+        <tr><td><code>nl2br($s)</code></td><td>Convierte saltos de linea en etiquetas &lt;br&gt;</td></tr>
+        <tr><td><code>str_repeat($s, n)</code></td><td>Repite una cadena n veces</td></tr>
+        <tr><td><code>str_pad($s, len, 'char')</code></td><td>Rellena un string a una longitud fija</td></tr>
+        <tr><td><code>str_split($s, len)</code></td><td>Divide string en array de fragmentos</td></tr>
+        <tr><td><code>md5($s) / sha1($s)</code></td><td>Hash MD5 / SHA1 de una cadena</td></tr>
+        <tr><td><code>htmlspecialchars($s)</code></td><td>Escapa HTML (&lt; &gt; &amp; " ') para prevenir XSS</td></tr>
+        <tr><td><code>strip_tags($s)</code></td><td>Elimina todas las etiquetas HTML y PHP</td></tr>
+        <tr><td><code>number_format($n, 2)</code></td><td>Formatea un numero con separadores y decimales</td></tr>
+        <tr><td><code>substr_count($s, 'sub')</code></td><td>Cuenta ocurrencias de una subcadena</td></tr>
+        <tr><td><code>str_word_count($s)</code></td><td>Cuenta las palabras en el string</td></tr>
+        <tr><td><code>similar_text($a, $b)</code></td><td>Calcula similitud entre dos strings (0-100%)</td></tr>
+        <tr><td><code>levenshtein($a, $b)</code></td><td>Distancia de edicion entre dos strings</td></tr>
+        <tr><td><code>soundex($s)</code></td><td>Codigo fonetico para comparacion por sonido</td></tr>
+        <tr><td><code>metaphone($s)</code></td><td>Metodo fonetico avanzado (mejor que soundex)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="git-branch"></i> Control de Flujo</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="split" style="width:14px;height:14px"></i> Condicionales</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>if (cond) { } elseif (c) { } else { }</code></td><td>Estructura condicional clasica</td></tr>
+        <tr><td><code>match (expr) { val =&gt; res, ... }</code></td><td>Match expresivo estricto (===) desde PHP 8.0</td></tr>
+        <tr><td><code>switch ($var) { case v: ... break; }</code></td><td>Switch tradicional (usa break para evitar fall-through)</td></tr>
+        <tr><td><code>$cond ? 'si' : 'no'</code></td><td>Operador ternario</td></tr>
+        <tr><td><code>$var ?? 'default'</code></td><td>Null coalescing: si $var no es null, retorna $var</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="repeat" style="width:14px;height:14px"></i> Bucles</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>for ($i=0; $i&lt;10; $i++) { }</code></td><td>Bucle clasico con inicializacion, condicion e incremento</td></tr>
+        <tr><td><code>while ($cond) { }</code></td><td>Bucle mientras la condicion sea verdadera</td></tr>
+        <tr><td><code>do { } while ($cond);</code></td><td>Bucle que se ejecuta al menos una vez</td></tr>
+        <tr><td><code>foreach ($arr as $val) { }</code></td><td>Recorre cada elemento del array</td></tr>
+        <tr><td><code>foreach ($arr as $k =&gt; $v) { }</code></td><td>Recorre array con clave y valor</td></tr>
+        <tr><td><code>break</code></td><td>Sale del bucle o switch actual</td></tr>
+        <tr><td><code>break 2</code></td><td>Sale de 2 bucles anidados</td></tr>
+        <tr><td><code>continue</code></td><td>Salta a la siguiente iteracion del bucle</td></tr>
+        <tr><td><code>continue 2</code></td><td>Salta a la siguiente iteracion del bucle exterior</td></tr>
+        <tr><td><code>return $val</code></td><td>Termina la funcion y retorna un valor</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="function-square"></i> Funciones</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="pencil" style="width:14px;height:14px"></i> Declaracion</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>function name($arg) { }</code></td><td>Declaracion basica de funcion</td></tr>
+        <tr><td><code>fn($x) =&gt; $x * 2</code></td><td>Arrow function (closure de una sola expresion, captura $this)</td></tr>
+        <tr><td><code>: int</code></td><td>Tipo de retorno declarado (scalar, array, void, mixed)</td></tr>
+        <tr><td><code>int $x</code></td><td>Type hints: scalar, array, self, callable, class/interface name</td></tr>
+        <tr><td><code>?int $x</code></td><td>Parametro nullable (acepta null o el tipo indicado)</td></tr>
+        <tr><td><code>int|string $x</code></td><td>Union types: acepta multiples tipos (PHP 8.0)</td></tr>
+        <tr><td><code>...$args</code></td><td>Variadic: acepta un numero indefinido de argumentos como array</td></tr>
+        <tr><td><code>name: value</code></td><td>Named arguments: pasar argumentos por nombre (PHP 8.0)</td></tr>
+        <tr><td><code>= 'default'</code></td><td>Valor por defecto si no se pasa el argumento</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="box" style="width:14px;height:14px"></i> Funciones Integradas</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>isset($var)</code></td><td>Verifica si la variable esta definida y no es null</td></tr>
+        <tr><td><code>empty($var)</code></td><td>Verifica si la variable esta vacia</td></tr>
+        <tr><td><code>unset($var)</code></td><td>Destruye la variable</td></tr>
+        <tr><td><code>var_dump($var)</code></td><td>Muestra tipo y valor con detalles (debug)</td></tr>
+        <tr><td><code>print_r($var)</code></td><td>Muestra valor en formato legible (debug de arrays)</td></tr>
+        <tr><td><code>die('msg') / exit(1)</code></td><td>Termina la ejecucion con mensaje o codigo de salida</td></tr>
+        <tr><td><code>eval($code)</code></td><td>Ejecuta string como codigo PHP (usar con precaucion)</td></tr>
+        <tr><td><code>include 'file.php'</code></td><td>Incluye archivo, genera warning si falla</td></tr>
+        <tr><td><code>require 'file.php'</code></td><td>Incluye archivo, genera fatal error si falla</td></tr>
+        <tr><td><code>include_once / require_once</code></td><td>Incluye solo una vez (evita redeclaracion)</td></tr>
+        <tr><td><code>func_get_args()</code></td><td>Retorna todos los argumentos de la funcion como array</td></tr>
+        <tr><td><code>call_user_func(fn, ...)</code></td><td>Llama a una funcion pasada como callback</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="box"></i> Programacion Orientada a Objetos</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="layout" style="width:14px;height:14px"></i> Clase &amp; Objeto</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>class User { }</code></td><td>Declaracion de una clase</td></tr>
+        <tr><td><code>new User()</code></td><td>Crea una instancia del objeto</td></tr>
+        <tr><td><code>$this-&gt;prop</code></td><td>Accede a una propiedad o metodo dentro de la clase</td></tr>
+        <tr><td><code>__construct()</code></td><td>Constructor: se ejecuta al crear la instancia</td></tr>
+        <tr><td><code>public $name</code></td><td>Propiedad con visibilidad (public, protected, private)</td></tr>
+        <tr><td><code>public function run()</code></td><td>Metodo con visibilidad</td></tr>
+        <tr><td><code>static $count</code></td><td>Propiedad estatica (compartida por todas las instancias)</td></tr>
+        <tr><td><code>self::prop</code></td><td>Acceso a miembro estatico desde dentro de la clase</td></tr>
+        <tr><td><code>const VERSION = '1.0'</code></td><td>Constante de clase (accesible sin instanciar)</td></tr>
+        <tr><td><code>readonly int $id</code></td><td>Propiedad readonly: solo puede asignarse una vez (PHP 8.1)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="git-merge" style="width:14px;height:14px"></i> Herencia &amp; Tipos</h3>
+      <table>
+        <tr><th>Sintaxis</th><th>Descripcion</th></tr>
+        <tr><td><code>class B extends A { }</code></td><td>Herencia: B hereda propiedades y metodos de A</td></tr>
+        <tr><td><code>parent::method()</code></td><td>Llama al metodo del padre desde el hijo</td></tr>
+        <tr><td><code>abstract class A { }</code></td><td>Clase abstracta: no se puede instanciar directamente</td></tr>
+        <tr><td><code>abstract public function run();</code></td><td>Metodo abstracto: obliga al hijo a implementarlo</td></tr>
+        <tr><td><code>interface I { }</code></td><td>Interface: contrato puro con metodos sin implementar</td></tr>
+        <tr><td><code>class A implements I { }</code></td><td>Implementa una interface (obligatorio todos los metodos)</td></tr>
+        <tr><td><code>trait MyTrait { }</code></td><td>Trait: reutiliza codigo en multiples clases (como herencia多重)</td></tr>
+        <tr><td><code>use MyTrait;</code></td><td>Incluye un trait dentro de una clase</td></tr>
+        <tr><td><code>enum Status { ... }</code></td><td>Enumeracion: tipos con valores fijos (PHP 8.1)</td></tr>
+        <tr><td><code>enum Status: string { ... }</code></td><td>Enum con backed value (string o int)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="sparkles" style="width:14px;height:14px"></i> Magic Methods</h3>
+      <table>
+        <tr><th>Metodo</th><th>Descripcion</th></tr>
+        <tr><td><code>__construct()</code></td><td>Se ejecuta al crear el objeto</td></tr>
+        <tr><td><code>__destruct()</code></td><td>Se ejecuta al destruir el objeto (garbage collector)</td></tr>
+        <tr><td><code>__toString()</code></td><td>Se ejecuta cuando se usa el objeto como string</td></tr>
+        <tr><td><code>__get($name)</code></td><td>Se ejecuta al acceder a una propiedad inexistente</td></tr>
+        <tr><td><code>__set($name, $val)</code></td><td>Se ejecuta al asignar una propiedad inexistente</td></tr>
+        <tr><td><code>__call($name, $args)</code></td><td>Se ejecuta al llamar un metodo inexistente</td></tr>
+        <tr><td><code>__clone()</code></td><td>Se ejecuta al clonar el objeto</td></tr>
+        <tr><td><code>__serialize()</code></td><td>Se ejecuta al serializar (reemplaza __sleep)</td></tr>
+        <tr><td><code>__unserialize($data)</code></td><td>Se ejecuta al deserializar (reemplaza __wakeup)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="zap" style="width:14px;height:14px"></i> PHP 8+ Nuevas Caracteristicas</h3>
+      <table>
+        <tr><th>Feature</th><th>Descripcion</th></tr>
+        <tr><td><code>enum Status { case A; }</code></td><td>Enums nativos con casos y backed values</td></tr>
+        <tr><td><code>readonly int $id</code></td><td>Propiedades readonly que solo se asignan una vez</td></tr>
+        <tr><td><code>name: value</code></td><td>Named arguments en llamadas a funciones/metodos</td></tr>
+        <tr><td><code>match (x) { 1 =&gt; 'a' }</code></td><td>Match expresivo con comparacion estricta</td></tr>
+        <tr><td><code>Fiber::suspend()</code></td><td>Fibers: concurrencia cooperativa (coroutines)</td></tr>
+        <tr><td><code>int|string</code></td><td>Union types: tipo puede ser uno de varios</td></tr>
+        <tr><td><code>A&B</code></td><td>Intersection types: tipo debe implementar A y B</td></tr>
+        <tr><td><code>__construct(public $x)</code></td><td>Constructor promotion: crea propiedades desde parametros</td></tr>
+        <tr><td><code>$obj?-&gt;method()</code></td><td>Null safe operator: llama metodo solo si el objeto no es null</td></tr>
+        <tr><td><code>enum Status: string { ... }</code></td><td>Backed enums con valores string o int</td></tr>
+        <tr><td><code>fiber-&gt;start()</code></td><td>Fibers para tareas asincronas sin callbacks</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="database"></i> MySQL / SQL</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="table" style="width:14px;height:14px"></i> CRUD Basico</h3>
+      <table>
+        <tr><th>Operacion</th><th>Sintaxis SQL</th></tr>
+        <tr><td>SELECT</td><td><code>SELECT col1, col2 FROM tabla</code></td></tr>
+        <tr><td>INSERT</td><td><code>INSERT INTO tabla (col1) VALUES ('val')</code></td></tr>
+        <tr><td>UPDATE</td><td><code>UPDATE tabla SET col = 'val' WHERE id = 1</code></td></tr>
+        <tr><td>DELETE</td><td><code>DELETE FROM tabla WHERE id = 1</code></td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="filter" style="width:14px;height:14px"></i> Filtrado &amp; Orden</h3>
+      <table>
+        <tr><th>Cláusula</th><th>Descripcion</th></tr>
+        <tr><td><code>WHERE col = 'val'</code></td><td>Filtra registros que cumplan la condicion</td></tr>
+        <tr><td><code>AND / OR</code></td><td>Combina multiples condiciones</td></tr>
+        <tr><td><code>IN (val1, val2)</code></td><td>Filtra por una lista de valores permitidos</td></tr>
+        <tr><td><code>BETWEEN 1 AND 10</code></td><td>Filtra en un rango de valores (inclusivo)</td></tr>
+        <tr><td><code>LIKE '%texto%'</code></td><td>Busqueda con patrones: % = multiples chars, _ = un char</td></tr>
+        <tr><td><code>IS NULL / IS NOT NULL</code></td><td>Filtra valores nulos o no nulos</td></tr>
+        <tr><td><code>ORDER BY col ASC/DESC</code></td><td>Ordena los resultados ascendente o descendente</td></tr>
+        <tr><td><code>LIMIT 10 OFFSET 20</code></td><td>Paginacion: 10 registros empezando en la posicion 20</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="link" style="width:14px;height:14px"></i> Joins</h3>
+      <table>
+        <tr><th>Join</th><th>Descripcion</th></tr>
+        <tr><td><code>INNER JOIN b ON a.id = b.a_id</code></td><td>Solo registros que coincidan en ambas tablas</td></tr>
+        <tr><td><code>LEFT JOIN b ON a.id = b.a_id</code></td><td>Todos los de la izquierda + coincidencias de la derecha</td></tr>
+        <tr><td><code>RIGHT JOIN b ON a.id = b.a_id</code></td><td>Todos los de la derecha + coincidencias de la izquierda</td></tr>
+        <tr><td><code>FULL JOIN b ON a.id = b.a_id</code></td><td>Todos los registros de ambas tablas (MySQL: FULL OUTER JOIN)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="bar-chart-2" style="width:14px;height:14px"></i> Agregacion</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>COUNT(*)</code></td><td>Cuenta el numero total de registros</td></tr>
+        <tr><td><code>SUM(col)</code></td><td>Suma total de los valores de una columna</td></tr>
+        <tr><td><code>AVG(col)</code></td><td>Promedio de los valores de una columna</td></tr>
+        <tr><td><code>MIN(col) / MAX(col)</code></td><td>Valor minimo / maximo de una columna</td></tr>
+        <tr><td><code>GROUP BY col</code></td><td>Agrupa registros por una columna</td></tr>
+        <tr><td><code>HAVING COUNT(*) &gt; 5</code></td><td>Filtra grupos (se usa con GROUP BY, como WHERE para grupos)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="server" style="width:14px;height:14px"></i> PDO (PHP Data Objects)</h3>
+      <table>
+        <tr><th>Metodo</th><th>Descripcion</th></tr>
+        <tr><td><code>new PDO($dsn, $user, $pass)</code></td><td>Crea conexion PDO con driver, usuario y contrasena</td></tr>
+        <tr><td><code>$pdo-&gt;prepare($sql)</code></td><td>Prepara una consulta con placeholders</td></tr>
+        <tr><td><code>$stmt-&gt;execute([$val])</code></td><td>Ejecuta la consulta preparada con parametros</td></tr>
+        <tr><td><code>$stmt-&gt;fetch()</code></td><td>Retorna la siguiente fila como array u objeto</td></tr>
+        <tr><td><code>$stmt-&gt;fetchAll()</code></td><td>Retorna todas las filas como array</td></tr>
+        <tr><td><code>$stmt-&gt;fetchColumn()</code></td><td>Retorna solo la primera columna de la siguiente fila</td></tr>
+        <tr><td><code>$stmt-&gt;rowCount()</code></td><td>Numero de filas afectadas por INSERT/UPDATE/DELETE</td></tr>
+        <tr><td><code>$pdo-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)</code></td><td>Activa excepciones para errores</td></tr>
+        <tr><td><code>:name, ?</code></td><td>Placeholders con nombre o posicionales para prevenir SQL injection</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="regex"></i> Regex (PCRE)</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="search" style="width:14px;height:14px"></i> Funciones</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>preg_match('/pat/', $s)</code></td><td>Verifica si el string coincide con el patron (0 o 1)</td></tr>
+        <tr><td><code>preg_match_all('/pat/', $s, $m)</code></td><td>Encuentra todas las ocurrencias, guarda en $m</td></tr>
+        <tr><td><code>preg_replace('/pat/', 'repl', $s)</code></td><td>Reemplaza todas las ocurrencias del patron</td></tr>
+        <tr><td><code>preg_split('/pat/', $s)</code></td><td>Divide el string en un array segun el patron</td></tr>
+        <tr><td><code>/pattern/flags</code></td><td>Patron con banderas: i (insensible), g (global), m (multiline), s (dotall)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="code" style="width:14px;height:14px"></i> Patron &amp; Metacaracteres</h3>
+      <table>
+        <tr><th>Metacaracter</th><th>Descripcion</th></tr>
+        <tr><td><code>^ $</code></td><td>Inicio y fin del string (o linea con flag m)</td></tr>
+        <tr><td><code>.</code></td><td>Cualquier caracter (excepto salto de linea)</td></tr>
+        <tr><td><code>* + ? {n}</code></td><td>Cuantificadores: 0+, 1+, 0 o 1, exactamente n veces</td></tr>
+        <tr><td><code>[abc] [^abc]</code></td><td>Clase de caracteres: incluye / excluye</td></tr>
+        <tr><td><code>\d \w \s</code></td><td>Digitos, word chars (letras+_), whitespace</td></tr>
+        <tr><td><code>\b</code></td><td>Limite de palabra (word boundary)</td></tr>
+        <tr><td><code>(?=) (?!) (?&lt;=) (?&lt;!?)</code></td><td>Lookahead positivo/negativo, lookbehind positivo/negativo</td></tr>
+        <tr><td colspan="2"><strong>Patrones comunes:</strong></td></tr>
+        <tr><td><code>/^[\w.-]+@[\w.-]+\.\w+$/</code></td><td>Validar email basico</td></tr>
+        <tr><td><code>/^\+?\d{1,3}[\s-]?\d{6,}$/</code></td><td>Validar telefono internacional</td></tr>
+        <tr><td><code>/^https?:\/\/[\w.-]+/</code></td><td>Validar URL con http/https</td></tr>
+        <tr><td><code>/^(\d{1,3}\.){3}\d{1,3}$/</code></td><td>Validar direccion IPv4</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="package"></i> Composer</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="terminal" style="width:14px;height:14px"></i> Comandos</h3>
+      <table>
+        <tr><th>Comando</th><th>Descripcion</th></tr>
+        <tr><td><code>composer init</code></td><td>Crea un composer.json interactivo</td></tr>
+        <tr><td><code>composer require vendor/pkg</code></td><td>Instala un paquete y lo agrega a require</td></tr>
+        <tr><td><code>composer require --dev vendor/pkg</code></td><td>Instala un paquete como dependencia de desarrollo</td></tr>
+        <tr><td><code>composer update</code></td><td>Actualiza todas las dependencias segun composer.lock</td></tr>
+        <tr><td><code>composer install</code></td><td>Instala dependencias desde composer.lock (sin actualizar)</td></tr>
+        <tr><td><code>composer dump-autoload</code></td><td>Regena el archivo de autoloading (vendor/autoload.php)</td></tr>
+        <tr><td><code>composer show</code></td><td>Lista todos los paquetes instalados</td></tr>
+        <tr><td><code>composer search keyword</code></td><td>Busca paquetes en Packagist</td></tr>
+        <tr><td><code>composer remove vendor/pkg</code></td><td>Elimina un paquete y lo quita del composer.json</td></tr>
+        <tr><td><code>composer validate</code></td><td>Verifica que composer.json sea valido</td></tr>
+        <tr><td><code>composer self-update</code></td><td>Actualiza Composer a la ultima version</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="folder-open" style="width:14px;height:14px"></i> Autoload</h3>
+      <table>
+        <tr><th>Tipo</th><th>Descripcion</th></tr>
+        <tr><td><code>PSR-4</code></td><td>Mapeo de namespaces a directorios (estandar recomendado)</td></tr>
+        <tr><td><code>classmap</code></td><td>Escanea directorios y genera mapa de clases automaticamente</td></tr>
+        <tr><td><code>files</code></td><td>Incluye archivos PHP directamente al iniciar (helpers, funciones globales)</td></tr>
+        <tr><td colspan="2"><strong>Ejemplo PSR-4 en composer.json:</strong></td></tr>
+        <tr><td colspan="2"><code>"autoload": {"psr-4": {"App\\": "src/"}}</code></td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="git-branch"></i> Git</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="terminal" style="width:14px;height:14px"></i> Comandos Esenciales</h3>
+      <table>
+        <tr><th>Comando</th><th>Descripcion</th></tr>
+        <tr><td><code>git init</code></td><td>Inicializa un repositorio Git nuevo</td></tr>
+        <tr><td><code>git add .</code></td><td>Prepara todos los cambios para el commit</td></tr>
+        <tr><td><code>git commit -m "msg"</code></td><td>Guarda los cambios con un mensaje</td></tr>
+        <tr><td><code>git push origin branch</code></td><td>Sube commits al repositorio remoto</td></tr>
+        <tr><td><code>git pull origin branch</code></td><td>Descarga e integra cambios del remoto</td></tr>
+        <tr><td><code>git clone url</code></td><td>Clona un repositorio remoto completo</td></tr>
+        <tr><td><code>git branch / checkout / switch</code></td><td>Listar, crear, cambiar de rama</td></tr>
+        <tr><td><code>git merge branch</code></td><td>Integra una rama en la rama actual</td></tr>
+        <tr><td><code>git rebase branch</code></td><td>Reaplica commits encima de otra rama (historial lineal)</td></tr>
+        <tr><td><code>git stash / stash pop</code></td><td>Guarda / recupera cambios temporalmente</td></tr>
+        <tr><td><code>git log --oneline -10</code></td><td>Muestra los ultimos 10 commits en formato compacto</td></tr>
+        <tr><td><code>git diff</code></td><td>Muestra diferencias entre working dir y staging</td></tr>
+        <tr><td><code>git status</code></td><td>Muestra el estado actual del repositorio</td></tr>
+        <tr><td><code>git remote add origin url</code></td><td>Conecta el repositorio local con un remoto</td></tr>
+        <tr><td><code>git fetch origin</code></td><td>Descarga referencias del remoto sin integrar</td></tr>
+        <tr><td><code>git tag v1.0</code></td><td>Crea una etiqueta (tag) en el commit actual</td></tr>
+        <tr><td><code>git reset --hard HEAD~1</code></td><td>Resetea el ultimo commit (PELIGRO: elimina cambios)</td></tr>
+        <tr><td><code>git revert commit-hash</code></td><td>Crea un commit inverso de un commit especifico (seguro)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-section-title"><i data-lucide="lightbulb"></i> Funciones Utiles</div>
+    <div class="cheat-card">
+      <h3><i data-lucide="monitor" style="width:14px;height:14px"></i> Entrada / Salida &amp; HTTP</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>echo $var</code></td><td>Imprime una o mas cadenas (no es funcion)</td></tr>
+        <tr><td><code>print($var)</code></td><td>Imprime un valor, retorna 1 (menos comun que echo)</td></tr>
+        <tr><td><code>printf("val: %d", 42)</code></td><td>Imprime con formato: %d entero, %s string, %f float, %.2f decimales</td></tr>
+        <tr><td><code>$s = sprintf("val: %d", 42)</code></td><td>Retorna string formateado sin imprimir</td></tr>
+        <tr><td><code>print_r($arr)</code></td><td>Imprime array/objeto en formato legible (debug)</td></tr>
+        <tr><td><code>var_dump($var)</code></td><td>Imprime tipo y valor con estructura completa</td></tr>
+        <tr><td><code>var_export($var, true)</code></td><td>Retorna representacion PHP de la variable (para incluir como codigo)</td></tr>
+        <tr><td><code>json_encode($var)</code></td><td>Convierte PHP a JSON</td></tr>
+        <tr><td><code>json_decode($json)</code></td><td>Convierte JSON a PHP (objeto o array con true)</td></tr>
+        <tr><td><code>http_response_code(404)</code></td><td>Establece el codigo de respuesta HTTP</td></tr>
+        <tr><td><code>header('Location: url')</code></td><td>Envia un header HTTP (redireccion, cache, CORS)</td></tr>
+        <tr><td><code>setcookie('name', val, time+3600)</code></td><td>Establece una cookie con nombre, valor y expiracion</td></tr>
+        <tr><td><code>session_start()</code></td><td>Inicia o reanuda la sesion actual</td></tr>
+        <tr><td><code>session_destroy()</code></td><td>Destruye todos los datos de la sesion</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="hash" style="width:14px;height:14px"></i> Matematicas</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>abs(-5)</code></td><td>Valor absoluto</td></tr>
+        <tr><td><code>ceil(4.2)</code></td><td>Redondeo hacia arriba (5)</td></tr>
+        <tr><td><code>floor(4.8)</code></td><td>Redondeo hacia abajo (4)</td></tr>
+        <tr><td><code>round(4.567, 2)</code></td><td>Redondeo a N decimales (4.57)</td></tr>
+        <tr><td><code>max($a, $b) / min($a, $b)</code></td><td>Valor maximo / minimo (tambien funciona con arrays)</td></tr>
+        <tr><td><code>rand(1, 100)</code></td><td>Numero aleatorio entre 1 y 100 (inclusive)</td></tr>
+        <tr><td><code>mt_rand(1, 100)</code></td><td>Mersenne Twister: aleatorio mas rapido y mejor distribuido</td></tr>
+        <tr><td><code>sqrt(16)</code></td><td>Raiz cuadrada (4)</td></tr>
+        <tr><td><code>pow(2, 10)</code></td><td>Potencia: 2^10 = 1024</td></tr>
+        <tr><td><code>log(100, 10)</code></td><td>Logaritmo (base 10 por defecto)</td></tr>
+        <tr><td><code>sin() / cos() / tan()</code></td><td>Funciones trigonometricas (en radianes)</td></tr>
+        <tr><td><code>pi()</code></td><td>Retorna el valor de PI (3.14159...)</td></tr>
+        <tr><td><code>intval($var)</code></td><td>Convierte a entero</td></tr>
+        <tr><td><code>floatval($var)</code></td><td>Convierte a float</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="calendar" style="width:14px;height:14px"></i> Fechas &amp; Tiempo</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>date('Y-m-d H:i:s')</code></td><td>Formatea la fecha/hora actual con caracteres de formato</td></tr>
+        <tr><td><code>time()</code></td><td>Retorna timestamp Unix actual (segundos desde 1970)</td></tr>
+        <tr><td><code>strtotime('next monday')</code></td><td>Convierte una cadena de texto a timestamp</td></tr>
+        <tr><td><code>microtime(true)</code></td><td>Timestamp con microsegundos (para benchmarking)</td></tr>
+        <tr><td><code>new DateTime('now')</code></td><td>Objeto DateTime para manipulacion de fechas (OOP)</td></tr>
+        <tr><td><code>new DateTimeImmutable()</code></td><td>Version inmutable: no modifica el objeto original</td></tr>
+        <tr><td><code>new DateTimeZone('America/Lima')</code></td><td>Zona horaria para operaciones con fechas</td></tr>
+        <tr><td><code>Carbon::now()</code></td><td>Libreria Carbon: API elegante para fechas (require carbon/carbon)</td></tr>
+      </table>
+    </div>
+    <div class="cheat-card">
+      <h3><i data-lucide="file" style="width:14px;height:14px"></i> Archivos &amp; Directorios</h3>
+      <table>
+        <tr><th>Funcion</th><th>Descripcion</th></tr>
+        <tr><td><code>file_get_contents('f.txt')</code></td><td>Lee todo el archivo en un string</td></tr>
+        <tr><td><code>file_put_contents('f.txt', $data)</code></td><td>Escribe datos en un archivo (crea si no existe)</td></tr>
+        <tr><td><code>fopen('f.txt', 'r') / fclose()</code></td><td>Abre / cierra un archivo (r=read, w=write, a=append)</td></tr>
+        <tr><td><code>fread($handle, bytes)</code></td><td>Lee una cantidad especifica de bytes</td></tr>
+        <tr><td><code>fwrite($handle, $data)</code></td><td>Escribe datos en el manejador de archivo</td></tr>
+        <tr><td><code>file('f.txt')</code></td><td>Lee todo el archivo como array (una linea por elemento)</td></tr>
+        <tr><td><code>file_exists('f.txt')</code></td><td>Verifica si el archivo o directorio existe</td></tr>
+        <tr><td><code>is_file('path') / is_dir('path')</code></td><td>Verifica si es un archivo o directorio</td></tr>
+        <tr><td><code>mkdir('dir', 0755, true)</code></td><td>Crea directorio (true = recursivo, crea padres)</td></tr>
+        <tr><td><code>rmdir('dir')</code></td><td>Elimina un directorio (debe estar vacio)</td></tr>
+        <tr><td><code>unlink('file.txt')</code></td><td>Elimina un archivo</td></tr>
+        <tr><td><code>copy('orig', 'dest') / rename()</code></td><td>Copia / renombra un archivo</td></tr>
+        <tr><td><code>glob('*.php')</code></td><td>Busca archivos con patron glob (retorna array de paths)</td></tr>
+        <tr><td><code>scandir('dir')</code></td><td>Lista archivos y directorios de un directorio</td></tr>
+        <tr><td><code>pathinfo('file.php')</code></td><td>Retorna info del path: dirname, basename, extension, filename</td></tr>
+        <tr><td><code>basename('path/file.php')</code></td><td>Retorna solo el nombre del archivo (file.php)</td></tr>
+        <tr><td><code>dirname('path/file.php')</code></td><td>Retorna solo el directorio (path)</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
