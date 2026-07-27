@@ -1,11 +1,15 @@
 /* ===== HOME: HERO FULL-SCREEN ===== */
-#home{padding:0;display:flex;flex-direction:column;position:relative;}
+#home{
+  padding:0;display:flex;flex-direction:column;
+  position:relative;overflow-x:hidden;
+}
+#home > div{position:relative;z-index:1;}
 .home-hero{
-  min-height:100vh;height:100vh;
+  height:100vh;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  padding:5rem 2rem 3rem;position:relative;overflow:hidden;
-  text-align:center;
+  padding:5rem 2rem 3rem;position:relative;
+  text-align:center;overflow:hidden;
 }
 .hero-bg{
   position:absolute;inset:0;

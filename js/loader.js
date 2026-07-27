@@ -72,6 +72,15 @@ async function loadSection(sectionId) {
     // Scroll to top of content
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    // Show/hide footer: hidden on home, visible on other sections
+    const footerEl = document.querySelector('footer');
+    const backTopEl = document.getElementById('backTop');
+    const progressEl = document.getElementById('progressBar');
+    const isHome = sectionId === 'home';
+    if (footerEl) footerEl.style.display = isHome ? 'none' : '';
+    if (backTopEl) backTopEl.style.display = isHome ? 'none' : '';
+    if (progressEl) progressEl.style.display = isHome ? 'none' : '';
+
     // Re-init Lucide icons, dynamic years, quiz, fade-up
     initIcons();
     updateYears();
