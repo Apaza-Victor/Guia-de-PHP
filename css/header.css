@@ -17,6 +17,7 @@ header{
   background:linear-gradient(135deg,var(--accent),var(--accent2));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   letter-spacing:-1px;white-space:nowrap;
+  text-decoration:none;display:flex;align-items:center;gap:.4rem;
 }
 nav{
   display:flex;align-items:center;gap:.2rem;
