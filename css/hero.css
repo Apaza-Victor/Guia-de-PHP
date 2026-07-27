@@ -1,7 +1,7 @@
 /* ===== HOME: HERO FULL-SCREEN ===== */
 #home{
   padding:0;display:flex;flex-direction:column;
-  position:relative;overflow-x:hidden;
+  position:relative;
 }
 #home > div{position:relative;z-index:1;}
 .home-hero{
@@ -63,13 +63,13 @@ h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-
 
 /* ===== HOME: MODULES FULL-SCREEN ===== */
 .home-modules{
-  min-height:100vh;height:100vh;
+  min-height:100vh;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   padding:4rem 2rem;position:relative;
   background:var(--bg);
 }
-.section-title{
+.home-modules .section-title{
   font-size:1.8rem;font-weight:800;
   margin-bottom:2rem;text-align:center;
   display:flex;align-items:center;gap:.6rem;
@@ -101,10 +101,10 @@ h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-
 
 /* ===== HOME: PREVIEW SECTIONS ===== */
 .home-preview{
-  min-height:100vh;height:100vh;
+  min-height:100vh;
   display:flex;align-items:center;justify-content:center;
-  padding:4rem 2rem;gap:3rem;
-  background:var(--bg);position:relative;overflow:hidden;
+  padding:4rem 2rem;gap:2.5rem;
+  background:var(--bg);position:relative;
 }
 .home-preview-alt{background:var(--surface);}
 .home-preview-alt::before{
@@ -149,6 +149,7 @@ h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-
   font-size:.75rem;line-height:1.55;
   overflow-x:auto;
   background:var(--bg);color:var(--text);
+  border:none;border-radius:0;
 }
 
 /* ===== HOME: CTA FINAL ===== */
@@ -179,12 +180,12 @@ h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:900px){
-  .home-preview{flex-direction:column;height:auto;min-height:auto;padding:3rem 1.5rem;gap:2rem;}
+  .home-preview{flex-direction:column;padding:3rem 1.5rem;gap:2rem;}
   .preview-header{flex:none;max-width:100%;text-align:center;}
   .modules-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
 }
 @media(max-width:700px){
-  .home-modules{height:auto;min-height:auto;padding:3rem 1rem;}
+  .home-modules{padding:3rem 1rem;}
   .modules-grid{grid-template-columns:repeat(2,1fr);gap:.6rem;}
   .preview-cards{max-width:100%;}
   .preview-card pre{font-size:.7rem;}
