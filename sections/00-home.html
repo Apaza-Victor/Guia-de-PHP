@@ -1,129 +1,620 @@
 <section id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="badge fade-up"><i data-lucide="book-open" style="width:16px;height:16px"></i> Guía Completa · Desde Cero · Actualizada <span id="homeYear" class="dynamic-year"></span></div>
-  <h1 class="fade-up delay-1">Aprende <span>PHP</span><br>desde cero</h1>
-  <p class="hero-desc fade-up delay-2">
-    Domina PHP, configura tu entorno con XAMPP o Laragon, conecta bases de datos MySQL y construye aplicaciones web reales. Todo en un solo lugar.
-  </p>
-  <div class="hero-btns fade-up delay-3">
-    <a href="#php" class="btn btn-primary"><i data-lucide="rocket" style="width:18px;height:18px"></i> Empezar a aprender</a>
-    <a href="#entornos" class="btn btn-outline"><i data-lucide="wrench" style="width:18px;height:18px"></i> Ver entornos</a>
+
+  <!-- ===== HERO FULL-SCREEN ===== -->
+  <div class="home-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="badge fade-up"><i data-lucide="book-open" style="width:16px;height:16px"></i> Guia Completa · Desde Cero · Actualizada <span id="homeYear" class="dynamic-year"></span></div>
+    <h1 class="fade-up delay-1">Aprende <span>PHP</span><br>desde cero</h1>
+    <p class="hero-desc fade-up delay-2">
+      Domina PHP, configura tu entorno con XAMPP o Laragon, conecta bases de datos MySQL y construye aplicaciones web reales. Todo en un solo lugar.
+    </p>
+    <div class="hero-btns fade-up delay-3">
+      <a href="#php" class="btn btn-primary"><i data-lucide="rocket" style="width:18px;height:18px"></i> Empezar a aprender</a>
+      <a href="#cheatsheet" class="btn btn-outline"><i data-lucide="file-text" style="width:18px;height:18px"></i> Cheat Sheet</a>
+    </div>
+    <div class="scroll-hint fade-up delay-4">
+      <i data-lucide="chevrons-down" style="width:20px;height:20px"></i>
+      <span>Explora los modulos</span>
+    </div>
   </div>
-  <div class="modules-grid fade-up delay-3">
-    <a href="#php" class="module-card">
-      <span class="card-icon"><i data-lucide="code-2" style="width:32px;height:32px;color:var(--accent)"></i></span>
-      <div class="card-title">PHP Completo</div>
-      <div class="card-desc">Variables, tipos, operadores, control de flujo, funciones, arrays, POO, formularios y más.</div>
-      <span class="card-tag tag-php">PHP 8+</span>
-    </a>
-    <a href="#entornos" class="module-card">
-      <span class="card-icon"><i data-lucide="layout-dashboard" style="width:32px;height:32px;color:var(--accent2)"></i></span>
-      <div class="card-title">XAMPP</div>
-      <div class="card-desc">Instala y configura tu servidor local Apache + MySQL + PHP en minutos.</div>
-      <span class="card-tag tag-env">Entorno Local</span>
-    </a>
-    <a href="#entornos-laragon" class="module-card">
-      <span class="card-icon"><i data-lucide="zap" style="width:32px;height:32px;color:#ffd166"></i></span>
-      <div class="card-title">Laragon</div>
-      <div class="card-desc">El entorno moderno y rápido para desarrollo web en Windows. Configura y crea proyectos fácilmente.</div>
-      <span class="card-tag tag-env">Entorno Moderno</span>
-    </a>
-    <a href="#bases-datos" class="module-card">
-      <span class="card-icon"><i data-lucide="database" style="width:32px;height:32px;color:var(--green)"></i></span>
-      <div class="card-title">Bases de Datos</div>
-      <div class="card-desc">MySQL, PDO, CRUD completo, relaciones de tablas, consultas SQL y más.</div>
-      <span class="card-tag tag-db">MySQL · PDO</span>
-    </a>
-    <a href="#sesiones" class="module-card">
-      <span class="card-icon"><i data-lucide="key-round" style="width:32px;height:32px;color:#ff6b6b"></i></span>
-      <div class="card-title">Sesiones & Cookies</div>
-      <div class="card-desc">Autenticación, login, logout, carrito de compras y manejo de estado con $_SESSION y $_COOKIE.</div>
-      <span class="card-tag tag-php">Auth · Estado</span>
-    </a>
-    <a href="#archivos" class="module-card">
-      <span class="card-icon"><i data-lucide="folder-open" style="width:32px;height:32px;color:#c77dff"></i></span>
-      <div class="card-title">Manejo de Archivos</div>
-      <div class="card-desc">Leer, escribir, subir archivos, trabajar con directorios y gestión de uploads seguros.</div>
-      <span class="card-tag tag-php">Filesystem</span>
-    </a>
-    <a href="#seguridad" class="module-card">
-      <span class="card-icon"><i data-lucide="shield-check" style="width:32px;height:32px;color:var(--green)"></i></span>
-      <div class="card-title">Seguridad Web</div>
-      <div class="card-desc">XSS, CSRF, SQL Injection, hash de contraseñas y buenas prácticas de seguridad en PHP.</div>
-      <span class="card-tag tag-env">Security</span>
-    </a>
-    <a href="#regex" class="module-card">
-      <span class="card-icon"><i data-lucide="regex" style="width:32px;height:32px;color:var(--accent)"></i></span>
-      <div class="card-title">Expresiones Regulares</div>
-      <div class="card-desc">Validar emails, URLs, teléfonos y extraer patrones de texto con preg_match y preg_replace.</div>
-      <span class="card-tag tag-php">Regex · PCRE</span>
-    </a>
-    <a href="#poo-avanzada" class="module-card">
-      <span class="card-icon"><i data-lucide="blocks" style="width:32px;height:32px;color:#ffd166"></i></span>
-      <div class="card-title">POO Avanzada</div>
-      <div class="card-desc">Interfaces, Traits, métodos estáticos, readonly, enums y constructor property promotion de PHP 8.</div>
-      <span class="card-tag tag-php">PHP 8.1+</span>
-    </a>
-    <a href="#apis-json" class="module-card">
-      <span class="card-icon"><i data-lucide="globe" style="width:32px;height:32px;color:var(--accent2)"></i></span>
-      <div class="card-title">APIs y JSON</div>
-      <div class="card-desc">Consumir APIs externas con cURL, crear tu propia API REST en PHP y trabajar con JSON.</div>
-      <span class="card-tag tag-db">REST · JSON</span>
-    </a>
-    <a href="#composer" class="module-card">
-      <span class="card-icon"><i data-lucide="package" style="width:32px;height:32px;color:#ff8e53"></i></span>
-      <div class="card-title">Composer y Namespaces</div>
-      <div class="card-desc">Gestiona dependencias con Composer, usa PSR-4 autoloading y organiza tu código con namespaces.</div>
-      <span class="card-tag tag-env">Composer · PSR</span>
-    </a>
-    <a href="#php8" class="module-card">
-      <span class="card-icon"><i data-lucide="sparkles" style="width:32px;height:32px;color:#ffd166"></i></span>
-      <div class="card-title">Novedades PHP 8.x</div>
-      <div class="card-desc">Enums, Fibers, Named Arguments, Readonly, Match, Constructor Property Promotion y más.</div>
-      <span class="card-tag tag-php">PHP 8.1+</span>
-    </a>
-    <a href="#fecha-hora" class="module-card">
-      <span class="card-icon"><i data-lucide="clock" style="width:32px;height:32px;color:#00b4d8"></i></span>
-      <div class="card-title">Fecha y Hora</div>
-      <div class="card-desc">Funciones de fecha, DateTime, DateTimeImmutable, DateInterval y Carbon.</div>
-      <span class="card-tag tag-php">DateTime · Carbon</span>
-    </a>
-    <a href="#laravel" class="module-card">
-      <span class="card-icon"><i data-lucide="framework" style="width:32px;height:32px;color:#ff2d20"></i></span>
-      <div class="card-title">Introduccion a Laravel</div>
-      <div class="card-desc">Routing, Blade, Eloquent ORM, migraciones, Artisan CLI y el framework PHP más popular.</div>
-      <span class="card-tag tag-db">MVC · Eloquent</span>
-    </a>
-    <a href="#phpunit" class="module-card">
-      <span class="card-icon"><i data-lucide="test-tube" style="width:32px;height:32px;color:#6c5ce7"></i></span>
-      <div class="card-title">Testing con PHPUnit</div>
-      <div class="card-desc">Tests unitarios, de integración, data providers, mocks, buenas prácticas y TDD.</div>
-      <span class="card-tag tag-php">PHPUnit · TDD</span>
-    </a>
-    <a href="#docker" class="module-card">
-      <span class="card-icon"><i data-lucide="container" style="width:32px;height:32px;color:#2496ed"></i></span>
-      <div class="card-title">Docker y Despliegue</div>
-      <div class="card-desc">Docker Compose para PHP, CI/CD con GitHub Actions, Nginx, despliegue en producción.</div>
-      <span class="card-tag tag-env">Docker · CI/CD</span>
-    </a>
-    <a href="#rendimiento" class="module-card">
-      <span class="card-icon"><i data-lucide="gauge" style="width:32px;height:32px;color:#00b894"></i></span>
-      <div class="card-title">Rendimiento</div>
-      <div class="card-desc">OPcache, caching con Redis/APCu, optimización de BD, profiling y checklist de producción.</div>
-      <span class="card-tag tag-php">Performance</span>
-    </a>
-    <a href="#git" class="module-card">
-      <span class="card-icon"><i data-lucide="git-branch" style="width:32px;height:32px;color:#f05033"></i></span>
-      <div class="card-title">Git Basico</div>
-      <div class="card-desc">Control de versiones, branches, merge, remotos, Gitflow y convenciones de commits.</div>
-      <span class="card-tag tag-env">Git · GitHub</span>
-    </a>
-    <a href="#cheatsheet" class="module-card">
-      <span class="card-icon"><i data-lucide="file-text" style="width:32px;height:32px;color:var(--green)"></i></span>
-      <div class="card-title">Cheat Sheet</div>
-      <div class="card-desc">Referencia rapida de PHP, SQL, Regex, Git y Composer. Descargable como PDF.</div>
-      <span class="card-tag tag-php">PDF · Referencia</span>
-    </a>
+
+  <!-- ===== MODULOS FULL-SCREEN ===== -->
+  <div class="home-modules">
+    <h2 class="section-title fade-up"><i data-lucide="layers" style="width:28px;height:28px"></i> 18 Modulos para dominar PHP</h2>
+    <div class="modules-grid fade-up delay-1">
+      <a href="#php" class="module-card">
+        <span class="card-icon"><i data-lucide="code-2" style="width:32px;height:32px;color:var(--accent)"></i></span>
+        <div class="card-title">PHP Completo</div>
+        <div class="card-desc">Variables, tipos, operadores, control de flujo, funciones, arrays, POO y mas.</div>
+        <span class="card-tag tag-php">PHP 8+</span>
+      </a>
+      <a href="#entornos" class="module-card">
+        <span class="card-icon"><i data-lucide="layout-dashboard" style="width:32px;height:32px;color:var(--accent2)"></i></span>
+        <div class="card-title">XAMPP</div>
+        <div class="card-desc">Apache + MySQL + PHP en minutos.</div>
+        <span class="card-tag tag-env">Entorno Local</span>
+      </a>
+      <a href="#entornos-laragon" class="module-card">
+        <span class="card-icon"><i data-lucide="zap" style="width:32px;height:32px;color:#ffd166"></i></span>
+        <div class="card-title">Laragon</div>
+        <div class="card-desc">Entorno moderno y rapido para Windows.</div>
+        <span class="card-tag tag-env">Entorno Moderno</span>
+      </a>
+      <a href="#bases-datos" class="module-card">
+        <span class="card-icon"><i data-lucide="database" style="width:32px;height:32px;color:var(--green)"></i></span>
+        <div class="card-title">Bases de Datos</div>
+        <div class="card-desc">MySQL, PDO, CRUD, relaciones y consultas SQL.</div>
+        <span class="card-tag tag-db">MySQL · PDO</span>
+      </a>
+      <a href="#sesiones" class="module-card">
+        <span class="card-icon"><i data-lucide="key-round" style="width:32px;height:32px;color:#ff6b6b"></i></span>
+        <div class="card-title">Sesiones & Cookies</div>
+        <div class="card-desc">Login, logout, carrito de compras y estado.</div>
+        <span class="card-tag tag-php">Auth · Estado</span>
+      </a>
+      <a href="#archivos" class="module-card">
+        <span class="card-icon"><i data-lucide="folder-open" style="width:32px;height:32px;color:#c77dff"></i></span>
+        <div class="card-title">Archivos</div>
+        <div class="card-desc">Leer, escribir, subir y gestionar archivos.</div>
+        <span class="card-tag tag-php">Filesystem</span>
+      </a>
+      <a href="#seguridad" class="module-card">
+        <span class="card-icon"><i data-lucide="shield-check" style="width:32px;height:32px;color:var(--green)"></i></span>
+        <div class="card-title">Seguridad</div>
+        <div class="card-desc">XSS, CSRF, SQL Injection y hash de contrasenas.</div>
+        <span class="card-tag tag-env">Security</span>
+      </a>
+      <a href="#regex" class="module-card">
+        <span class="card-icon"><i data-lucide="regex" style="width:32px;height:32px;color:var(--accent)"></i></span>
+        <div class="card-title">Regex</div>
+        <div class="card-desc">Validar emails, URLs y patrones de texto.</div>
+        <span class="card-tag tag-php">Regex · PCRE</span>
+      </a>
+      <a href="#poo-avanzada" class="module-card">
+        <span class="card-icon"><i data-lucide="blocks" style="width:32px;height:32px;color:#ffd166"></i></span>
+        <div class="card-title">POO Avanzada</div>
+        <div class="card-desc">Interfaces, Traits, enums y PHP 8.1+.</div>
+        <span class="card-tag tag-php">PHP 8.1+</span>
+      </a>
+      <a href="#apis-json" class="module-card">
+        <span class="card-icon"><i data-lucide="globe" style="width:32px;height:32px;color:var(--accent2)"></i></span>
+        <div class="card-title">APIs y JSON</div>
+        <div class="card-desc">REST, cURL, crear tu propia API.</div>
+        <span class="card-tag tag-db">REST · JSON</span>
+      </a>
+      <a href="#composer" class="module-card">
+        <span class="card-icon"><i data-lucide="package" style="width:32px;height:32px;color:#ff8e53"></i></span>
+        <div class="card-title">Composer</div>
+        <div class="card-desc">Dependencias, PSR-4 y namespaces.</div>
+        <span class="card-tag tag-env">Composer · PSR</span>
+      </a>
+      <a href="#php8" class="module-card">
+        <span class="card-icon"><i data-lucide="sparkles" style="width:32px;height:32px;color:#ffd166"></i></span>
+        <div class="card-title">PHP 8.x</div>
+        <div class="card-desc">Enums, Fibers, Named Arguments, Match.</div>
+        <span class="card-tag tag-php">PHP 8.1+</span>
+      </a>
+      <a href="#fecha-hora" class="module-card">
+        <span class="card-icon"><i data-lucide="clock" style="width:32px;height:32px;color:#00b4d8"></i></span>
+        <div class="card-title">Fecha y Hora</div>
+        <div class="card-desc">DateTime, DateInterval y Carbon.</div>
+        <span class="card-tag tag-php">DateTime · Carbon</span>
+      </a>
+      <a href="#laravel" class="module-card">
+        <span class="card-icon"><i data-lucide="framework" style="width:32px;height:32px;color:#ff2d20"></i></span>
+        <div class="card-title">Laravel</div>
+        <div class="card-desc">Blade, Eloquent, migraciones y Artisan.</div>
+        <span class="card-tag tag-db">MVC · Eloquent</span>
+      </a>
+      <a href="#phpunit" class="module-card">
+        <span class="card-icon"><i data-lucide="test-tube" style="width:32px;height:32px;color:#6c5ce7"></i></span>
+        <div class="card-title">PHPUnit</div>
+        <div class="card-desc">Tests unitarios, mocks y TDD.</div>
+        <span class="card-tag tag-php">PHPUnit · TDD</span>
+      </a>
+      <a href="#docker" class="module-card">
+        <span class="card-icon"><i data-lucide="container" style="width:32px;height:32px;color:#2496ed"></i></span>
+        <div class="card-title">Docker</div>
+        <div class="card-desc">Docker Compose, CI/CD y despliegue.</div>
+        <span class="card-tag tag-env">Docker · CI/CD</span>
+      </a>
+      <a href="#rendimiento" class="module-card">
+        <span class="card-icon"><i data-lucide="gauge" style="width:32px;height:32px;color:#00b894"></i></span>
+        <div class="card-title">Rendimiento</div>
+        <div class="card-desc">OPcache, Redis, caching y profiling.</div>
+        <span class="card-tag tag-php">Performance</span>
+      </a>
+      <a href="#git" class="module-card">
+        <span class="card-icon"><i data-lucide="git-branch" style="width:32px;height:32px;color:#f05033"></i></span>
+        <div class="card-title">Git</div>
+        <div class="card-desc">Branches, merge, remotos y Gitflow.</div>
+        <span class="card-tag tag-env">Git · GitHub</span>
+      </a>
+      <a href="#cheatsheet" class="module-card module-card-highlight">
+        <span class="card-icon"><i data-lucide="file-text" style="width:32px;height:32px;color:var(--green)"></i></span>
+        <div class="card-title">Cheat Sheet</div>
+        <div class="card-desc">Referencia rapida descargable como PDF.</div>
+        <span class="card-tag tag-php">PDF · Referencia</span>
+      </a>
+    </div>
   </div>
+
+  <!-- ===== PREVIEW: FUNDAMENTOS ===== -->
+  <div class="home-preview">
+    <div class="preview-header fade-up">
+      <span class="preview-badge"><i data-lucide="code-2" style="width:14px;height:14px"></i> Fundamentos de PHP</span>
+      <h2>Tu primer codigo PHP</h2>
+      <p>Desde variables y tipos hasta funciones y arrays. Aprende los cimientos del lenguaje.</p>
+      <a href="#php" class="btn btn-primary" style="margin-top:1rem"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Ver seccion completa</a>
+    </div>
+    <div class="preview-cards">
+      <div class="preview-card fade-up delay-1">
+        <div class="preview-card-title"><i data-lucide="variable" style="width:16px;height:16px;color:var(--accent)"></i> Variables y Tipos</div>
+        <pre><code>&lt;?php
+$nombre = "Carlos";       // string
+$edad = 25;               // int
+$precio = 19.99;          // float
+$activo = true;           // boolean
+$items = [1, 2, 3];      // array
+
+echo gettype($edad);      // "integer"
+echo is_string($nombre);  // true</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-2">
+        <div class="preview-card-title"><i data-lucide="git-branch" style="width:16px;height:16px;color:var(--accent2)"></i> Control de Flujo</div>
+        <pre><code>&lt;?php
+$edad = 20;
+
+if ($edad >= 18) {
+    echo "Mayor de edad";
+} elseif ($edad >= 13) {
+    echo "Adolescente";
+} else {
+    echo "Menor de edad";
+}
+
+// Match (PHP 8+)
+$resultado = match($edad) {
+    18     => "Mayor de edad",
+    default => "Otro valor",
+};</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-3">
+        <div class="preview-card-title"><i data-lucide="function-square" style="width:16px;height:16px;color:var(--green)"></i> Funciones</div>
+        <pre><code>&lt;?php
+function sumar(int $a, int $b): int {
+    return $a + $b;
+}
+
+// Default params
+function saludar(string $nombre = "Mundo"): string {
+    return "Hola, $nombre!";
+}
+
+echo sumar(5, 3);        // 8
+echo saludar("Carlos");  // Hola, Carlos!</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW: POO ===== -->
+  <div class="home-preview home-preview-alt">
+    <div class="preview-header fade-up">
+      <span class="preview-badge"><i data-lucide="blocks" style="width:14px;height:14px;color:#ffd166"></i> Programacion Orientada a Objetos</span>
+      <h2>POO en PHP</h2>
+      <p>Clases, herencia, interfaces, traits y los nuevos features de PHP 8.x.</p>
+      <a href="#poo-avanzada" class="btn btn-primary" style="margin-top:1rem"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Ver seccion completa</a>
+    </div>
+    <div class="preview-cards">
+      <div class="preview-card fade-up delay-1">
+        <div class="preview-card-title"><i data-lucide="box" style="width:16px;height:16px;color:#ffd166"></i> Clase y Constructor</div>
+        <pre><code>&lt;?php
+class Usuario {
+    public function __construct(
+        public string $nombre,
+        public string $email,
+        private string $password,
+    ) {}
+
+    public function getNombre(): string {
+        return $this->nombre;
+    }
+}
+
+$u = new Usuario("Ana", "ana@mail.com", "123");
+echo $u->getNombre(); // Ana</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-2">
+        <div class="preview-card-title"><i data-lucide="link" style="width:16px;height:16px;color:var(--accent)"></i> Herencia e Interfaces</div>
+        <pre><code>&lt;?php
+interface Comparable {
+    public function compareTo(self $other): int;
+}
+
+class Producto implements Comparable {
+    public function __construct(
+        public string $nombre,
+        public float $precio,
+    ) {}
+
+    public function compareTo(self $other): int {
+        return $this->precio <=> $other->precio;
+    }
+}
+
+$a = new Producto("A", 10);
+$b = new Producto("B", 20);
+echo $a->compareTo($b); // -1</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-3">
+        <div class="preview-card-title"><i data-lucide="sparkles" style="width:16px;height:16px;color:#ff6b6b"></i> PHP 8.1+ Enums</div>
+        <pre><code>&lt;?php
+enum Estado: string {
+    case Activo   = "activo";
+    case Inactivo = "inactivo";
+    case Pendiente = "pendiente";
+
+    public function label(): string {
+        return match($this) {
+            self::Activo   => "Activo",
+            self::Inactivo => "Inactivo",
+            self::Pendiente => "Pendiente",
+        };
+    }
+}
+
+$e = Estado::Activo;
+echo $e->value;    // "activo"
+echo $e->label();  // "Activo"</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW: BASES DE DATOS ===== -->
+  <div class="home-preview">
+    <div class="preview-header fade-up">
+      <span class="preview-badge"><i data-lucide="database" style="width:14px;height:14px;color:var(--green)"></i> Bases de Datos</span>
+      <h2>MySQL con PDO</h2>
+      <p>Conecta, consulta y manipula bases de datos de forma segura con PHP Data Objects.</p>
+      <a href="#bases-datos" class="btn btn-primary" style="margin-top:1rem"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Ver seccion completa</a>
+    </div>
+    <div class="preview-cards">
+      <div class="preview-card fade-up delay-1">
+        <div class="preview-card-title"><i data-lucide="plug" style="width:16px;height:16px;color:var(--green)"></i> Conexion PDO</div>
+        <pre><code>&lt;?php
+try {
+    $pdo = new PDO(
+        "mysql:host=localhost;dbname=tienda;charset=utf8mb4",
+        "root",
+        "",
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]
+    );
+    echo "Conexion exitosa!";
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
+}</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-2">
+        <div class="preview-card-title"><i data-lucide="search" style="width:16px;height:16px;color:var(--accent)"></i> Prepared Statements</div>
+        <pre><code>&lt;?php
+// INSERT seguro con prepared statements
+$stmt = $pdo->prepare(
+    "INSERT INTO usuarios (nombre, email, password)
+     VALUES (:nombre, :email, :pass)"
+);
+
+$stmt->execute([
+    ':nombre' => $nombre,
+    ':email'  => $email,
+    ':pass'   => password_hash($pass, PASSWORD_DEFAULT),
+]);
+
+echo "Usuario creado con ID: " . $pdo->lastInsertId();</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-3">
+        <div class="preview-card-title"><i data-lucide="refresh-cw" style="width:16px;height:16px;color:var(--accent2)"></i> Transacciones</div>
+        <pre><code>&lt;?php
+try {
+    $pdo->beginTransaction();
+
+    $pdo->exec("UPDATE cuentas SET saldo = saldo - 100 WHERE id = 1");
+    $pdo->exec("UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2");
+
+    $pdo->commit();
+    echo "Transferencia exitosa!";
+} catch (Exception $e) {
+    $pdo->rollBack();
+    echo "Error: " . $e->getMessage();
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW: SEGURIDAD ===== -->
+  <div class="home-preview home-preview-alt">
+    <div class="preview-header fade-up">
+      <span class="preview-badge"><i data-lucide="shield-check" style="width:14px;height:14px;color:#ff6b6b"></i> Seguridad Web</span>
+      <h2>Protege tu aplicacion</h2>
+      <p>XSS, CSRF, SQL Injection, hash de contrasenas y las mejores practicas de seguridad.</p>
+      <a href="#seguridad" class="btn btn-primary" style="margin-top:1rem"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Ver seccion completa</a>
+    </div>
+    <div class="preview-cards">
+      <div class="preview-card fade-up delay-1">
+        <div class="preview-card-title"><i data-lucide="shield-alert" style="width:16px;height:16px;color:#ff6b6b"></i> XSS - Cross Site Scripting</div>
+        <pre><code>&lt;?php
+// PELIGRO: Output sin sanitizar
+echo $_GET['nombre']; // &lt;script&gt;alert('XSS')&lt;/script&gt;
+
+// SEGURO: Escapar output
+echo htmlspecialchars($_GET['nombre'], ENT_QUOTES, 'UTF-8');
+
+// SEGURO: Usar Content Security Policy
+header("Content-Security-Policy: default-src 'self'");</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-2">
+        <div class="preview-card-title"><i data-lucide="lock" style="width:16px;height:16px;color:var(--green)"></i> Contrasenas Seguras</div>
+        <pre><code>&lt;?php
+// NUNCA guardar contrasenas en texto plano
+$hash = password_hash("mi_contrasena", PASSWORD_DEFAULT);
+// $2y$10$N9qo8uLOickgx2ZMRZoMy...
+
+// Verificar contrasena
+if (password_verify("mi_contrasena", $hash)) {
+    echo "Contrasena correcta!";
+}
+
+// Verificar si necesita rehash (actualizar algorithm)
+if (password_needs_rehash($hash, PASSWORD_DEFAULT)) {
+    $nuevoHash = password_hash("mi_contrasena", PASSWORD_DEFAULT);
+}</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-3">
+        <div class="preview-card-title"><i data-lucide="key" style="width:16px;height:16px;color:#ffd166"></i> CSRF Token</div>
+        <pre><code>&lt;?php
+// Generar token
+session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// En el formulario HTML:
+// &lt;input type="hidden" name="csrf_token"
+//        value="&lt;?= $_SESSION['csrf_token'] ?&gt;"&gt;
+
+// Verificar en el POST
+if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("Token CSRF invalido!");
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW: APIS Y COMPOSER ===== -->
+  <div class="home-preview">
+    <div class="preview-header fade-up">
+      <span class="preview-badge"><i data-lucide="globe" style="width:14px;height:14px;color:var(--accent2)"></i> APIs, JSON y Composer</span>
+      <h2>APIs y Gestor de Paquetes</h2>
+      <p>Consume APIs externas, crea tu propia API REST y gestiona dependencias con Composer.</p>
+      <a href="#apis-json" class="btn btn-primary" style="margin-top:1rem"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Ver seccion completa</a>
+    </div>
+    <div class="preview-cards">
+      <div class="preview-card fade-up delay-1">
+        <div class="preview-card-title"><i data-lucide="download" style="width:16px;height:16px;color:var(--accent2)"></i> Consumir API con cURL</div>
+        <pre><code>&lt;?php
+$ch = curl_init("https://api.github.com/users/php");
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER    => [
+        "Accept: application/json",
+        "User-Agent: PHP-Guide",
+    ],
+]);
+
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+$data = json_decode($response, true);
+echo $data['name']; // "PHP"</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-2">
+        <div class="preview-card-title"><i data-lucide="server" style="width:16px;height:16px;color:#ff2d20"></i> API REST Basica</div>
+        <pre><code>&lt;?php
+header("Content-Type: application/json");
+
+$method = $_SERVER['REQUEST_METHOD'];
+
+switch ($method) {
+    case "GET":
+        echo json_encode(["users" => $users]);
+        break;
+    case "POST":
+        $data = json_decode(file_get_contents("php://input"), true);
+        // Crear recurso...
+        http_response_code(201);
+        echo json_encode(["message" => "Creado"]);
+        break;
+    case "PUT":
+        // Actualizar recurso...
+        echo json_encode(["message" => "Actualizado"]);
+        break;
+    case "DELETE":
+        // Eliminar recurso...
+        echo json_encode(["message" => "Eliminado"]);
+        break;
+}</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-3">
+        <div class="preview-card-title"><i data-lucide="package" style="width:16px;height:16px;color:#ff8e53"></i> Composer</div>
+        <pre><code># Instalar Composer
+curl -sS https://getcomposer.org/installer | php
+
+# Crear proyecto
+composer init
+
+# Instalar dependencia
+composer require monolog/monolog
+
+# Instalar solo para desarrollo
+composer require --dev phpunit/phpunit
+
+# Actualizar dependencias
+composer update
+
+# Generar autoloader
+composer dump-autoload</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW: PHP 8 ===== -->
+  <div class="home-preview home-preview-alt">
+    <div class="preview-header fade-up">
+      <span class="preview-badge"><i data-lucide="sparkles" style="width:14px;height:14px;color:#ffd166"></i> PHP 8.x Novedades</span>
+      <h2>Lo ultimo de PHP</h2>
+      <p>Constructor Property Promotion, Enums, Fibers, Named Arguments, Match expressions y mas.</p>
+      <a href="#php8" class="btn btn-primary" style="margin-top:1rem"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Ver seccion completa</a>
+    </div>
+    <div class="preview-cards">
+      <div class="preview-card fade-up delay-1">
+        <div class="preview-card-title"><i data-lucide="sparkles" style="width:16px;height:16px;color:#ffd166"></i> Constructor Property Promotion</div>
+        <pre><code>&lt;?php
+// PHP 8.0 - Antes necesitabas 20+ lineas
+class User {
+    public function __construct(
+        public string $name,
+        public string $email,
+        public int $age = 0,
+        protected string $role = "user",
+    ) {}
+}
+
+$user = new User("Ana", "ana@mail.com");
+echo $user->name;  // "Ana"</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-2">
+        <div class="preview-card-title"><i data-lucide="hash" style="width:16px;height:16px;color:var(--accent)"></i> Named Arguments</div>
+        <pre><code>&lt;php
+function create_user(
+    string $name,
+    string $email,
+    int $age = 0,
+    bool $active = true
+): array {
+    return compact("name", "email", "age", "active");
+}
+
+// Sin named args (confuso)
+create_user("Ana", "ana@mail.com", 25, false);
+
+// Con named args (claro y flexible)
+create_user(
+    name: "Ana",
+    email: "ana@mail.com",
+    active: false,
+);</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-3">
+        <div class="preview-card-title"><i data-lucide="zap" style="width:16px;height:16px;color:var(--accent2)"></i> Fibers (PHP 8.1)</div>
+        <pre><code>&lt;php
+$fiber = new Fiber(function (): void {
+    echo "Inicio del Fiber\n";
+    Fiber::suspend(); // Pausar
+    echo "Reanudado!\n";
+});
+
+$fiber->start();          // "Inicio del Fiber"
+echo "Fuera del Fiber\n";
+$fiber->resume();         // "Reanudado!"
+echo "Terminado? " . ($fiber->isTerminated() ? "Si" : "No");</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PREVIEW: DOCKER Y LARAVEL ===== -->
+  <div class="home-preview">
+    <div class="preview-header fade-up">
+      <span class="preview-badge"><i data-lucide="container" style="width:14px;height:14px;color:#2496ed"></i> Docker, Laravel y Profesional</span>
+      <h2>Develop a Nivel Profesional</h2>
+      <p>Docker, Laravel, PHPUnit, Git, rendimiento y todo lo que necesitas para el mundo real.</p>
+      <a href="#docker" class="btn btn-primary" style="margin-top:1rem"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Ver Docker</a>
+      <a href="#laravel" class="btn btn-outline" style="margin-top:1rem"><i data-lucide="arrow-right" style="width:16px;height:16px"></i> Ver Laravel</a>
+    </div>
+    <div class="preview-cards">
+      <div class="preview-card fade-up delay-1">
+        <div class="preview-card-title"><i data-lucide="container" style="width:16px;height:16px;color:#2496ed"></i> Docker Compose</div>
+        <pre><code># docker-compose.yml
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: tienda
+    ports:
+      - "3306:3306"</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-2">
+        <div class="preview-card-title"><i data-lucide="framework" style="width:16px;height:16px;color:#ff2d20"></i> Laravel Routes</div>
+        <pre><code>&lt;?php
+// routes/web.php
+use App\Http\Controllers\UserController;
+
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/{id}', [UserController::class, 'show']);
+Route::post('/users', [UserController::class, 'store']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+// Rutas con middleware
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashController::class, 'index']);
+});</code></pre>
+      </div>
+      <div class="preview-card fade-up delay-3">
+        <div class="preview-card-title"><i data-lucide="git-branch" style="width:16px;height:16px;color:#f05033"></i> Git Comandos</div>
+        <pre><code># Iniciar repositorio
+git init && git add . && git commit -m "feat: initial commit"
+
+# Branching
+git checkout -b feature/login
+git add . && git commit -m "feat: login form"
+git checkout main
+git merge feature/login
+
+# Remoto
+git remote add origin https://github.com/user/repo.git
+git push -u origin main
+
+# Stash
+git stash push -m "cambios pendientes"
+git stash pop</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CTA FINAL ===== -->
+  <div class="home-cta fade-up">
+    <div class="hero-bg"></div>
+    <h2>¿Listo para empezar?</h2>
+    <p>Comienza ahora y conviertete en un desarrollador PHP profesional.</p>
+    <div class="hero-btns" style="margin-top:1.5rem">
+      <a href="#php" class="btn btn-primary"><i data-lucide="rocket" style="width:18px;height:18px"></i> Empezar desde Cero</a>
+      <a href="#cheatsheet" class="btn btn-outline"><i data-lucide="file-text" style="width:18px;height:18px"></i> Cheat Sheet PDF</a>
+    </div>
+  </div>
+
 </section>

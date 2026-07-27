@@ -24,5 +24,3 @@ code{
 
 /* ANIM */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
-.fade-up{animation:fadeUp .6s ease both;}
-.delay-1{animation-delay:.1s;}.delay-2{animation-delay:.2s;}.delay-3{animation-delay:.3s;}

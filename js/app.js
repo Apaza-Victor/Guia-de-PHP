@@ -89,3 +89,12 @@ window.addEventListener('scroll', () => {
     a.classList.toggle('active', a.getAttribute('href') === '#' + current);
   });
 });
+
+// FADE-UP INTERSECTION OBSERVER
+function initFadeUp(){
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  }, { threshold:0.15 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+}
+document.addEventListener('DOMContentLoaded', initFadeUp);
