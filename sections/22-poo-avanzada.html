@@ -130,6 +130,36 @@
         <div class="output-info">2024-01-15 10:30:00</div>
         <div style="font-size:.78rem;color:var(--text3);margin-top:.4rem">← error_log registra en archivo de log del servidor</div>
       </div>
+      <div class="code-wrap" style="margin-top:1rem">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>trait_conflict.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Resolución de conflictos entre traits</span>
+<span class="kw">trait</span> <span class="fn">Cacheable</span> {
+    <span class="kw">public function</span> <span class="fn">getTTL</span>(): <span class="kw">int</span> { <span class="kw">return</span> <span class="num">3600</span><span class="op">;</span> }  <span class="cmt">// 1 hora</span>
+    <span class="kw">public function</span> <span class="fn">储</span>(): <span class="kw">void</span> { <span class="fn">echo</span> <span class="str">"Guardando en caché..."</span><span class="op">;</span> }
+}
+
+<span class="kw">trait</span> <span class="fn">RateLimited</span> {
+    <span class="kw">public function</span> <span class="fn">getTTL</span>(): <span class="kw">int</span> { <span class="kw">return</span> <span class="num">60</span><span class="op">;</span> }     <span class="cmt">// 1 minuto</span>
+    <span class="kw">public function</span> <span class="fn">getMaxRequests</span>(): <span class="kw">int</span> { <span class="kw">return</span> <span class="num">100</span><span class="op">;</span> }
+}
+
+<span class="cmt">// Cuando dos traits tienen el mismo método → conflicto</span>
+<span class="cmt">// Usar "insteadof" para elegir cuál usar</span>
+<span class="kw">class</span> <span class="fn">MiAPI</span> {
+    <span class="kw">use</span> <span class="fn">Cacheable</span><span class="op">,</span> <span class="fn">RateLimited</span> {
+        <span class="cmt">// Usar getTTL de Cacheable, ignorando el de RateLimited</span>
+        <span class="fn">Cacheable</span>::<span class="fn">getTTL</span> <span class="kw">insteadof</span> <span class="fn">RateLimited</span><span class="op">;</span>
+        <span class="cmt">// Renombrar el método del otro trait con "as"</span>
+        <span class="fn">RateLimited</span>::<span class="fn">getTTL</span> <span class="kw">as</span> <span class="fn">getRateTTL</span><span class="op">;</span>
+    }
+}
+
+<span class="var">$api</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">MiAPI</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$api</span><span class="op">-&gt;</span><span class="fn">getTTL</span>()<span class="op">;</span>      <span class="cmt">// 3600 (de Cacheable)</span>
+<span class="fn">echo</span> <span class="var">$api</span><span class="op">-&gt;</span><span class="fn">getRateTTL</span>()<span class="op">;</span>  <span class="cmt">// 60 (de RateLimited, renombrado)</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
     </div>
   </div>
 

@@ -14,6 +14,8 @@
             <button class="tab-btn" onclick="showTab(this,'fn-variadic')">Variadic &amp; Referencia</button>
             <button class="tab-btn" onclick="showTab(this,'fn-closures')">Closures y Arrows</button>
             <button class="tab-btn" onclick="showTab(this,'fn-recursion')">Recursividad</button>
+            <button class="tab-btn" onclick="showTab(this,'fn-include')">Include &amp; Require</button>
+            <button class="tab-btn" onclick="showTab(this,'fn-generators')">Generators</button>
           </div>
 
           <div id="fn-basic" class="tab-content active">
@@ -229,6 +231,109 @@
               <div class="output-success">fib(10) = 55</div>
             </div>
             <div class="alert alert-warn" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> Toda función recursiva necesita un <strong>caso base</strong> que detenga la recursión. Sin él, causará un error de desbordamiento de pila (<em>stack overflow</em>).</div>
+          </div>
+
+          <div id="fn-include" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>include_require.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// include — incluye un archivo. Si falla, solo warning y sigue ejecutando</span>
+<span class="kw">include</span> <span class="str">'config.php'</span><span class="op">;</span>
+
+<span class="cmt">// require — incluye un archivo. Si falla, FATAL ERROR y detiene el script</span>
+<span class="kw">require</span> <span class="str">'conexion.php'</span><span class="op">;</span>
+
+<span class="cmt">// include_once — solo incluye una vez (evita redeclaración de funciones/clases)</span>
+<span class="kw">include_once</span> <span class="str">'funciones_helpers.php'</span><span class="op">;</span>
+
+<span class="cmt">// require_once — lo mismo que require, pero solo una vez</span>
+<span class="kw">require_once</span> <span class="str">'vendor/autoload.php'</span><span class="op">;</span>
+
+<span class="cmt">// Diferencia clave:</span>
+<span class="cmt">//   include  → warning si falla, el script CONTINÚA</span>
+<span class="cmt">//   require  → FATAL ERROR si falla, el script SE DETIENE</span>
+<span class="cmt">//   _once    → evita incluir el mismo archivo dos veces</span>
+
+<span class="cmt">// Ejemplo práctico — estructura de proyecto</span>
+<span class="kw">require_once</span> <span class="str">'config/database.php'</span><span class="op">;</span>  <span class="cmt">// conexión PDO</span>
+<span class="kw">require_once</span> <span class="str">'config/helpers.php'</span><span class="op">;</span>    <span class="cmt">// funciones auxiliares</span>
+<span class="kw">include</span> <span class="str">'templates/header.php'</span><span class="op">;</span>      <span class="cmt">// cabecera HTML (puede fallar sin gravedad)</span>
+<span class="cmt">// ... contenido principal ...</span>
+<span class="kw">include</span> <span class="str">'templates/footer.php'</span><span class="op">;</span>      <span class="cmt">// pie de página</span>
+
+<span class="cmt">// Autoload moderno — Composer (recomendado)</span>
+<span class="kw">require_once</span> <span class="str">'vendor/autoload.php'</span><span class="op">;</span>
+<span class="cmt">// Ya NO necesitas include/require por cada clase</span>
+<span class="cmt">// Composer carga las clases automáticamente bajo demanda (PSR-4)</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Comportamiento</th><th><code>include</code></th><th><code>require</code></th></tr>
+              <tr><td>Archivo encontrado</td><td>Lo incluye</td><td>Lo incluye</td></tr>
+              <tr><td>Archivo NO encontrado</td><td>Warning, continúa</td><td>Fatal error, detiene</td></tr>
+              <tr><td>Usar cuando...</td><td>Contenido opcional (header, footer)</td><td>Dependencias críticas (DB, config)</td></tr>
+            </table>
+            <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> En proyectos modernos con Composer, usa <strong>require_once 'vendor/autoload.php'</strong> una sola vez y olvídate de <code>include</code>/<code>require</code> por cada clase. El autoloader de Composer las carga bajo demanda.</div>
+          </div>
+
+          <div id="fn-generators" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>generators.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Generators — producen valores bajo demanda con yield</span>
+<span class="cmt">// Ventaja: memoria O(1) vs O(n) con arrays</span>
+
+<span class="cmt">// Función normal — carga TODO el array en memoria</span>
+<span class="kw">function</span> <span class="fn">rangoArray</span>(<span class="kw">int</span> <span class="var">$start</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$end</span>): <span class="kw">array</span> {
+    <span class="var">$result</span> <span class="op">=</span> []<span class="op">;</span>
+    <span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="var">$start</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="var">$end</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+        <span class="var">$result</span>[] <span class="op">=</span> <span class="var">$i</span><span class="op">;</span>
+    }
+    <span class="kw">return</span> <span class="var">$result</span><span class="op">;</span> <span class="cmt">// Crea el array completo en RAM</span>
+}
+
+<span class="cmt">// Generator — produce valores uno a uno (lazy evaluation)</span>
+<span class="kw">function</span> <span class="fn">rango</span>(<span class="kw">int</span> <span class="var">$start</span><span class="op">,</span> <span class="kw">int</span> <span class="var">$end</span>): <span class="kw">Generator</span> {
+    <span class="kw">for</span> (<span class="var">$i</span> <span class="op">=</span> <span class="var">$start</span><span class="op">;</span> <span class="var">$i</span> <span class="op">&lt;=</span> <span class="var">$end</span><span class="op">;</span> <span class="var">$i</span><span class="op">++</span>) {
+        <span class="kw">yield</span> <span class="var">$i</span><span class="op">;</span> <span class="cmt">// produce un valor, pausa, espera a que se pida el siguiente</span>
+    }
+}
+
+<span class="cmt">// Se usa igual que un array en foreach</span>
+<span class="kw">foreach</span> (<span class="fn">rango</span>(<span class="num">1</span><span class="op">,</span> <span class="num">5</span>) <span class="kw">as</span> <span class="var">$num</span>) {
+    <span class="fn">echo</span> <span class="var">$num</span> <span class="op">.</span> <span class="str">" "</span><span class="op">;</span>  <span class="cmt">// 1 2 3 4 5</span>
+}
+
+<span class="cmt">// Generator con yield y return (el return es el valor final del generator)</span>
+<span class="kw">function</span> <span class="fn">leerLineas</span>(<span class="kw">string</span> <span class="var">$archivo</span>): <span class="kw">Generator</span> {
+    <span class="var">$handle</span> <span class="op">=</span> <span class="fn">fopen</span>(<span class="var">$archivo</span><span class="op">,</span> <span class="str">'r'</span>)<span class="op">;</span>
+    <span class="kw">if</span> (<span class="op">!</span><span class="var">$handle</span>) <span class="kw">return</span><span class="op">;</span>
+    <span class="kw">while</span> (<span class="op">!</span><span class="fn">feof</span>(<span class="var">$handle</span>)) {
+        <span class="kw">yield</span> <span class="fn">fgets</span>(<span class="var">$handle</span>)<span class="op">;</span>
+    }
+    <span class="fn">fclose</span>(<span class="var">$handle</span>)<span class="op">;</span>
+}
+
+<span class="cmt">// yield clave => valor — como un array asociativo</span>
+<span class="kw">function</span> <span class="fn">usuarios</span>(): <span class="kw">Generator</span> {
+    <span class="kw">yield</span> <span class="str">'ana'</span> <span class="op">=&gt;</span> <span class="str">'Ana García'</span><span class="op">;</span>
+    <span class="kw">yield</span> <span class="str">'luis'</span> <span class="op">=&gt;</span> <span class="str">'Luis Pérez'</span><span class="op">;</span>
+    <span class="kw">yield</span> <span class="str">'maria'</span> <span class="op">=&gt;</span> <span class="str">'María López'</span><span class="op">;</span>
+}
+
+<span class="kw">foreach</span> (<span class="fn">usuarios</span>() <span class="kw">as</span> <span class="var">$key</span> <span class="op">=&gt;</span> <span class="var">$nombre</span>) {
+    <span class="fn">echo</span> <span class="str">"<span class="var">$key</span>: <span class="var">$nombre</span>\n"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">▶ Salida</div>
+              <div class="output-success">1 2 3 4 5</div>
+              <div class="output-info">ana: Ana García</div>
+              <div class="output-info">luis: Luis Pérez</div>
+              <div class="output-info">maria: María López</div>
+            </div>
+            <div class="alert alert-info" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Un Generator es como una función que <strong>pausa y reanuda</strong> su ejecución. Cada vez que el foreach pide un valor, el generator ejecuta hasta el siguiente <code>yield</code>. Ideal para procesar archivos grandes, series de datos o flujos infinitos sin cargar todo en memoria.</div>
           </div>
         </div>
       </div>

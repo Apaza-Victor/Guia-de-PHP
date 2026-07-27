@@ -569,5 +569,49 @@
 
         </div>
       </div>
+
+      <!-- SUPERGLOBALES -->
+      <div class="concept-card">
+        <div class="concept-header">
+          <div class="concept-num" style="background:linear-gradient(135deg,#f72585,#7209b7)">7</div>
+          <div>
+            <div class="concept-title">Superglobales de PHP</div>
+            <div class="concept-desc">Variables especiales disponibles en todo el script, sin necesidad de declararlas.</div>
+          </div>
+        </div>
+        <div class="concept-body">
+          <table class="data-table">
+            <tr><th>Superglobal</th><th>Descripción</th><th>Ejemplo</th></tr>
+            <tr><td><code>$_GET</code></td><td>Parámetros enviados por URL (query string)</td><td><code>?id=5&amp;page=2</code></td></tr>
+            <tr><td><code>$_POST</code></td><td>Datos enviados por formulario con method="POST"</td><td>Campos de formulario</td></tr>
+            <tr><td><code>$_REQUEST</code></td><td>Unión de $_GET + $_POST + $_COOKIE</td><td>Formularios flexibles</td></tr>
+            <tr><td><code>$_FILES</code></td><td>Archivos subidos con upload HTTP</td><td><code>$_FILES['avatar']['tmp_name']</code></td></tr>
+            <tr><td><code>$_SERVER</code></td><td>Información del servidor y de la petición</td><td><code>$_SERVER['REQUEST_URI']</code>, <code>$_SERVER['REMOTE_ADDR']</code></td></tr>
+            <tr><td><code>$_SESSION</code></td><td>Datos de sesión del usuario (requiere session_start)</td><td><code>$_SESSION['user_id']</code></td></tr>
+            <tr><td><code>$_COOKIE</code></td><td>Cookies enviadas por el navegador</td><td><code>$_COOKIE['theme']</code></td></tr>
+            <tr><td><code>$GLOBALS</code></td><td>Array con todas las variables globales</td><td><code>$GLOBALS['miVar']</code></td></tr>
+          </table>
+          <div class="code-wrap" style="margin-top:1rem">
+            <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>superglobales_ejemplo.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+            <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// $_SERVER — información de la petición actual</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'REQUEST_METHOD'</span>]<span class="op">;</span>  <span class="cmt">// GET o POST</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'REQUEST_URI'</span>]<span class="op">;</span>    <span class="cmt">// /pagina.php?id=5</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'REMOTE_ADDR'</span>]<span class="op">;</span>   <span class="cmt">// IP del visitante</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'HTTP_HOST'</span>]<span class="op">;</span>      <span class="cmt">// mi-sitio.com</span>
+<span class="fn">echo</span> <span class="var">$_SERVER</span>[<span class="str">'DOCUMENT_ROOT'</span>]<span class="op">;</span> <span class="cmt">// C:/xampp/htdocs</span>
+
+<span class="cmt">// $GLOBALS — acceder a variables globales por nombre</span>
+<span class="var">$nombre</span> <span class="op">=</span> <span class="str">"PHP"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$GLOBALS</span>[<span class="str">'nombre'</span>]<span class="op">;</span>  <span class="cmt">// PHP</span>
+
+<span class="cmt">// $_REQUEST — combina GET + POST + COOKIE</span>
+<span class="cmt">// Útil cuando no sabes si viene por GET o POST</span>
+<span class="var">$id</span> <span class="op">=</span> <span class="var">$_REQUEST</span>[<span class="str">'id'</span>] <span class="op">??</span> <span class="kw">null</span><span class="op">;</span>  <span class="cmt">// siempre usar ?? para evitar undefined</span>
+<span class="tag">?&gt;</span></pre>
+          </div>
+        </div>
+      </div>
+
 </div>
       </section>

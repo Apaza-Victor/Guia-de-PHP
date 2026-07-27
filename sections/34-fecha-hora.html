@@ -1,0 +1,464 @@
+<section id="fecha-hora">
+<div class="section">
+  <div class="section-header">
+    <span class="section-tag"><i data-lucide="clock" style="width:16px;height:16px"></i> Modulo 26</span>
+    <h2 class="section-title">Fecha y Hora en PHP</h2>
+    <p class="section-subtitle">Trabaja con fechas usando funciones nativas, la clase DateTime, DateTimeImmutable y Carbon para operaciones legibles y seguras.</p>
+  </div>
+
+  <!-- FUNCIONES BASICAS -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b4d8,#0077b6)">1</div>
+      <div>
+        <div class="concept-title">Funciones basicas de fecha y hora</div>
+        <div class="concept-desc">Funciones nativas: time(), date(), mktime() y strtotime() para obtener, formatear y calcular fechas.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="data-table">
+        <table>
+          <thead>
+            <tr><th>Caracter</th><th>Descripcion</th><th>Ejemplo</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>d</code></td><td>Dia del mes (01-31)</td><td>05</td></tr>
+            <tr><td><code>m</code></td><td>Mes numerico (01-12)</td><td>09</td></tr>
+            <tr><td><code>Y</code></td><td>Anio con 4 digitos</td><td>2026</td></tr>
+            <tr><td><code>H</code></td><td>Hora en formato 24h (00-23)</td><td>14</td></tr>
+            <tr><td><code>i</code></td><td>Minutos (00-59)</td><td>30</td></tr>
+            <tr><td><code>s</code></td><td>Segundos (00-59)</td><td>45</td></tr>
+            <tr><td><code>l</code></td><td>Nombre del dia (lunes...)</td><td>lunes</td></tr>
+            <tr><td><code>F</code></td><td>Nombre del mes (enero...)</td><td>enero</td></tr>
+            <tr><td><code>w</code></td><td>Dia de la semana (0=domingo)</td><td>1</td></tr>
+            <tr><td><code>U</code></td><td>Timestamp Unix</td><td>1753478400</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'fecha-basicas')">Formateo basico</button>
+        <button class="tab-btn" onclick="showTab(this,'fecha-mktime')">mktime()</button>
+        <button class="tab-btn" onclick="showTab(this,'fecha-strtotime')">strtotime()</button>
+      </div>
+
+      <div id="fecha-basicas" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>fecha_actual.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Obtener timestamp actual (segundos desde 1970-01-01)</span>
+<span class="var">$timestamp</span> <span class="op">=</span> <span class="fn">time</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Timestamp: "</span> <span class="op">.</span> <span class="var">$timestamp</span><span class="op">;</span>
+
+<span class="cmt">// Formatear fecha actual</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'d/m/Y H:i:s'</span>)<span class="op">;</span>           <span class="cmt">// 26/07/2026 14:30:45</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'l, d \d\e F \d\e Y'</span>)<span class="op">;</span>  <span class="cmt">// domingo, 26 de julio de 2026</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'Y-m-d\TH:i:sP'</span>)<span class="op">;</span>     <span class="cmt">// 2026-07-26T14:30:45+02:00 (ISO 8601)</span>
+
+<span class="cmt">// Diferencia entre dos fechas en dias</span>
+<span class="var">$inicio</span> <span class="op">=</span> <span class="fn">strtotime</span>(<span class="str">'2026-01-01'</span>)<span class="op">;</span>
+<span class="var">$hoy</span>    <span class="op">=</span> <span class="fn">strtotime</span>(<span class="fn">date</span>(<span class="str">'Y-m-d'</span>))<span class="op">;</span>
+<span class="var">$dias</span>   <span class="op">=</span> (<span class="var">$hoy</span> <span class="op">-</span> <span class="var">$inicio</span>) <span class="op">/</span> (<span class="num">60</span> <span class="op">*</span> <span class="num">60</span> <span class="op">*</span> <span class="num">24</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Han pasado </span><span class="var">$dias</span><span class="str"> dias en 2026"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">Timestamp: 1753478445</div>
+          <div class="output-info">26/07/2026 14:30:45</div>
+        </div>
+      </div>
+
+      <div id="fecha-mktime" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>mktime_ejemplo.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// mktime(hora, min, seg, mes, dia, anio) — crea un timestamp</span>
+<span class="var">$navidad</span> <span class="op">=</span> <span class="fn">mktime</span>(<span class="num">0</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="num">12</span><span class="op">,</span> <span class="num">25</span><span class="op">,</span> <span class="num">2026</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Navidad: "</span> <span class="op">.</span> <span class="fn">date</span>(<span class="str">'Y-m-d'</span><span class="op">,</span> <span class="var">$navidad</span>)<span class="op">;</span>
+
+<span class="cmt">// Crear fecha futura: 90 dias desde hoy</span>
+<span class="var">$hoy</span> <span class="op">=</span> <span class="fn">time</span>()<span class="op">;</span>
+<span class="var">$en90</span> <span class="op">=</span> <span class="fn">mktime</span>(
+    <span class="fn">date</span>(<span class="str">'H'</span>)<span class="op">,</span> <span class="fn">date</span>(<span class="str">'i'</span>)<span class="op">,</span> <span class="fn">date</span>(<span class="str">'s'</span>)<span class="op">,</span>
+    <span class="fn">date</span>(<span class="str">'m'</span>)<span class="op">,</span> <span class="fn">date</span>(<span class="str">'d'</span>) <span class="op">+</span> <span class="num">90</span><span class="op">,</span> <span class="fn">date</span>(<span class="str">'Y'</span>)
+)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"En 90 dias sera: "</span> <span class="op">.</span> <span class="fn">date</span>(<span class="str">'l d/m/Y'</span><span class="op">,</span> <span class="var">$en90</span>)<span class="op">;</span>
+
+<span class="cmt">// Ultimo dia del mes actual</span>
+<span class="var">$ultimo</span> <span class="op">=</span> <span class="fn">mktime</span>(<span class="num">0</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="fn">date</span>(<span class="str">'m'</span>) <span class="op">+</span> <span class="num">1</span><span class="op">,</span> <span class="num">0</span><span class="op">,</span> <span class="fn">date</span>(<span class="str">'Y'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Ultimo dia: "</span> <span class="op">.</span> <span class="fn">date</span>(<span class="str">'d/m/Y'</span><span class="op">,</span> <span class="var">$ultimo</span>)<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">Navidad: 2026-12-25</div>
+          <div class="output-info">En 90 dias sera: sabado 24/10/2026</div>
+        </div>
+      </div>
+
+      <div id="fecha-strtotime" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>strtotime_ejemplo.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// strtotime() convierte strings en timestamps</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'Y-m-d'</span><span class="op">,</span> <span class="fn">strtotime</span>(<span class="str">'now'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'Y-m-d'</span><span class="op">,</span> <span class="fn">strtotime</span>(<span class="str">'+3 days'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'Y-m-d'</span><span class="op">,</span> <span class="fn">strtotime</span>(<span class="str">'last monday'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'Y-m-d'</span><span class="op">,</span> <span class="fn">strtotime</span>(<span class="str">'+1 month'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'Y-m-d'</span><span class="op">,</span> <span class="fn">strtotime</span>(<span class="str">'first day of next month'</span>))<span class="op">;</span>
+
+<span class="cmt">// Calcular dias entre dos fechas de texto</span>
+<span class="var">$ini</span> <span class="op">=</span> <span class="fn">strtotime</span>(<span class="str">'2026-03-15'</span>)<span class="op">;</span>
+<span class="var">$fin</span> <span class="op">=</span> <span class="fn">strtotime</span>(<span class="str">'2026-12-25'</span>)<span class="op">;</span>
+<span class="var">$dias</span> <span class="op">=</span> (<span class="var">$fin</span> <span class="op">-</span> <span class="var">$ini</span>) <span class="op">/</span> <span class="num">86400</span><span class="op">;</span>  <span class="cmt">// 86400 = 60*60*24</span>
+<span class="fn">echo</span> <span class="str">"Faltan </span><span class="var">$dias</span><span class="str"> dias para Navidad"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">2026-07-26</div>
+          <div class="output-info">Faltan 285 dias para Navidad</div>
+        </div>
+      </div>
+
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Las funciones basicas usan timestamps (enteros). Para manipulacion compleja de fechas, prefiere <strong>DateTime</strong> que es mas legible y potente.</div>
+    </div>
+  </div>
+
+  <!-- CLASE DATETIME -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b4d8,#0077b6)">2</div>
+      <div>
+        <div class="concept-title">Clase DateTime</div>
+        <div class="concept-desc">Objetos para representar y manipular fechas de forma orientada a objetos con metodos chainable.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'dt-crear')">Crear y formatear</button>
+        <button class="tab-btn" onclick="showTab(this,'dt-modify')">modify() y diff()</button>
+        <button class="tab-btn" onclick="showTab(this,'dt-dateinterval')">DateInterval</button>
+        <button class="tab-btn" onclick="showTab(this,'dt-dateperiod')">DatePeriod</button>
+      </div>
+
+      <div id="dt-crear" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>datetime_crear.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Crear desde la fecha actual</span>
+<span class="var">$ahora</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$ahora</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y H:i:s'</span>)<span class="op">;</span>
+
+<span class="cmt">// Crear desde un string</span>
+<span class="var">$cumple</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2000-06-15 08:30:00'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$cumple</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'l d \d\e F \d\e Y'</span>)<span class="op">;</span>
+
+<span class="cmt">// Crear con zona horaria</span>
+<span class="var">$tokyo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'now'</span><span class="op">,</span> <span class="kw">new</span> <span class="fn">DateTimeZone</span>(<span class="str">'Asia/Tokyo'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$tokyo</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'Y-m-d H:i:s e'</span>)<span class="op">;</span>
+
+<span class="cmt">// Comparar fechas con diff()</span>
+<span class="var">$nacimiento</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'1990-03-10'</span>)<span class="op">;</span>
+<span class="var">$hoy</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>()<span class="op">;</span>
+<span class="var">$diff</span> <span class="op">=</span> <span class="var">$nacimiento</span><span class="op">-&gt;</span><span class="fn">diff</span>(<span class="var">$hoy</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Edad: </span><span class="var">{$diff-&gt;y}</span><span class="str"> anios, </span><span class="var">{$diff-&gt;m}</span><span class="str"> meses, </span><span class="var">{$diff-&gt;d}</span><span class="str"> dias"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="dt-modify" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>datetime_modify.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// modify() — muta el objeto DateTime original</span>
+<span class="var">$fecha</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-26'</span>)<span class="op">;</span>
+
+<span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">modify</span>(<span class="str">'+7 days'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>)<span class="op">;</span>  <span class="cmt">// 02/08/2026</span>
+
+<span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">modify</span>(<span class="str">'+3 months'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>)<span class="op">;</span>  <span class="cmt">// 02/11/2026</span>
+
+<span class="cmt">// diff() — calcula la diferencia entre dos fechas</span>
+<span class="var">$ini</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-01-01'</span>)<span class="op">;</span>
+<span class="var">$fin</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-12-31'</span>)<span class="op">;</span>
+<span class="var">$diff</span> <span class="op">=</span> <span class="var">$ini</span><span class="op">-&gt;</span><span class="fn">diff</span>(<span class="var">$fin</span>)<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="var">$diff</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'%a dias'</span>)<span class="op">;</span>          <span class="cmt">// 364 dias</span>
+<span class="fn">echo</span> <span class="var">$diff</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'%m meses y %d dias'</span>)<span class="op">;</span> <span class="cmt">// 11 meses y 30 dias</span>
+
+<span class="cmt">// Dias laborales entre dos fechas (saltando fines de semana)</span>
+<span class="var">$laborables</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+<span class="var">$actual</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-01'</span>)<span class="op">;</span>
+<span class="var">$finMes</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-31'</span>)<span class="op">;</span>
+<span class="kw">while</span> (<span class="var">$actual</span> <span class="op">&lt;=</span> <span class="var">$finMes</span>) {
+    <span class="kw">if</span> (<span class="var">$actual</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'N'</span>) <span class="op">&lt;</span> <span class="num">6</span>) <span class="var">$laborables</span><span class="op">++;</span>
+    <span class="var">$actual</span><span class="op">-&gt;</span><span class="fn">modify</span>(<span class="str">'+1 day'</span>)<span class="op">;</span>
+}
+<span class="fn">echo</span> <span class="str">"Dias laborables en julio: </span><span class="var">$laborables</span><span class="str">"</span><span class="op">;</span>  <span class="cmt">// 23</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="dt-dateinterval" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>dateinterval.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// DateInterval — representar duraciones con formato ISO 8601</span>
+<span class="cmt">// P = periodo, T = tiempo, D = dias, M = meses, Y = anios, H/I/S = horas/min/seg</span>
+
+<span class="var">$unDia</span>    <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'P1D'</span>)<span class="op">;</span>    <span class="cmt">// 1 dia</span>
+<span class="var">$unMes</span>    <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'P1M'</span>)<span class="op">;</span>    <span class="cmt">// 1 mes</span>
+<span class="var">$unAnio</span>   <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'P1Y'</span>)<span class="op">;</span>    <span class="cmt">// 1 anio</span>
+<span class="var">$unaHora</span>  <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'PT1H'</span>)<span class="op">;</span>   <span class="cmt">// 1 hora</span>
+<span class="var">$complejo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'P1Y2M10DT3H30M'</span>)<span class="op">;</span> <span class="cmt">// 1 anio, 2 meses, 10 dias, 3h 30min</span>
+
+<span class="cmt">// add() y sub() — sumar/restar intervalos</span>
+<span class="var">$fecha</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-26'</span>)<span class="op">;</span>
+<span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">add</span>(<span class="var">$unDia</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>)<span class="op">;</span>  <span class="cmt">// 27/07/2026</span>
+
+<span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">sub</span>(<span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'P15D'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>)<span class="op">;</span>  <span class="cmt">// 12/07/2026</span>
+
+<span class="cmt">// Fecha limite para un proyecto</span>
+<span class="var">$inicio</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-01'</span>)<span class="op">;</span>
+<span class="var">$plazo</span> <span class="op">=</span> <span class="var">$inicio</span><span class="op">-&gt;</span><span class="fn">add</span>(<span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'P3M'</span>))<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Fecha limite: </span><span class="var">{$plazo-&gt;format('d/m/Y')}</span><span class="str">"</span><span class="op">;</span>  <span class="cmt">// 01/10/2026</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="dt-dateperiod" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>dateperiod.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// DatePeriod — iterar sobre un rango de fechas</span>
+<span class="var">$inicio</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-01'</span>)<span class="op">;</span>
+<span class="var">$fin</span>    <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-31'</span>)<span class="op">;</span>
+<span class="var">$intervalo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'P7D'</span>)<span class="op">;</span>  <span class="cmt">// cada 7 dias</span>
+
+<span class="var">$periodo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DatePeriod</span>(<span class="var">$inicio</span><span class="op">,</span> <span class="var">$intervalo</span><span class="op">,</span> <span class="var">$fin</span>)<span class="op">;</span>
+
+<span class="kw">foreach</span> (<span class="var">$periodo</span> <span class="kw">as</span> <span class="var">$fecha</span>) {
+    <span class="fn">echo</span> <span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y (l)'</span>) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+}
+
+<span class="cmt">// Generar todos los meses del anio 2026</span>
+<span class="var">$inicioAnio</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-01-01'</span>)<span class="op">;</span>
+<span class="var">$finAnio</span>    <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-12-31'</span>)<span class="op">;</span>
+
+<span class="var">$meses</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DatePeriod</span>(
+    <span class="var">$inicioAnio</span><span class="op">,</span>
+    <span class="kw">new</span> <span class="fn">DateInterval</span>(<span class="str">'P1M'</span>)<span class="op">,</span>
+    <span class="var">$finAnio</span><span class="op">,</span>
+    <span class="fn">DatePeriod</span>::<span class="var">INCLUDE_END_DATE</span>
+)<span class="op">;</span>
+
+<span class="kw">foreach</span> (<span class="var">$meses</span> <span class="kw">as</span> <span class="var">$m</span>) {
+    <span class="fn">echo</span> <span class="var">$m</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'F Y'</span>) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Para calcular la <strong>edad exacta</strong> de una persona usa <code>$nacimiento->diff(new DateTime())</code> que devuelve un objeto DateInterval con las propiedades <code>y</code>, <code>m</code> y <code>d</code>.</div>
+    </div>
+  </div>
+
+  <!-- DATETIMEIMMUTABLE -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b4d8,#0077b6)">3</div>
+      <div>
+        <div class="concept-title">DateTimeImmutable</div>
+        <div class="concept-desc">Version inmutable de DateTime: cada operacion devuelve un nuevo objeto sin modificar el original. Mas seguro para estado compartido.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="alert alert-info"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> <strong>Por que inmutable?</strong> Con DateTime, si pasas el objeto a una funcion y esta lo modifica, el original cambia (efecto secundario). DateTimeImmutable evita esto porque cada modificacion crea un nuevo objeto.</div>
+
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>immutable_vs_mutable.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// ============================================</span>
+<span class="cmt">//  PROBLEMA CON DateTime (mutable)</span>
+<span class="cmt">// ============================================</span>
+<span class="var">$fecha</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-26'</span>)<span class="op">;</span>
+<span class="var">$original</span> <span class="op">=</span> <span class="var">$fecha</span><span class="op">;</span>  <span class="cmt">// apunta al mismo objeto</span>
+
+<span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">modify</span>(<span class="str">'+7 days'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Original: "</span> <span class="op">.</span> <span class="var">$original</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Fecha:    "</span> <span class="op">.</span> <span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+<span class="cmt">// Ambos muestran 02/08/2026 — el original se cambio</span>
+
+<span class="cmt">// ============================================</span>
+<span class="cmt">//  SOLUCION CON DateTimeImmutable</span>
+<span class="cmt">// ============================================</span>
+<span class="var">$fecha</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTimeImmutable</span>(<span class="str">'2026-07-26'</span>)<span class="op">;</span>
+<span class="var">$original</span> <span class="op">=</span> <span class="var">$fecha</span><span class="op">;</span>
+
+<span class="var">$nueva</span> <span class="op">=</span> <span class="var">$fecha</span><span class="op">-&gt;</span><span class="fn">modify</span>(<span class="str">'+7 days'</span>)<span class="op">;</span>  <span class="cmt">// retorna NUEVO objeto</span>
+<span class="fn">echo</span> <span class="str">"Original: "</span> <span class="op">.</span> <span class="var">$original</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Nueva:    "</span> <span class="op">.</span> <span class="var">$nueva</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+<span class="cmt">// Original: 26/07/2026 — intocado</span>
+<span class="cmt">// Nueva:    02/08/2026 — nuevo objeto</span>
+
+<span class="cmt">// ============================================</span>
+<span class="cmt">//  RESULTADO SEGUNDO A SEGUNDO</span>
+<span class="cmt">// ============================================</span>
+<span class="var">$origA</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'2026-07-26'</span>)<span class="op">;</span>
+<span class="var">$origB</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">DateTimeImmutable</span>(<span class="str">'2026-07-26'</span>)<span class="op">;</span>
+
+<span class="cmt">// Mutable: ambas variables apuntan al MISMO objeto</span>
+<span class="var">$copia1</span> <span class="op">=</span> <span class="var">$origA</span><span class="op">;</span>
+<span class="var">$copia1</span><span class="op">-&gt;</span><span class="fn">modify</span>(<span class="str">'+1 year'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">var_export</span>(<span class="var">$origA</span> <span class="op">===</span> <span class="var">$copia1</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>  <span class="cmt">// true (mismo objeto)</span>
+
+<span class="cmt">// Immutable: son objetos DISTINTOS</span>
+<span class="var">$copia2</span> <span class="op">=</span> <span class="var">$origB</span><span class="op">-&gt;</span><span class="fn">modify</span>(<span class="str">'+1 year'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">var_export</span>(<span class="var">$origB</span> <span class="op">===</span> <span class="var">$copia2</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span>  <span class="cmt">// false (distintos)</span>
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <div class="visual-box">
+        <div class="visual-label">▶ Salida</div>
+        <div class="output-success">Original: 26/07/2026</div>
+        <div class="output-info">Nueva: 02/08/2026</div>
+      </div>
+
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Usa <strong>DateTimeImmutable</strong> por defecto en tu codigo. Solo cambia a DateTime si necesitas mutar el objeto en multiples pasos encadenados dentro de una unica variable.</div>
+    </div>
+  </div>
+
+  <!-- CARBON -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#00b4d8,#0077b6)">4</div>
+      <div>
+        <div class="concept-title">Carbon (intro)</div>
+        <div class="concept-desc">Wrapper de DateTime con API legible en ingles/espanol: addDays(), diffForHumans(), isPast() y mas.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <ol class="steps">
+        <li>Instala Carbon con Composer: <code>composer require nesbot/carbon</code></li>
+        <li>En tu archivo incluye el autoloader: <code>require 'vendor/autoload.php';</code></li>
+        <li>Usa las clases <code>Carbon\Carbon</code> o <code>Carbon\CarbonImmutable</code>.</li>
+      </ol>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'carbon-basic')">Uso basico</button>
+        <button class="tab-btn" onclick="showTab(this,'carbon-human')">diffForHumans()</button>
+        <button class="tab-btn" onclick="showTab(this,'carbon-deadlines')">Plazos y deadlines</button>
+      </div>
+
+      <div id="carbon-basic" class="tab-content active">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>carbon_basico.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">require_once</span> <span class="str">'vendor/autoload.php'</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">Carbon\Carbon</span><span class="op">;</span>
+
+<span class="cmt">// Fechas directas sin new</span>
+<span class="fn">echo</span> <span class="fn">Carbon::now</span>()<span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'Y-m-d H:i:s'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">Carbon::tomorrow</span>()<span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'Y-m-d'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">Carbon::yesterday</span>()<span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'Y-m-d'</span>)<span class="op">;</span>
+
+<span class="cmt">// Metodos legibles para modificar fechas</span>
+<span class="var">$hoy</span> <span class="op">=</span> <span class="fn">Carbon::now</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$hoy</span><span class="op">-&gt;</span><span class="fn">addDays</span>(<span class="num">7</span>)<span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$hoy</span><span class="op">-&gt;</span><span class="fn">subMonths</span>(<span class="num">3</span>)<span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$hoy</span><span class="op">-&gt;</span><span class="fn">addYears</span>(<span class="num">2</span>)<span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>)<span class="op">;</span>
+
+<span class="cmt">// Validaciones directas</span>
+<span class="fn">echo</span> <span class="var">$hoy</span><span class="op">-&gt;</span><span class="fn">isWeekend</span>() <span class="op">?</span> <span class="str">'Fin de semana'</span> <span class="op">:</span> <span class="str">'Dia laboral'</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$hoy</span><span class="op">-&gt;</span><span class="fn">isPast</span>() <span class="op">?</span> <span class="str">'Pasado'</span> <span class="op">:</span> <span class="str">'Futuro'</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">Carbon::create</span>(<span class="num">2026</span><span class="op">,</span> <span class="num">12</span><span class="op">,</span> <span class="num">25</span>)<span class="op">-&gt;</span><span class="fn">isFuture</span>() <span class="op">?</span> <span class="str">'Si'</span> <span class="op">:</span> <span class="str">'No'</span><span class="op">;</span>
+
+<span class="cmt">// Diferencia exacta entre fechas</span>
+<span class="var">$inicio</span> <span class="op">=</span> <span class="fn">Carbon::create</span>(<span class="num">2026</span><span class="op">,</span> <span class="num">1</span><span class="op">,</span> <span class="num">1</span>)<span class="op">;</span>
+<span class="var">$fin</span>    <span class="op">=</span> <span class="fn">Carbon::now</span>()<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$inicio</span><span class="op">-&gt;</span><span class="fn">diffInDays</span>(<span class="var">$fin</span>) <span class="op">.</span> <span class="str">" dias transcurridos"</span><span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="carbon-human" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>carbon_human.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">require_once</span> <span class="str">'vendor/autoload.php'</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">Carbon\Carbon</span><span class="op">;</span>
+
+<span class="cmt">// diffForHumans() — diferencias legibles automaticamente</span>
+<span class="var">$pasado</span> <span class="op">=</span> <span class="fn">Carbon::now</span>()<span class="op">-&gt;</span><span class="fn">subDays</span>(<span class="num">3</span>)<span class="op">;</span>
+<span class="var">$futuro</span> <span class="op">=</span> <span class="fn">Carbon::now</span>()<span class="op">-&gt;</span><span class="fn">addHours</span>(<span class="num">5</span>)<span class="op">;</span>
+<span class="var">$lejano</span> <span class="op">=</span> <span class="fn">Carbon::now</span>()<span class="op">-&gt;</span><span class="fn">subMonths</span>(<span class="num">6</span>)<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="var">$pasado</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>   <span class="cmt">// 3 days ago</span>
+<span class="fn">echo</span> <span class="var">$futuro</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>   <span class="cmt">// 5 hours from now</span>
+<span class="fn">echo</span> <span class="var">$lejano</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>  <span class="cmt">// 6 months ago</span>
+
+<span class="cmt">// En espanol con locale (requiere ext-intl)</span>
+<span class="fn">Carbon::setLocale</span>(<span class="str">'es'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$pasado</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>   <span class="cmt">// hace 3 dias</span>
+<span class="fn">echo</span> <span class="var">$futuro</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>   <span class="cmt">// dentro de 5 horas</span>
+<span class="fn">echo</span> <span class="var">$lejano</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>  <span class="cmt">// hace 6 meses</span>
+
+<span class="cmt">// Para blogs, foros, redes sociales — ideal</span>
+<span class="var">$post</span> <span class="op">=</span> <span class="fn">Carbon::parse</span>(<span class="str">'2026-07-20 09:15:00'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Publicado "</span> <span class="op">.</span> <span class="var">$post</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>  <span class="cmt">// Publicado 6 days ago</span>
+<span class="tag">?&gt;</span></pre>
+        </div>
+      </div>
+
+      <div id="carbon-deadlines" class="tab-content">
+        <div class="code-wrap">
+          <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>carbon_deadlines.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+          <pre><span class="tag">&lt;?php</span>
+<span class="kw">require_once</span> <span class="str">'vendor/autoload.php'</span><span class="op">;</span>
+<span class="kw">use</span> <span class="fn">Carbon\Carbon</span><span class="op">;</span>
+
+<span class="cmt">// Calcular fecha limite de una tarea</span>
+<span class="var">$tarea</span> <span class="op">=</span> [
+    <span class="str">'nombre'</span>  <span class="op">=&gt;</span> <span class="str">'Entregar informe'</span><span class="op">,</span>
+    <span class="str">'creada'</span>  <span class="op">=&gt;</span> <span class="fn">Carbon::parse</span>(<span class="str">'2026-07-15'</span>)<span class="op">,</span>
+    <span class="str">'plazo'</span>   <span class="op">=&gt;</span> <span class="num">10</span><span class="op">,</span>  <span class="cmt">// dias</span>
+]<span class="op">;</span>
+
+<span class="var">$deadline</span> <span class="op">=</span> <span class="var">$tarea</span>[<span class="str">'creada'</span>]<span class="op">-&gt;</span><span class="fn">addDays</span>(<span class="var">$tarea</span>[<span class="str">'plazo'</span>])<span class="op">;</span>
+<span class="var">$hoy</span>     <span class="op">=</span> <span class="fn">Carbon::now</span>()<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="str">"Deadline: "</span> <span class="op">.</span> <span class="var">$deadline</span><span class="op">-&gt;</span><span class="fn">format</span>(<span class="str">'d/m/Y'</span>) <span class="op">.</span> <span class="str">"\n"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"Estado: "</span> <span class="op">.</span> <span class="var">$deadline</span><span class="op">-&gt;</span><span class="fn">isPast</span>() <span class="op">?</span> <span class="str">"Vencida"</span> <span class="op">:</span> <span class="str">"Activa"</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="str">"\n"</span> <span class="op">.</span> <span class="var">$deadline</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>
+
+<span class="cmt">// Resumen de multiples fechas</span>
+<span class="var">$tareas</span> <span class="op">=</span> [
+    <span class="fn">Carbon::parse</span>(<span class="str">'2026-07-20'</span>)-><span class="fn">addDays</span>(<span class="num">5</span>),
+    <span class="fn">Carbon::parse</span>(<span class="str">'2026-07-22'</span>)-><span class="fn">addDays</span>(<span class="num">3</span>),
+    <span class="fn">Carbon::parse</span>(<span class="str">'2026-07-10'</span>)-><span class="fn">addDays</span>(<span class="num">10</span>),
+]<span class="op">;</span>
+
+<span class="fn">echo</span> <span class="str">"\nProximas entregas:\n"</span><span class="op">;</span>
+<span class="kw">foreach</span> (<span class="var">$tareas</span> <span class="kw">as</span> <span class="var">$t</span>) {
+    <span class="var">$estado</span> <span class="op">=</span> <span class="var">$t</span><span class="op">-&gt;</span><span class="fn">isPast</span>() <span class="op">?</span> <span class="str">"VENCIDA"</span> <span class="op">:</span> <span class="var">$t</span><span class="op">-&gt;</span><span class="fn">diffForHumans</span>()<span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">" - </span><span class="var">{$t-&gt;format('d/m')}</span><span class="str">: </span><span class="var">$estado</span><span class="str">\n"</span><span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+        </div>
+        <div class="visual-box">
+          <div class="visual-label">▶ Salida</div>
+          <div class="output-success">Deadline: 25/07/2026</div>
+          <div class="output-info">Estado: Vencida</div>
+        </div>
+      </div>
+
+      <div class="alert alert-tip"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Carbon es el estandar de facto en Laravel. Si trabajas con Symfony o proyectos plain PHP, <strong>DateTimeImmutable</strong> es suficiente para la mayoria de casos.</div>
+    </div>
+  </div>
+
+</div>
+</section>

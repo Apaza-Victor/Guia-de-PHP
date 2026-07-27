@@ -15,6 +15,7 @@
             <button class="tab-btn" onclick="showTab(this,'form-validar')">Validación completa</button>
             <button class="tab-btn" onclick="showTab(this,'form-filter')">filter_var</button>
             <button class="tab-btn" onclick="showTab(this,'form-upload')">Subir archivos</button>
+            <button class="tab-btn" onclick="showTab(this,'form-http')">HTTP Headers</button>
           </div>
 
           <div id="form-get-post" class="tab-content active">
@@ -237,6 +238,63 @@
               <div class="output-success"><i data-lucide="check-circle" style="width:14px;height:14px;vertical-align:middle;margin-right:4px"></i> Imagen guardada: a3f8c1d2e4b6...webp</div>
             </div>
             <div class="alert alert-tip" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="lightbulb" style="width:16px;height:16px"></i></span> Guarda los archivos <strong>fuera del DocumentRoot</strong> o en una carpeta sin ejecución PHP. Nunca uses el nombre original del archivo del usuario.</div>
+          </div>
+
+          <div id="form-http" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>http_headers.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Headers HTTP — se envían ANTES de cualquier output</span>
+
+<span class="cmt">// Content-Type — tipo de contenido de la respuesta</span>
+<span class="fn">header</span>(<span class="str">'Content-Type: text/html; charset=UTF-8'</span>)<span class="op">;</span>      <span class="cmt">// HTML (por defecto)</span>
+<span class="fn">header</span>(<span class="str">'Content-Type: application/json; charset=UTF-8'</span>)<span class="op">;</span>  <span class="cmt">// JSON para APIs</span>
+<span class="fn">header</span>(<span class="str">'Content-Type: text/css'</span>)<span class="op">;</span>                       <span class="cmt">// CSS</span>
+
+<span class="cmt">// Redirecciones — redirigir a otra página</span>
+<span class="fn">header</span>(<span class="str">'Location: https://mi-sitio.com/dashboard'</span>)<span class="op">;</span>
+<span class="fn">exit</span>()<span class="op">;</span>  <span class="cmt">// SIEMPRE usar exit después de header Location</span>
+
+<span class="cmt">// Códigos de estado HTTP</span>
+<span class="fn">http_response_code</span>(<span class="num">200</span>)<span class="op">;</span>  <span class="cmt">// OK (por defecto)</span>
+<span class="fn">http_response_code</span>(<span class="num">201</span>)<span class="op">;</span>  <span class="cmt">// Created</span>
+<span class="fn">http_response_code</span>(<span class="num">301</span>)<span class="op">;</span>  <span class="cmt">// Moved Permanently (SEO-friendly)</span>
+<span class="fn">http_response_code</span>(<span class="num">404</span>)<span class="op">;</span>  <span class="cmt">// Not Found</span>
+<span class="fn">http_response_code</span>(<span class="num">500</span>)<span class="op">;</span>  <span class="cmt">// Internal Server Error</span>
+
+<span class="cmt">// Headers de seguridad — recomendar al navegador</span>
+<span class="fn">header</span>(<span class="str">'X-Content-Type-Options: nosniff'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'X-Frame-Options: DENY'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'X-XSS-Protection: 1; mode=block'</span>)<span class="op">;</span>
+
+<span class="cmt">// Evitar caché</span>
+<span class="fn">header</span>(<span class="str">'Cache-Control: no-cache, no-store, must-revalidate'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'Pragma: no-cache'</span>)<span class="op">;</span>
+<span class="fn">header</span>(<span class="str">'Expires: 0'</span>)<span class="op">;</span>
+
+<span class="cmt">// Ejemplo práctico — API que retorna JSON</span>
+<span class="fn">header</span>(<span class="str">'Content-Type: application/json; charset=UTF-8'</span>)<span class="op">;</span>
+<span class="fn">http_response_code</span>(<span class="num">200</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="fn">json_encode</span>([
+    <span class="str">'status'</span>  <span class="op">=&gt;</span> <span class="str">'success'</span><span class="op">,</span>
+    <span class="str">'data'</span>    <span class="op">=&gt;</span> [<span class="str">'nombre'</span> <span class="op">=&gt;</span> <span class="str">'Ana'</span><span class="op">,</span> <span class="str">'email'</span> <span class="op">=&gt;</span> <span class="str">'ana@mail.com'</span>]
+])<span class="op">;</span>
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Código</th><th>Significado</th><th>Uso</th></tr>
+              <tr><td><code>200</code></td><td>OK</td><td>Respuesta exitosa</td></tr>
+              <tr><td><code>201</code></td><td>Created</td><td>Recurso creado (POST exitoso)</td></tr>
+              <tr><td><code>301</code></td><td>Moved Permanently</td><td>Redirección permanente (SEO)</td></tr>
+              <tr><td><code>302</code></td><td>Found</td><td>Redirección temporal</td></tr>
+              <tr><td><code>400</code></td><td>Bad Request</td><td>Datos inválidos del cliente</td></tr>
+              <tr><td><code>401</code></td><td>Unauthorized</td><td>No autenticado</td></tr>
+              <tr><td><code>403</code></td><td>Forbidden</td><td>Autenticado pero sin permisos</td></tr>
+              <tr><td><code>404</code></td><td>Not Found</td><td>Recurso no encontrado</td></tr>
+              <tr><td><code>422</code></td><td>Unprocessable Entity</td><td>Validación fallida</td></tr>
+              <tr><td><code>500</code></td><td>Internal Server Error</td><td>Error del servidor</td></tr>
+            </table>
+            <div class="alert alert-warn" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></span> Los headers <strong>DEBEN enviarse antes</strong> de cualquier output (HTML, espacios, echo). Si ya se imprimió algo, PHP dará un warning: <em>"Cannot modify header information"</em>.</div>
           </div>
 
         </div>

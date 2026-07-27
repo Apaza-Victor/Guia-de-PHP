@@ -14,6 +14,7 @@
             <button class="tab-btn" onclick="showTab(this,'arr-fn')">Funciones esenciales</button>
             <button class="tab-btn" onclick="showTab(this,'arr-transform')">Transformación</button>
             <button class="tab-btn" onclick="showTab(this,'arr-spread')">Spread y unión</button>
+            <button class="tab-btn" onclick="showTab(this,'arr-spl')">SPL Data Structures</button>
           </div>
 
           <div id="arr-tipos" class="tab-content active">
@@ -210,6 +211,56 @@
               <div class="output-info">array_combine → ["nombre"=>"Ana","edad"=>28,"ciudad"=>"Lima"]</div>
               <div class="output-info">array_chunk([1..6],2) → [[1,2],[3,4],[5,6]]</div>
             </div>
+          </div>
+
+          <div id="arr-spl" class="tab-content">
+            <div class="code-wrap">
+              <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>spl_datastructures.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+              <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// SPL — PHP Standard Library: estructuras de datos optimizadas</span>
+
+<span class="cmt">// SplStack — pila (LIFO: último en entrar, primero en salir)</span>
+<span class="var">$pila</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">SplStack</span>()<span class="op">;</span>
+<span class="var">$pila</span><span class="op">-&gt;</span><span class="fn">push</span>(<span class="str">'Primero'</span>)<span class="op">;</span>
+<span class="var">$pila</span><span class="op">-&gt;</span><span class="fn">push</span>(<span class="str">'Segundo'</span>)<span class="op">;</span>
+<span class="var">$pila</span><span class="op">-&gt;</span><span class="fn">push</span>(<span class="str">'Tercero'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$pila</span><span class="op">-&gt;</span><span class="fn">pop</span>()<span class="op">;</span>   <span class="cmt">// Tercero (último)</span>
+<span class="fn">echo</span> <span class="var">$pila</span><span class="op">-&gt;</span><span class="fn">pop</span>()<span class="op">;</span>   <span class="cmt">// Segundo</span>
+
+<span class="cmt">// SplQueue — cola (FIFO: primero en entrar, primero en salir)</span>
+<span class="var">$cola</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">SplQueue</span>()<span class="op">;</span>
+<span class="var">$cola</span><span class="op">-&gt;</span><span class="fn">enqueue</span>(<span class="str">'Cliente 1'</span>)<span class="op">;</span>
+<span class="var">$cola</span><span class="op">-&gt;</span><span class="fn">enqueue</span>(<span class="str">'Cliente 2'</span>)<span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$cola</span><span class="op">-&gt;</span><span class="fn">dequeue</span>()<span class="op">;</span>  <span class="cmt">// Cliente 1 (el primero)</span>
+
+<span class="cmt">// ArrayObject — array con interfaz de objeto</span>
+<span class="var">$datos</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">ArrayObject</span>([<span class="str">'a'</span> <span class="op">=&gt;</span> <span class="num">1</span><span class="op">,</span> <span class="str">'b'</span> <span class="op">=&gt;</span> <span class="num">2</span>])<span class="op">;</span>
+<span class="var">$datos</span><span class="op">-&gt;</span><span class="fn">append</span>(<span class="num">3</span>)<span class="op">;</span>
+<span class="var">$datos</span>[<span class="str">'c'</span>] <span class="op">=</span> <span class="num">4</span><span class="op">;</span>
+<span class="fn">echo</span> <span class="var">$datos</span><span class="op">-&gt;</span><span class="fn">count</span>()<span class="op">;</span>  <span class="cmt">// 4</span>
+
+<span class="cmt">// SplFixedArray — array de tamaño fijo, más rápido que array nativo</span>
+<span class="var">$fijo</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">SplFixedArray</span>(<span class="num">5</span>)<span class="op">;</span>  <span class="cmt">// 5 posiciones</span>
+<span class="var">$fijo</span>[<span class="num">0</span>] <span class="op">=</span> <span class="str">'PHP'</span><span class="op">;</span>
+<span class="var">$fijo</span>[<span class="num">1</span>] <span class="op">=</span> <span class="str">'MySQL'</span><span class="op">;</span>
+
+<span class="cmt">// SplFileObject — leer archivos línea por línea (memoria eficiente)</span>
+<span class="var">$file</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">SplFileObject</span>(<span class="str">'datos.csv'</span>)<span class="op">;</span>
+<span class="kw">while</span> (<span class="op">!</span><span class="var">$file</span><span class="op">-&gt;</span><span class="fn">eof</span>()) {
+    <span class="fn">echo</span> <span class="var">$file</span><span class="op">-&gt;</span><span class="fn">fgets</span>()<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+            </div>
+            <table class="data-table" style="margin-top:1rem">
+              <tr><th>Clase SPL</th><th>Descripción</th><th>Uso típico</th></tr>
+              <tr><td><code>SplStack</code></td><td>Pila LIFO</td><td>Deshacer acciones, historial</td></tr>
+              <tr><td><code>SplQueue</code></td><td>Cola FIFO</td><td>Cola de impresión, tareas pendientes</td></tr>
+              <tr><td><code>SplPriorityQueue</code></td><td>Cola con prioridad</td><td>Procesar por importancia</td></tr>
+              <tr><td><code>ArrayObject</code></td><td>Array como objeto</td><td>Colección con métodos</td></tr>
+              <tr><td><code>SplFixedArray</code></td><td>Array de tamaño fijo</td><td>Rendimiento crítico</td></tr>
+              <tr><td><code>SplFileObject</code></td><td>Lectura de archivos</td><td>CSV, logs grandes</td></tr>
+            </table>
+            <div class="alert alert-info" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> En el día a día, los <strong>arrays nativos de PHP</strong> son suficientes para la mayoría de casos. SPL es útil cuando necesitas estructuras específicas (pilas, colas) o rendimiento extremo con miles de elementos.</div>
           </div>
 
         </div>

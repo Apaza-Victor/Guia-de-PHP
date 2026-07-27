@@ -270,5 +270,57 @@
     </div>
   </div>
 
+  <!-- TRANSACCIONES PDO -->
+  <div class="concept-card">
+    <div class="concept-header">
+      <div class="concept-num" style="background:linear-gradient(135deg,#06d6a0,#118ab2)">5</div>
+      <div>
+        <div class="concept-title">Transacciones con PDO</div>
+        <div class="concept-desc">Operaciones atómicas: o se ejecutan TODAS o no se ejecuta NINGUNA.</div>
+      </div>
+    </div>
+    <div class="concept-body">
+      <div class="code-wrap">
+        <div class="code-label"><span><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></span><span>transacciones.php</span><button class="copy-btn" onclick="copiar(this)">Copiar</button></div>
+        <pre><span class="tag">&lt;?php</span>
+<span class="cmt">// Transacción — grupo de operaciones que deben ser atómicas</span>
+<span class="cmt">// Ejemplo: transferir dinero entre dos cuentas</span>
+
+<span class="kw">try</span> {
+    <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">beginTransaction</span>()<span class="op">;</span>  <span class="cmt">// inicia la transacción</span>
+
+    <span class="cmt">// 1. Descontar del remitente</span>
+    <span class="var">$stmt</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"UPDATE cuentas SET saldo = saldo - :monto WHERE id = :id AND saldo >= :monto"</span>)<span class="op">;</span>
+    <span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="str">':monto'</span> <span class="op">=&gt;</span> <span class="num">500</span><span class="op">,</span> <span class="str">':id'</span> <span class="op">=&gt;</span> <span class="num">1</span>])<span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="var">$stmt</span><span class="op">-&gt;</span><span class="fn">rowCount</span>() <span class="op">===</span> <span class="num">0</span>) {
+        <span class="kw">throw new</span> <span class="fn">Exception</span>(<span class="str">"Saldo insuficiente"</span>)<span class="op">;</span>
+    }
+
+    <span class="cmt">// 2. Acreditar al destinatario</span>
+    <span class="var">$stmt2</span> <span class="op">=</span> <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">prepare</span>(<span class="str">"UPDATE cuentas SET saldo = saldo + :monto WHERE id = :id"</span>)<span class="op">;</span>
+    <span class="var">$stmt2</span><span class="op">-&gt;</span><span class="fn">execute</span>([<span class="str">':monto'</span> <span class="op">=&gt;</span> <span class="num">500</span><span class="op">,</span> <span class="str">':id'</span> <span class="op">=&gt;</span> <span class="num">2</span>])<span class="op">;</span>
+
+    <span class="cmt">// 3. Si todo OK, confirmar</span>
+    <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">commit</span>()<span class="op">;</span>
+    <span class="fn">echo</span> <span class="str">"Transferencia exitosa"</span><span class="op">;</span>
+
+} <span class="kw">catch</span> (<span class="fn">Exception</span> <span class="var">$e</span>) {
+    <span class="var">$pdo</span><span class="op">-&gt;</span><span class="fn">rollBack</span>()<span class="op">;</span>  <span class="cmt">// deshacer TODAS las operaciones</span>
+    <span class="fn">echo</span> <span class="str">"Error: "</span> <span class="op">.</span> <span class="var">$e</span><span class="op">-&gt;</span><span class="fn">getMessage</span>()<span class="op">;</span>
+}
+<span class="tag">?&gt;</span></pre>
+      </div>
+      <table class="data-table" style="margin-top:1rem">
+        <tr><th>Método</th><th>Descripción</th></tr>
+        <tr><td><code>beginTransaction()</code></td><td>Inicia la transacción (desactiva autocommit)</td></tr>
+        <tr><td><code>commit()</code></td><td>Confirma todos los cambios</td></tr>
+        <tr><td><code>rollBack()</code></td><td>Deshace todos los cambios desde beginTransaction</td></tr>
+        <tr><td><code>inTransaction()</code></td><td>Retorna true si hay una transacción activa</td></tr>
+      </table>
+      <div class="alert alert-info" style="margin-top:1rem"><span class="alert-icon"><i data-lucide="info" style="width:16px;height:16px"></i></span> Las transacciones son esenciales cuando <strong>múltiples operaciones dependen entre sí</strong>: transferencias bancarias, pedidos con stock, registros en múltiples tablas. Si una falla, todas se deshacen.</div>
+    </div>
+  </div>
+
 </div>
 </section>

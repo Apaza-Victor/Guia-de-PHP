@@ -34,7 +34,8 @@ const SECTIONS_MAP = {
   'docker':           'sections/30-docker-despliegue.html',
   'rendimiento':      'sections/31-rendimiento.html',
   'git':              'sections/32-git-basico.html',
-  'cheatsheet':       'sections/33-cheatsheet.html'
+  'cheatsheet':       'sections/33-cheatsheet.html',
+  'fecha-hora':       'sections/34-fecha-hora.html'
 };
 
 const SECTION_ORDER = [
@@ -45,7 +46,7 @@ const SECTION_ORDER = [
   'entornos','entornos-xampp','entornos-laragon','bases-datos','sesiones','archivos',
   'seguridad','regex','errores','poo-avanzada','apis-json',
   'composer','diagramas','recursos',
-  'php8','laravel','phpunit','docker','rendimiento','git','cheatsheet'
+  'php8','laravel','phpunit','docker','rendimiento','git','cheatsheet','fecha-hora'
 ];
 
 let currentSectionIndex = 0;
